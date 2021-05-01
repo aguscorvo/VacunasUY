@@ -23,10 +23,10 @@
         <artifactId>componentecentral</artifactId>
         <version>0.0.1</version>
     </parent>
-    <artifactId>componentecentral-web</artifactId>
-    <packaging>war</packaging>
-    <name>componentecentral - web</name>
-    <description>This is the web POM file</description>
+    <artifactId>componentecentral-ejb</artifactId>
+    <packaging>ejb</packaging>
+    <name>componentecentral - ejb</name>
+    <description>This is the EJB POM file</description>
 
     <dependencies>
 
@@ -37,9 +37,16 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Test scope dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Bean Validation Implementation 
-           Provides portable constraints such as @Email 
-           Hibernate Validator is shipped in WildFly / JBoss EAP -->
+             Provides portable constraints such as @Email 
+             Hibernate Validator is shipped in WildFly / JBoss EAP -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -53,34 +60,23 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Dependency on the EJB module so we can use it's services if needed -->
+        <!-- Optional, but highly recommended -->
+        <!-- Arquillian allows you to test enterprise code such as EJBs and
+            Transactional(JTA) JPA from JUnit/TestNG -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>componentecentral-ejb</artifactId>
-            <type>ejb</type>
-            <scope>provided</scope>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
         </dependency>
 
-        <!-- Import the JSF API, we use provided scope as the API is included in WildFly / JBoss EAP -->
         <dependency>
-            <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.3_spec</artifactId>
-            <scope>provided</scope>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>
         </dependency>
 
-        <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly / JBoss EAP -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ws.rs</groupId>
-            <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Servlet API -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_4.0_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!-- Declare the APIs we depend on and need for compilation. All of
+            them are provided by WildFly / JBoss EAP -->
 
         <!-- Import the EJB API, we use provided scope as the API is included in WildFly / JBoss EAP -->
         <dependency>
@@ -88,30 +84,18 @@
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-		 
-        <!-- Test scope dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>org.jboss.spec.javax.xml.bind</groupId>
+            <artifactId>jboss-jaxb-api_2.3_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
         
-        <!-- Optional, but highly recommended -->
-        <!-- Arquillian allows you to test enterprise code such as EJBs and 
-            Transactional(JTA) JPA from JUnit/TestNG -->
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-      
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
-            <scope>test</scope>               
-        </dependency>
-        
-		<!-- Lombok -->
+        <!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -119,23 +103,31 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<!-- BCrypt -->
+		<dependency>
+		    <groupId>at.favre.lib</groupId>
+		    <artifactId>bcrypt</artifactId>
+		    <version>0.9.0</version>
+		</dependency>
+        
     </dependencies>
 
     <build>
         <!-- Tell Maven that the resulting file should not have a file name containing the version - 
-			 a non versioned name is required e.g. when building a deployable artifact using the ShrinkWrap API -->
-		<finalName>${project.artifactId}</finalName>
+		     a non versioned name is required e.g. when building a deployable artifact using the ShrinkWrap API -->
+        <finalName>${project.artifactId}</finalName>
 
-        <plugins>
-			<!--Build configuration for the WAR plugin: -->
+        <plugins>			
+			<!--Configure the EJB plugin: we create EJB 3.2. If not specified, an error will arise because the plugin expects an Ejb-jar by default. -->
 			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>${version.war.plugin}</version>
-				<configuration>
-					<!-- Jakarta EE doesn't require web.xml, Maven needs to catch up! -->
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>${version.ejb.plugin}</version>
+                    <configuration>
+                        <!-- Tell Maven we are using EJB 3.2 -->
+                        <ejbVersion>3.2</ejbVersion>
+                    </configuration>
+                </plugin>
         </plugins>
     </build>
 </project>

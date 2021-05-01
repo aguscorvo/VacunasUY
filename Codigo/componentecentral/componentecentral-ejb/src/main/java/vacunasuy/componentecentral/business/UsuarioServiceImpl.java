@@ -13,6 +13,7 @@ import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
 import vacunasuy.componentecentral.entity.Administrador;
 import vacunasuy.componentecentral.entity.Autoridad;
 import vacunasuy.componentecentral.entity.Usuario;
+import vacunasuy.componentecentral.exception.VacunasUyException;
 
 @Stateless
 public class UsuarioServiceImpl implements IUsuarioService {
@@ -41,21 +42,33 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
-	public UsuarioDTO crear(UsuarioCrearDTO usuarioDTO) {
+	public UsuarioDTO crear(UsuarioCrearDTO usuarioDTO) throws VacunasUyException {
+		/* Se valida que el correo sea único */
 		Usuario usuario = usuarioConverter.fromCrearDTO(usuarioDTO);
-		/* Se encripta la contraseña */
-		if(usuario instanceof Administrador) {
-			((Administrador) usuario).setPassword(BCrypt.withDefaults().hashToString(12, ((Administrador) usuario).getPassword().toCharArray()));
-		} else if(usuario instanceof Autoridad) {
-			((Autoridad) usuario).setPassword(BCrypt.withDefaults().hashToString(12, ((Autoridad) usuario).getPassword().toCharArray()));
+		if(usuarioDAO.listarPorCorreo(usuario.getCorreo()) != null) {
+			throw new VacunasUyException("El correo electrónico ya se encuentra en uso.", VacunasUyException.EXISTE_REGISTRO);
+		}else {
+			try {
+				/* Se encripta la contraseña */
+				if(usuario instanceof Administrador) {
+					((Administrador) usuario).setPassword(BCrypt.withDefaults().hashToString(12, ((Administrador) usuario).getPassword().toCharArray()));
+				} else if(usuario instanceof Autoridad) {
+					((Autoridad) usuario).setPassword(BCrypt.withDefaults().hashToString(12, ((Autoridad) usuario).getPassword().toCharArray()));
+				}
+				return usuarioConverter.fromEntity(usuarioDAO.crear(usuario));
+			} catch (Exception e) {
+				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+			}
 		}
-		return usuarioConverter.fromEntity(usuarioDAO.crear(usuario));
 	}
 
 	@Override
-	public UsuarioDTO loginBackoffice(UsuarioLoginBackofficeDTO usuarioDTO) {
+	public UsuarioDTO loginBackoffice(UsuarioLoginBackofficeDTO usuarioDTO) throws VacunasUyException {
+		/* Se valida que exista el correo electrónico */
 		Usuario usuario = usuarioDAO.listarPorCorreo(usuarioDTO.getCorreo());
-		if (usuario != null) {
+		if (usuario == null) {
+			throw new VacunasUyException("Usuario o contraseña incorrectos.", VacunasUyException.DATOS_INCORRECTOS);
+		} else {
 			/* Se verifica que la contraseña sea válida */
 			BCrypt.Result resultado = null;
 			if(usuario instanceof Administrador) {
@@ -66,11 +79,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			if(resultado.verified) {
 				return usuarioConverter.fromEntity(usuario);
 			} else {
-				return null;
+				throw new VacunasUyException("Usuario o contraseña incorrectos.", VacunasUyException.DATOS_INCORRECTOS);
 			}
-			
-		} else {
-			return null;
 		}
 	}
 	

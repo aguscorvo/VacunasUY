@@ -1,12 +1,16 @@
 package vacunasuy.componentecentral.dao;
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import vacunasuy.componentecentral.entity.Usuario;
+import vacunasuy.componentecentral.exception.VacunasUyException;
 
 @Singleton
 public class UsuarioDAOImpl implements IUsuarioDAO {
@@ -26,10 +30,10 @@ public class UsuarioDAOImpl implements IUsuarioDAO {
 	}
 
 	@Override
-	public Usuario listarPorCorreo(String correo) {
+	public Usuario listarPorCorreo(String correo) throws VacunasUyException {
 		Query consulta = em.createQuery("SELECT u FROM Usuario u WHERE u.correo = :correo");
 		consulta.setParameter("correo", correo);
-		return (Usuario) consulta.getSingleResult();
+		return (Usuario) consulta.getResultList().stream().findFirst().orElse(null);
 	}
 
 	@Override

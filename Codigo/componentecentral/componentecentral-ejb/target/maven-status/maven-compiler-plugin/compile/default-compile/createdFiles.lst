@@ -3,14 +3,17 @@ vacunasuy\componentecentral\converter\UsuarioConverter.class
 vacunasuy\componentecentral\dao\UsuarioDAOImpl.class
 vacunasuy\componentecentral\converter\AbstractConverter.class
 vacunasuy\componentecentral\dto\UsuarioDTO$UsuarioDTOBuilder.class
+vacunasuy\componentecentral\dto\UsuarioLoginBackofficeDTO.class
 vacunasuy\componentecentral\entity\Autoridad.class
 vacunasuy\componentecentral\entity\Autoridad$AutoridadBuilder.class
 vacunasuy\componentecentral\dto\UsuarioCrearDTO.class
 vacunasuy\componentecentral\entity\Usuario.class
+vacunasuy\componentecentral\exception\VacunasUyException.class
 vacunasuy\componentecentral\business\UsuarioServiceImpl.class
 vacunasuy\componentecentral\dao\IUsuarioDAO.class
 vacunasuy\componentecentral\dto\UsuarioCrearDTO$UsuarioCrearDTOBuilder.class
 vacunasuy\componentecentral\dto\UsuarioDTO.class
 vacunasuy\componentecentral\entity\Administrador.class
 vacunasuy\componentecentral\business\IUsuarioService.class
+vacunasuy\componentecentral\dto\UsuarioLoginBackofficeDTO$UsuarioLoginBackofficeDTOBuilder.class
 vacunasuy\componentecentral\util\Constantes.class

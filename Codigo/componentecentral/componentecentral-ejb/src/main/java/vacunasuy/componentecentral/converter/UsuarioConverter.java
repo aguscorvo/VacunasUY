@@ -4,6 +4,7 @@ import javax.ejb.Singleton;
 
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
+import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
 import vacunasuy.componentecentral.entity.Administrador;
 import vacunasuy.componentecentral.entity.Autoridad;
 import vacunasuy.componentecentral.entity.Usuario;
@@ -44,6 +45,16 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 					.password(d.getPassword())
 					.build();
 		}
+	}
+	
+	public UsuarioLoginExitosoDTO fromLogin(Usuario e, String token) {
+		if(e == null) return null;
+		return UsuarioLoginExitosoDTO.builder()
+			.id(e.getId())
+			.nombre(e.getNombre())
+			.apellido(e.getApellido())
+			.token(token)
+			.build();
 	}
 
 }

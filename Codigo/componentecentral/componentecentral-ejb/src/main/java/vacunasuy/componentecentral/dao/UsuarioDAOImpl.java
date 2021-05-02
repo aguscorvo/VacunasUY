@@ -20,8 +20,8 @@ public class UsuarioDAOImpl implements IUsuarioDAO {
 	
 	@Override
 	public List<Usuario> listar() {
-		// TODO Auto-generated method stub
-		return null;
+		Query consulta = em.createQuery("SELECT u FROM Usuario u");
+		return consulta.getResultList();
 	}
 
 	@Override
@@ -40,6 +40,16 @@ public class UsuarioDAOImpl implements IUsuarioDAO {
 	public Usuario crear(Usuario usuario) {
 		em.persist(usuario);
 		return usuario;
+	}
+	
+	@Override
+	public Usuario editar(Usuario usuario) {
+		em.persist(usuario);
+		return usuario;
+	}
+	
+	public void eliminar(Usuario usuario) {
+		em.remove(usuario);
 	}
 
 }

@@ -14,5 +14,7 @@ public interface IUsuarioDAO {
 	public Usuario listarPorId(Long id);
 	public Usuario listarPorCorreo(String correo) throws VacunasUyException;
 	public Usuario crear(Usuario usuario);
+	public Usuario editar(Usuario usuario);
+	public void eliminar(Usuario usuario);
 	
 }

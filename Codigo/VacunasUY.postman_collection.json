@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "5c83adbb-8212-4c74-929d-05532e489067",
+		"name": "VacunasUY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"localRestToken\", jsonData.cuerpo.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"correo\": \"jo.cs1998@hotmail.com\",\n    \"password\" : \"Chiquito\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localRest}}/usuarios/loginbackoffice",
+							"host": [
+								"{{localRest}}"
+							],
+							"path": [
+								"usuarios",
+								"loginbackoffice"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Get Usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{localRestToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localRest}}/usuarios",
+							"host": [
+								"{{localRest}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alta Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Joaquin\",\r\n    \"apellido\": \"Cabrera Simoes\",\r\n    \"correo\": \"jo.cs1998@hotmail.com\",\r\n    \"rol\": \"Administrador\",\r\n    \"password\": \"Chiquito\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localRest}}/usuarios",
+							"host": [
+								"{{localRest}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{localRestToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Joaquin Dante\",\r\n    \"apellido\": \"Cabrera Simoes\",\r\n    \"correo\": \"jo.cs1998@hotmail.com\",\r\n    \"rol\": \"Administrador\",\r\n    \"password\": \"altoProyectito\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localRest}}/usuarios/editar/2",
+							"host": [
+								"{{localRest}}"
+							],
+							"path": [
+								"usuarios",
+								"editar",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{localRestToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localRest}}/usuarios/eliminar/2",
+							"host": [
+								"{{localRest}}"
+							],
+							"path": [
+								"usuarios",
+								"eliminar",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localRest",
+			"value": "localhost:8080/componentecentral-web/rest"
+		},
+		{
+			"key": "remote",
+			"value": ""
+		},
+		{
+			"key": "localRestToken",
+			"value": ""
+		},
+		{
+			"key": "remoteToken",
+			"value": ""
+		}
+	]
+}

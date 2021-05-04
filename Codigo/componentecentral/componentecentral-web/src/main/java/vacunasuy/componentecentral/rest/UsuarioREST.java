@@ -18,6 +18,7 @@ import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @RequestScoped
 @Path("/usuarios")
@@ -29,6 +30,7 @@ public class UsuarioREST {
 	IUsuarioService usuarioService;
 	
 	@GET
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<UsuarioDTO>> respuesta = null;
 		try {
@@ -60,6 +62,7 @@ public class UsuarioREST {
 	
 	@PUT
 	@Path("/editar/{id}")
+	@RecursoProtegidoJWT
 	public Response editar(@PathParam("id") Long id, UsuarioCrearDTO request) {
 		RespuestaREST<UsuarioDTO> respuesta = null;
 		try {
@@ -78,6 +81,7 @@ public class UsuarioREST {
 	
 	@DELETE
 	@Path("/eliminar/{id}")
+	@RecursoProtegidoJWT
 	public Response eliminar(@PathParam("id") Long id) {
 		RespuestaREST<UsuarioDTO> respuesta = null;
 		try {

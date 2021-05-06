@@ -24,7 +24,7 @@ import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 @Path("/usuarios")
 @Consumes("application/json")
 @Produces("application/json")
-public class UsuarioREST {
+public class UsuariosREST {
 	
 	@EJB
 	IUsuarioService usuarioService;

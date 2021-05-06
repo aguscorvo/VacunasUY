@@ -1,6 +1,5 @@
 package vacunasuy.componentecentral.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,16 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class UsuarioCrearDTO {
+public class RolDTO {
 
+	private Long id;
 	private String nombre;
-	private String apellido;
-	private String correo;
-	private String fechaNacimiento;
-	private String password;
-	private List<Long> roles;
-	
 }

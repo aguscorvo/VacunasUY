@@ -17,6 +17,6 @@ public interface IUsuarioService {
 	public Usuario listarPorCorreo(String correo);
 	public UsuarioDTO crear(UsuarioCrearDTO usuarioDTO) throws VacunasUyException;
 	public UsuarioDTO editar(Long id, UsuarioCrearDTO usuarioDTO) throws VacunasUyException;
-	public void eliminar(Long id) throws VacunasUyException; 
+	public void eliminar(Long id) throws VacunasUyException;
 	public UsuarioLoginExitosoDTO loginBackoffice(UsuarioLoginBackofficeDTO usuarioDTO) throws VacunasUyException;
 }

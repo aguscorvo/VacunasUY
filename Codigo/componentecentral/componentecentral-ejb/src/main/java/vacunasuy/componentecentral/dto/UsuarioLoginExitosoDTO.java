@@ -1,6 +1,9 @@
 package vacunasuy.componentecentral.dto;
 
 import lombok.Builder;
+
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
@@ -16,6 +19,7 @@ public class UsuarioLoginExitosoDTO {
 	private Long id;
 	private String nombre;
 	private String apellido;
+	private List<RolDTO> roles;
 	private String token;
 	
 }

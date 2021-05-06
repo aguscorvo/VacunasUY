@@ -1,17 +1,21 @@
 package vacunasuy.componentecentral.converter;
 
+import java.time.LocalDate;
+
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
-import vacunasuy.componentecentral.entity.Administrador;
-import vacunasuy.componentecentral.entity.Autoridad;
 import vacunasuy.componentecentral.entity.Usuario;
 
 @Singleton
 public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 
+	@EJB
+	private RolConverter rolConverter;
+	
 	@Override
 	public UsuarioDTO fromEntity(Usuario e) {
 		if(e == null) return null;
@@ -20,6 +24,7 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 				.nombre(e.getNombre())
 				.apellido(e.getApellido())
 				.correo(e.getCorreo())
+				.roles(rolConverter.fromEntity(e.getRoles()))
 				.build();
 	}
 	
@@ -30,21 +35,13 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 	
 	public Usuario fromCrearDTO(UsuarioCrearDTO d) {
 		if(d == null) return null;
-		if( d.getRol().equalsIgnoreCase("Administrador")) {
-			return Administrador.builder()
-				.nombre(d.getNombre())
-				.apellido(d.getApellido())
-				.correo(d.getCorreo())
-				.password(d.getPassword())
-				.build();
-		}else {
-			return Autoridad.builder()
-					.nombre(d.getNombre())
-					.apellido(d.getApellido())
-					.correo(d.getCorreo())
-					.password(d.getPassword())
-					.build();
-		}
+		return Usuario.builder()
+			.nombre(d.getNombre())
+			.apellido(d.getApellido())
+			.correo(d.getCorreo())
+			.password(d.getPassword())
+			.fechaNacimiento(LocalDate.parse(d.getFechaNacimiento()))
+			.build();
 	}
 	
 	public UsuarioLoginExitosoDTO fromLogin(Usuario e, String token) {
@@ -53,6 +50,7 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 			.id(e.getId())
 			.nombre(e.getNombre())
 			.apellido(e.getApellido())
+			.roles(rolConverter.fromEntity(e.getRoles()))
 			.token(token)
 			.build();
 	}

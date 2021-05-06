@@ -24,6 +24,7 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 				.nombre(e.getNombre())
 				.apellido(e.getApellido())
 				.correo(e.getCorreo())
+				.fechaNacimiento(e.getFechaNacimiento().toString())
 				.roles(rolConverter.fromEntity(e.getRoles()))
 				.build();
 	}
@@ -50,6 +51,7 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 			.id(e.getId())
 			.nombre(e.getNombre())
 			.apellido(e.getApellido())
+			.fechaNacimiento(e.getFechaNacimiento().toString())
 			.roles(rolConverter.fromEntity(e.getRoles()))
 			.token(token)
 			.build();

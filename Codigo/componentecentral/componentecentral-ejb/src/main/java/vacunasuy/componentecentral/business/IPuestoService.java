@@ -15,7 +15,8 @@ public interface IPuestoService {
 	public PuestoDTO listarPorId(Long id) throws VacunasUyException;
 	public PuestoDTO listarPorNumero(int numero) throws VacunasUyException;
 	public PuestoDTO crear(PuestoCrearDTO puestoDTO) throws VacunasUyException;
-	public PuestoDTO editar(Long id, PuestoDTO puestoDTO) throws VacunasUyException;
+	public PuestoDTO editar(Long id, PuestoCrearDTO puestoDTO) throws VacunasUyException;
 	public void eliminar(Long id) throws VacunasUyException;
-
+	
+	//agregarAgenda
 }

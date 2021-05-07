@@ -73,18 +73,16 @@ public class PuestoServiceImpl implements IPuestoService {
 	}
 	
 	
-	//falta validacion de agendas y setearlas
 	@Override
-	public PuestoDTO editar(Long id, PuestoDTO puestoDTO) throws VacunasUyException{
+	public PuestoDTO editar(Long id, PuestoCrearDTO puestoDTO) throws VacunasUyException{
 		//se valida que exista el puesto
 		Puesto puesto = puestoDAO.listarPorId(id);
 		if(puesto==null) {
 			throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		}//validar agendas
+		}
 		else {
 			try {
 				puesto.setNumero(puestoDTO.getNumero());
-				//setear agendas
 				return puestoConverter.fromEntity(puestoDAO.editar(puesto));
 			}catch(Exception e) {
 				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -104,11 +102,8 @@ public class PuestoServiceImpl implements IPuestoService {
 			}catch(Exception e) {
 				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 			}
-		}
-		
-	}
-	
-	
+		}		
+	}	
     
 
 }

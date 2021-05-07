@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="@string/menu_bt_home"/>
+    <item
+        android:id="@+id/menu_agenda"
+        android:enabled="true"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/menu_bt_agenda"/>
+    <item
+        android:id="@+id/menu_notificacion"
+        android:enabled="true"
+        android:icon="@drawable/ic_bell"
+        android:title="@string/menu_bt_notificacion"/>
+
+    <item
+        android:id="@+id/menu_vacunatorio"
+        android:enabled="true"
+        android:icon="@drawable/ic_building"
+        android:title="@string/menu_bt_vacun"/>
+
+    <item
+        android:id="@+id/menu_usuario"
+        android:enabled="true"
+        android:icon="@drawable/ic_user"
+        android:title="@string/menu_bt_user"/>
+
+</menu>

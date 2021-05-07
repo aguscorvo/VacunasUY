@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/login_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:orientation="vertical" >
+
+
+            <androidx.core.widget.NestedScrollView
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/tb_bg"
+                tools:context=".MainActivity"
+                tools:showIn="@layout/activity_main">
+
+                <TableLayout
+                    android:id="@+id/tableInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/tb_bg"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/tcEnfermedades"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/tb_info_cel"
+                            android:padding="3dp"
+                            android:text="@string/info_txt_enfermedad"
+                            android:textAlignment="center"
+                            android:textColor="@color/primary_color" />
+
+                        <TextView
+                            android:id="@+id/tcVacunas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/tb_info_cel"
+                            android:padding="3dp"
+                            android:text="@string/info_txt_vacuna"
+                            android:textAlignment="center"
+                            android:textColor="@color/primary_color" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/tcAgenda"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/tb_info_cel"
+                            android:padding="3dp"
+                            android:text="@string/info_txt_agenda"
+                            android:textAlignment="center"
+                            android:textColor="@color/primary_color" />
+
+                        <TextView
+                            android:id="@+id/tcAgendaPr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/tb_info_cel"
+                            android:padding="3dp"
+                            android:text="@string/info_txt_agenda_prox"
+                            android:textAlignment="center"
+                            android:textColor="@color/primary_color" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/tcPlanV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/tb_info_cel"
+                            android:padding="3dp"
+                            android:text="@string/info_txt_plan"
+                            android:textAlignment="center"
+                            android:textColor="@color/primary_color" />
+
+                        <TextView
+                            android:id="@+id/tcVacunatorios"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/tb_info_cel"
+                            android:padding="3dp"
+                            android:text="@string/info_txt_vacunatorio"
+                            android:textAlignment="center"
+                            android:textColor="@color/primary_color" />
+
+                    </TableRow>
+
+                </TableLayout>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/menu_bar_bg"
+            app:itemIconTint="@color/menu_bar_text"
+            app:itemTextColor="@color/menu_bar_text"
+            app:menu="@menu/bottom_navigation_menu">
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+

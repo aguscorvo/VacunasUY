@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">vacunasUY</string>
+    <!-- ACCESS-->
+
+    <string name="access_title_err">Error de Permisos</string>
+    <string name="access_msg_err">¿Desea Asignar los permisos?</string>
+    <string name="text_load">Cargando…</string>
+    <string name="text_load_btn">Reintentar</string>
+    <string name="text_load_btn_main">Ir a Activiad Principal</string>
+
+
+    <!--VIEW LOGIN-->
+    <string name="usr_usr">Usuario:</string>
+    <string name="usr_correo">Correo eletrónico:</string>
+    <string name="usr_documento">Cédula:</string>
+    <string name="usr_documento_ej">Ej: 12345678</string>
+    <string name="usr_pas">Contraseña:</string>
+    <string name="usr_btn_ing">Ingresar</string>
+
+    <!-- MENU-->
+    <string name="menu_bt_home">Inicio</string>
+    <string name="menu_bt_info">Información</string>
+    <string name="menu_bt_cert">Certificados</string>
+    <string name="menu_bt_vacun">Vacunatorios</string>
+    <string name="menu_bt_user">Mi Estado</string>
+    <string name="menu_bt_agenda">Agenda</string>
+    <string name="menu_bt_notificacion">Notificaciones</string>
+
+    <!--VIEW INFO -->
+    <string name="info_title">Información</string>
+    <string name="info_txt_enfermedad">Enfermedades</string>
+    <string name="info_txt_vacuna">Vacunas</string>
+    <string name="info_txt_plan">Planes</string>
+    <string name="info_txt_agenda">Agendas Abiertas</string>
+    <string name="info_txt_agenda_prox">Próximas Agendas</string>
+    <string name="info_txt_vacunatorio">Vacunatorios</string>
+
+    <!--VIEW MAP-->
+    <string name="map_text_srch">Distancia(mts):</string>
+    <string name="map_text_hint">Ej: 1000</string>
+    <string name="map_text_btn">Buscar</string>
+    <string name="map_text_loc">Ubicación Actual</string>
+    <string name="map_text_loc_err">Activar ubicación</string>
+    <string name="map_text_loc_err_msg">Su ubicación esta desactivada.\nPor favor active su ubicación</string>
+
+    <!--CONNECTION MESSAGES-->
+    <string name="err_conectividad">Error de conectiviad. No existe conexión de red disponible.</string>
+    <string name="err_recuperarpag">Error de conectiviad. No se puede conectar con el servicio.</string>
+    <string name="registros_err">Error del tipo de dato retornado</string>
+    <string name="title_activity_vacunatorio_maps">Map</string>
+
+
+</resources>

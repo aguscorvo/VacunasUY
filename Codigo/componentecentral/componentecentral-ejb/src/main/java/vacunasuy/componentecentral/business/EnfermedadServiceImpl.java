@@ -37,15 +37,17 @@ public class EnfermedadServiceImpl implements IEnfermedadService{
 	@Override
 	public EnfermedadDTO crear(EnfermedadCrearDTO enfermedadCrearDTO) throws VacunasUyException {
 	
-		Enfermedad enfermedad = eConverter.fromCrearDTO(enfermedadCrearDTO);
-		
+		if(existeNombreEnfermedad(enfermedadCrearDTO.getNombre())) {
+			throw new VacunasUyException("Ya existe una enfermedad con ese nombre.", VacunasUyException.EXISTE_REGISTRO);
+		}else {	
 			try {
+				Enfermedad enfermedad = eConverter.fromCrearDTO(enfermedadCrearDTO);
 				return eConverter.fromEntity(enfermedadDAO.crear(enfermedad));
 			} catch (Exception e) {
 				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 			}
 		}
-	
+	}
 	
 
 	@Override
@@ -67,6 +69,17 @@ public class EnfermedadServiceImpl implements IEnfermedadService{
 			}
 		}
 		
+	}
+	
+	public boolean existeNombreEnfermedad (String nombre) {
+		
+		List<EnfermedadDTO> enfermedades = eConverter.fromEntity(enfermedadDAO.listar());
+		for (EnfermedadDTO e: enfermedades) {
+			if (e.getNombre().equals(nombre)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

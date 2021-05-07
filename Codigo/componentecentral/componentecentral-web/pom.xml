@@ -132,6 +132,41 @@
 		    <version>1.3.2</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator-jboss-vfs -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>webjars-locator-jboss-vfs</artifactId>
+		    <version>0.1.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>bootstrap</artifactId>
+		    <version>4.6.0-1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery</artifactId>
+		    <version>3.6.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/font-awesome -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>font-awesome</artifactId>
+		    <version>5.15.2</version>
+		</dependency>		
+
+		<!-- https://mvnrepository.com/artifact/org.webjars/datatables -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>datatables</artifactId>
+		    <version>1.10.19</version>
+		</dependency>
+		
     </dependencies>
 
     <build>

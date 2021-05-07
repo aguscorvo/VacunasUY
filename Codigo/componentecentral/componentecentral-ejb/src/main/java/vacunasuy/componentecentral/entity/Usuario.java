@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,6 +54,10 @@ public class Usuario implements Serializable {
 		inverseJoinColumns = {@JoinColumn(name="fk_rol_id")}
 	)
 	private List<Rol> roles = new ArrayList<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "fk_sector_laboral")
+	private SectorLaboral sectorLaboral;
 	
 	/* Métodos generados por Lombok */
 	

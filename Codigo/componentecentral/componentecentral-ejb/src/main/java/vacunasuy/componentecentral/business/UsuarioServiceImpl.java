@@ -11,6 +11,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
 import vacunasuy.componentecentral.dao.IRolDAO;
+import vacunasuy.componentecentral.dao.ISectorLaboralDAO;
 import vacunasuy.componentecentral.dao.IUsuarioDAO;
 import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
@@ -18,6 +19,7 @@ import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
 import vacunasuy.componentecentral.entity.Rol;
+import vacunasuy.componentecentral.entity.SectorLaboral;
 import vacunasuy.componentecentral.entity.Usuario;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.util.Constantes;
@@ -30,6 +32,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	
 	@EJB
 	private IRolDAO rolDAO;
+	
+	@EJB
+	private ISectorLaboralDAO sectorLaboralDAO;
 	
 	@EJB
 	private UsuarioConverter usuarioConverter;
@@ -73,6 +78,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 					}
 				}
 				usuario.setRoles(roles);
+				/* Se agrega el sector laboral */
+				SectorLaboral sector = sectorLaboralDAO.listarPorId(usuarioDTO.getSectorLaboral());
+				usuario.setSectorLaboral(sector);
 				return usuarioConverter.fromEntity(usuarioDAO.crear(usuario));
 			} catch (Exception e) {
 				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -137,20 +145,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			}
 		}
 	}
-	
-	/* Función auxiliar para generar un JWT */
-	private String crearJsonWebToken(Usuario usuario) {
-		Date ahora = new Date();
-		/* 1 horas de validez */
-		Date expiracion = new Date(ahora.getTime() + (1000*60*60));
-		return Jwts.builder()
-				.setSubject(Long.toString(usuario.getId()))
-				.claim("roles", usuario.getRoles())
-				.setIssuedAt(ahora)
-				.setExpiration(expiracion)
-				.signWith(SignatureAlgorithm.HS512, Constantes.JWT_KEY)
-				.compact();
-	}
 
 	@Override
 	public UsuarioLoginExitosoDTO loginGubUy(RespuestaUserInfoDTO usuarioDTO) throws VacunasUyException {
@@ -166,6 +160,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			/* Le agrego el rol de ciudadano */
 			Rol rol = rolDAO.listarPorId(4L);
 			usuario.getRoles().add(rol);
+			/* Le agrego un sector aleatorio */
+			SectorLaboral sector = sectorLaboralDAO.listarRandom();
+			usuario.setSectorLaboral(sector);
 			usuario = usuarioDAO.crear(usuario);
 		}else {
 			/* Verifico si el usuario tiene rol ciudadano */
@@ -185,6 +182,20 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		/* Creo un nuevo inicio de sesión */
 		String token = crearJsonWebToken(usuario);
 		return usuarioConverter.fromLogin(usuario, token);
+	}
+	
+	/* Función auxiliar para generar un JWT */
+	private String crearJsonWebToken(Usuario usuario) {
+		Date ahora = new Date();
+		/* 1 horas de validez */
+		Date expiracion = new Date(ahora.getTime() + (1000*60*60));
+		return Jwts.builder()
+				.setSubject(Long.toString(usuario.getId()))
+				.claim("roles", usuario.getRoles())
+				.setIssuedAt(ahora)
+				.setExpiration(expiracion)
+				.signWith(SignatureAlgorithm.HS512, Constantes.JWT_KEY)
+				.compact();
 	}
 	
 }

@@ -21,5 +21,6 @@ public class UsuarioCrearDTO {
 	private String fechaNacimiento;
 	private String password;
 	private List<Long> roles;
+	private Long sectorLaboral;
 	
 }

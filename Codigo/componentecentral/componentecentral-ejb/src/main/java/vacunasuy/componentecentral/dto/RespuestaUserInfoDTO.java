@@ -19,5 +19,6 @@ public class RespuestaUserInfoDTO {
 	private String numero_documento;
 	private String primer_nombre;
 	private String primer_apellido;
+	private String email;
 
 }

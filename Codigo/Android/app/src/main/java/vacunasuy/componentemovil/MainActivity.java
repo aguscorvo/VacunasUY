@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.menu_home:
-                    Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.menu_agenda:
                     Toast.makeText(MainActivity.this, "Opción Agenda", Toast.LENGTH_SHORT).show();
@@ -36,12 +35,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.menu_vacunatorio:
-                    Toast.makeText(MainActivity.this, "Opción Vacunatorio", Toast.LENGTH_SHORT).show();
                     Intent ivacunatroio = new Intent(MainActivity.this, VacunMapActivity.class);
                     startActivity(ivacunatroio);
                     return true;
                 case R.id.menu_usuario:
-                    Toast.makeText(MainActivity.this, "Opción Usuario", Toast.LENGTH_SHORT).show();
                     Usuario usuario = Usuario.getInstance();
                     if(usuario.getRegistrado()){
                         Intent intent2 = new Intent(MainActivity.this, LoginActivity.class);

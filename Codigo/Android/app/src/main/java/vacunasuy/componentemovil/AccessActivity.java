@@ -262,13 +262,13 @@ public class AccessActivity extends AppCompatActivity {
                     dialog.setTitle(R.string.access_title_err);
                     //dialog.setIcon(R.drawable.icon);
                     dialog.setMessage(getString(R.string.access_msg_err));
-                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Si", new DialogInterface.OnClickListener()
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.alert_btn_positive), new DialogInterface.OnClickListener()
                         {
                         public void onClick(DialogInterface dialog, int which) {
                             requestPermissions(permissions, PERMISOS_REQUERIDOS);
                         }
                     });
-                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener()
+                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.alert_btn_negative), new DialogInterface.OnClickListener()
                     {
                         public void onClick(DialogInterface dialog, int which) {
                             if (Build.VERSION.SDK_INT >= JELLY_BEAN){

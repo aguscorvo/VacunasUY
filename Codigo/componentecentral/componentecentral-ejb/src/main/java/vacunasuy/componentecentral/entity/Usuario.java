@@ -1,16 +1,18 @@
 package vacunasuy.componentecentral.entity;
 
 import java.io.Serializable;
-
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,26 +23,36 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "usuarios")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Usuario implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	/* Atributos */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name = "documento", nullable = false, length = 50)
+	private String documento;
 	@Column(name = "nombre", nullable = false, length = 50)
 	private String nombre;
 	@Column(name = "apellido", nullable = false, length = 50)
 	private String apellido;
-	@Column(name = "correo", nullable = false, length = 100, unique = true)
+	@Column(name = "correo", length = 100, unique = true)
 	private String correo;
+	@Column(name = "fechaNacimiento")
+	private LocalDate fechaNacimiento;
+	@Column(name = "password", length = 255)
+	private String password;
+	
+	@ManyToMany
+	@JoinTable(name = "usuarios_roles", 
+		joinColumns = {@JoinColumn(name="fk_usuario_id")}, 
+		inverseJoinColumns = {@JoinColumn(name="fk_rol_id")}
+	)
+	private List<Rol> roles = new ArrayList<>();
 	
 	/* Métodos generados por Lombok */
 	

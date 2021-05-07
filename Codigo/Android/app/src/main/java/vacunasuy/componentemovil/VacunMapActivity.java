@@ -26,18 +26,19 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.Marker;
 
+import vacunasuy.componentemovil.constant.MapConstant;
 import vacunasuy.componentemovil.obj.Usuario;
 
-public class VacunMapActivity extends AppCompatActivity {
+public class VacunMapActivity extends AppCompatActivity implements  LocationListener{
 
     MapView map;
     BottomNavigationView bottomNavigationView;
     private MapController mc;
     private LocationManager locationManager;
     private Location location;
-    private LocationListener listener;
 
 
     @Override
@@ -53,9 +54,14 @@ public class VacunMapActivity extends AppCompatActivity {
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
+        map.setMaxZoomLevel(MapConstant.MAP_ZOOM_MAX);
+        map.setMinZoomLevel(MapConstant.MAP_ZOOM_MIN);
+
+
 
         mc = (MapController) map.getController();
-        mc.setZoom(20);
+        mc.setZoom(MapConstant.MAP_ZOOM);
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -63,10 +69,11 @@ public class VacunMapActivity extends AppCompatActivity {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             } else{
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2 * 20 * 1000, 10, (LocationListener) this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MapConstant.MAP_TIME_MS, MapConstant.MAP_DISTANCE_M, (LocationListener) this);
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 GeoPoint center = new GeoPoint(location.getLatitude(), location.getLongitude());
+                mc.setCenter(center);
                 mc.animateTo(center);
 
                 Marker marker = new Marker(map);
@@ -80,14 +87,14 @@ public class VacunMapActivity extends AppCompatActivity {
             AlertDialog dialog = new AlertDialog.Builder(this).create();
             dialog.setTitle(R.string.map_text_loc_err);
             dialog.setMessage(getString(R.string.map_text_loc_err_msg));
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Si", new DialogInterface.OnClickListener()
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.alert_btn_positive), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which) {
                     Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(settingsIntent);
                 }
             });
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener()
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.alert_btn_negative), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which) {
                     VacunMapActivity.super.onBackPressed();
@@ -151,7 +158,6 @@ public class VacunMapActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        locationManager.removeUpdates(locationListenerGPS);
     }
 
     public void addMarker (Marker marker){
@@ -177,36 +183,16 @@ public class VacunMapActivity extends AppCompatActivity {
     }
     */
 
-    private final LocationListener locationListenerGPS = new LocationListener() {
-        public void onLocationChanged(Location loc) {
-            location = loc;
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(VacunMapActivity.this, "Network Provider update", Toast.LENGTH_SHORT).show();
-                    GeoPoint center = new GeoPoint(location.getLatitude(), location.getLongitude());
-                    mc.animateTo(center);
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        GeoPoint center = new GeoPoint(location.getLatitude(), location.getLongitude());
+        mc.animateTo(center);
 
-                    Marker marker = new Marker(map);
-                    marker.setPosition(center);
-                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                    marker.setTitle(getString(R.string.map_text_loc));
-                    addMarker(marker);
-                }
-            });
-        }
+        Marker marker = new Marker(map);
+        marker.setPosition(center);
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        marker.setTitle(getString(R.string.map_text_loc));
+        addMarker(marker);
+    }
 
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-
-        }
-        @Override
-        public void onProviderDisabled(String s) {
-
-        }
-    };
 }

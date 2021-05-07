@@ -1,5 +1,6 @@
 package vacunasuy.componentecentral.business;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -9,13 +10,14 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
+import vacunasuy.componentecentral.dao.IRolDAO;
 import vacunasuy.componentecentral.dao.IUsuarioDAO;
+import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
-import vacunasuy.componentecentral.entity.Administrador;
-import vacunasuy.componentecentral.entity.Autoridad;
+import vacunasuy.componentecentral.entity.Rol;
 import vacunasuy.componentecentral.entity.Usuario;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.util.Constantes;
@@ -25,6 +27,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	
 	@EJB
 	private IUsuarioDAO usuarioDAO;
+	
+	@EJB
+	private IRolDAO rolDAO;
 	
 	@EJB
 	private UsuarioConverter usuarioConverter;
@@ -58,11 +63,16 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		}else {
 			try {
 				/* Se encripta la contraseña */
-				if(usuario instanceof Administrador) {
-					((Administrador) usuario).setPassword(BCrypt.withDefaults().hashToString(12, ((Administrador) usuario).getPassword().toCharArray()));
-				} else if(usuario instanceof Autoridad) {
-					((Autoridad) usuario).setPassword(BCrypt.withDefaults().hashToString(12, ((Autoridad) usuario).getPassword().toCharArray()));
+				usuario.setPassword(BCrypt.withDefaults().hashToString(12, usuario.getPassword().toCharArray()));
+				/* Se agregan los roles */
+				List<Rol> roles = new ArrayList<>();
+				for (Long idRol : usuarioDTO.getRoles()) {
+					Rol rol = rolDAO.listarPorId(idRol);
+					if(rol != null) {
+						roles.add(rol);
+					}
 				}
+				usuario.setRoles(roles);
 				return usuarioConverter.fromEntity(usuarioDAO.crear(usuario));
 			} catch (Exception e) {
 				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -118,11 +128,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		} else {
 			/* Se verifica que la contraseña sea válida */
 			BCrypt.Result resultado = null;
-			if(usuario instanceof Administrador) {
-				resultado = BCrypt.verifyer().verify(usuarioDTO.getPassword().toCharArray(), ((Administrador) usuario).getPassword());
-			} else if(usuario instanceof Autoridad) {
-				resultado = BCrypt.verifyer().verify(usuarioDTO.getPassword().toCharArray(), ((Autoridad) usuario).getPassword());
-			}
+			resultado = BCrypt.verifyer().verify(usuarioDTO.getPassword().toCharArray(), usuario.getPassword());
 			if(resultado.verified) {
 				String token = crearJsonWebToken(usuario);
 				return usuarioConverter.fromLogin(usuario, token);
@@ -137,19 +143,47 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		Date ahora = new Date();
 		/* 1 horas de validez */
 		Date expiracion = new Date(ahora.getTime() + (1000*60*60));
-		String rol = null;
-		if(usuario instanceof Administrador) {
-			rol = "Administrador";
-		}else if(usuario instanceof Autoridad) {
-			rol = "Autoridad";
-		}
 		return Jwts.builder()
 				.setSubject(Long.toString(usuario.getId()))
-				.claim("rol", rol)
+				.claim("roles", usuario.getRoles())
 				.setIssuedAt(ahora)
 				.setExpiration(expiracion)
 				.signWith(SignatureAlgorithm.HS512, Constantes.JWT_KEY)
 				.compact();
+	}
+
+	@Override
+	public UsuarioLoginExitosoDTO loginGubUy(RespuestaUserInfoDTO usuarioDTO) throws VacunasUyException {
+		/* Verifico si el usuario se encuentra registrado */
+		Usuario usuario = usuarioDAO.listarPorDocumento(usuarioDTO.getNumero_documento());
+		if(usuario == null) {
+			/* Debo registrarlo */
+			usuario = new Usuario();
+			usuario.setNombre(usuarioDTO.getPrimer_nombre());
+			usuario.setApellido(usuarioDTO.getPrimer_apellido());
+			usuario.setDocumento(usuarioDTO.getNumero_documento());
+			/* Le agrego el rol de ciudadano */
+			Rol rol = rolDAO.listarPorId(4L);
+			usuario.getRoles().add(rol);
+			usuario = usuarioDAO.crear(usuario);
+		}else {
+			/* Verifico si el usuario tiene rol ciudadano */
+			boolean tieneRol = false;
+			for (Rol rol : usuario.getRoles()) {
+				if(rol.getNombre().equalsIgnoreCase("Ciudadano")) {
+					tieneRol = true;
+				}
+			}
+			if(!tieneRol) {
+				/* Le agrego el rol de ciudadano */
+				Rol rol = rolDAO.listarPorId(4L);
+				usuario.getRoles().add(rol);
+				usuario = usuarioDAO.editar(usuario);
+			}
+		}
+		/* Creo un nuevo inicio de sesión */
+		String token = crearJsonWebToken(usuario);
+		return usuarioConverter.fromLogin(usuario, token);
 	}
 	
 }

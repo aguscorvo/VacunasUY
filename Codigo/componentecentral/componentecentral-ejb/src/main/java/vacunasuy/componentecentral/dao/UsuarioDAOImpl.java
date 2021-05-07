@@ -30,9 +30,16 @@ public class UsuarioDAOImpl implements IUsuarioDAO {
 	}
 
 	@Override
-	public Usuario listarPorCorreo(String correo) throws VacunasUyException {
+	public Usuario listarPorCorreo(String correo) {
 		Query consulta = em.createQuery("SELECT u FROM Usuario u WHERE u.correo = :correo");
 		consulta.setParameter("correo", correo);
+		return (Usuario) consulta.getResultList().stream().findFirst().orElse(null);
+	}
+	
+	@Override
+	public Usuario listarPorDocumento(String documento) {
+		Query consulta = em.createQuery("SELECT u FROM Usuario u WHERE u.documento = :documento");
+		consulta.setParameter("documento", documento);
 		return (Usuario) consulta.getResultList().stream().findFirst().orElse(null);
 	}
 

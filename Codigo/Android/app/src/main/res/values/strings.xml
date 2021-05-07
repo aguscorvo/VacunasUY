@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">vacunasUY</string>
-    <!-- ACCESS-->
+    <string name="alert_btn_positive">Si</string>
+    <string name="alert_btn_negative">No</string>
 
+    <!-- ACCESS-->
     <string name="access_title_err">Error de Permisos</string>
     <string name="access_msg_err">¿Desea Asignar los permisos?</string>
     <string name="text_load">Cargando…</string>
@@ -40,8 +42,10 @@
     <string name="map_text_hint">Ej: 1000</string>
     <string name="map_text_btn">Buscar</string>
     <string name="map_text_loc">Ubicación Actual</string>
+    <string name="map_copyright">&#169; OpenStreetMap | VacunasUY</string>
     <string name="map_text_loc_err">Activar ubicación</string>
     <string name="map_text_loc_err_msg">Su ubicación esta desactivada.\nPor favor active su ubicación</string>
+    
 
     <!--CONNECTION MESSAGES-->
     <string name="err_conectividad">Error de conectiviad. No existe conexión de red disponible.</string>

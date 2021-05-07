@@ -39,15 +39,10 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_vacunatorio:
-                        Toast.makeText(LoginActivity.this, "Opción Vacunatorio", Toast.LENGTH_SHORT).show();
+                        Intent ivacunatroio = new Intent(LoginActivity.this, VacunMapActivity.class);
+                        startActivity(ivacunatroio);
                         return true;
                     case R.id.menu_usuario:
-                        Toast.makeText(LoginActivity.this, "Opción Usuario", Toast.LENGTH_SHORT).show();
-                        Usuario usuario = Usuario.getInstance();
-                        if (usuario.getRegistrado()) {
-
-                        }
-
                         return true;
                 }
                 return false;

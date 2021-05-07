@@ -1,5 +1,7 @@
 package vacunasuy.componentecentral.rest;
 
+import java.net.URI;
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.Consumes;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import vacunasuy.componentecentral.business.IUsuarioService;
 import vacunasuy.componentecentral.dto.RespuestaAccessTokenDTO;
 import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
@@ -29,6 +32,21 @@ public class AutenticacionGubUyREST {
 	
 	@EJB
 	private IUsuarioService usuarioService;
+	
+	@GET
+	public Response redireccionarAutenticacion() {
+		/* Se genera un string random para establecer el estado */
+		String uuid = UUID.randomUUID().toString();
+		String state = uuid.replace("-", "");
+		UriBuilder uri = UriBuilder.fromPath(Constantes.AUTHORIZATION_URL);
+		uri.queryParam("response_type", "code");
+		uri.queryParam("client_id", Constantes.CLIENT_ID);
+		uri.queryParam("redirect_uri", Constantes.REDIRECT_URI);
+		uri.queryParam("scope", "openid document personal_info email auth_info");
+		uri.queryParam("state", state);
+		URI u = uri.build();
+		return Response.temporaryRedirect(u).build();
+	}
 	
 	@GET
 	@Path("/procesarTokens")

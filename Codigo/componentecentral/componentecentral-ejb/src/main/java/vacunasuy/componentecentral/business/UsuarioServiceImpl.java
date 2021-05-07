@@ -162,6 +162,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			usuario.setNombre(usuarioDTO.getPrimer_nombre());
 			usuario.setApellido(usuarioDTO.getPrimer_apellido());
 			usuario.setDocumento(usuarioDTO.getNumero_documento());
+			usuario.setCorreo(usuarioDTO.getEmail());
 			/* Le agrego el rol de ciudadano */
 			Rol rol = rolDAO.listarPorId(4L);
 			usuario.getRoles().add(rol);

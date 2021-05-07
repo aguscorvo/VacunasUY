@@ -9,6 +9,8 @@ public class Usuario {
     private String token;
     private Date fechanacimiento;
     private Integer id;
+    private String documento;
+    private String correo;
     private Boolean registrado = false;
 
     protected Usuario(){}
@@ -66,5 +68,21 @@ public class Usuario {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 }

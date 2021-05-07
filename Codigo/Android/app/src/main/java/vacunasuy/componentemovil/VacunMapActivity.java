@@ -17,6 +17,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,9 +38,11 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
 
     MapView map;
     BottomNavigationView bottomNavigationView;
+    ImageButton imlocation;
     private MapController mc;
     private LocationManager locationManager;
     private Location location;
+    private GeoPoint center;
 
 
     @Override
@@ -48,16 +52,17 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         //load/initialize the osmdroid configuration, this can be done
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-
         setContentView(R.layout.activity_vacun_map);
 
+        imlocation = findViewById(R.id.imageButtonLocation);
+        bottomNavigationView = findViewById(R.id.bottomNavigationViewMap);
         map = findViewById(R.id.map);
+
+
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
         map.setMaxZoomLevel(MapConstant.MAP_ZOOM_MAX);
         map.setMinZoomLevel(MapConstant.MAP_ZOOM_MIN);
-
-
 
         mc = (MapController) map.getController();
         mc.setZoom(MapConstant.MAP_ZOOM);
@@ -72,7 +77,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MapConstant.MAP_TIME_MS, MapConstant.MAP_DISTANCE_M, (LocationListener) this);
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                GeoPoint center = new GeoPoint(location.getLatitude(), location.getLongitude());
+                center = new GeoPoint(location.getLatitude(), location.getLongitude());
                 mc.setCenter(center);
                 mc.animateTo(center);
 
@@ -104,9 +109,15 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
 
         }
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationViewMap);
-        bottomNavigationView.setSelectedItemId(R.id.menu_vacunatorio);
+        imlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mc.setZoom(MapConstant.MAP_ZOOM);
+                mc.animateTo(center);
+            }
+        });
 
+        bottomNavigationView.setSelectedItemId(R.id.menu_vacunatorio);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -122,13 +133,16 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                         Toast.makeText(VacunMapActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_vacunatorio:
-                        //Toast.makeText(VacunMapActivity.this, "Opción Vacunatorio", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_usuario:
-                        Toast.makeText(VacunMapActivity.this, "Opción Usuario", Toast.LENGTH_SHORT).show();
                         Usuario usuario = Usuario.getInstance();
-                        if (usuario.getRegistrado()) {
+                        if(usuario.getRegistrado()){
+                            Intent userinfo = new Intent(VacunMapActivity.this, UserInfoActivity.class);
+                            startActivity(userinfo);
 
+                        }else{
+                            Intent userlogin = new Intent(VacunMapActivity.this, LoginActivity.class);
+                            startActivity(userlogin);
                         }
 
                         return true;
@@ -185,7 +199,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        GeoPoint center = new GeoPoint(location.getLatitude(), location.getLongitude());
+        center = new GeoPoint(location.getLatitude(), location.getLongitude());
         mc.animateTo(center);
 
         Marker marker = new Marker(map);

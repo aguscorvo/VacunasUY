@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserInfoActivity">
+    <RelativeLayout
+        android:id="@+id/userinfo_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <LinearLayout
+            android:id="@+id/userinfo_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/userinfo_subtitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/user_info_subtitulo"
+                android:textAlignment="center"
+                android:background="@drawable/textborder"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/userinfo_tDocumento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_infoText_documento"
+                android:textAlignment="center"
+                android:background="@drawable/textborder"
+                android:textStyle="bold"
+            />
+
+            <TextView
+            android:id="@+id/userinfo_idocumento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="textStart"
+            android:background="@drawable/textborder"
+            />
+
+            <TextView
+                android:id="@+id/userinfo_tnombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textborder"
+                android:text="@string/user_infoText_name"
+                android:textAlignment="center"
+                android:textStyle="bold" />
+
+            <TextView
+            android:id="@+id/userinfo_inombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="textStart"
+            android:background="@drawable/textborder"
+            />
+            <TextView
+            android:id="@+id/userinfo_tapellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_infoText_apellido"
+            android:textAlignment="center"
+            android:background="@drawable/textborder"
+            android:textStyle="bold"
+            />
+            <TextView
+            android:id="@+id/userinfo_iapellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="textStart"
+            android:background="@drawable/textborder"
+            />
+            <TextView
+            android:id="@+id/userinfo_tcorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_infoText_correo"
+            android:textAlignment="center"
+            android:background="@drawable/textborder"
+            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/userinfo_icorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="textStart"
+                android:background="@drawable/textborder"
+                />
+            <TextView
+                android:id="@+id/userinfo_tfnacimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_infoText_fnacimiento"
+                android:textAlignment="center"
+                android:background="@drawable/textborder"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/userinfo_ifnacimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="textStart"
+                android:background="@drawable/textborder"
+                />
+
+        </LinearLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationViewUserInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/menu_bar_bg"
+            app:itemIconTint="@color/menu_bar_text"
+            app:itemTextColor="@color/menu_bar_text"
+            app:menu="@menu/bottom_navigation_menu"/>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

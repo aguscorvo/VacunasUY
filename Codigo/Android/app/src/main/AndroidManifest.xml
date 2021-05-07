@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VacunasUY">
-
+        <activity android:name=".UserInfoActivity"></activity>
         <activity
             android:name=".AccessActivity"
             android:screenOrientation="portrait">
@@ -28,8 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VacunMapActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".VacunMapActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait" />

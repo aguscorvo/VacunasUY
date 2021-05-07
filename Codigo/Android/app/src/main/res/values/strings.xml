@@ -45,7 +45,15 @@
     <string name="map_copyright">&#169; OpenStreetMap | VacunasUY</string>
     <string name="map_text_loc_err">Activar ubicación</string>
     <string name="map_text_loc_err_msg">Su ubicación esta desactivada.\nPor favor active su ubicación</string>
-    
+
+    <!--VIEW USER INFO-->
+    <string name="user_info_titulo">Perfil</string>
+    <string name="user_info_subtitulo">Información de la cuenta</string>
+    <string name="user_infoText_name">Nombre</string>
+    <string name="user_infoText_apellido">Apellido</string>
+    <string name="user_infoText_documento">Documento</string>
+    <string name="user_infoText_correo">Correo electrónico</string>
+    <string name="user_infoText_fnacimiento">Fecha nacimiento</string>
 
     <!--CONNECTION MESSAGES-->
     <string name="err_conectividad">Error de conectiviad. No existe conexión de red disponible.</string>

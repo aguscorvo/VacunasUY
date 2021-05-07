@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.menu_usuario:
                     Usuario usuario = Usuario.getInstance();
                     if(usuario.getRegistrado()){
-                        Intent intent2 = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent2);
+                        Intent userinfo = new Intent(MainActivity.this, UserInfoActivity.class);
+                        startActivity(userinfo);
 
                     }else{
-                        Intent intent3 = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent3);
+                        Intent userlogin = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(userlogin);
                     }
                     return true;
             }

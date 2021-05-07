@@ -68,6 +68,19 @@
                     android:id="@+id/map"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+                <ImageButton
+                    android:id="@+id/imageButtonLocation"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top|left"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="15dp"
+                    android:background="@drawable/imgbutton_location"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:padding="4dp"
+                    android:contentDescription="@string/map_text_loc"
+                    app:srcCompat="@drawable/ic_focus_b" />
 
                 <TextView
                     android:id="@+id/map_copyright"
@@ -75,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_marginRight="5dp"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textColor="@color/purple_500"
                     android:text="@string/map_copyright" />
             </FrameLayout>

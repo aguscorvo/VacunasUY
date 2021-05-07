@@ -34,15 +34,17 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name = "documento", nullable = false, length = 50)
+	private String documento;
 	@Column(name = "nombre", nullable = false, length = 50)
 	private String nombre;
 	@Column(name = "apellido", nullable = false, length = 50)
 	private String apellido;
-	@Column(name = "correo", nullable = false, length = 100, unique = true)
+	@Column(name = "correo", length = 100, unique = true)
 	private String correo;
 	@Column(name = "fechaNacimiento")
 	private LocalDate fechaNacimiento;
-	@Column(name = "password", nullable = false, length = 255)
+	@Column(name = "password", length = 255)
 	private String password;
 	
 	@ManyToMany

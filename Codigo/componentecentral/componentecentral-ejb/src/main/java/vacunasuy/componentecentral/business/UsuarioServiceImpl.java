@@ -12,6 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
 import vacunasuy.componentecentral.dao.IRolDAO;
 import vacunasuy.componentecentral.dao.IUsuarioDAO;
+import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
@@ -149,6 +150,40 @@ public class UsuarioServiceImpl implements IUsuarioService {
 				.setExpiration(expiracion)
 				.signWith(SignatureAlgorithm.HS512, Constantes.JWT_KEY)
 				.compact();
+	}
+
+	@Override
+	public UsuarioLoginExitosoDTO loginGubUy(RespuestaUserInfoDTO usuarioDTO) throws VacunasUyException {
+		/* Verifico si el usuario se encuentra registrado */
+		Usuario usuario = usuarioDAO.listarPorDocumento(usuarioDTO.getNumero_documento());
+		if(usuario == null) {
+			/* Debo registrarlo */
+			usuario = new Usuario();
+			usuario.setNombre(usuarioDTO.getPrimer_nombre());
+			usuario.setApellido(usuarioDTO.getPrimer_apellido());
+			usuario.setDocumento(usuarioDTO.getNumero_documento());
+			/* Le agrego el rol de ciudadano */
+			Rol rol = rolDAO.listarPorId(4L);
+			usuario.getRoles().add(rol);
+			usuario = usuarioDAO.crear(usuario);
+		}else {
+			/* Verifico si el usuario tiene rol ciudadano */
+			boolean tieneRol = false;
+			for (Rol rol : usuario.getRoles()) {
+				if(rol.getNombre().equalsIgnoreCase("Ciudadano")) {
+					tieneRol = true;
+				}
+			}
+			if(!tieneRol) {
+				/* Le agrego el rol de ciudadano */
+				Rol rol = rolDAO.listarPorId(4L);
+				usuario.getRoles().add(rol);
+				usuario = usuarioDAO.editar(usuario);
+			}
+		}
+		/* Creo un nuevo inicio de sesión */
+		String token = crearJsonWebToken(usuario);
+		return usuarioConverter.fromLogin(usuario, token);
 	}
 	
 }

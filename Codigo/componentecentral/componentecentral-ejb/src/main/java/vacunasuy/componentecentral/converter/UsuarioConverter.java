@@ -21,6 +21,7 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 		if(e == null) return null;
 		return UsuarioDTO.builder()
 				.id(e.getId())
+				.documento(e.getDocumento())
 				.nombre(e.getNombre())
 				.apellido(e.getApellido())
 				.correo(e.getCorreo())
@@ -37,6 +38,7 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 	public Usuario fromCrearDTO(UsuarioCrearDTO d) {
 		if(d == null) return null;
 		return Usuario.builder()
+			.documento(d.getDocumento())
 			.nombre(d.getNombre())
 			.apellido(d.getApellido())
 			.correo(d.getCorreo())
@@ -49,9 +51,10 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 		if(e == null) return null;
 		return UsuarioLoginExitosoDTO.builder()
 			.id(e.getId())
+			.documento(e.getDocumento())
 			.nombre(e.getNombre())
 			.apellido(e.getApellido())
-			.fechaNacimiento(e.getFechaNacimiento().toString())
+			//.fechaNacimiento(e.getFechaNacimiento().toString())
 			.roles(rolConverter.fromEntity(e.getRoles()))
 			.token(token)
 			.build();

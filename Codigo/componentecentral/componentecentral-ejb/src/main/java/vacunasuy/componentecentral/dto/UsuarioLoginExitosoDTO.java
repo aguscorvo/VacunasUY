@@ -17,6 +17,7 @@ import lombok.Setter;
 public class UsuarioLoginExitosoDTO {
 
 	private Long id;
+	private String documento;
 	private String nombre;
 	private String apellido;
 	private String fechaNacimiento;

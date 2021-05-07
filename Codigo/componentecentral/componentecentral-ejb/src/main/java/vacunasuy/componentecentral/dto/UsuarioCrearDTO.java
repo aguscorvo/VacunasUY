@@ -14,6 +14,7 @@ import lombok.Setter;
 @Builder
 public class UsuarioCrearDTO {
 
+	private String documento;
 	private String nombre;
 	private String apellido;
 	private String correo;

@@ -2,6 +2,8 @@ package vacunasuy.componentecentral.business;
 
 import java.util.List;
 import javax.ejb.Local;
+
+import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
@@ -19,4 +21,6 @@ public interface IUsuarioService {
 	public UsuarioDTO editar(Long id, UsuarioCrearDTO usuarioDTO) throws VacunasUyException;
 	public void eliminar(Long id) throws VacunasUyException;
 	public UsuarioLoginExitosoDTO loginBackoffice(UsuarioLoginBackofficeDTO usuarioDTO) throws VacunasUyException;
+	public UsuarioLoginExitosoDTO loginGubUy(RespuestaUserInfoDTO usuarioDTO) throws VacunasUyException;
+	
 }

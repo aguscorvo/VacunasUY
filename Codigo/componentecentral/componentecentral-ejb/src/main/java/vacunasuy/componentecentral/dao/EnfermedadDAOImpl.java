@@ -15,6 +15,7 @@ public class EnfermedadDAOImpl implements IEnfermedadDAO{
 	@PersistenceContext(name = "LaboratorioTSE")
 	private EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Enfermedad> listar() {
 		Query consulta = em.createQuery("SELECT e FROM Enfermedad e");

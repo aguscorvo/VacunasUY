@@ -1,6 +1,5 @@
 package vacunasuy.componentecentral.converter;
 
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import vacunasuy.componentecentral.dto.EnfermedadCrearDTO;
 import vacunasuy.componentecentral.dto.EnfermedadDTO;
@@ -9,8 +8,6 @@ import vacunasuy.componentecentral.entity.Enfermedad;
 @Singleton
 public class EnfermedadConverter extends AbstractConverter<Enfermedad, EnfermedadDTO>{
 
-	@EJB
-	private RolConverter rolConverter;
 	
 	@Override
 	public EnfermedadDTO fromEntity(Enfermedad e) {

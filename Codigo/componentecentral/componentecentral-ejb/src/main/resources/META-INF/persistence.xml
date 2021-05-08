@@ -33,6 +33,7 @@
       <class>vacunasuy.componentecentral.entity.Enfermedad</class>
 	  <class>vacunasuy.componentecentral.entity.Vacuna</class>
 	  <class>vacunasuy.componentecentral.entity.ActoVacunal</class>
+	  <class>vacunasuy.componentecentral.entity.Transportista</class>
 	  	  
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

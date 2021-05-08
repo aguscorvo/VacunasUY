@@ -326,6 +326,11 @@ INSERT INTO vacunatorios_puestos VALUES (14,91);
 INSERT INTO vacunatorios_puestos VALUES (14,92);
 INSERT INTO vacunatorios_puestos VALUES (14,93);
 
+/* Transportistas Total: 2 */
+INSERT INTO transportistas (nombre) VALUES ('Fuerza Aerea Uruguaya');
+INSERT INTO transportistas (nombre) VALUES ('Agencia Central');
+
+
 
 
 

@@ -3,6 +3,7 @@ package vacunasuy.componentecentral.converter;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
+import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.entity.Vacunatorio;
@@ -69,6 +70,14 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 				.latitud(v.getLatitud())
 				.longitud(v.getLongitud())
 				.direccion(v.getDireccion())
+				.build();
+	}
+	
+	public Vacunatorio fromCercanoDTO(VacunatorioCercanoDTO v) {
+		if(v== null) return null;
+		return Vacunatorio.builder()
+				.latitud(v.getLatitud())
+				.longitud(v.getLongitud())
 				.build();
 	}
 

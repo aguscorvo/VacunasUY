@@ -42,5 +42,13 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
 	public void eliminar(Vacunatorio vacunatorio) {
 		em.remove(vacunatorio);
 	}
+    
+    @Override
+	public List<Vacunatorio> listarVacunatoriosCercanos(Vacunatorio vacunatorio){
+    	// Logica por hacer
+    	// Se devuelven todos los vacunatorios con id>5
+    	Query consulta = em.createQuery("SELECT v FROM Vacunatorio v WHERE v.id > 5");
+    	return consulta.getResultList();
+    }
 
 }

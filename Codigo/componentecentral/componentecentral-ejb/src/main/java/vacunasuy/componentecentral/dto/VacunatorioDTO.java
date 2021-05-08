@@ -17,8 +17,8 @@ public class VacunatorioDTO {
 	
 	private Long id;
 	private String nombre;
-	private String latitud;
-	private String longitud;
+	private Double latitud;
+	private Double longitud;
 	private String direccion;
 	private LocalidadDTO localidad;
 	private DepartamentoDTO departamento;

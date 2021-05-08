@@ -15,6 +15,7 @@ import vacunasuy.componentecentral.dao.ILocalidadDAO;
 import vacunasuy.componentecentral.dao.IPuestoDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
 import vacunasuy.componentecentral.dto.PuestoDTO;
+import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.entity.Departamento;
@@ -157,5 +158,16 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			}
 		}
 	}
+	
+	@Override
+	public List<VacunatorioDTO> listarVacunatoriosCercanos(VacunatorioCercanoDTO vacunatorioDTO) throws VacunasUyException{
+		try {
+			List<Vacunatorio> vacunatorios = vacunatorioDAO.listarVacunatoriosCercanos(vacunatorioConverter.fromCercanoDTO(vacunatorioDTO));
+			return vacunatorioConverter.fromEntity(vacunatorios);
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+
 
 }

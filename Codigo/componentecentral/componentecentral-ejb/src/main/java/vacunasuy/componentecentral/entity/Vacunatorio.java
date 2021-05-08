@@ -10,7 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -39,18 +41,20 @@ public class Vacunatorio  implements Serializable{
 	private String nombre;
 	
 	@Column(name = "latitud", nullable = false, length = 100)
-	private String latitud;	
+	private Double latitud;	
 	
 	@Column(name = "longitud", nullable = false, length = 100)
-	private String longitud;	
+	private Double longitud;	
 	
 	@Column(name = "direccion", nullable = false, length = 150)
 	private String direccion;
 	
-	@Column(name = "localidad", nullable = false, length = 50)
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "localidad_id", referencedColumnName = "id")
 	private Localidad localidad;
 	
-	@Column(name = "departamento", nullable = false, length = 30)
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "departamento_id", referencedColumnName = "id")
 	private Departamento departamento;
 	
 	@OneToMany(cascade = CascadeType.ALL)

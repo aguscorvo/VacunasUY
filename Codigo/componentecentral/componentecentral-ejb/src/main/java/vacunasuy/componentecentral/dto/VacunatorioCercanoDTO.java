@@ -13,14 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VacunatorioCrearDTO {
-
-	private String nombre;
-	private Double latitud;
-	private Double longitud;
-	private String direccion;
-	private Long localidad;
-	private Long departamento;
-	private List<Long> puestos;
-	
+public class VacunatorioCercanoDTO {
+	Double latitud; 
+	Double longitud;
+	Long distancia;
 }

@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import vacunasuy.componentecentral.business.IVacunatorioService;
+import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -117,7 +118,23 @@ public class VacunatorioREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}	
+	}
+	
+	@GET
+//	@RecursoProtegidoJWT
+	@Path("/listar/cercanos")
+	public Response listarVacunatoriosCercanos(VacunatorioCercanoDTO request) throws VacunasUyException{
+		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
+		try {
+			List<VacunatorioDTO> vacunatorios = vacunatorioService.listarVacunatoriosCercanos(request);
+			respuesta = new RespuestaREST<List<VacunatorioDTO>>(true, "Vacunatorios listados con éxito.", vacunatorios);
+			return Response.ok(respuesta).build();
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<>(false, e.getLocalizedMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}		
 	}	
+	
 	
 	
 }

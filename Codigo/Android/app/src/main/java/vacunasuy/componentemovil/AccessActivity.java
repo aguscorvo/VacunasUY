@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,6 +95,8 @@ public class AccessActivity extends AppCompatActivity {
     private void realizarConexion() {
         connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connMgr.getActiveNetworkInfo();
+
+
 
         String stringUrl = ConnConstant.API_INFOGRAL_URL;
 

@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VacunasUY">
-        <activity android:name=".UserInfoActivity"></activity>
+        <activity android:name=".GubUyActivity"></activity>
+        <activity android:name=".UserInfoActivity" />
         <activity
             android:name=".AccessActivity"
             android:screenOrientation="portrait">

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import vacunasuy.componentemovil.obj.Usuario;
+import vacunasuy.componentemovil.obj.DtUsuario;
 
 public class LoginActivity extends AppCompatActivity {
 

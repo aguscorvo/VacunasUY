@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 
-import vacunasuy.componentemovil.obj.Usuario;
+import vacunasuy.componentemovil.obj.DtUsuario;
 
 public class UserInfoActivity extends AppCompatActivity {
 
@@ -35,15 +35,18 @@ public class UserInfoActivity extends AppCompatActivity {
         correo = findViewById(R.id.userinfo_icorreo);
         nacimiento = findViewById(R.id.userinfo_ifnacimiento);
 
-        Usuario usuario = Usuario.getInstance();
+        DtUsuario usuario = DtUsuario.getInstance();
 
         documento.setText(usuario.getDocumento());
         nombre.setText(usuario.getNombre());
         apellido.setText(usuario.getApellido());
         correo.setText(usuario.getCorreo());
 
-        SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
-        nacimiento.setText(sdf.format(usuario.getFechanacimiento()));
+        if(usuario.getFechanacimiento()!=null){
+            SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
+            nacimiento.setText(sdf.format(usuario.getFechanacimiento()));
+
+        }
 
         bottomNavigationView = findViewById(R.id.bottomNavigationViewUserInfo);
         bottomNavigationView.setSelectedItemId(R.id.menu_usuario);

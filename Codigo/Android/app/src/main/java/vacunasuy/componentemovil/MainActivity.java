@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import vacunasuy.componentemovil.obj.Usuario;
+import vacunasuy.componentemovil.obj.DtUsuario;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(ivacunatroio);
                     return true;
                 case R.id.menu_usuario:
-                    Usuario usuario = Usuario.getInstance();
+                    DtUsuario usuario = DtUsuario.getInstance();
                     if(usuario.getRegistrado()){
                         Intent userinfo = new Intent(MainActivity.this, UserInfoActivity.class);
                         startActivity(userinfo);
 
                     }else{
-                        Intent userlogin = new Intent(MainActivity.this, LoginActivity.class);
+                        Intent userlogin = new Intent(MainActivity.this, GubUyActivity.class);
                         startActivity(userlogin);
                     }
                     return true;

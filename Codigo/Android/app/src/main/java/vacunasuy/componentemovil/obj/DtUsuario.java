@@ -1,9 +1,10 @@
 package vacunasuy.componentemovil.obj;
 
 import java.util.Date;
+import java.util.List;
 
-public class Usuario {
-    private static Usuario uInstance= null;
+public class DtUsuario {
+    private static DtUsuario uInstance= null;
     private String nombre;
     private String apellido;
     private String token;
@@ -12,12 +13,13 @@ public class Usuario {
     private String documento;
     private String correo;
     private Boolean registrado = false;
+    private List<DtRol> roles;
 
-    protected Usuario(){}
+    protected DtUsuario(){}
 
-    public static synchronized Usuario getInstance() {
+    public static synchronized DtUsuario getInstance() {
         if(uInstance == null){
-            uInstance = new Usuario();
+            uInstance = new DtUsuario();
         }
         return uInstance;
     }
@@ -84,5 +86,13 @@ public class Usuario {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public List<DtRol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<DtRol> roles) {
+        this.roles = roles;
     }
 }

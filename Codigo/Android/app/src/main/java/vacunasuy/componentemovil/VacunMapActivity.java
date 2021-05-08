@@ -28,11 +28,10 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.Marker;
 
 import vacunasuy.componentemovil.constant.MapConstant;
-import vacunasuy.componentemovil.obj.Usuario;
+import vacunasuy.componentemovil.obj.DtUsuario;
 
 public class VacunMapActivity extends AppCompatActivity implements  LocationListener{
 
@@ -135,7 +134,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                     case R.id.menu_vacunatorio:
                         return true;
                     case R.id.menu_usuario:
-                        Usuario usuario = Usuario.getInstance();
+                        DtUsuario usuario = DtUsuario.getInstance();
                         if(usuario.getRegistrado()){
                             Intent userinfo = new Intent(VacunMapActivity.this, UserInfoActivity.class);
                             startActivity(userinfo);

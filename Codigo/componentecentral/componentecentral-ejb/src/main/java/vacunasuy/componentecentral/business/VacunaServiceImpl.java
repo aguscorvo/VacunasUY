@@ -6,9 +6,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import vacunasuy.componentecentral.converter.VacunaConverter;
+import vacunasuy.componentecentral.dao.IEnfermedadDAO;
 import vacunasuy.componentecentral.dao.IVacunaDAO;
 import vacunasuy.componentecentral.dto.VacunaCrearDTO;
 import vacunasuy.componentecentral.dto.VacunaDTO;
+import vacunasuy.componentecentral.entity.Enfermedad;
 import vacunasuy.componentecentral.entity.Vacuna;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
@@ -17,6 +19,9 @@ public class VacunaServiceImpl implements IVacunaService{
 
 	@EJB
 	private IVacunaDAO vacunaDAO;
+	
+	@EJB
+	private IEnfermedadDAO enfermedadDAO;
 	
 	@EJB
 	private VacunaConverter vacunaConverter;
@@ -42,6 +47,8 @@ public class VacunaServiceImpl implements IVacunaService{
 		}else {	
 			try {
 				Vacuna vacuna = vacunaConverter.fromCrearDTO(vacunaCrearDTO);
+				Enfermedad e = enfermedadDAO.listarPorId(vacunaCrearDTO.getId_enfermedad());
+				vacuna.setEnfermedad(e);
 				return vacunaConverter.fromEntity(vacunaDAO.crear(vacuna));
 			} catch (Exception e) {
 				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

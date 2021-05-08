@@ -47,7 +47,6 @@ public class VacunaConverter extends AbstractConverter<Vacuna, VacunaDTO>{
 			.cant_dosis(d.getCant_dosis())
 			.periodo(d.getPeriodo())
 			.inmunidad(d.getInmunidad())
-			.enfermedad(eConverter.fromDTO(d.getEnfermedad()))
 			.build();
 	}
 	

@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
-import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.VacunaCrearDTO;
 import vacunasuy.componentecentral.dto.VacunaDTO;
 import vacunasuy.componentecentral.entity.Vacuna;

@@ -17,5 +17,5 @@ public class VacunaCrearDTO {
 	private int cant_dosis;
 	private int periodo;
 	private int inmunidad;
-	private EnfermedadDTO enfermedad;
+	private Long id_enfermedad;
 }

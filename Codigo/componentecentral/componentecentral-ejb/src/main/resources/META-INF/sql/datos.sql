@@ -325,9 +325,42 @@ INSERT INTO vacunatorios_puestos VALUES (14,79);
 INSERT INTO vacunatorios_puestos VALUES (14,80);
 
 
-/* Transportistas Total: 2 */
+/* Transportistas - Total: 2 */
 INSERT INTO transportistas (nombre) VALUES ('Fuerza Aerea Uruguaya');
 INSERT INTO transportistas (nombre) VALUES ('Agencia Central');
+
+/* Paises - Total: 16 */
+INSERT INTO paises (nombre) VALUES ('China');
+INSERT INTO paises (nombre) VALUES ('Estados Unidos');
+INSERT INTO paises (nombre) VALUES ('Alemania');
+INSERT INTO paises (nombre) VALUES ('India');
+INSERT INTO paises (nombre) VALUES ('Reino Unido');
+INSERT INTO paises (nombre) VALUES ('Holanda');
+INSERT INTO paises (nombre) VALUES ('Belgica');
+INSERT INTO paises (nombre) VALUES ('Rusia');
+INSERT INTO paises (nombre) VALUES ('Suiza');
+INSERT INTO paises (nombre) VALUES ('Corea del Sur');
+INSERT INTO paises (nombre) VALUES ('Brasil');
+INSERT INTO paises (nombre) VALUES ('Sudafrica');
+INSERT INTO paises (nombre) VALUES ('Argentina');
+INSERT INTO paises (nombre) VALUES ('Uruguay');
+INSERT INTO paises (nombre) VALUES ('Espania');
+INSERT INTO paises (nombre) VALUES ('Francia');
+
+/* Proveedores - Total: 3*/
+INSERT INTO proveedores (nombre, pais_id) VALUES ('Sinovac Biotech', 1); /* En caso de COVID-19: vacuna: CoronaVac*/
+INSERT INTO proveedores (nombre, pais_id) VALUES ('AstraZeneca', 5); /* En caso de COVID-19: vacuna: chequear nombre*/
+INSERT INTO proveedores (nombre, pais_id) VALUES ('Pfizer', 3); /* En caso de COVID-19: vacuna: Pfizer-BioNTech*/
+
+
+
+
+
+
+
+
+
+
 
 
 

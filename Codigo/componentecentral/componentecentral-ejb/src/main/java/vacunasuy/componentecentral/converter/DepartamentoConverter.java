@@ -5,6 +5,7 @@ import javax.ejb.Singleton;
 
 import vacunasuy.componentecentral.dto.DepartamentoCrearDTO;
 import vacunasuy.componentecentral.dto.DepartamentoDTO;
+import vacunasuy.componentecentral.dto.DepartamentoMinDTO;
 import vacunasuy.componentecentral.entity.Departamento;
 
 @Singleton
@@ -31,6 +32,22 @@ public class DepartamentoConverter extends AbstractConverter<Departamento, Depar
 	public Departamento fromCrearDTO(DepartamentoCrearDTO d) {
 		if(d == null) return null;
 		return Departamento.builder()
+				.nombre(d.getNombre())
+				.build();
+	}
+	
+	public Departamento fromMinDTO (DepartamentoMinDTO d) {
+		if(d == null) return null;
+		return Departamento.builder()
+				.id(d.getId())
+				.nombre(d.getNombre())
+				.build();
+	}
+	
+	public DepartamentoMinDTO fromEntityToMin (Departamento d) {
+		if(d ==null) return null;
+		return DepartamentoMinDTO.builder()
+				.id(d.getId())
 				.nombre(d.getNombre())
 				.build();
 	}

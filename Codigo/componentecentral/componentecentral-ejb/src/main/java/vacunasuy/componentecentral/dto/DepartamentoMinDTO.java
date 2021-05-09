@@ -11,8 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VacunatorioCercanoDTO {
-	Double latitud; 
-	Double longitud;
-	Long distancia;
+public class DepartamentoMinDTO {
+	
+	private Long id;
+	private String nombre;
+
 }

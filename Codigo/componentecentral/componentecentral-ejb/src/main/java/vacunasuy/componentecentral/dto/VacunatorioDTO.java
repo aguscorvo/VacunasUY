@@ -21,7 +21,7 @@ public class VacunatorioDTO {
 	private Double longitud;
 	private String direccion;
 	private LocalidadDTO localidad;
-	private DepartamentoDTO departamento;
+	private DepartamentoMinDTO departamento;
 	private List<PuestoDTO> puestos;
 //	private List<EventoDTO> eventos;
 //	private List<ActoVacunalDTO> actosVacunales;

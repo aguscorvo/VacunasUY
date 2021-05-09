@@ -128,11 +128,11 @@ INSERT INTO puestos (numero) VALUES(12);
 INSERT INTO puestos (numero) VALUES(13);
 INSERT INTO puestos (numero) VALUES(14);
 INSERT INTO puestos (numero) VALUES(15);
-INSERT INTO puestos (numero) VALUES(1);
+INSERT INTO puestos (numero) VALUES(1); /* 16*/
 INSERT INTO puestos (numero) VALUES(2);
 INSERT INTO puestos (numero) VALUES(3);
 INSERT INTO puestos (numero) VALUES(4);
-INSERT INTO puestos (numero) VALUES(5);
+INSERT INTO puestos (numero) VALUES(5); /* 20 */
 INSERT INTO puestos (numero) VALUES(1);
 INSERT INTO puestos (numero) VALUES(2);
 INSERT INTO puestos (numero) VALUES(3);
@@ -229,7 +229,7 @@ INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, de
 INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital de Mercedes', -33.25333, -58.04080, 'Florencio Sánchez s/n esq Cerrito', 17, 9);
 
 
-/* Relación vacunatorios y puestos - Total: 93*/
+/* Relación vacunatorios y puestos - Total: 80*/
 INSERT INTO vacunatorios_puestos VALUES (1,1);
 INSERT INTO vacunatorios_puestos VALUES (1,2);
 INSERT INTO vacunatorios_puestos VALUES (1,3);
@@ -245,86 +245,85 @@ INSERT INTO vacunatorios_puestos VALUES (1,12);
 INSERT INTO vacunatorios_puestos VALUES (1,13);
 INSERT INTO vacunatorios_puestos VALUES (1,14);
 INSERT INTO vacunatorios_puestos VALUES (1,15);
+
 INSERT INTO vacunatorios_puestos VALUES (2,16);
 INSERT INTO vacunatorios_puestos VALUES (2,17);
 INSERT INTO vacunatorios_puestos VALUES (2,18);
 INSERT INTO vacunatorios_puestos VALUES (2,19);
 INSERT INTO vacunatorios_puestos VALUES (2,20);
-INSERT INTO vacunatorios_puestos VALUES (2,21);
+
+INSERT INTO vacunatorios_puestos VALUES (3,21);
 INSERT INTO vacunatorios_puestos VALUES (3,22);
 INSERT INTO vacunatorios_puestos VALUES (3,23);
 INSERT INTO vacunatorios_puestos VALUES (3,24);
 INSERT INTO vacunatorios_puestos VALUES (3,25);
-INSERT INTO vacunatorios_puestos VALUES (3,26);
-INSERT INTO vacunatorios_puestos VALUES (3,27);
+
+INSERT INTO vacunatorios_puestos VALUES (4,26);
+INSERT INTO vacunatorios_puestos VALUES (4,27);
 INSERT INTO vacunatorios_puestos VALUES (4,28);
 INSERT INTO vacunatorios_puestos VALUES (4,29);
 INSERT INTO vacunatorios_puestos VALUES (4,30);
-INSERT INTO vacunatorios_puestos VALUES (4,31);
-INSERT INTO vacunatorios_puestos VALUES (4,32);
-INSERT INTO vacunatorios_puestos VALUES (4,33);
+
+INSERT INTO vacunatorios_puestos VALUES (5,31);
+INSERT INTO vacunatorios_puestos VALUES (5,32);
+INSERT INTO vacunatorios_puestos VALUES (5,33);
 INSERT INTO vacunatorios_puestos VALUES (5,34);
 INSERT INTO vacunatorios_puestos VALUES (5,35);
-INSERT INTO vacunatorios_puestos VALUES (5,36);
-INSERT INTO vacunatorios_puestos VALUES (5,37);
-INSERT INTO vacunatorios_puestos VALUES (5,38);
-INSERT INTO vacunatorios_puestos VALUES (5,39);
 
+INSERT INTO vacunatorios_puestos VALUES (6,36);
+INSERT INTO vacunatorios_puestos VALUES (6,37);
+INSERT INTO vacunatorios_puestos VALUES (6,38);
+INSERT INTO vacunatorios_puestos VALUES (6,39);
 INSERT INTO vacunatorios_puestos VALUES (6,40);
-INSERT INTO vacunatorios_puestos VALUES (6,41);
-INSERT INTO vacunatorios_puestos VALUES (6,42);
-INSERT INTO vacunatorios_puestos VALUES (6,43);
-INSERT INTO vacunatorios_puestos VALUES (6,44);
-INSERT INTO vacunatorios_puestos VALUES (6,45);
-INSERT INTO vacunatorios_puestos VALUES (7,46);
-INSERT INTO vacunatorios_puestos VALUES (7,47);
-INSERT INTO vacunatorios_puestos VALUES (7,48);
-INSERT INTO vacunatorios_puestos VALUES (7,49);
-INSERT INTO vacunatorios_puestos VALUES (7,50);
-INSERT INTO vacunatorios_puestos VALUES (7,51);
-INSERT INTO vacunatorios_puestos VALUES (8,52);
-INSERT INTO vacunatorios_puestos VALUES (8,53);
-INSERT INTO vacunatorios_puestos VALUES (8,54);
-INSERT INTO vacunatorios_puestos VALUES (8,55);
-INSERT INTO vacunatorios_puestos VALUES (8,56);
-INSERT INTO vacunatorios_puestos VALUES (8,57);
-INSERT INTO vacunatorios_puestos VALUES (9,58);
-INSERT INTO vacunatorios_puestos VALUES (9,59);
-INSERT INTO vacunatorios_puestos VALUES (9,60);
-INSERT INTO vacunatorios_puestos VALUES (9,61);
-INSERT INTO vacunatorios_puestos VALUES (9,62);
-INSERT INTO vacunatorios_puestos VALUES (9,63);
-INSERT INTO vacunatorios_puestos VALUES (10,64);
-INSERT INTO vacunatorios_puestos VALUES (10,65);
-INSERT INTO vacunatorios_puestos VALUES (10,66);
-INSERT INTO vacunatorios_puestos VALUES (10,67);
-INSERT INTO vacunatorios_puestos VALUES (10,68);
-INSERT INTO vacunatorios_puestos VALUES (10,69);
 
-INSERT INTO vacunatorios_puestos VALUES (11,70);
-INSERT INTO vacunatorios_puestos VALUES (11,71);
-INSERT INTO vacunatorios_puestos VALUES (11,72);
-INSERT INTO vacunatorios_puestos VALUES (11,73);
-INSERT INTO vacunatorios_puestos VALUES (11,74);
-INSERT INTO vacunatorios_puestos VALUES (11,75);
-INSERT INTO vacunatorios_puestos VALUES (12,76);
-INSERT INTO vacunatorios_puestos VALUES (12,77);
-INSERT INTO vacunatorios_puestos VALUES (12,78);
-INSERT INTO vacunatorios_puestos VALUES (12,79);
-INSERT INTO vacunatorios_puestos VALUES (12,80);
-INSERT INTO vacunatorios_puestos VALUES (12,81);
-INSERT INTO vacunatorios_puestos VALUES (13,82);
-INSERT INTO vacunatorios_puestos VALUES (13,83);
-INSERT INTO vacunatorios_puestos VALUES (13,84);
-INSERT INTO vacunatorios_puestos VALUES (13,85);
-INSERT INTO vacunatorios_puestos VALUES (13,86);
-INSERT INTO vacunatorios_puestos VALUES (13,87);
-INSERT INTO vacunatorios_puestos VALUES (14,88);
-INSERT INTO vacunatorios_puestos VALUES (14,89);
-INSERT INTO vacunatorios_puestos VALUES (14,90);
-INSERT INTO vacunatorios_puestos VALUES (14,91);
-INSERT INTO vacunatorios_puestos VALUES (14,92);
-INSERT INTO vacunatorios_puestos VALUES (14,93);
+INSERT INTO vacunatorios_puestos VALUES (7,41);
+INSERT INTO vacunatorios_puestos VALUES (7,42);
+INSERT INTO vacunatorios_puestos VALUES (7,43);
+INSERT INTO vacunatorios_puestos VALUES (7,44);
+INSERT INTO vacunatorios_puestos VALUES (7,45);
+
+INSERT INTO vacunatorios_puestos VALUES (8,46);
+INSERT INTO vacunatorios_puestos VALUES (8,47);
+INSERT INTO vacunatorios_puestos VALUES (8,48);
+INSERT INTO vacunatorios_puestos VALUES (8,49);
+INSERT INTO vacunatorios_puestos VALUES (8,50);
+
+INSERT INTO vacunatorios_puestos VALUES (9,51);
+INSERT INTO vacunatorios_puestos VALUES (9,52);
+INSERT INTO vacunatorios_puestos VALUES (9,53);
+INSERT INTO vacunatorios_puestos VALUES (9,54);
+INSERT INTO vacunatorios_puestos VALUES (9,55);
+
+INSERT INTO vacunatorios_puestos VALUES (10,56);
+INSERT INTO vacunatorios_puestos VALUES (10,57);
+INSERT INTO vacunatorios_puestos VALUES (10,58);
+INSERT INTO vacunatorios_puestos VALUES (10,59);
+INSERT INTO vacunatorios_puestos VALUES (10,60);
+
+INSERT INTO vacunatorios_puestos VALUES (11,61);
+INSERT INTO vacunatorios_puestos VALUES (11,62);
+INSERT INTO vacunatorios_puestos VALUES (11,63);
+INSERT INTO vacunatorios_puestos VALUES (11,64);
+INSERT INTO vacunatorios_puestos VALUES (11,65);
+
+INSERT INTO vacunatorios_puestos VALUES (12,66);
+INSERT INTO vacunatorios_puestos VALUES (12,67);
+INSERT INTO vacunatorios_puestos VALUES (12,68);
+INSERT INTO vacunatorios_puestos VALUES (12,69);
+INSERT INTO vacunatorios_puestos VALUES (12,70);
+
+INSERT INTO vacunatorios_puestos VALUES (13,71);
+INSERT INTO vacunatorios_puestos VALUES (13,72);
+INSERT INTO vacunatorios_puestos VALUES (13,73);
+INSERT INTO vacunatorios_puestos VALUES (13,74);
+INSERT INTO vacunatorios_puestos VALUES (13,75);
+
+INSERT INTO vacunatorios_puestos VALUES (14,76);
+INSERT INTO vacunatorios_puestos VALUES (14,77);
+INSERT INTO vacunatorios_puestos VALUES (14,78);
+INSERT INTO vacunatorios_puestos VALUES (14,79);
+INSERT INTO vacunatorios_puestos VALUES (14,80);
+
 
 /* Transportistas Total: 2 */
 INSERT INTO transportistas (nombre) VALUES ('Fuerza Aerea Uruguaya');

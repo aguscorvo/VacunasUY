@@ -34,7 +34,9 @@
 	  <class>vacunasuy.componentecentral.entity.Vacuna</class>
 	  <class>vacunasuy.componentecentral.entity.ActoVacunal</class>
 	  <class>vacunasuy.componentecentral.entity.Transportista</class>
-	  	  
+	  <class>vacunasuy.componentecentral.entity.Proveedor</class>
+	  <class>vacunasuy.componentecentral.entity.Pais</class>
+	  		  	 
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 		 <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

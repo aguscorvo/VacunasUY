@@ -13,12 +13,17 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.util.JsonReader;
+import android.util.JsonToken;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,7 +35,18 @@ import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import vacunasuy.componentemovil.constant.MapConstant;
+import vacunasuy.componentemovil.obj.DtResponse;
 import vacunasuy.componentemovil.obj.DtUsuario;
 
 public class VacunMapActivity extends AppCompatActivity implements  LocationListener{
@@ -42,6 +58,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
     private LocationManager locationManager;
     private Location location;
     private GeoPoint center;
+    ProgressBar progressBar;
 
 
     @Override
@@ -55,8 +72,10 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
 
         imlocation = findViewById(R.id.imageButtonLocation);
         bottomNavigationView = findViewById(R.id.bottomNavigationViewMap);
+        progressBar = findViewById(R.id.progressBarMapView);
         map = findViewById(R.id.map);
 
+        progressBar.setVisibility(View.INVISIBLE);
 
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
@@ -140,7 +159,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                             startActivity(userinfo);
 
                         }else{
-                            Intent userlogin = new Intent(VacunMapActivity.this, LoginActivity.class);
+                            Intent userlogin = new Intent(VacunMapActivity.this, GubUyActivity.class);
                             startActivity(userlogin);
                         }
 
@@ -207,5 +226,101 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         marker.setTitle(getString(R.string.map_text_loc));
         addMarker(marker);
     }
+
+    private class LoginUserTask extends AsyncTask<String, Void, Object> {
+        @Override
+        protected Object doInBackground(String... urls) {
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                return VacunatoriosInfoGralUrl(urls[0]);
+            } catch (IOException e) {
+                return getString(R.string.err_recuperarpag);
+
+            }
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(Object result) {
+
+            if (result instanceof ArrayList) {
+                DtResponse res = (DtResponse) result;
+            }else if(result instanceof String){
+                Log.i("onPostExecute", "response: " + ((String) result));
+
+            }
+        }
+
+    }
+
+    private DtResponse VacunatoriosInfoGralUrl(String myurl) throws IOException {
+        InputStream is = null;
+        try {
+            URL url = new URL(myurl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            //conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+
+            // Starts the query
+            conn.connect();
+            int response = conn.getResponseCode();
+            is = conn.getInputStream();
+
+            return readInfoGralJsonStream(is);
+
+            // Makes sure that the InputStream is closed after the app is
+            // finished using it.
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+    }
+
+    public DtResponse readInfoGralJsonStream(InputStream in) throws IOException {
+        //creating an InputStreamReader object
+        InputStreamReader isReader = new InputStreamReader(in);
+        //Creating a BufferedReader object
+        BufferedReader breader = new BufferedReader(isReader);
+        StringBuffer sb = new StringBuffer();
+        String str;
+        while((str = breader.readLine())!= null){
+            sb.append(str);
+        }
+        JsonReader reader = new JsonReader(new StringReader(sb.toString()));
+        List<DtResponse> res = null;
+        try {
+            return readRESTMessage(reader);
+        } finally {
+            reader.close();
+        }
+    }
+
+    public DtResponse readRESTMessage(JsonReader reader) throws IOException {
+        Boolean ok = false;
+        String mensaje = null;
+        Object res = null;
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("ok")) {
+                ok = reader.nextBoolean();
+            }else if (name.equals("mensaje")) {
+                mensaje = reader.nextString();
+            } else if (name.equals("cuerpo") && reader.peek() != JsonToken.NULL) {
+                //setDtUsuario(reader);
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return new DtResponse(ok, mensaje);
+    }
+
+
 
 }

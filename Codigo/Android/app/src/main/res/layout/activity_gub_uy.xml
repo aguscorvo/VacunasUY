@@ -10,11 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <WebView
-            android:id="@+id/webView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </WebView>
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical">
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </WebView>
+
+            <ProgressBar
+                android:id="@+id/progressBarWebView"
+                style="?android:attr/progressBarStyleLarge"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:indeterminate="false"
+                android:layout_gravity="center"
+                android:max="100"
+                android:progress="20"
+                />
+        </FrameLayout>
+
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationViewLoging"

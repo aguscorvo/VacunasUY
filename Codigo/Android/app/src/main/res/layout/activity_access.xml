@@ -34,6 +34,7 @@
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyleLarge"
+                    android:progressDrawable="@drawable/circular_progress_bar"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:layout_gravity="center" />

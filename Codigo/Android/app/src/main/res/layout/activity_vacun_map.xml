@@ -91,6 +91,16 @@
                     android:textSize="12sp"
                     android:textColor="@color/purple_500"
                     android:text="@string/map_copyright" />
+                <ProgressBar
+                    android:id="@+id/progressBarMapView"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:progressDrawable="@drawable/circular_progress_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:indeterminate="false"
+                    android:layout_gravity="center"
+                    android:max="100"
+                    android:progress="20" />
             </FrameLayout>
 
         </LinearLayout>

@@ -2,6 +2,8 @@ package vacunasuy.componentecentral.rest;
 
 import java.net.URI;
 import java.util.UUID;
+import java.util.logging.Logger;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.Consumes;
@@ -18,6 +20,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+
 import vacunasuy.componentecentral.business.IUsuarioService;
 import vacunasuy.componentecentral.dto.RespuestaAccessTokenDTO;
 import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
@@ -29,6 +32,8 @@ import vacunasuy.componentecentral.util.Constantes;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AutenticacionGubUyREST {
+	
+	final Logger log = Logger.getLogger(AutenticacionGubUyREST.class.getName());
 	
 	@EJB
 	private IUsuarioService usuarioService;

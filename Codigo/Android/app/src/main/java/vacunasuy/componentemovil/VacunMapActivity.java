@@ -4,15 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
+import android.graphics.drawable.ScaleDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -45,12 +51,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import vacunasuy.componentemovil.constant.ConnConstant;
 import vacunasuy.componentemovil.constant.MapConstant;
+import vacunasuy.componentemovil.obj.DtMessage;
 import vacunasuy.componentemovil.obj.DtResponse;
+import vacunasuy.componentemovil.obj.DtUbicacion;
 import vacunasuy.componentemovil.obj.DtUsuario;
+import vacunasuy.componentemovil.obj.DtVacunatorio;
 
 public class VacunMapActivity extends AppCompatActivity implements  LocationListener{
-
+    ConnectivityManager connMgr;
+    NetworkInfo networkInfo;
     MapView map;
     BottomNavigationView bottomNavigationView;
     ImageButton imlocation;
@@ -73,9 +84,10 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         imlocation = findViewById(R.id.imageButtonLocation);
         bottomNavigationView = findViewById(R.id.bottomNavigationViewMap);
         progressBar = findViewById(R.id.progressBarMapView);
-        map = findViewById(R.id.map);
 
         progressBar.setVisibility(View.INVISIBLE);
+
+        map = findViewById(R.id.map);
 
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
@@ -104,7 +116,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                 marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 marker.setTitle(getString(R.string.map_text_loc));
                 addMarker(marker);
-
+                buscarVacunatorios();
             }
         }else{
             AlertDialog dialog = new AlertDialog.Builder(this).create();
@@ -193,27 +205,27 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
     }
 
     public void addMarker (Marker marker){
-        map.getOverlays().clear();
+        //map.getOverlays().clear();
         map.getOverlays().add(marker);
-        map.invalidate();
+        //map.invalidate();
     }
 
-    private boolean isLocationEnabled() {
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    private void addVacunatorios(List<DtVacunatorio> vacunatorios){
+        for(final DtVacunatorio dtv : vacunatorios){
+            GeoPoint vpoint = new GeoPoint(dtv.getLatitud(), dtv.getLongitud());
+            Marker vmarker = new Marker(map);
+            vmarker.setPosition(vpoint);
+            vmarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            vmarker.setIcon(ResourcesCompat.getDrawable( getResources(), R.drawable.ic_building_map, null));
+            String title = "Nombre: " + dtv.getNombre() + "\n";
+            title = title + "Departamento: " + dtv.getUbicacion().getNombre_departamento() + "\n";
+            title = title + "Localidad: " + dtv.getUbicacion().getNombre_localidad() + "\n";
+            title = title + "Dirección: " + dtv.getUbicacion().getDireccion() + "\n";
+            title = title + "Cantidad de puestos: " + dtv.getPuestos().size() + "\n";
+            vmarker.setTitle(title);
+            addMarker(vmarker);
+        }
     }
-    /*
-    public void addMarker (GeoPoint center){
-        Marker marker = new Marker(map);
-        marker.setPosition(center);
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        //marker.setIcon(ResourcesCompat.getDrawable( getResources(), R.drawable.ic_building, null));
-        map.getOverlays().clear();
-        map.getOverlays().add(marker);
-        map.invalidate();
-        marker.setTitle("Casa do Josileudo");
-    }
-    */
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
@@ -227,7 +239,22 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         addMarker(marker);
     }
 
-    private class LoginUserTask extends AsyncTask<String, Void, Object> {
+    private void buscarVacunatorios() {
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+
+        String stringUrl = ConnConstant.API_VACUNATORIOS_URL;
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            progressBar.setVisibility(View.VISIBLE);
+            new VacunMapActivity.DownloadVacunasTask().execute(stringUrl);
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
+    private class DownloadVacunasTask extends AsyncTask<String, Void, Object> {
         @Override
         protected Object doInBackground(String... urls) {
             // params comes from the execute() call: params[0] is the url.
@@ -235,7 +262,6 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                 return VacunatoriosInfoGralUrl(urls[0]);
             } catch (IOException e) {
                 return getString(R.string.err_recuperarpag);
-
             }
         }
 
@@ -244,16 +270,20 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         protected void onPostExecute(Object result) {
 
             if (result instanceof ArrayList) {
-                DtResponse res = (DtResponse) result;
+                List<DtVacunatorio> vacunatorios = (List<DtVacunatorio>) result;
+                addVacunatorios(vacunatorios);
+
             }else if(result instanceof String){
                 Log.i("onPostExecute", "response: " + ((String) result));
 
             }
+            progressBar.setVisibility(View.INVISIBLE);
+
         }
 
     }
 
-    private DtResponse VacunatoriosInfoGralUrl(String myurl) throws IOException {
+    private List<DtVacunatorio> VacunatoriosInfoGralUrl(String myurl) throws IOException {
         InputStream is = null;
         try {
             URL url = new URL(myurl);
@@ -267,9 +297,12 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             // Starts the query
             conn.connect();
             int response = conn.getResponseCode();
-            is = conn.getInputStream();
-
-            return readInfoGralJsonStream(is);
+            if (response == 200){
+                is = conn.getInputStream();
+                return readInfoGralJsonStream(is);
+            }else{
+                return null;
+            }
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
@@ -280,7 +313,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         }
     }
 
-    public DtResponse readInfoGralJsonStream(InputStream in) throws IOException {
+    public List<DtVacunatorio> readInfoGralJsonStream(InputStream in) throws IOException {
         //creating an InputStreamReader object
         InputStreamReader isReader = new InputStreamReader(in);
         //Creating a BufferedReader object
@@ -291,7 +324,6 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             sb.append(str);
         }
         JsonReader reader = new JsonReader(new StringReader(sb.toString()));
-        List<DtResponse> res = null;
         try {
             return readRESTMessage(reader);
         } finally {
@@ -299,10 +331,10 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         }
     }
 
-    public DtResponse readRESTMessage(JsonReader reader) throws IOException {
+    public List<DtVacunatorio> readRESTMessage(JsonReader reader) throws IOException {
         Boolean ok = false;
         String mensaje = null;
-        Object res = null;
+        List<DtVacunatorio> res = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -312,15 +344,115 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             }else if (name.equals("mensaje")) {
                 mensaje = reader.nextString();
             } else if (name.equals("cuerpo") && reader.peek() != JsonToken.NULL) {
-                //setDtUsuario(reader);
+                res = readInfoGralVacunatorioArray(reader);
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return new DtResponse(ok, mensaje);
+        return res;
     }
 
+    public List<DtVacunatorio> readInfoGralVacunatorioArray(JsonReader reader) throws IOException {
+        List<DtVacunatorio> vacunatorios = new ArrayList<DtVacunatorio>();
+        reader.beginArray();
+        while (reader.hasNext()) {
 
+            vacunatorios.add((DtVacunatorio) readVacunatorio(reader));
+        }
+        reader.endArray();
+        return vacunatorios;
+    }
 
+    public DtVacunatorio readVacunatorio(JsonReader reader) throws IOException {
+        Integer id = null;
+        String nombre = null;
+        Double latitud = null;
+        Double longitud = null;
+        DtUbicacion ubicacion = new DtUbicacion();
+        List<Integer> puestos = null;
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("id") && reader.peek() != JsonToken.NULL) {
+                id = reader.nextInt();
+            } else if (name.equals("nombre") && reader.peek() != JsonToken.NULL) {
+                nombre = reader.nextString();
+            } else if (name.equals("latitud") && reader.peek() != JsonToken.NULL) {
+                latitud = reader.nextDouble();
+            }  else if (name.equals("longitud") && reader.peek() != JsonToken.NULL) {
+                longitud = reader.nextDouble();
+            } else if (name.equals("direccion") && reader.peek() != JsonToken.NULL) {
+                ubicacion.setDireccion(reader.nextString());
+            } else if (name.equals("departamento") && reader.peek() != JsonToken.NULL) {
+                ubicacion = readDepartamento(reader, ubicacion);
+            } else if (name.equals("localidad") && reader.peek() != JsonToken.NULL) {
+                ubicacion = readLocalidad(reader, ubicacion);
+            }  else if (name.equals("puestos") && reader.peek() != JsonToken.NULL) {
+                puestos = readPuestosArray(reader);
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return new DtVacunatorio(id, nombre, latitud, longitud, ubicacion, puestos);
+    }
+
+    public DtUbicacion readDepartamento(JsonReader reader, DtUbicacion ubicacion) throws IOException {
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("id") && reader.peek() != JsonToken.NULL) {
+                ubicacion.setId_departamento(reader.nextInt());
+            } else if (name.equals("nombre") && reader.peek() != JsonToken.NULL) {
+                ubicacion.setNombre_departamento(reader.nextString());
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return ubicacion;
+    }
+
+    public DtUbicacion readLocalidad(JsonReader reader, DtUbicacion ubicacion) throws IOException {
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("id") && reader.peek() != JsonToken.NULL) {
+                ubicacion.setId_localidad(reader.nextInt());
+            } else if (name.equals("nombre") && reader.peek() != JsonToken.NULL) {
+                ubicacion.setNombre_localidad(reader.nextString());
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return ubicacion;
+    }
+    public List<Integer> readPuestosArray(JsonReader reader) throws IOException {
+        List<Integer> puestos = new ArrayList<Integer>();
+        reader.beginArray();
+        while (reader.hasNext()) {
+            puestos.add(readPuesto(reader));
+        }
+        reader.endArray();
+        return puestos;
+    }
+
+    public Integer readPuesto(JsonReader reader) throws IOException {
+        Integer numero = null;
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("numero") && reader.peek() != JsonToken.NULL) {
+                numero = reader.nextInt();
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return numero;
+    }
 }

@@ -14,9 +14,12 @@
     <color name="menu_bar_bg">#FF174378</color>
     <color name="menu_bar_text">#FFFFFFFF</color>
 
-
     <!--TABLE INFO COLORS-->
     <color name="tb_bg">#FFEEEEEE</color>
     <color name="tb_cel_bg">#FFFFFFFF</color>
     <color name="tb_cel_border">#FFFFFFFF</color>
+
+    <!--MAPS COLORS-->
+    <color name="mark_building">#FF78288C</color>
+
 </resources>

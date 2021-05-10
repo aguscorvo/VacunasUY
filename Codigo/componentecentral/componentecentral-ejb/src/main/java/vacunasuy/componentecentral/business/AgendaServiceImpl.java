@@ -1,6 +1,6 @@
 package vacunasuy.componentecentral.business;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import vacunasuy.componentecentral.converter.AgendaConverter;
 import vacunasuy.componentecentral.dao.IAgendaDAO;
 import vacunasuy.componentecentral.dao.IPuestoDAO;
-import vacunasuy.componentecentral.dao.UsuarioDAOImpl;
 import vacunasuy.componentecentral.dto.AgendaCrearDTO;
 import vacunasuy.componentecentral.dto.AgendaDTO;
 import vacunasuy.componentecentral.entity.Agenda;
@@ -81,7 +80,7 @@ public class AgendaServiceImpl implements IAgendaService {
 			throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		}else {
 			try {
-				agenda.setFecha(LocalDate.parse(agendaDTO.getFecha()));
+				agenda.setFecha(LocalDateTime.parse(agendaDTO.getFecha()));
 				agenda.setPuesto(puesto);
 				return agendaConverter.fromEntity(agendaDAO.editar(agenda));
 			}catch (Exception e) {

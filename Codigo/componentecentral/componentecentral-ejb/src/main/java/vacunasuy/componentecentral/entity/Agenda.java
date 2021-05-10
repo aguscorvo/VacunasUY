@@ -1,8 +1,7 @@
 package vacunasuy.componentecentral.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,7 +35,7 @@ public class Agenda implements Serializable{
 	private Long id;
 	
 	@Column(name = "fecha")
-	private LocalDate fecha; 
+	private LocalDateTime fecha; 
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "puesto_id", referencedColumnName = "id")

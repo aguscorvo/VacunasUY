@@ -1,6 +1,6 @@
 package vacunasuy.componentecentral.converter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -33,7 +33,7 @@ public class AgendaConverter extends AbstractConverter<Agenda, AgendaDTO>{
 	public Agenda fromCrearDTO(AgendaCrearDTO a) {
 		if(a==null) return null;
 		return Agenda.builder()
-				.fecha(LocalDate.parse(a.getFecha()))
+				.fecha(LocalDateTime.parse(a.getFecha()))
 				.build();
 	}
 }

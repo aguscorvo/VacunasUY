@@ -160,6 +160,22 @@
                     <!-- put your configurations here -->
                 </configuration>
             </plugin>
+            
+            <!-- Se agrega configuración para deployar en http://localhost:8080 -->
+            <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-ear-plugin</artifactId>
+	        <version>3.0.2</version>
+	        <configuration>
+	           <modules>
+	             <webModule>
+	               <groupId>vacunasuy</groupId>
+	               <artifactId>componentecentral-web</artifactId>
+	               <contextRoot>/</contextRoot>
+	             </webModule>
+	          </modules>
+	        </configuration>
+	      </plugin>
             <!-- The WildFly plugin deploys your ear to a local JBoss AS container -->
             <!-- Due to Maven's lack of intelligence with EARs we need 
                  to configure the wildfly maven plugin to skip deployment for all modules.

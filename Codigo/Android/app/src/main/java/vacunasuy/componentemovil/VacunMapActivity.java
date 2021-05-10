@@ -211,17 +211,12 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
     }
 
     private void addVacunatorios(List<DtVacunatorio> vacunatorios){
-        //Drawable dr = getResources().getDrawable(R.drawable.ic_building);
-        Drawable dr = new ScaleDrawable(ResourcesCompat.getDrawable( getResources(), R.drawable.ic_building, null), 0, 15, 15).getDrawable();
-        dr.setTint(ResourcesCompat.getColor(getResources(), R.color.menu_bar_bg, null));
-        dr.setBounds(0,0, 15,15);
-
         for(final DtVacunatorio dtv : vacunatorios){
             GeoPoint vpoint = new GeoPoint(dtv.getLatitud(), dtv.getLongitud());
             Marker vmarker = new Marker(map);
             vmarker.setPosition(vpoint);
             vmarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            //vmarker.setIcon(dr);
+            vmarker.setIcon(ResourcesCompat.getDrawable( getResources(), R.drawable.ic_building_map, null));
             String title = "Nombre: " + dtv.getNombre() + "\n";
             title = title + "Departamento: " + dtv.getUbicacion().getNombre_departamento() + "\n";
             title = title + "Localidad: " + dtv.getUbicacion().getNombre_localidad() + "\n";
@@ -230,21 +225,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             vmarker.setTitle(title);
             addMarker(vmarker);
         }
-
     }
-
-    /*
-    public void addMarker (GeoPoint center){
-        Marker marker = new Marker(map);
-        marker.setPosition(center);
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        //marker.setIcon(ResourcesCompat.getDrawable( getResources(), R.drawable.ic_building, null));
-        map.getOverlays().clear();
-        map.getOverlays().add(marker);
-        map.invalidate();
-        marker.setTitle("Casa do Josileudo");
-    }
-    */
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
@@ -316,9 +297,12 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             // Starts the query
             conn.connect();
             int response = conn.getResponseCode();
-            is = conn.getInputStream();
-
-            return readInfoGralJsonStream(is);
+            if (response == 200){
+                is = conn.getInputStream();
+                return readInfoGralJsonStream(is);
+            }else{
+                return null;
+            }
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
@@ -340,7 +324,6 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             sb.append(str);
         }
         JsonReader reader = new JsonReader(new StringReader(sb.toString()));
-        List<DtResponse> res = null;
         try {
             return readRESTMessage(reader);
         } finally {
@@ -386,16 +369,15 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         String nombre = null;
         Double latitud = null;
         Double longitud = null;
-        String direccion = null;
         DtUbicacion ubicacion = new DtUbicacion();
         List<Integer> puestos = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("id")) {
+            if (name.equals("id") && reader.peek() != JsonToken.NULL) {
                 id = reader.nextInt();
-            } else if (name.equals("nombre")) {
+            } else if (name.equals("nombre") && reader.peek() != JsonToken.NULL) {
                 nombre = reader.nextString();
             } else if (name.equals("latitud") && reader.peek() != JsonToken.NULL) {
                 latitud = reader.nextDouble();
@@ -418,15 +400,12 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
     }
 
     public DtUbicacion readDepartamento(JsonReader reader, DtUbicacion ubicacion) throws IOException {
-        Integer id = null;
-        String nombre = null;
-
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("id")) {
+            if (name.equals("id") && reader.peek() != JsonToken.NULL) {
                 ubicacion.setId_departamento(reader.nextInt());
-            } else if (name.equals("nombre")) {
+            } else if (name.equals("nombre") && reader.peek() != JsonToken.NULL) {
                 ubicacion.setNombre_departamento(reader.nextString());
             } else {
                 reader.skipValue();
@@ -437,15 +416,12 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
     }
 
     public DtUbicacion readLocalidad(JsonReader reader, DtUbicacion ubicacion) throws IOException {
-        Integer id = null;
-        String nombre = null;
-
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("id")) {
+            if (name.equals("id") && reader.peek() != JsonToken.NULL) {
                 ubicacion.setId_localidad(reader.nextInt());
-            } else if (name.equals("nombre")) {
+            } else if (name.equals("nombre") && reader.peek() != JsonToken.NULL) {
                 ubicacion.setNombre_localidad(reader.nextString());
             } else {
                 reader.skipValue();
@@ -470,7 +446,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("numero")) {
+            if (name.equals("numero") && reader.peek() != JsonToken.NULL) {
                 numero = reader.nextInt();
             } else {
                 reader.skipValue();

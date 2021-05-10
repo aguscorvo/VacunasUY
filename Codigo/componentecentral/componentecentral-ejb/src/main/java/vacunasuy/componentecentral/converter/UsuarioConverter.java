@@ -54,6 +54,7 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 			.documento(e.getDocumento())
 			.nombre(e.getNombre())
 			.apellido(e.getApellido())
+			.correo(e.getCorreo())
 			//.fechaNacimiento(e.getFechaNacimiento().toString())
 			.roles(rolConverter.fromEntity(e.getRoles()))
 			.token(token)

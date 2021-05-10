@@ -20,6 +20,7 @@ public class UsuarioLoginExitosoDTO {
 	private String documento;
 	private String nombre;
 	private String apellido;
+	private String correo;
 	private String fechaNacimiento;
 	private List<RolDTO> roles;
 	private String token;

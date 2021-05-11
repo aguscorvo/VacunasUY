@@ -21,6 +21,7 @@ public class LoteConverter extends AbstractConverter<Lote, LoteDTO> {
 		return LoteDTO.builder()
 				.id(e.getId())
 				.cantidad(e.getCantidad())
+				.cantidadDisponible(e.getCantidadDisponible())
 				.proveedor(proveedorConverter.fromEntity(e.getProveedor()))
 				.vacuna(vacunaConverter.fromEntity(e.getVacuna()))
 				.build();
@@ -32,6 +33,7 @@ public class LoteConverter extends AbstractConverter<Lote, LoteDTO> {
 		return Lote.builder()
 				.id(d.getId())
 				.cantidad(d.getCantidad())
+				.cantidadDisponible(d.getCantidadDisponible())
 				.proveedor(proveedorConverter.fromDTO(d.getProveedor()))
 				.vacuna(vacunaConverter.fromDTO(d.getVacuna()))
 				.build();

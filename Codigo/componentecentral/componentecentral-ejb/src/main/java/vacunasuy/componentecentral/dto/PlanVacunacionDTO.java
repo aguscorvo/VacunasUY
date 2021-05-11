@@ -1,5 +1,6 @@
 package vacunasuy.componentecentral.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,12 +12,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoteDTO {
+public class PlanVacunacionDTO {
 
 	private Long id;
-	private Long cantidad;
-	private Long cantidadDisponible;
-	private ProveedorDTO proveedor;
+	private int edadMinima;
+	private int edadMaxima;
+	private String fechaInicio;
+	private String fechaFin;
+	private List<SectorLaboralDTO> sectores;
 	private VacunaDTO vacuna;
+	private List<AgendaDTO> agendas;
 	
 }

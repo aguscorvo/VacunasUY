@@ -11,12 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoteDTO {
-
-	private Long id;
-	private Long cantidad;
-	private Long cantidadDisponible;
-	private ProveedorDTO proveedor;
-	private VacunaDTO vacuna;
+public class SectorLaboralDTO {
 	
+	private Long id;
+	private String nombre;
+
 }

@@ -57,6 +57,7 @@ public class LoteServiceImpl implements ILoteService {
 			if(proveedor == null) throw new VacunasUyException("No existe el proveedor ingresado.", VacunasUyException.NO_EXISTE_REGISTRO);
 			Vacuna vacuna = vacunaDAO.listarPorId(loteDTO.getIdVacuna());
 			if(vacuna == null) throw new VacunasUyException("No existe la vacuna ingresada.", VacunasUyException.NO_EXISTE_REGISTRO);
+			lote.setCantidadDisponible(lote.getCantidad());
 			lote.setProveedor(proveedor);
 			lote.setVacuna(vacuna);
 			loteDAO.crear(lote);

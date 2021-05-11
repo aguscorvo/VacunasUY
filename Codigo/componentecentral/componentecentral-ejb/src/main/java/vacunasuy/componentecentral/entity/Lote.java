@@ -32,6 +32,8 @@ public class Lote implements Serializable {
 	private Long id;
 	@Column(name = "cantidad", nullable = false)
 	private Long cantidad;
+	@Column(name = "cantidadDisponible", nullable = false)
+	private Long cantidadDisponible;
 	
 	@ManyToOne
 	@JoinColumn(name = "fk_proveedor")

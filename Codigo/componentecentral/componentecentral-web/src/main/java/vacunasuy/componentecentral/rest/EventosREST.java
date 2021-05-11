@@ -48,11 +48,7 @@ public class EventosREST {
 			return Response.ok(respuesta).build();
 		} catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<EventoDTO>(false, e.getLocalizedMessage());
-			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
-				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
-			} else {
-				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-			}
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 		}
 	}
 	

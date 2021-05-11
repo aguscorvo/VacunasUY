@@ -56,12 +56,14 @@ public class EventoServiceImpl implements IEventoService {
 			Lote lote = loteDAO.listarPorId(eventoDTO.getIdLote());
 			if(lote == null) throw new VacunasUyException("No existe el lote indicado.", VacunasUyException.NO_EXISTE_REGISTRO);
 			/* Se valida que la cantidad del evento no sea mayor a la del lote */
-			if(evento.getCantidad() > lote.getCantidad()) throw new VacunasUyException("La cantidad del evento no puede superar la cantidad del lote.", VacunasUyException.DATOS_INCORRECTOS);
+			if(evento.getCantidad() > lote.getCantidadDisponible()) throw new VacunasUyException("La cantidad del evento no puede superar la cantidad disponible del lote.", VacunasUyException.DATOS_INCORRECTOS);
 			Transportista transportista = transportistaDAO.listarPorId(eventoDTO.getIdTransportista());
 			if(transportista == null) throw new VacunasUyException("No existe el transportista indicado.", VacunasUyException.NO_EXISTE_REGISTRO);
 			evento.setLote(lote);
 			evento.setTransportista(transportista);
 			eventoDAO.crear(evento);
+			lote.setCantidadDisponible(lote.getCantidadDisponible() - evento.getCantidad());
+			loteDAO.editar(lote);
 			return eventoConverter.fromEntity(evento);
 		} catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

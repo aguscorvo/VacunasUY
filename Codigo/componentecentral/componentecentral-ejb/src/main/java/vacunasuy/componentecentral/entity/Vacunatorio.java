@@ -60,11 +60,11 @@ public class Vacunatorio  implements Serializable{
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Puesto> puestos = new ArrayList<Puesto>();
 	
-//	@OneToMany(cascade = CascadeType.ALL)
-//	private List<Evento> eventos = new ArrayList<Evento>();
-//	
-//	@OneToMany(cascade = CascadeType.ALL)
-//	private List<ActoVacunal> actosVacunales = new ArrayList<ActoVacunal>();
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Evento> eventos = new ArrayList<Evento>();
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<ActoVacunal> actosVacunales = new ArrayList<ActoVacunal>();
 	
 	
 	

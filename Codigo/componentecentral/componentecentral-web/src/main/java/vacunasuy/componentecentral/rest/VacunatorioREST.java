@@ -133,8 +133,45 @@ public class VacunatorioREST {
 			respuesta = new RespuestaREST<>(false, e.getLocalizedMessage());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 		}		
-	}	
+	}
 	
+	@PUT
+	@Path("/agregarEvento/{evento}")
+//	@RecursoProtegidoJWT
+	public Response agregarEvento (@PathParam("evento") Long vacunatorio, Long evento) {
+		RespuestaREST<VacunatorioDTO> respuesta = null;
+		try {
+			VacunatorioDTO vacunatorioAux = vacunatorioService.agregarEvento(vacunatorio, evento);
+			respuesta = new RespuestaREST<VacunatorioDTO>(true, "Evento agregado al vacunatorio con éxito.", vacunatorioAux);
+			return Response.ok(respuesta).build();			
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<VacunatorioDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO ||  e.getCodigo() ==VacunasUyException.EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}	
+	}
+	
+	@PUT
+	@Path("/agregarActoVacunal/{actoVacunal}")
+//	@RecursoProtegidoJWT
+	public Response agregarActoVacunal (@PathParam("actoVacunal") Long vacunatorio, Long actoVacunal) {
+		RespuestaREST<VacunatorioDTO> respuesta = null;
+		try {
+			VacunatorioDTO vacunatorioAux = vacunatorioService.agregarEvento(vacunatorio, actoVacunal);
+			respuesta = new RespuestaREST<VacunatorioDTO>(true, "Acto vacunal agregado al vacunatorio con éxito.", vacunatorioAux);
+			return Response.ok(respuesta).build();			
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<VacunatorioDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO ||  e.getCodigo() ==VacunasUyException.EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}	
+	}	
 	
 	
 }

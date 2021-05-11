@@ -19,8 +19,7 @@ public interface IVacunatorioService {
 	public void eliminar(Long id) throws VacunasUyException;
 	
 	public List<VacunatorioDTO> listarVacunatoriosCercanos(VacunatorioCercanoDTO vacunatorioDTO) throws VacunasUyException;
-	
-	//agregarEvento
-	//agregarActoVacunal
+	public VacunatorioDTO agregarEvento(Long vacunatorio, Long evento) throws VacunasUyException;
+	public VacunatorioDTO agregarActoVacunal(Long vacunatorio, Long actoVacunal) throws VacunasUyException;
 	
 }

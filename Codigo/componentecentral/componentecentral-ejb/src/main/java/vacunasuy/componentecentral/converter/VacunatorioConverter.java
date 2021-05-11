@@ -20,11 +20,11 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 	@EJB
 	private PuestoConverter puestoConverter;
 	
-//	@EJB
-//	private EventoConverter eventoConverter;
-//	
-//	@EJB
-//	private ActoVacunalConverter actoVacunalConverter;
+	@EJB
+	private EventoConverter eventoConverter;
+	
+	@EJB
+	private ActoVacunalConverter actoVacunalConverter;
 	
 	@Override
 	public VacunatorioDTO fromEntity(Vacunatorio v) {
@@ -38,12 +38,10 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 				.localidad(localidadConverter.fromEntity(v.getLocalidad()))
 				.departamento(departamentoConverter.fromEntityToMin(v.getDepartamento()))
 				.puestos(puestoConverter.fromEntity(v.getPuestos()))
-//				.eventos(eventoConverter.fromEntity(v.getEventos()))
-//				.actosVacunales(actoVacunalConverter.fromEntity(v.getActosVacunales()))
+				.eventos(eventoConverter.fromEntity(v.getEventos()))
+				.actosVacunales(actoVacunalConverter.fromEntity(v.getActosVacunales()))
 				.build();
-				
-				//lista eventoDTO
-				//lista ActoVacunalDTO
+								
 	}
 	
 	@Override
@@ -58,8 +56,8 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 				.localidad(localidadConverter.fromDTO(v.getLocalidad()))
 				.departamento(departamentoConverter.fromMinDTO(v.getDepartamento()))
 				.puestos(puestoConverter.fromDTO(v.getPuestos()))
-//				.eventos(eventoConverter.fromDTO(v.getEventos()))
-//				.actosVacunales(actoVacunalConverter.fromDTO(v.getActosVacunales))
+				.eventos(eventoConverter.fromDTO(v.getEventos()))
+				.actosVacunales(actoVacunalConverter.fromDTO(v.getActosVacunales()))
 				.build();
 	}
 	

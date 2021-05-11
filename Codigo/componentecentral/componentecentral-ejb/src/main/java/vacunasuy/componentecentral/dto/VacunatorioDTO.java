@@ -23,8 +23,8 @@ public class VacunatorioDTO {
 	private LocalidadDTO localidad;
 	private DepartamentoMinDTO departamento;
 	private List<PuestoDTO> puestos;
-//	private List<EventoDTO> eventos;
-//	private List<ActoVacunalDTO> actosVacunales;
+	private List<EventoDTO> eventos;
+	private List<ActoVacunalDTO> actosVacunales;
 
 
 }

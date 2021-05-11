@@ -7,18 +7,24 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import vacunasuy.componentecentral.converter.DepartamentoConverter;
+import vacunasuy.componentecentral.converter.EventoConverter;
 import vacunasuy.componentecentral.converter.LocalidadConverter;
 import vacunasuy.componentecentral.converter.PuestoConverter;
 import vacunasuy.componentecentral.converter.VacunatorioConverter;
+import vacunasuy.componentecentral.dao.IActoVacunalDAO;
 import vacunasuy.componentecentral.dao.IDepartamentoDAO;
+import vacunasuy.componentecentral.dao.IEventoDAO;
 import vacunasuy.componentecentral.dao.ILocalidadDAO;
 import vacunasuy.componentecentral.dao.IPuestoDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
+import vacunasuy.componentecentral.dto.EventoDTO;
 import vacunasuy.componentecentral.dto.PuestoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
+import vacunasuy.componentecentral.entity.ActoVacunal;
 import vacunasuy.componentecentral.entity.Departamento;
+import vacunasuy.componentecentral.entity.Evento;
 import vacunasuy.componentecentral.entity.Localidad;
 import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Vacunatorio;
@@ -40,7 +46,14 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	private IPuestoDAO puestoDAO;
 	
 	@EJB
+	private IEventoDAO eventoDAO;
+	
+	@EJB 
+	private IActoVacunalDAO actoVacunalDAO;
+	
+	@EJB
 	private VacunatorioConverter vacunatorioConverter;
+	
 
 	
 	@Override
@@ -63,8 +76,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 				return vacunatorioConverter.fromEntity(vacunatorio);
 			}catch(Exception e) {
 				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
-			
+			}			
 		}
 	}
 	
@@ -167,6 +179,38 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
+	}
+	
+	@Override
+	public VacunatorioDTO agregarEvento(Long vacunatorio, Long evento) throws VacunasUyException{
+		//se valida que el vacunatorio y el evento existan
+		Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);
+		Evento eventoAux = eventoDAO.listarPorId(evento);
+		if(vacunatorioAux==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		if(eventoAux==null) throw new VacunasUyException("El evento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		//se valida que el evento no esté asociado a vacunatorio
+		for(Evento e: vacunatorioAux.getEventos()) {
+			if(e.getId()==eventoAux.getId()) throw new VacunasUyException("El evento indicado ya se "
+					+ "encuentra asociado al vacunatorio.", VacunasUyException.EXISTE_REGISTRO);
+		}
+		vacunatorioAux.getEventos().add(eventoAux);
+		return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorioAux));
+	}
+	
+	@Override
+	public VacunatorioDTO agregarActoVacunal(Long vacunatorio, Long actoVacunal) throws VacunasUyException{
+		//se valida que el vacunatorio y el actoVacunal existan
+		Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);
+		ActoVacunal actoVacunalAux = actoVacunalDAO.listarPorId(actoVacunal);
+		if(vacunatorioAux==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		if(actoVacunalAux==null) throw new VacunasUyException("El acto vacunal indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		//se valida que el acto vacunal no esté asociado a vacunatorio
+		for(ActoVacunal a: vacunatorioAux.getActosVacunales()) {
+			if(a.getId()==actoVacunalAux.getId()) throw new VacunasUyException("El acto vacunal indicado ya se "
+					+ "encuentra asociado al vacunatorio.", VacunasUyException.EXISTE_REGISTRO); 
+		}
+		vacunatorioAux.getActosVacunales().add(actoVacunalAux);
+		return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorioAux));
 	}
 
 

@@ -15,6 +15,6 @@ public class ActoVacunalDTO {
 	
 	private Long id;
 	private String fecha;
-//	private PlanVacunacionDTO planVacunacion;
+	private PlanVacunacionDTO planVacunacion;
 
 }

@@ -2,6 +2,7 @@ package vacunasuy.componentecentral.converter;
 
 import java.time.LocalDate;
 
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 import vacunasuy.componentecentral.dto.ActoVacunalCrearDTO;
@@ -11,8 +12,8 @@ import vacunasuy.componentecentral.entity.ActoVacunal;
 @Singleton
 public class ActoVacunalConverter extends AbstractConverter<ActoVacunal, ActoVacunalDTO>{
 
-//	@EJB
-//	private PlanVacunacionConverter planVacunacionConverter;
+	@EJB
+	private PlanVacunacionConverter planVacunacionConverter;
 	
 	@Override
 	public ActoVacunalDTO fromEntity(ActoVacunal a) {
@@ -20,7 +21,7 @@ public class ActoVacunalConverter extends AbstractConverter<ActoVacunal, ActoVac
 		return ActoVacunalDTO.builder()
 				.id(a.getId())
 				.fecha(a.getFecha().toString())
-//				.planVacunacion(planVacunacionConverter.fromEntity(a.getPlanVacunacion()))
+				.planVacunacion(planVacunacionConverter.fromEntity(a.getPlanVacunacion()))
 				.build();
 	}
 	
@@ -33,7 +34,6 @@ public class ActoVacunalConverter extends AbstractConverter<ActoVacunal, ActoVac
 		if(a==null) return null;
 		return ActoVacunal.builder()
 				.fecha(LocalDate.parse(a.getFecha()))
-//				.planVacunacion(planVacunacionConverter.fromCrearDTO(a.getPlanVacunacion()))
 				.build();
 	}
 	

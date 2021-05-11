@@ -353,11 +353,13 @@ INSERT INTO proveedores (nombre, pais_id) VALUES ('AstraZeneca', 5); /* En caso 
 INSERT INTO proveedores (nombre, pais_id) VALUES ('Pfizer', 3); /* En caso de COVID-19: vacuna: Pfizer-BioNTech*/
 
 /* Enfermedades - Total: 1*/
-INSERT INTO enfermedades (nombre) VALUES ('COVID 19');
+INSERT INTO enfermedades (nombre) VALUES ('COVID-19');
 
 /* Vacunas - Total: 3 */
-INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, enfermedad_id) VALUES (2, 1, 'Sinovac', 1, 1);
-INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, enfermedad_id) VALUES (2, 1, 'Pfizer', 1, 1);
+INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, enfermedad_id) VALUES (2, 1, 'CoronaVac', 1, 1);
+INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, enfermedad_id) VALUES (2, 1, 'Pfizer-BioNTech', 1, 1);
+
+
 
 
 

@@ -33,14 +33,11 @@ public class PaisServiceImpl implements IPaisService {
    public PaisDTO listarPorId(Long id) throws VacunasUyException{
 	   //se valida que exista el pais
 	   Pais pais = paisDAO.listarPorId(id);
-	   if(pais==null) {
-			throw new VacunasUyException("El pais indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-	   }else {
-		   try {
-			   return paisConverter.fromEntity(pais);
-		   }catch(Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
+	   if(pais==null) throw new VacunasUyException("El pais indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+	   try {
+		   return paisConverter.fromEntity(pais);
+	   }catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 	   }
    }
 

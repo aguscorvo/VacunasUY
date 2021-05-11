@@ -15,7 +15,6 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 
 @Stateless
 public class PuestoServiceImpl implements IPuestoService {
-
 	
 	@EJB
 	private IPuestoDAO puestoDAO;
@@ -36,30 +35,24 @@ public class PuestoServiceImpl implements IPuestoService {
 	public PuestoDTO listarPorId(Long id) throws VacunasUyException{
 		//se valida que exista el puesto
 		Puesto puesto = puestoDAO.listarPorId(id);
-		if(puesto==null) {
-			throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		}else {
-			try {
-				return puestoConverter.fromEntity(puesto);
-			}catch(Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
-		}		
+		if(puesto==null) throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		try {
+			return puestoConverter.fromEntity(puesto);
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}				
 	}
 	
 	@Override
 	public PuestoDTO listarPorNumero(int numero) throws VacunasUyException{
 		//se valida que exista el puesto
 		Puesto puesto = puestoDAO.listarPorNumero(numero);
-		if(puesto==null) {
-			throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		}else {
-			try {
-				return puestoConverter.fromEntity(puesto);
-			}catch(Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
-		}		
+		if(puesto==null) throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		try {
+			return puestoConverter.fromEntity(puesto);
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}				
 	}
 	
 	@Override
@@ -70,40 +63,31 @@ public class PuestoServiceImpl implements IPuestoService {
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
-	}
-	
+	}	
 	
 	@Override
 	public PuestoDTO editar(Long id, PuestoCrearDTO puestoDTO) throws VacunasUyException{
 		//se valida que exista el puesto
 		Puesto puesto = puestoDAO.listarPorId(id);
-		if(puesto==null) {
-			throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		}
-		else {
-			try {
-				puesto.setNumero(puestoDTO.getNumero());
-				return puestoConverter.fromEntity(puestoDAO.editar(puesto));
-			}catch(Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
-		}		
+		if(puesto==null) throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		try {
+			puesto.setNumero(puestoDTO.getNumero());
+			return puestoConverter.fromEntity(puestoDAO.editar(puesto));
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}				
 	}
 	
 	@Override
 	public void eliminar(Long id) throws VacunasUyException{
 		//se valida que exista el puesto
 		Puesto puesto = puestoDAO.listarPorId(id);
-		if(puesto==null) {
-			throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		}else {
-			try {
-				puestoDAO.eliminar(puesto);
-			}catch(Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
-		}		
-	}	
-    
+		if(puesto==null) throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		try {
+			puestoDAO.eliminar(puesto);
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}			
+	}	    
 
 }

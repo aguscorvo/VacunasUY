@@ -35,15 +35,12 @@ public class LocalidadServiceImpl implements ILocalidadService {
 	public LocalidadDTO listarPorId(Long id) throws VacunasUyException{
 		//se valida que la localidad exista
 		Localidad localidad = localidadDAO.listarPorId(id);
-		if (localidad==null) {
-			throw new VacunasUyException("La localidad indicada no existe", VacunasUyException.NO_EXISTE_REGISTRO);
-		}else {
-			try {
-				return localidadConverter.fromEntity(localidad);
-			}catch(Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
-		}		
+		if (localidad==null) throw new VacunasUyException("La localidad indicada no existe", VacunasUyException.NO_EXISTE_REGISTRO);
+		try {
+			return localidadConverter.fromEntity(localidad);
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}				
 	}
 	
 	@Override
@@ -60,31 +57,25 @@ public class LocalidadServiceImpl implements ILocalidadService {
 	public LocalidadDTO editar(Long id, LocalidadCrearDTO localidadDTO) throws VacunasUyException{
 		//se valida que la localidad exista
 		Localidad localidad = localidadDAO.listarPorId(id);
-		if(localidad==null) {
-			throw new VacunasUyException("La localidad indicada no existe", VacunasUyException.NO_EXISTE_REGISTRO);
-		}else {
-			
-			try {
-				localidad.setNombre(localidadDTO.getNombre());
-				return localidadConverter.fromEntity(localidadDAO.editar(localidad));
-			}catch(Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
+		if(localidad==null) throw new VacunasUyException("La localidad indicada no existe", VacunasUyException.NO_EXISTE_REGISTRO);
+		try {
+			localidad.setNombre(localidadDTO.getNombre());
+			return localidadConverter.fromEntity(localidadDAO.editar(localidad));
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
+		
 	}
 	
 	@Override
 	public void eliminar (Long id) throws VacunasUyException{
 		//se valida que la localidad exista
 		Localidad localidad = localidadDAO.listarPorId(id);
-		if(localidad==null) {
-			throw new VacunasUyException("La localidad indicada no existe", VacunasUyException.NO_EXISTE_REGISTRO);
-		}else {
-			try {
-				localidadDAO.eliminar(localidad);
-			}catch (Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
+		if(localidad==null) throw new VacunasUyException("La localidad indicada no existe", VacunasUyException.NO_EXISTE_REGISTRO);
+		try {
+			localidadDAO.eliminar(localidad);
+		}catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
 	}
   

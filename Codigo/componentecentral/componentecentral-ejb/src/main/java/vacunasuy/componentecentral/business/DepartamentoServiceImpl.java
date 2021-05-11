@@ -41,53 +41,41 @@ public class DepartamentoServiceImpl implements IDepartamentoService {
 	public DepartamentoDTO listarPorId(Long id) throws VacunasUyException{
 		//se valida que el departamento exista
 		Departamento departamento = departamentoDAO.listarPorId(id);
-		if (departamento==null) {
-			throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		}else {
-			try {
-				return departamentoConverter.fromEntity(departamento);
-			}catch(Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
+		if (departamento==null) throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		try {
+			return departamentoConverter.fromEntity(departamento);
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}		
 	}
 	
 	@Override
 	public DepartamentoDTO crear(DepartamentoCrearDTO departamentoDTO) throws VacunasUyException{
-		Departamento departamento = departamentoConverter.fromCrearDTO(departamentoDTO);
 		//se valida que las localidades existan
 		List<Localidad>  localidades = new ArrayList<Localidad>();
 		for (Long id: departamentoDTO.getLocalidades()) {
-			if(localidadDAO.listarPorId(id)==null) {
-				throw new VacunasUyException("La localidad indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			}else {
-				localidades.add(localidadDAO.listarPorId(id));
-			}		
-		}		
+			if(localidadDAO.listarPorId(id)==null) throw new VacunasUyException("La localidad indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			localidades.add(localidadDAO.listarPorId(id));					
+		}
+		Departamento departamento = departamentoConverter.fromCrearDTO(departamentoDTO);
 		try {
 			departamento.setLocalidades(localidades);
 			return departamentoConverter.fromEntity(departamentoDAO.crear(departamento));
 		}catch(Exception e){
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
-	}
-		
+	}		
 	
 	@Override
 	public DepartamentoDTO editar(Long id, DepartamentoCrearDTO departamentoDTO) throws VacunasUyException{
-		List<Localidad>  localidades = new ArrayList<Localidad>();
 		//se valida que el departamento exista
 		Departamento departamento = departamentoDAO.listarPorId(id);
-		if (departamento==null) {
-			throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		}else {
-			for (Long idLocalidad: departamentoDTO.getLocalidades()) {
-				if(localidadDAO.listarPorId(idLocalidad)==null) {
-					throw new VacunasUyException("La localidad indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-				}else {
-					localidades.add(localidadDAO.listarPorId(id));
-				}		
-			}			
+		if (departamento==null) throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		List<Localidad>  localidades = new ArrayList<Localidad>();
+		for (Long idLocalidad: departamentoDTO.getLocalidades()) {
+				if(localidadDAO.listarPorId(idLocalidad)==null) throw new VacunasUyException("La localidad indicada "
+						+ "no existe.", VacunasUyException.NO_EXISTE_REGISTRO);				
+				localidades.add(localidadDAO.listarPorId(id));		
 		}
 		try {
 			departamento.setNombre(departamentoDTO.getNombre());
@@ -102,15 +90,12 @@ public class DepartamentoServiceImpl implements IDepartamentoService {
 	public void eliminar(Long id) throws VacunasUyException{
 		//se valida que el departamento exista
 		Departamento departamento = departamentoDAO.listarPorId(id);
-		if (departamento==null) {
-			throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		}else {
-			try {
-				departamentoDAO.eliminar(departamento);
-			}catch(Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
-		}		
+		if (departamento==null) throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		try {
+			departamentoDAO.eliminar(departamento);
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}				
 	}
    
 

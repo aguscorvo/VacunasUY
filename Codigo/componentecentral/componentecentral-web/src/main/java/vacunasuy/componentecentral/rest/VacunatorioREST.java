@@ -136,9 +136,9 @@ public class VacunatorioREST {
 	}
 	
 	@PUT
-	@Path("/agregarEvento/{evento}")
+	@Path("/agregarEvento/{vacunatorio}/{evento}")
 //	@RecursoProtegidoJWT
-	public Response agregarEvento (@PathParam("evento") Long vacunatorio, Long evento) {
+	public Response agregarEvento (@PathParam("vacunatorio") Long vacunatorio, @PathParam("evento") Long evento) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
 			VacunatorioDTO vacunatorioAux = vacunatorioService.agregarEvento(vacunatorio, evento);
@@ -155,9 +155,9 @@ public class VacunatorioREST {
 	}
 	
 	@PUT
-	@Path("/agregarActoVacunal/{actoVacunal}")
+	@Path("/agregarActoVacunal/{vacunatorio}/{actoVacunal}/")
 //	@RecursoProtegidoJWT
-	public Response agregarActoVacunal (@PathParam("actoVacunal") Long vacunatorio, Long actoVacunal) {
+	public Response agregarActoVacunal (@PathParam("vacunatorio") Long vacunatorio, @PathParam("actoVacunal") Long actoVacunal) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
 			VacunatorioDTO vacunatorioAux = vacunatorioService.agregarEvento(vacunatorio, actoVacunal);

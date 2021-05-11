@@ -114,16 +114,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	
 	@Override
 	public void eliminar(Long id) throws VacunasUyException {
-		/* Se valida que exista el usuario */
-		Usuario usuario = usuarioDAO.listarPorId(id);
-		if(usuario == null) {
-			throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		} else {
-			try {
-				usuarioDAO.eliminar(usuario);
-			} catch (Exception e) {
-				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-			}
+		try {
+			/* Se valida que exista el usuario */
+			Usuario usuario = usuarioDAO.listarPorId(id);
+			if(usuario == null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			usuarioDAO.eliminar(usuario);
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
 	}
 	

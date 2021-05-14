@@ -12,6 +12,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import vacunasuy.componentecentral.converter.AtiendeConverter;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
+import vacunasuy.componentecentral.dao.IActoVacunalDAO;
+import vacunasuy.componentecentral.dao.IAgendaDAO;
 import vacunasuy.componentecentral.dao.IPuestoDAO;
 import vacunasuy.componentecentral.dao.IRolDAO;
 import vacunasuy.componentecentral.dao.ISectorLaboralDAO;
@@ -22,6 +24,8 @@ import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
+import vacunasuy.componentecentral.entity.ActoVacunal;
+import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.Atiende;
 import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Rol;
@@ -44,6 +48,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	
 	@EJB
 	private IPuestoDAO puestoDAO;
+	
+	@EJB
+	private IActoVacunalDAO actoVacunalDAO;
+	
+	@EJB
+	private IAgendaDAO agendaDAO;
 	
 	@EJB
 	private UsuarioConverter usuarioConverter;
@@ -206,8 +216,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 				.signWith(SignatureAlgorithm.HS512, Constantes.JWT_KEY)
 				.compact();
 	}
-	
-	
+		
 	@Override
 	public void asignarVacunadorAPuesto(AtiendeCrearDTO atiendeDTO) throws VacunasUyException{
 		try {
@@ -227,5 +236,26 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
 	}
+	
+	//desde backend
+	@Override
+	public void agregarActoVacunal(Long usuario, Long actoVacunal) throws VacunasUyException{
+		ActoVacunal actoVacunalAux = actoVacunalDAO.listarPorId(actoVacunal);
+		if(actoVacunalAux==null) throw new VacunasUyException("El acto vacunal indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
+		usuarioAux.getActosVacunales().add(actoVacunalAux);
+		usuarioDAO.editar(usuarioAux);
+	}
+	
+	//desde backend
+	@Override
+	public void agregarAgenda(Long usuario, Long agenda) throws VacunasUyException{
+		Agenda agendaAux = agendaDAO.listarPorId(agenda);
+		if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
+		usuarioAux.getAgendas().add(agendaAux);
+		usuarioDAO.editar(usuarioAux);
+	}
+
 
 }

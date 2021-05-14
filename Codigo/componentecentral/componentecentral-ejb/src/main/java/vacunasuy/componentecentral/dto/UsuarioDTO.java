@@ -22,5 +22,6 @@ public class UsuarioDTO {
 	private String correo;
 	private String fechaNacimiento;
 	private List<RolDTO> roles;
-	
+	private List<ActoVacunalDTO> actosVacunales;
+	private List<AgendaDTO> agendas;
 }

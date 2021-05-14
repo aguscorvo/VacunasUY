@@ -15,5 +15,6 @@ public class AgendaCrearDTO {
 
 	private String fecha;
 	private Long puesto;
+	private Long usuario;
 	
 }

@@ -9,10 +9,12 @@ import javax.ejb.Stateless;
 import vacunasuy.componentecentral.converter.AgendaConverter;
 import vacunasuy.componentecentral.dao.IAgendaDAO;
 import vacunasuy.componentecentral.dao.IPuestoDAO;
+import vacunasuy.componentecentral.dao.IUsuarioDAO;
 import vacunasuy.componentecentral.dto.AgendaCrearDTO;
 import vacunasuy.componentecentral.dto.AgendaDTO;
 import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.Puesto;
+import vacunasuy.componentecentral.entity.Usuario;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
 
@@ -24,6 +26,12 @@ public class AgendaServiceImpl implements IAgendaService {
 	
 	@EJB
 	private IPuestoDAO puestoDAO;
+	
+	@EJB
+	private IUsuarioDAO usuarioDAO;
+	
+	@EJB
+	private IUsuarioService usuarioService;
 	
 	@EJB
 	private AgendaConverter agendaConverter;
@@ -51,13 +59,18 @@ public class AgendaServiceImpl implements IAgendaService {
 	
 	@Override
 	public AgendaDTO crear(AgendaCrearDTO agendaDTO)  throws VacunasUyException{
+		//se valida que ciudadano exista
+		Usuario ciudadano = usuarioDAO.listarPorId(agendaDTO.getUsuario());
+		if(ciudadano==null)throw new VacunasUyException("El ciudadano indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		//se valida que el puesto exista
 		Puesto puesto = puestoDAO.listarPorId(agendaDTO.getPuesto());
 		if(puesto==null)throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		Agenda agenda = agendaConverter.fromCrearDTO(agendaDTO);
 		try {
 			agenda.setPuesto(puesto);
-			return agendaConverter.fromEntity(agenda);
+			Agenda agendaCreada = agendaDAO.crear(agenda);
+			usuarioService.agregarAgenda(ciudadano.getId(), agendaCreada.getId());
+			return agendaConverter.fromEntity(agendaCreada);
 		}catch(Exception e){
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}		

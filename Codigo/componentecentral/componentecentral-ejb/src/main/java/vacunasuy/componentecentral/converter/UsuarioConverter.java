@@ -16,6 +16,12 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 	@EJB
 	private RolConverter rolConverter;
 	
+	@EJB
+	private ActoVacunalConverter actoVacunalConverter;
+	
+	@EJB
+	private AgendaConverter agendaConverter;
+	
 	@Override
 	public UsuarioDTO fromEntity(Usuario e) {
 		if(e == null) return null;
@@ -27,6 +33,8 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 				.correo(e.getCorreo())
 				.fechaNacimiento(e.getFechaNacimiento().toString())
 				.roles(rolConverter.fromEntity(e.getRoles()))
+				.actosVacunales(actoVacunalConverter.fromEntity(e.getActosVacunales()))
+				.agendas(agendaConverter.fromEntity(e.getAgendas()))
 				.build();
 	}
 	

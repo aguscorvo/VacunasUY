@@ -9,21 +9,29 @@ import javax.ejb.Stateless;
 import vacunasuy.componentecentral.converter.ActoVacunalConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
 import vacunasuy.componentecentral.dao.IPlanVacunacionDAO;
+import vacunasuy.componentecentral.dao.IUsuarioDAO;
 import vacunasuy.componentecentral.dto.ActoVacunalCrearDTO;
 import vacunasuy.componentecentral.dto.ActoVacunalDTO;
 import vacunasuy.componentecentral.entity.ActoVacunal;
 import vacunasuy.componentecentral.entity.PlanVacunacion;
+import vacunasuy.componentecentral.entity.Usuario;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
 
 @Stateless
 public class ActoVacunalServiceImpl implements IActoVacunalService {
 
+	@EJB
+	private IUsuarioService usuarioService;
+	
     @EJB
     private IActoVacunalDAO actoVacunalDAO;
     
     @EJB
     private IPlanVacunacionDAO planVacunacionDAO;
+    
+    @EJB
+    private IUsuarioDAO usuarioDAO;
     
     @EJB
     private ActoVacunalConverter actoVacunalConverter;
@@ -51,6 +59,10 @@ public class ActoVacunalServiceImpl implements IActoVacunalService {
 	
 	@Override
 	public ActoVacunalDTO crear(ActoVacunalCrearDTO actoVacunalDTO) throws VacunasUyException{
+		//se valida que el ciudadano exista
+		Usuario ciudadano = usuarioDAO.listarPorId(actoVacunalDTO.getUsuario());
+		if(ciudadano==null) throw new VacunasUyException("El ciudadano indicado no existe.",
+				VacunasUyException.NO_EXISTE_REGISTRO);
 		// se valida que el plan de vacunacion exista
 		PlanVacunacion planVacunacion = planVacunacionDAO.listarPorId(actoVacunalDTO.getPlanVacunacion());
 		if(planVacunacion==null) throw new VacunasUyException("El plan de vacunación indicado no existe.",
@@ -58,7 +70,9 @@ public class ActoVacunalServiceImpl implements IActoVacunalService {
 		try {
 			ActoVacunal actoVacunal = actoVacunalConverter.fromCrearDTO(actoVacunalDTO);
 			actoVacunal.setPlanVacunacion(planVacunacion);
-			return actoVacunalConverter.fromEntity(actoVacunalDAO.crear(actoVacunal));
+			ActoVacunal actoVacunalCreado = actoVacunalDAO.crear(actoVacunal);
+			usuarioService.agregarActoVacunal(ciudadano.getId(), actoVacunalCreado.getId());
+			return actoVacunalConverter.fromEntity(actoVacunalCreado);
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}

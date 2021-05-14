@@ -25,4 +25,8 @@ public interface IUsuarioService {
 	public UsuarioLoginExitosoDTO loginGubUy(RespuestaUserInfoDTO usuarioDTO) throws VacunasUyException;
 	
 	public void asignarVacunadorAPuesto(AtiendeCrearDTO atiendeDTO) throws VacunasUyException;
+	
+	//desde backend
+	public void agregarActoVacunal(Long usuario, Long actoVacunal) throws VacunasUyException;
+	public void agregarAgenda(Long usuario, Long agenda) throws VacunasUyException;
 }

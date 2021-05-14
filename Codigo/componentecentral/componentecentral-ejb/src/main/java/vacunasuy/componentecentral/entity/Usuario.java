@@ -65,6 +65,14 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy="usuario", cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Atiende> atiende = new ArrayList();
 	
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<ActoVacunal> actosVacunales = new ArrayList();
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Agenda> agendas = new ArrayList();
+	
+	
 	/* Métodos generados por Lombok */
 	
 }

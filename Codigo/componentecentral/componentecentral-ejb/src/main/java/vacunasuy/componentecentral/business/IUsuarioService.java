@@ -3,6 +3,7 @@ package vacunasuy.componentecentral.business;
 import java.util.List;
 import javax.ejb.Local;
 
+import vacunasuy.componentecentral.dto.AtiendeCrearDTO;
 import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
@@ -23,4 +24,5 @@ public interface IUsuarioService {
 	public UsuarioLoginExitosoDTO loginBackoffice(UsuarioLoginBackofficeDTO usuarioDTO) throws VacunasUyException;
 	public UsuarioLoginExitosoDTO loginGubUy(RespuestaUserInfoDTO usuarioDTO) throws VacunasUyException;
 	
+	public void asignarVacunadorAPuesto(AtiendeCrearDTO atiendeDTO) throws VacunasUyException;
 }

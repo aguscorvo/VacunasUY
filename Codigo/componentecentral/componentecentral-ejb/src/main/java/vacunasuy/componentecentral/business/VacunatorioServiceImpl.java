@@ -183,6 +183,16 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		vacunatorioAux.getActosVacunales().add(actoVacunalAux);
 		return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorioAux));
 	}
+	
+//	@Override
+//	public void agregarPuesto(Long vacunatorio, int numeroPuesto) {
+//		Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);
+//		Puesto puestoNuevo = new Puesto ();
+//		puestoNuevo.setNumero(numeroPuesto);
+//		puestoNuevo.setVacunatorio(vacunatorioAux);
+//		vacunatorioAux.getPuestos().add(puestoNuevo);
+//		vacunatorioDAO.editar(vacunatorioAux);
+//	}
 
 
 }

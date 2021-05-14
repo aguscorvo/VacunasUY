@@ -1,14 +1,19 @@
 package vacunasuy.componentecentral.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -35,15 +40,20 @@ public class Puesto implements Serializable {
 	@Column(name = "numero", nullable = false)
 	private int numero;
 	
-//	@ManyToOne
+//	@ManyToOne(	fetch = FetchType.LAZY)
 //	@JoinColumn(
+//			name="vacunatorio_id",
 //			insertable=false,
 //			updatable=false
 //	)
 //	private Vacunatorio vacunatorio;
 	
-//	@OneToMany(cascade = CascadeType.ALL)
-//	private List<Agenda> agendas = new ArrayList<Agenda>();
+//	@OneToMany(mappedBy="puesto", cascade = CascadeType.ALL, orphanRemoval=true)
+//	private List<Agenda> agendas = new ArrayList();
+	
+	@OneToMany(mappedBy="puesto", cascade = CascadeType.ALL, orphanRemoval=true)
+	private List<Atiende> atiende = new ArrayList();
+
 
 
 }

@@ -57,7 +57,7 @@ public class Vacunatorio  implements Serializable{
     @JoinColumn(name = "departamento_id", referencedColumnName = "id")
 	private Departamento departamento;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL) // mappedBy="vacunatorio", orphanRemoval=true
 	private List<Puesto> puestos = new ArrayList<Puesto>();
 	
 	@OneToMany(cascade = CascadeType.ALL)

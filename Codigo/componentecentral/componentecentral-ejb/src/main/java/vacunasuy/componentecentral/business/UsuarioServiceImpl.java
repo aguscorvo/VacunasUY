@@ -1,5 +1,6 @@
 package vacunasuy.componentecentral.business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,15 +10,20 @@ import javax.ejb.Stateless;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import vacunasuy.componentecentral.converter.AtiendeConverter;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
+import vacunasuy.componentecentral.dao.IPuestoDAO;
 import vacunasuy.componentecentral.dao.IRolDAO;
 import vacunasuy.componentecentral.dao.ISectorLaboralDAO;
 import vacunasuy.componentecentral.dao.IUsuarioDAO;
+import vacunasuy.componentecentral.dto.AtiendeCrearDTO;
 import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
+import vacunasuy.componentecentral.entity.Atiende;
+import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Rol;
 import vacunasuy.componentecentral.entity.SectorLaboral;
 import vacunasuy.componentecentral.entity.Usuario;
@@ -37,7 +43,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	private ISectorLaboralDAO sectorLaboralDAO;
 	
 	@EJB
+	private IPuestoDAO puestoDAO;
+	
+	@EJB
 	private UsuarioConverter usuarioConverter;
+	
+	@EJB
+	private AtiendeConverter atiendeConverter;
 
 	@Override
 	public List<UsuarioDTO> listar() throws VacunasUyException {
@@ -195,4 +207,25 @@ public class UsuarioServiceImpl implements IUsuarioService {
 				.compact();
 	}
 	
+	
+	@Override
+	public void asignarVacunadorAPuesto(AtiendeCrearDTO atiendeDTO) throws VacunasUyException{
+		try {
+			Usuario vacunadorAux = usuarioDAO.listarPorId(atiendeDTO.getIdUsuario());
+			if(vacunadorAux==null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			Puesto puestoAux = puestoDAO.listarPorId(atiendeDTO.getIdPuesto());
+			if(puestoAux==null) throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			Atiende atiende = atiendeConverter.fromDTO(atiendeDTO);
+			atiende.setUsuario(vacunadorAux);
+			atiende.setPuesto(puestoAux);
+			
+			vacunadorAux.getAtiende().add(atiende);
+			puestoAux.getAtiende().add(atiende);
+			usuarioDAO.editar(vacunadorAux);
+			puestoDAO.editar(puestoAux);
+		}catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+
 }

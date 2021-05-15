@@ -1,6 +1,5 @@
 package vacunasuy.componentecentral.converter;
 
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 import vacunasuy.componentecentral.dto.LocalidadCrearDTO;

@@ -39,6 +39,8 @@
 	  <class>vacunasuy.componentecentral.entity.Evento</class>
 	  <class>vacunasuy.componentecentral.entity.Lote</class>
 	  <class>vacunasuy.componentecentral.entity.PlanVacunacion</class>
+	  <class>vacunasuy.componentecentral.entity.Atiende</class>
+	  
 	  		  	 
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

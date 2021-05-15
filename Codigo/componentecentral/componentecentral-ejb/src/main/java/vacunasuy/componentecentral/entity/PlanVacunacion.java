@@ -56,8 +56,5 @@ public class PlanVacunacion implements Serializable {
 	@JoinColumn(name = "fk_vacuna")
 	private Vacuna vacuna;
 	
-//	@OneToMany
-//	@JoinColumn(name = "fk_plan_vacunacion")
-//	private List<Agenda> agendas = new ArrayList<Agenda>();
 
 }

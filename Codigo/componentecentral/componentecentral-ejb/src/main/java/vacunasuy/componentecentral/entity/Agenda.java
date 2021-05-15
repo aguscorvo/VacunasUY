@@ -38,8 +38,8 @@ public class Agenda implements Serializable{
 	@Column(name = "fecha")
 	private LocalDateTime fecha; 
 	
-	@ManyToOne/*(cascade = CascadeType.ALL)*/
-    @JoinColumn(name = "fk_puesto"/*, referencedColumnName = "id"*/)
+	@ManyToOne
+    @JoinColumn(name = "fk_puesto")
 	private Puesto puesto;	
 	
 	@ManyToOne

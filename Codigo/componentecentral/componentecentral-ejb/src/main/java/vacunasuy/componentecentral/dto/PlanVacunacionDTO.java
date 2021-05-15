@@ -21,6 +21,5 @@ public class PlanVacunacionDTO {
 	private String fechaFin;
 	private List<SectorLaboralDTO> sectores;
 	private VacunaDTO vacuna;
-//	private List<AgendaDTO> agendas;
 	
 }

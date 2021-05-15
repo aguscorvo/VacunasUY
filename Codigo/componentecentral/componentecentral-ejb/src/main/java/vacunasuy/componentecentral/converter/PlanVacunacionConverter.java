@@ -31,7 +31,6 @@ public class PlanVacunacionConverter extends AbstractConverter<PlanVacunacion, P
 				.fechaFin(e.getFechaFin().toString())
 				.sectores(sectorLaboralConverter.fromEntity(e.getSectores()))
 				.vacuna(vacunaConverter.fromEntity(e.getVacuna()))
-//				.agendas(agendaConverter.fromEntity(e.getAgendas()))
 				.build();
 	}
 
@@ -47,7 +46,6 @@ public class PlanVacunacionConverter extends AbstractConverter<PlanVacunacion, P
 				.fechaFin(LocalDateTime.parse(d.getFechaFin(), formato))
 				.sectores(sectorLaboralConverter.fromDTO(d.getSectores()))
 				.vacuna(vacunaConverter.fromDTO(d.getVacuna()))
-//				.agendas(agendaConverter.fromDTO(d.getAgendas()))
 				.build();
 	}
 	

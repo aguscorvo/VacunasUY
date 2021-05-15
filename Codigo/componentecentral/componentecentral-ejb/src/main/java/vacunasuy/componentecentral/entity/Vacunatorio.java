@@ -50,14 +50,14 @@ public class Vacunatorio  implements Serializable{
 	private String direccion;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "localidad_id", referencedColumnName = "id")
+    @JoinColumn(name = "fk_localidad", referencedColumnName = "id")
 	private Localidad localidad;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "departamento_id", referencedColumnName = "id")
+    @JoinColumn(name = "fk_departamento", referencedColumnName = "id")
 	private Departamento departamento;
 	
-	@OneToMany(cascade = CascadeType.ALL) // mappedBy="vacunatorio", orphanRemoval=true
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="vacunatorio", orphanRemoval=true) 
 	private List<Puesto> puestos = new ArrayList<Puesto>();
 	
 	@OneToMany(cascade = CascadeType.ALL)

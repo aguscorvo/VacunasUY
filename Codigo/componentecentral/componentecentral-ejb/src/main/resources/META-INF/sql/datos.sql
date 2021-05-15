@@ -213,20 +213,20 @@ INSERT INTO puestos (numero) VALUES(4);
 INSERT INTO puestos (numero) VALUES(5); /* 95 */
 
 /* Vacunatorios - Total: 14*/
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Antel Arena', -34.86297, -56.15348, 'Dámaso A. Larrañaga entre Jose P. Varela y J. Serrato', 1, 1);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital de Clinicas', -25.28013, -57.65262, 'Av.Italia S/N 1º Piso Consulta Externa Ala Este', 1, 1);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital Pereira Rossell', -34.89885, -56.16283, 'Lord Ponsomby (Vacunatorio)', 1, 1);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital de Canelones', -34.51517, -56.28450, 'Cendán esq G Taube', 3, 2);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital de Pando', -34.72082, -55.95509, 'Luis Correch y Ruta 8', 4, 2);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Centro Proteccion de Choferes', -34.33762, -56.71323, 'Doctor Julian Bengoa ente 25 de Mayo y Sarandi', 5, 3);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital ASSE', -34.62828, -56.61485, 'Artigas 626', 6, 3);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Campus Municipal de Maldonado', -34.91315, -54.95528, '3 de Febrero entre Av. Fco. Acuña de Figueroa y Santa Teresa', 7, 4);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital de Pan de Azucar', -34.77912, -55.22403, 'Rincón 571 entre Francisco Bonilla y Lazo Batista y Goicochea', 8, 4);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Estadio Municipal Juan Antonio Lavalleja', -34.37106, -55.24818, 'Hector Gutierrez Ruiz s/nº entre Ciudad de Aiguá y Matías Lazarte', 9, 5);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital ASSE - CP Florida CHLAEP', -34.09870, -56.20887, 'Baltasar Brum 414', 11, 6);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital Samuel Berton CHLA-EP', -34.45834, -57.83026, 'Av Batlle y Ordoñez y Bassahun', 13, 7);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital ASSE', -33.98991, -58.28301, 'Av Artigas 346 entre Ruta 21 y 19 de Abril', 14, 7);
-INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, localidad_id, departamento_id) VALUES ('Hospital de Mercedes', -33.25333, -58.04080, 'Florencio Sánchez s/n esq Cerrito', 17, 9);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Antel Arena', -34.86297, -56.15348, 'Dámaso A. Larrañaga entre Jose P. Varela y J. Serrato', 1, 1);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital de Clinicas', -25.28013, -57.65262, 'Av.Italia S/N 1º Piso Consulta Externa Ala Este', 1, 1);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital Pereira Rossell', -34.89885, -56.16283, 'Lord Ponsomby (Vacunatorio)', 1, 1);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital de Canelones', -34.51517, -56.28450, 'Cendán esq G Taube', 3, 2);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital de Pando', -34.72082, -55.95509, 'Luis Correch y Ruta 8', 4, 2);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Centro Proteccion de Choferes', -34.33762, -56.71323, 'Doctor Julian Bengoa ente 25 de Mayo y Sarandi', 5, 3);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital ASSE', -34.62828, -56.61485, 'Artigas 626', 6, 3);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Campus Municipal de Maldonado', -34.91315, -54.95528, '3 de Febrero entre Av. Fco. Acuña de Figueroa y Santa Teresa', 7, 4);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital de Pan de Azucar', -34.77912, -55.22403, 'Rincón 571 entre Francisco Bonilla y Lazo Batista y Goicochea', 8, 4);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Estadio Municipal Juan Antonio Lavalleja', -34.37106, -55.24818, 'Hector Gutierrez Ruiz s/nº entre Ciudad de Aiguá y Matías Lazarte', 9, 5);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital ASSE - CP Florida CHLAEP', -34.09870, -56.20887, 'Baltasar Brum 414', 11, 6);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital Samuel Berton CHLA-EP', -34.45834, -57.83026, 'Av Batlle y Ordoñez y Bassahun', 13, 7);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital ASSE', -33.98991, -58.28301, 'Av Artigas 346 entre Ruta 21 y 19 de Abril', 14, 7);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital de Mercedes', -33.25333, -58.04080, 'Florencio Sánchez s/n esq Cerrito', 17, 9);
 
 
 /* Relación vacunatorios y puestos - Total: 80*/
@@ -348,16 +348,16 @@ INSERT INTO paises (nombre) VALUES ('Espania');
 INSERT INTO paises (nombre) VALUES ('Francia');
 
 /* Proveedores - Total: 3*/
-INSERT INTO proveedores (nombre, pais_id) VALUES ('Sinovac Biotech', 1); /* En caso de COVID-19: vacuna: CoronaVac*/
-INSERT INTO proveedores (nombre, pais_id) VALUES ('AstraZeneca', 5); /* En caso de COVID-19: vacuna: chequear nombre*/
-INSERT INTO proveedores (nombre, pais_id) VALUES ('Pfizer', 3); /* En caso de COVID-19: vacuna: Pfizer-BioNTech*/
+INSERT INTO proveedores (nombre, fk_pais) VALUES ('Sinovac Biotech', 1); /* En caso de COVID-19: vacuna: CoronaVac*/
+INSERT INTO proveedores (nombre, fk_pais) VALUES ('AstraZeneca', 5); /* En caso de COVID-19: vacuna: chequear nombre*/
+INSERT INTO proveedores (nombre, fk_pais) VALUES ('Pfizer', 3); /* En caso de COVID-19: vacuna: Pfizer-BioNTech*/
 
 /* Enfermedades - Total: 1*/
 INSERT INTO enfermedades (nombre) VALUES ('COVID-19');
 
 /* Vacunas - Total: 3 */
-INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, enfermedad_id) VALUES (2, 1, 'CoronaVac', 1, 1);
-INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, enfermedad_id) VALUES (2, 1, 'Pfizer-BioNTech', 1, 1);
+INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'CoronaVac', 1, 1);
+INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'Pfizer-BioNTech', 1, 1);
 
 
 

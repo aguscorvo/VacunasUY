@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import vacunasuy.componentecentral.dto.PuestoCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
@@ -21,7 +22,5 @@ public interface IVacunatorioService {
 	public List<VacunatorioDTO> listarVacunatoriosCercanos(VacunatorioCercanoDTO vacunatorioDTO) throws VacunasUyException;
 	public VacunatorioDTO agregarEvento(Long vacunatorio, Long evento) throws VacunasUyException;
 	public VacunatorioDTO agregarActoVacunal(Long vacunatorio, Long actoVacunal) throws VacunasUyException;
-
-	
-//		public VacunatorioDTO agregarPuesto(Long vacunatorio, Long puesto) throws VacunasUyException;
+	public VacunatorioDTO agregarPuesto(PuestoCrearDTO puestoDTO) throws VacunasUyException;
 }

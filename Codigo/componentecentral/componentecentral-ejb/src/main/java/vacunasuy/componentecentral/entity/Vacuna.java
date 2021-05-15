@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -41,6 +42,7 @@ public class Vacuna {
 	private int inmunidad;
 	
 	@OneToOne
+    @JoinColumn(name = "fk_enfermedad", referencedColumnName = "id")
 	private Enfermedad enfermedad;
 
 	/* Métodos generados por Lombok */

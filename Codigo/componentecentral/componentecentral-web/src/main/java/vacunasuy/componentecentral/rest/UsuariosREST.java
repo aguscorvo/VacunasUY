@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import vacunasuy.componentecentral.business.IUsuarioService;
+import vacunasuy.componentecentral.dto.AtiendeCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
@@ -114,6 +115,26 @@ public class UsuariosREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}
+	}
+	
+	
+	@POST
+	@Path("/asignarVacunador")
+	public Response asignarVacunadorAPuesto(AtiendeCrearDTO atiendeDTO) {
+		RespuestaREST<AtiendeCrearDTO> respuesta = null;
+		try {
+			usuarioService.asignarVacunadorAPuesto(atiendeDTO);
+			respuesta = new RespuestaREST<AtiendeCrearDTO>(true, "Vacunador asignado con éxito.");
+			return Response.ok(respuesta).build();
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<AtiendeCrearDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.DATOS_INCORRECTOS) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+
 	}
 	
 }

@@ -40,8 +40,7 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 				.puestos(puestoConverter.fromEntity(v.getPuestos()))
 				.eventos(eventoConverter.fromEntity(v.getEventos()))
 				.actosVacunales(actoVacunalConverter.fromEntity(v.getActosVacunales()))
-				.build();
-								
+				.build();								
 	}
 	
 	@Override

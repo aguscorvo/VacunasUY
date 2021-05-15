@@ -14,6 +14,6 @@ import lombok.Setter;
 public class PuestoCrearDTO {
 
 	private int numero;
-//	private Long vacunatorio;
+	private Long vacunatorio;
 	
 }

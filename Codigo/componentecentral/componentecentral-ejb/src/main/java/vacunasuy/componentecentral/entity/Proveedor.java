@@ -37,7 +37,7 @@ public class Proveedor implements Serializable{
 	private String nombre;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pais_id", referencedColumnName = "id")
+    @JoinColumn(name = "fk_pais", referencedColumnName = "id")
 	private Pais pais;
 }
 

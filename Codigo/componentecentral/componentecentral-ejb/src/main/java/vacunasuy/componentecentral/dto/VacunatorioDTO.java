@@ -26,5 +26,4 @@ public class VacunatorioDTO {
 	private List<EventoDTO> eventos;
 	private List<ActoVacunalDTO> actosVacunales;
 
-
 }

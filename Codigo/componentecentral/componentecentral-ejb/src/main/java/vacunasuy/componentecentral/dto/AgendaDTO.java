@@ -15,6 +15,7 @@ public class AgendaDTO {
 	
 	private Long id;
 	private String fecha;
-	private PuestoDTO puesto;	
+	private PuestoDTO puesto;
+	private PlanVacunacionDTO planVacunacion;
 
 }

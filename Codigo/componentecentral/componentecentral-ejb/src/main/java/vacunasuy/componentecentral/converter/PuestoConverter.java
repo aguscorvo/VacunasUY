@@ -1,5 +1,8 @@
 package vacunasuy.componentecentral.converter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
@@ -13,8 +16,8 @@ public class PuestoConverter extends AbstractConverter<Puesto, PuestoDTO>{
 	@EJB
 	private VacunatorioConverter vacunatorioConverter;
 	
-//	@EJB
-//	private AgendaConverter agendaConverter;
+	@EJB
+	private AgendaConverter agendaConverter;
 	
 	@Override
 	public PuestoDTO fromEntity(Puesto p) {
@@ -23,19 +26,13 @@ public class PuestoConverter extends AbstractConverter<Puesto, PuestoDTO>{
 				.id(p.getId())
 				.numero(p.getNumero())
 //				.vacunatorio(vacunatorioConverter.fromEntity(p.getVacunatorio()))
-//				.agendas(agendaConverter.fromEntity(p.getAgendas()))
+				.agendas(agendaConverter.fromEntityToMin(p.getAgendas()))
 				.build();
 	}
 	
 	@Override
 	public Puesto fromDTO(PuestoDTO p) {
-		if(p==null) return null;
-		return Puesto.builder()
-				.id(p.getId())
-				.numero(p.getNumero())
-//				.vacunatorio(vacunatorioConverter.fromDTO(p.getVacunatorio()))
-//				.agendas(agendaConverter.fromDTO(p.getAgendas()))
-				.build();
+		return null;
 	}
 	
 	public Puesto fromCrearDTO(PuestoCrearDTO p) {
@@ -44,6 +41,8 @@ public class PuestoConverter extends AbstractConverter<Puesto, PuestoDTO>{
 				.numero(p.getNumero())
 				.build();
 	}
+	
+
 	
    
 

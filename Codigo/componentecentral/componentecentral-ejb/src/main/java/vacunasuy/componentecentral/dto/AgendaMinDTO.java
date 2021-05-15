@@ -11,11 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AgendaCrearDTO {
+public class AgendaMinDTO {
 
+	private Long id;
 	private String fecha;
-	private Long puesto;
-	private Long usuario;
-	private Long planVacunacion;
-	
+	private PlanVacunacionDTO planVacunacion;
+
 }

@@ -32,7 +32,7 @@ public class Atiende implements Serializable{
 	
 	@Id 
 	@ManyToOne
-	@JoinColumn( name="usuario_id",
+	@JoinColumn( name="fk_usuario",
 			insertable=false,
 			updatable=false
 	)
@@ -40,12 +40,13 @@ public class Atiende implements Serializable{
 	
 	@Id 
 	@ManyToOne
-	@JoinColumn( name="puesto_id",
+	@JoinColumn( name="fk_puesto",
 			insertable=false,
 			updatable=false
 	)
 	private Puesto puesto;
 	
+	@Id
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;	
 	

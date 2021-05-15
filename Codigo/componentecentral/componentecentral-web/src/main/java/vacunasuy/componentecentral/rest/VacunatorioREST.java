@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import vacunasuy.componentecentral.business.IVacunatorioService;
+import vacunasuy.componentecentral.dto.PuestoCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
@@ -173,24 +174,24 @@ public class VacunatorioREST {
 		}	
 	}
 	
-//	@PUT
-//	@Path("/agregarPuesto/{vacunatorio}/{numeroPuesto}/")
-////	@RecursoProtegidoJWT
-//	public Response agregarPuesto(@PathParam("vacunatorio")Long vacunatorio, @PathParam("numeroPuesto") int numeroPuesto) {
-//		RespuestaREST<VacunatorioDTO> respuesta = null;
-//		try {
-//			vacunatorioService.agregarPuesto(vacunatorio, numeroPuesto);
-//			respuesta = new RespuestaREST<VacunatorioDTO>(true, "Puesto agregado al vacunatorio con éxito.");
-//			return Response.ok(respuesta).build();			
-//		}catch (VacunasUyException e) {
-//			respuesta = new RespuestaREST<VacunatorioDTO>(false, e.getLocalizedMessage());
-//			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO ||  e.getCodigo() ==VacunasUyException.EXISTE_REGISTRO) {
-//				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
-//			} else {
-//				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-//			}
-//		}	
-//	}
+	@POST
+	@Path("/agregarPuesto")
+//	@RecursoProtegidoJWT
+	public Response agregarPuesto(PuestoCrearDTO puestoDTO) {
+		RespuestaREST<VacunatorioDTO> respuesta = null;
+		try {
+			VacunatorioDTO vacunatorioDTO = vacunatorioService.agregarPuesto(puestoDTO);
+			respuesta = new RespuestaREST<VacunatorioDTO>(true, "Puesto agregado al vacunatorio con éxito.", vacunatorioDTO);
+			return Response.ok(respuesta).build();			
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<VacunatorioDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}	
+	}
 	
 	
 }

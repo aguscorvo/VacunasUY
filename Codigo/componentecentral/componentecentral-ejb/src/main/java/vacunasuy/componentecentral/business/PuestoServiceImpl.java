@@ -6,9 +6,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import vacunasuy.componentecentral.converter.PuestoConverter;
+import vacunasuy.componentecentral.dao.IAgendaDAO;
 import vacunasuy.componentecentral.dao.IPuestoDAO;
 import vacunasuy.componentecentral.dto.PuestoCrearDTO;
 import vacunasuy.componentecentral.dto.PuestoDTO;
+import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
@@ -18,6 +20,9 @@ public class PuestoServiceImpl implements IPuestoService {
 	
 	@EJB
 	private IPuestoDAO puestoDAO;
+	
+	@EJB
+	private IAgendaDAO agendaDAO;
 	
 	@EJB
 	private PuestoConverter puestoConverter;
@@ -88,6 +93,9 @@ public class PuestoServiceImpl implements IPuestoService {
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}			
-	}	    
+	}
+	
+
+
 
 }

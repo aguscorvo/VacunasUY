@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import vacunasuy.componentecentral.converter.PuestoConverter;
 import vacunasuy.componentecentral.converter.VacunatorioConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
 import vacunasuy.componentecentral.dao.IDepartamentoDAO;
@@ -13,6 +14,7 @@ import vacunasuy.componentecentral.dao.IEventoDAO;
 import vacunasuy.componentecentral.dao.ILocalidadDAO;
 import vacunasuy.componentecentral.dao.IPuestoDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
+import vacunasuy.componentecentral.dto.PuestoCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
@@ -48,6 +50,9 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	@EJB
 	private VacunatorioConverter vacunatorioConverter;
 	
+	@EJB
+	private PuestoConverter puestoConverter;
+	
 	
 	@Override
 	public List<VacunatorioDTO> listar() throws VacunasUyException{
@@ -79,20 +84,10 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		Departamento departamento = departamentoDAO.listarPorId(vacunatorioDTO.getDepartamento());
 		if(departamento==null) throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 	
-		//se verifica que los puestos existan		
-		List<Puesto> puestos = new ArrayList<Puesto>();
-		for(Long p: vacunatorioDTO.getPuestos()) {
-			if(puestoDAO.listarPorId(p)==null) {
-				throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			}else {
-				puestos.add(puestoDAO.listarPorId(p));
-			}
-		}			
 		//se crea el vacunatorio
 		try {
 			vacunatorio.setLocalidad(localidad);
 			vacunatorio.setDepartamento(departamento);
-			vacunatorio.setPuestos(puestos);
 			return vacunatorioConverter.fromEntity(vacunatorioDAO.crear(vacunatorio));
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -108,13 +103,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		Localidad localidad = localidadDAO.listarPorId(vacunatorioDTO.getLocalidad());
 		if (localidad == null) 	throw new VacunasUyException("La localidad indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		Departamento departamento = departamentoDAO.listarPorId(vacunatorioDTO.getDepartamento());
-		if(departamento==null) throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		//se verifica que los puestos existan		;
-		List<Puesto> puestos = new ArrayList<Puesto>();
-		for(Long p: vacunatorioDTO.getPuestos()) {
-			if (puestoDAO.listarPorId(p)==null) throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			puestos.add(puestoDAO.listarPorId(p));			
-		}				
+		if(departamento==null) throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);				
 		//se edita el vacunatorio
 		try {
 			vacunatorio.setNombre(vacunatorioDTO.getNombre());
@@ -123,7 +112,6 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			vacunatorio.setDireccion(vacunatorioDTO.getDireccion());
 			vacunatorio.setDepartamento(departamento);
 			vacunatorio.setLocalidad(localidad);
-			vacunatorio.setPuestos(puestos);
 			return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorio));
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -154,34 +142,59 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	
 	@Override
 	public VacunatorioDTO agregarEvento(Long vacunatorio, Long evento) throws VacunasUyException{
-		//se valida que el vacunatorio y el evento existan
-		Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);
-		if(vacunatorioAux==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		Evento eventoAux = eventoDAO.listarPorId(evento);
-		if(eventoAux==null) throw new VacunasUyException("El evento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		//se valida que el evento no esté asociado a vacunatorio
-		for(Evento e: vacunatorioAux.getEventos()) {
-			if(e.getId()==eventoAux.getId()) throw new VacunasUyException("El evento indicado ya se "
-					+ "encuentra asociado al vacunatorio.", VacunasUyException.EXISTE_REGISTRO);
+		try {
+			//se valida que el vacunatorio y el evento existan
+			Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);
+			if(vacunatorioAux==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			Evento eventoAux = eventoDAO.listarPorId(evento);
+			if(eventoAux==null) throw new VacunasUyException("El evento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			//se valida que el evento no esté asociado a vacunatorio
+			for(Evento e: vacunatorioAux.getEventos()) {
+				if(e.getId()==eventoAux.getId()) throw new VacunasUyException("El evento indicado ya se "
+						+ "encuentra asociado al vacunatorio.", VacunasUyException.EXISTE_REGISTRO);
+			}
+			vacunatorioAux.getEventos().add(eventoAux);
+			return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorioAux));
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
-		vacunatorioAux.getEventos().add(eventoAux);
-		return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorioAux));
 	}
 	
 	@Override
 	public VacunatorioDTO agregarActoVacunal(Long vacunatorio, Long actoVacunal) throws VacunasUyException{
-		//se valida que el vacunatorio y el actoVacunal existan
-		Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);
-		if(vacunatorioAux==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		ActoVacunal actoVacunalAux = actoVacunalDAO.listarPorId(actoVacunal);
-		if(actoVacunalAux==null) throw new VacunasUyException("El acto vacunal indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		//se valida que el acto vacunal no esté asociado a vacunatorio
-		for(ActoVacunal a: vacunatorioAux.getActosVacunales()) {
-			if(a.getId()==actoVacunalAux.getId()) throw new VacunasUyException("El acto vacunal indicado ya se "
-					+ "encuentra asociado al vacunatorio.", VacunasUyException.EXISTE_REGISTRO); 
+		try {
+			//se valida que el vacunatorio y el actoVacunal existan
+			Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);
+			if(vacunatorioAux==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			ActoVacunal actoVacunalAux = actoVacunalDAO.listarPorId(actoVacunal);
+			if(actoVacunalAux==null) throw new VacunasUyException("El acto vacunal indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			//se valida que el acto vacunal no esté asociado a vacunatorio
+			for(ActoVacunal a: vacunatorioAux.getActosVacunales()) {
+				if(a.getId()==actoVacunalAux.getId()) throw new VacunasUyException("El acto vacunal indicado ya se "
+						+ "encuentra asociado al vacunatorio.", VacunasUyException.EXISTE_REGISTRO); 
+			}
+			vacunatorioAux.getActosVacunales().add(actoVacunalAux);
+			return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorioAux));
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
-		vacunatorioAux.getActosVacunales().add(actoVacunalAux);
-		return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorioAux));
+	}
+	
+	@Override
+	public VacunatorioDTO agregarPuesto(PuestoCrearDTO puestoDTO) throws VacunasUyException{
+		try {
+			// se valida que el vacunatorio exista
+			Vacunatorio vacunatorio = vacunatorioDAO.listarPorId(puestoDTO.getVacunatorio());
+			if(vacunatorio==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			// se crea un puesto y se setea el vacunatorio 
+			Puesto puesto = puestoConverter.fromCrearDTO(puestoDTO);
+			puesto.setVacunatorio(vacunatorio);
+			// se asocia el puesto al vacunatorio
+			vacunatorio.getPuestos().add(puesto);
+			return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorio));
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
 	}
 	
 

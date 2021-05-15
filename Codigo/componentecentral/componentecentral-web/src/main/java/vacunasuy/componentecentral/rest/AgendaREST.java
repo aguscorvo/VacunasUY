@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import vacunasuy.componentecentral.business.IAgendaService;
 import vacunasuy.componentecentral.dto.AgendaCrearDTO;
 import vacunasuy.componentecentral.dto.AgendaDTO;
+import vacunasuy.componentecentral.dto.AgendaMinDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
@@ -64,13 +65,13 @@ public class AgendaREST {
 	
 	@POST
 	public Response crear(AgendaCrearDTO request) {
-		RespuestaREST<AgendaDTO> respuesta = null;
+		RespuestaREST<AgendaMinDTO> respuesta = null;
 		try {
-			AgendaDTO agenda = agendaService.crear(request);
-			respuesta = new RespuestaREST<AgendaDTO>(true, "Agenda creada con éxito.", agenda);
+			AgendaMinDTO agenda = agendaService.crear(request);
+			respuesta = new RespuestaREST<AgendaMinDTO>(true, "Agenda creada con éxito.", agenda);
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
-			respuesta = new RespuestaREST<AgendaDTO>(false, e.getLocalizedMessage());
+			respuesta = new RespuestaREST<AgendaMinDTO>(false, e.getLocalizedMessage());
 			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			} else {

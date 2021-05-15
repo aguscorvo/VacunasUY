@@ -40,16 +40,16 @@ public class Puesto implements Serializable {
 	@Column(name = "numero", nullable = false)
 	private int numero;
 	
-//	@ManyToOne(	fetch = FetchType.LAZY)
-//	@JoinColumn(
-//			name="vacunatorio_id",
-//			insertable=false,
-//			updatable=false
-//	)
-//	private Vacunatorio vacunatorio;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(
+			name="fk_vacunatorio",
+			insertable=false,
+			updatable=false
+	)
+	private Vacunatorio vacunatorio;
 	
-//	@OneToMany(mappedBy="puesto", cascade = CascadeType.ALL, orphanRemoval=true)
-//	private List<Agenda> agendas = new ArrayList();
+	@OneToMany(mappedBy="puesto", cascade = CascadeType.ALL, orphanRemoval=true)
+	private List<Agenda> agendas = new ArrayList();
 	
 	@OneToMany(mappedBy="puesto", cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Atiende> atiende = new ArrayList();

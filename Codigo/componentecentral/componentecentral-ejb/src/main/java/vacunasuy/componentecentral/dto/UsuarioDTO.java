@@ -24,4 +24,5 @@ public class UsuarioDTO {
 	private List<RolDTO> roles;
 	private List<ActoVacunalDTO> actosVacunales;
 	private List<AgendaDTO> agendas;
+	private List<AtiendeDTO> atiende;
 }

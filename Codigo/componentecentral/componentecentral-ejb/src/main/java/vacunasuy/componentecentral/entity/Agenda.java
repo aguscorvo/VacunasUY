@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -38,7 +39,11 @@ public class Agenda implements Serializable{
 	private LocalDateTime fecha; 
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "puesto_id", referencedColumnName = "id")
+    @JoinColumn(name = "fk_puesto", referencedColumnName = "id")
 	private Puesto puesto;	
+	
+	@ManyToOne
+	@JoinColumn(name = "fk_plan_vacunacion")
+	private PlanVacunacion planVacunacion;
 
 }

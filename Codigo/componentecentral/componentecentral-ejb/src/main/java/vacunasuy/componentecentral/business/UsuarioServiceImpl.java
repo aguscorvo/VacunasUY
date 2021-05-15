@@ -1,6 +1,5 @@
 package vacunasuy.componentecentral.business;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -224,14 +223,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			if(vacunadorAux==null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 			Puesto puestoAux = puestoDAO.listarPorId(atiendeDTO.getIdPuesto());
 			if(puestoAux==null) throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			Atiende atiende = atiendeConverter.fromDTO(atiendeDTO);
+			Atiende atiende = atiendeConverter.fromCrearDTO(atiendeDTO);
 			atiende.setUsuario(vacunadorAux);
 			atiende.setPuesto(puestoAux);
 			
 			vacunadorAux.getAtiende().add(atiende);
-			puestoAux.getAtiende().add(atiende);
+//			puestoAux.getAtiende().add(atiende);
 			usuarioDAO.editar(vacunadorAux);
-			puestoDAO.editar(puestoAux);
+//			puestoDAO.editar(puestoAux);
 		}catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}

@@ -6,12 +6,16 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import vacunasuy.componentecentral.converter.PuestoConverter;
+import vacunasuy.componentecentral.converter.VacunatorioConverter;
 import vacunasuy.componentecentral.dao.IAgendaDAO;
 import vacunasuy.componentecentral.dao.IPuestoDAO;
+import vacunasuy.componentecentral.dao.IVacunatorioDAO;
 import vacunasuy.componentecentral.dto.PuestoCrearDTO;
 import vacunasuy.componentecentral.dto.PuestoDTO;
+import vacunasuy.componentecentral.dto.PuestoMinDTO;
 import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.Puesto;
+import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
 
@@ -26,6 +30,9 @@ public class PuestoServiceImpl implements IPuestoService {
 	
 	@EJB
 	private PuestoConverter puestoConverter;
+	
+	@EJB
+	private IVacunatorioDAO vacunatorioDAO;
 	
 	@Override
 	public List<PuestoDTO> listar() throws VacunasUyException{
@@ -61,10 +68,14 @@ public class PuestoServiceImpl implements IPuestoService {
 	}
 	
 	@Override
-	public PuestoDTO crear(PuestoCrearDTO puestoDTO) throws VacunasUyException{
+	public PuestoMinDTO crear(PuestoCrearDTO puestoDTO) throws VacunasUyException{
 		try {
+			Vacunatorio vacunatorio = vacunatorioDAO.listarPorId(puestoDTO.getVacunatorio());
+			if(vacunatorio==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 			Puesto puesto = puestoConverter.fromCrearDTO(puestoDTO);
-			return puestoConverter.fromEntity(puestoDAO.crear(puesto));
+			puesto.setVacunatorio(vacunatorio);
+			vacunatorio.getPuestos().add(puesto);
+			return puestoConverter.fromEntityToMin(puestoDAO.crear(puesto));
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}

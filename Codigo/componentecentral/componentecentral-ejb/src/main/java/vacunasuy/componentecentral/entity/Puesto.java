@@ -40,12 +40,8 @@ public class Puesto implements Serializable {
 	@Column(name = "numero", nullable = false)
 	private int numero;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(
-			name="fk_vacunatorio",
-			insertable=false,
-			updatable=false
-	)
+	@ManyToOne/*(fetch = FetchType.LAZY)*/
+	@JoinColumn(name="fk_vacunatorio")
 	private Vacunatorio vacunatorio;
 	
 	@OneToMany(mappedBy="puesto", cascade = CascadeType.ALL, orphanRemoval=true)

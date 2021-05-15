@@ -178,24 +178,6 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
-	}
+	}	
 	
-	@Override
-	public VacunatorioDTO agregarPuesto(PuestoCrearDTO puestoDTO) throws VacunasUyException{
-		try {
-			// se valida que el vacunatorio exista
-			Vacunatorio vacunatorio = vacunatorioDAO.listarPorId(puestoDTO.getVacunatorio());
-			if(vacunatorio==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			// se crea un puesto y se setea el vacunatorio 
-			Puesto puesto = puestoConverter.fromCrearDTO(puestoDTO);
-			puesto.setVacunatorio(vacunatorio);
-			// se asocia el puesto al vacunatorio
-			vacunatorio.getPuestos().add(puesto);
-			return vacunatorioConverter.fromEntity(vacunatorioDAO.editar(vacunatorio));
-		}catch(Exception e) {
-			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-		}
-	}
-	
-
 }

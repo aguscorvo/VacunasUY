@@ -13,11 +13,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PuestoDTO {
-	
-	private Long id;
-	private int numero;
-	private VacunatorioMinDTO vacunatorio;
-	private List<AgendaMinDTO> agendas;	
+public class VacunatorioMinDTO {
 
+	private Long id;
+	private String nombre;
+	private Double latitud;
+	private Double longitud;
+	private String direccion;
+	private LocalidadDTO localidad;
+	private DepartamentoMinDTO departamento;
+	
 }

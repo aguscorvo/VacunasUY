@@ -13,11 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PuestoDTO {
-	
+public class PuestoMinDTO {
+
 	private Long id;
 	private int numero;
-	private VacunatorioMinDTO vacunatorio;
 	private List<AgendaMinDTO> agendas;	
-
 }

@@ -172,26 +172,6 @@ public class VacunatorioREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}	
-	}
-	
-	@POST
-	@Path("/agregarPuesto")
-//	@RecursoProtegidoJWT
-	public Response agregarPuesto(PuestoCrearDTO puestoDTO) {
-		RespuestaREST<VacunatorioDTO> respuesta = null;
-		try {
-			VacunatorioDTO vacunatorioDTO = vacunatorioService.agregarPuesto(puestoDTO);
-			respuesta = new RespuestaREST<VacunatorioDTO>(true, "Puesto agregado al vacunatorio con éxito.", vacunatorioDTO);
-			return Response.ok(respuesta).build();			
-		}catch (VacunasUyException e) {
-			respuesta = new RespuestaREST<VacunatorioDTO>(false, e.getLocalizedMessage());
-			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
-				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
-			} else {
-				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-			}
-		}	
-	}
-	
+	}	
 	
 }

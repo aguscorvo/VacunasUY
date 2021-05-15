@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import vacunasuy.componentecentral.business.IPuestoService;
 import vacunasuy.componentecentral.dto.PuestoCrearDTO;
 import vacunasuy.componentecentral.dto.PuestoDTO;
+import vacunasuy.componentecentral.dto.PuestoMinDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
@@ -83,13 +84,13 @@ public class PuestoREST {
 	
 	@POST
 	public Response crear(PuestoCrearDTO request) {
-		RespuestaREST<PuestoDTO> respuesta = null;
+		RespuestaREST<PuestoMinDTO> respuesta = null;
 		try {
-			PuestoDTO puesto = puestoService.crear(request);
-			respuesta = new RespuestaREST<PuestoDTO>(true, "Puesto creado con éxito.", puesto);
+			PuestoMinDTO puesto = puestoService.crear(request);
+			respuesta = new RespuestaREST<PuestoMinDTO>(true, "Puesto creado con éxito.", puesto);
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
-			respuesta = new RespuestaREST<PuestoDTO>(false, e.getLocalizedMessage());
+			respuesta = new RespuestaREST<PuestoMinDTO>(false, e.getLocalizedMessage());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 		}
 	}

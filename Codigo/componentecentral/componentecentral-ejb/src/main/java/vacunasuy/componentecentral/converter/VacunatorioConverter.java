@@ -1,11 +1,17 @@
 package vacunasuy.componentecentral.converter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
+import vacunasuy.componentecentral.dto.PuestoMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
+import vacunasuy.componentecentral.dto.VacunatorioMinDTO;
+import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 
 @Singleton
@@ -76,6 +82,27 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 				.latitud(v.getLatitud())
 				.longitud(v.getLongitud())
 				.build();
+	}
+	
+	public VacunatorioMinDTO fromEntityToMin(Vacunatorio v) {
+		if(v==null) return null;
+		return VacunatorioMinDTO.builder()
+				.id(v.getId())
+				.nombre(v.getNombre())
+				.latitud(v.getLatitud())
+				.longitud(v.getLongitud())
+				.direccion(v.getDireccion())
+				.localidad(localidadConverter.fromEntity(v.getLocalidad()))
+				.departamento(departamentoConverter.fromEntityToMin(v.getDepartamento()))				
+				.build();
+		
+	} 
+	
+	public List<VacunatorioMinDTO> fromEntityToMin(List<Vacunatorio> entities){
+		if(entities == null) return null;
+		return entities.stream()
+			.map(e -> fromEntityToMin(e))
+			.collect(Collectors.toList());
 	}
 
 }

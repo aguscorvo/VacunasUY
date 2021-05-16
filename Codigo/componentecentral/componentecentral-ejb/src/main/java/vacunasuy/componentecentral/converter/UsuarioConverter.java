@@ -8,6 +8,7 @@ import javax.ejb.Singleton;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
+import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.entity.Usuario;
 
 @Singleton
@@ -71,6 +72,30 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 			.roles(rolConverter.fromEntity(e.getRoles()))
 			.token(token)
 			.build();
+	}
+	
+	public Usuario fromMinDTO(UsuarioMinDTO u) {
+		if(u==null) return null;
+		return Usuario.builder()
+				.id(u.getId())
+				.documento(u.getDocumento())
+				.nombre(u.getNombre())
+				.apellido(u.getApellido())
+				.correo(u.getCorreo())
+				.fechaNacimiento(LocalDate.parse(u.getFechaNacimiento()))
+				.build();
+	}
+	
+	public UsuarioMinDTO fromEntityToMin(Usuario u) {
+		if(u == null) return null;
+		return UsuarioMinDTO.builder()
+				.id(u.getId())
+				.documento(u.getDocumento())
+				.nombre(u.getNombre())
+				.apellido(u.getApellido())
+				.correo(u.getCorreo())
+				.fechaNacimiento(u.getFechaNacimiento().toString())
+				.build();
 	}
 
 }

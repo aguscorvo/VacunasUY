@@ -6,19 +6,19 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import vacunasuy.componentecentral.converter.PuestoConverter;
+import vacunasuy.componentecentral.converter.UsuarioConverter;
 import vacunasuy.componentecentral.converter.VacunatorioConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
 import vacunasuy.componentecentral.dao.IDepartamentoDAO;
 import vacunasuy.componentecentral.dao.IEventoDAO;
 import vacunasuy.componentecentral.dao.ILocalidadDAO;
-import vacunasuy.componentecentral.dao.IPuestoDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
-import vacunasuy.componentecentral.dto.PuestoCrearDTO;
+import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.entity.ActoVacunal;
+import vacunasuy.componentecentral.entity.Atiende;
 import vacunasuy.componentecentral.entity.Departamento;
 import vacunasuy.componentecentral.entity.Evento;
 import vacunasuy.componentecentral.entity.Localidad;
@@ -39,9 +39,6 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	private IDepartamentoDAO departamentoDAO;
 	
 	@EJB
-	private IPuestoDAO puestoDAO;
-	
-	@EJB
 	private IEventoDAO eventoDAO;
 	
 	@EJB 
@@ -51,7 +48,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	private VacunatorioConverter vacunatorioConverter;
 	
 	@EJB
-	private PuestoConverter puestoConverter;
+	private UsuarioConverter usuarioConverter;
 	
 	
 	@Override
@@ -178,6 +175,25 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
-	}	
+	}
+	
+	public List<UsuarioMinDTO> solicitarAsignaciones(Long vacunatorio, String fecha) throws VacunasUyException{
+		try {
+			// se valida el vacunatorio
+			Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);
+			if(vacunatorioAux==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			List<UsuarioMinDTO> vacunadores = new ArrayList();
+			for(Puesto p: vacunatorioAux.getPuestos()) {
+				for(Atiende a: p.getAtiende()) {
+					if(a.getFecha().toString().equals(fecha)) 
+						vacunadores.add(usuarioConverter.fromEntityToMin(a.getUsuario()));
+				}
+			}
+			return vacunadores;
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+
 	
 }

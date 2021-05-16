@@ -193,4 +193,40 @@ public class VacunatorioREST {
 		}	
 	}
 	
+	@GET
+	@Path("/listarPorUbicacion/{localidad}/{departamento}")
+	public Response listarPorUbicacion(@PathParam("localidad") Long localidad, @PathParam("departamento") Long departamento) {
+		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
+		try {
+			List<VacunatorioDTO> vacunatorios = vacunatorioService.listarPorUbicacion(localidad, departamento);
+			respuesta = new RespuestaREST<List<VacunatorioDTO>>(true, "Vacunatorios listados con éxito", vacunatorios);
+			return Response.ok(respuesta).build();
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<List<VacunatorioDTO>>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO){
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}	
+	}
+	
+	@GET
+	@Path("/listarPorDepartamento/{departamento}")
+	public Response listarPorDepartamento(@PathParam("departamento") Long departamento) {
+		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
+		try {
+			List<VacunatorioDTO> vacunatorios = vacunatorioService.listarPorDepartamento(departamento);
+			respuesta = new RespuestaREST<List<VacunatorioDTO>>(true, "Vacunatorios listados con éxito", vacunatorios);
+			return Response.ok(respuesta).build();
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<List<VacunatorioDTO>>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO){
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}	
+	}	
+	
 }

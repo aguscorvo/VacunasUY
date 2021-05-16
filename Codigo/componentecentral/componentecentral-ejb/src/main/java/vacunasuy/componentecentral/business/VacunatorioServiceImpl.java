@@ -177,6 +177,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}
 	}
 	
+	@Override
 	public List<UsuarioMinDTO> solicitarAsignaciones(Long vacunatorio, String fecha) throws VacunasUyException{
 		try {
 			// se valida el vacunatorio
@@ -193,6 +194,37 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
+	}
+	
+	@Override
+	public List<VacunatorioDTO> listarPorUbicacion(Long localidad, Long departamento) throws VacunasUyException{
+		try {
+			//se valida que localidad y departamento existan
+			Localidad localidadAux = localidadDAO.listarPorId(localidad);
+			if (localidadAux == null) 	throw new VacunasUyException("La localidad indicada no existe.", 
+					VacunasUyException.NO_EXISTE_REGISTRO);
+			Departamento departamentoAux = departamentoDAO.listarPorId(departamento);
+			if(departamentoAux==null) throw new VacunasUyException("El departamento indicado no existe.", 
+					VacunasUyException.NO_EXISTE_REGISTRO);		
+			//se valida que la localidad se encuentre dentro del departamento
+			if(!departamentoAux.getLocalidades().contains(localidadAux)) throw new VacunasUyException("La localidad no se encuentra "
+					+ "en el departamento indicado.", VacunasUyException.DATOS_INCORRECTOS);
+			return vacunatorioConverter.fromEntity(vacunatorioDAO.listarPorUbicacion(localidad, departamento));
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}		
+	}
+	
+	@Override
+	public List<VacunatorioDTO> listarPorDepartamento(Long departamento) throws VacunasUyException{
+		try {
+			Departamento departamentoAux = departamentoDAO.listarPorId(departamento);
+			if(departamentoAux==null) throw new VacunasUyException("El departamento indicado no existe.", 
+					VacunasUyException.NO_EXISTE_REGISTRO);
+			return vacunatorioConverter.fromEntity(vacunatorioDAO.listarPorDepartamento(departamento));
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}		
 	}
 
 	

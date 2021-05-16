@@ -7,6 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import vacunasuy.componentecentral.entity.Departamento;
+import vacunasuy.componentecentral.entity.Localidad;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 
 @Singleton
@@ -50,5 +52,22 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
     	Query consulta = em.createQuery("SELECT v FROM Vacunatorio v WHERE v.id > 5");
     	return consulta.getResultList();
     }
+    
+    @Override
+	public List<Vacunatorio> listarPorUbicacion(Long localidad, Long departamento){
+    	Query consulta = em.createQuery("SELECT v FROM Vacunatorio v "
+    			+ "WHERE v.localidad.id = :localidad AND v.departamento.id = :departamento");
+		consulta.setParameter("localidad", localidad);
+		consulta.setParameter("departamento", departamento);
+    	return consulta.getResultList();
+    }
+    
+    @Override
+    public List<Vacunatorio> listarPorDepartamento(Long departamento){
+    	Query consulta = em.createQuery("SELECT v FROM Vacunatorio v WHERE v.departamento.id = :departamento");
+		consulta.setParameter("departamento", departamento);
+    	return consulta.getResultList();
+    }
+
 
 }

@@ -1,9 +1,35 @@
+import 'dart:convert';
+import 'dart:html';
+
+import 'package:VacunasUY/tools/BackendConnection.dart';
+import 'package:VacunasUY/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'assets/CustomAppBar.dart';
+import 'objects/GubUY.dart';
 
-void main() {
+void main() async {
+  await cookiesLoad();
+
   runApp(MyApp());
+}
+
+void cookiesLoad() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String savedPreferencesString = prefs.getString("VacunasUY");
+  if (savedPreferencesString == null || savedPreferencesString == '') {
+    storedUserCredentials = emptyUser;
+  } else {
+    Map savedPreferences = jsonDecode(savedPreferencesString);
+    storedUserCredentials = UserCredentials.fromJson(savedPreferences);
+    if (storedUserCredentials.getUserData() == null) {
+      storedUserCredentials = emptyUser;
+    } else if (storedUserCredentials.getUserData().correo == '') {
+      storedUserCredentials = emptyUser;
+    }
+  }
 }
 
 final MaterialColor colorCustom = MaterialColor(0xFF174378, {
@@ -35,6 +61,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String url = window.location.href.toString();
+    if (url.contains("code=") && url.contains("state=")) {
+      String tokens = "";
+      List<String> urls = url.split("/");
+      urls.forEach((element) {
+        if (element.contains("code=") && element.contains("state=")) {
+          tokens = element.replaceAll(new RegExp(r'#'), '');
+        }
+      });
+      String code = tokens.split("&")[0].split("=")[1];
+      String state = tokens.split("&")[1].split("=")[1];
+
+      GubUY gubAuth = new GubUY();
+      gubAuth.code = code;
+      gubAuth.state = state;
+
+      print(gubAuth.toJson());
+
+      BackendConnection bc = new BackendConnection();
+      bc.exitoLoginGubUY(gubAuth);
+    }
+
     return MaterialApp(
       title: 'Vacunas UY',
       debugShowCheckedModeBanner: false,
@@ -81,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Che bo ñery, has presionado el + esta cantidad de veces:',
+              ':',
             ),
             Text(
               '$_counter',

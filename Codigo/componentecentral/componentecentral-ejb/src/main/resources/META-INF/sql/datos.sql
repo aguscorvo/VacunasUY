@@ -43,6 +43,7 @@ INSERT INTO localidades (nombre) VALUES ('Maldonado');
 INSERT INTO localidades (nombre) VALUES ('Pan de Azucar');
 INSERT INTO localidades (nombre) VALUES ('Minas');
 INSERT INTO localidades (nombre) VALUES ('Solis de Mataojo');
+
 INSERT INTO localidades (nombre) VALUES ('Florida');
 INSERT INTO localidades (nombre) VALUES ('Sarandi Grande');
 INSERT INTO localidades (nombre) VALUES ('Colonia del Sacramento');
@@ -50,33 +51,38 @@ INSERT INTO localidades (nombre) VALUES ('Carmelo');
 INSERT INTO localidades (nombre) VALUES ('Trinidad');
 INSERT INTO localidades (nombre) VALUES ('Ismael Cortinas');
 INSERT INTO localidades (nombre) VALUES ('Mercedes');
-INSERT INTO localidades (nombre) VALUES ('Dolores');
+INSERT INTO localidades (nombre) VALUES ('Cardona');
 INSERT INTO localidades (nombre) VALUES ('Fray Bentos');
 INSERT INTO localidades (nombre) VALUES ('Young');
+
 INSERT INTO localidades (nombre) VALUES ('La Paloma');
 INSERT INTO localidades (nombre) VALUES ('Rocha');
-INSERT INTO localidades (nombre) VALUES ('Santa Bernardina');
 INSERT INTO localidades (nombre) VALUES ('Sarandi del Yi');
-INSERT INTO localidades (nombre) VALUES ('Santa Clara de Olimar');
+INSERT INTO localidades (nombre) VALUES ('Durazno');
 INSERT INTO localidades (nombre) VALUES ('Treinta y Tres');
+INSERT INTO localidades (nombre) VALUES ('Santa Clara de Olimar');
 INSERT INTO localidades (nombre) VALUES ('Melo');
 INSERT INTO localidades (nombre) VALUES ('Rio Branco');
-INSERT INTO localidades (nombre) VALUES ('Tranqueras');
 INSERT INTO localidades (nombre) VALUES ('Rivera');
+INSERT INTO localidades (nombre) VALUES ('Tranqueras');
+
 INSERT INTO localidades (nombre) VALUES ('Salto');
 INSERT INTO localidades (nombre) VALUES ('Villa Constitucion');
 INSERT INTO localidades (nombre) VALUES ('Paysandu');
 INSERT INTO localidades (nombre) VALUES ('Guichon');
-INSERT INTO localidades (nombre) VALUES ('San Gregorio');
 INSERT INTO localidades (nombre) VALUES ('Tacuarembo');
+INSERT INTO localidades (nombre) VALUES ('San Gregorio');
 INSERT INTO localidades (nombre) VALUES ('Artigas');
 INSERT INTO localidades (nombre) VALUES ('Bella Union');
+INSERT INTO localidades (nombre) VALUES ('Ciudad de la Costa');
+
 
 /* Relación departamentos y localidades */
 INSERT INTO departamentos_localidades VALUES (1,1);
 INSERT INTO departamentos_localidades VALUES (1,2);
 INSERT INTO departamentos_localidades VALUES (2,3);
 INSERT INTO departamentos_localidades VALUES (2,4);
+INSERT INTO departamentos_localidades VALUES (2,39);
 INSERT INTO departamentos_localidades VALUES (3,5);
 INSERT INTO departamentos_localidades VALUES (3,6);
 INSERT INTO departamentos_localidades VALUES (4,7);
@@ -112,7 +118,7 @@ INSERT INTO departamentos_localidades VALUES (18,36);
 INSERT INTO departamentos_localidades VALUES (19,37);
 INSERT INTO departamentos_localidades VALUES (19,38);
 
-/* Vacunatorios - Total: 14*/
+/* Vacunatorios - Total: 42*/
 INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Antel Arena', -34.86297, -56.15348, 'Dámaso A. Larrañaga entre Jose P. Varela y J. Serrato', 1, 1);
 INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital de Clinicas', -25.28013, -57.65262, 'Av.Italia S/N 1º Piso Consulta Externa Ala Este', 1, 1);
 INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital Pereira Rossell', -34.89885, -56.16283, 'Lord Ponsomby (Vacunatorio)', 1, 1);
@@ -127,8 +133,40 @@ INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk
 INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital Samuel Berton CHLA-EP', -34.45834, -57.83026, 'Av Batlle y Ordoñez y Bassahun', 13, 7);
 INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital ASSE', -33.98991, -58.28301, 'Av Artigas 346 entre Ruta 21 y 19 de Abril', 14, 7);
 INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital de Mercedes', -33.25333, -58.04080, 'Florencio Sánchez s/n esq Cerrito', 17, 9);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Centro de Salud Cerro', -34.87350, -56.25216, 'Doctor Pedro Catellino', 1, 1);
 
-/* Puestos - Total: 95*/
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Asociación Española', -34.80257, -56.22389, 'Margarita 5718 esq. Garzón', 1, 1);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Centro Salud ASSE', -34.83063, -55.97701, 'Secco García y García Arocena s/n', 39, 2);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Local Espacio Adolescente', -34.59776, -55.46589, 'Eduardo Fabini esquina Minas', 10, 5);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital ASSE', -33.25333, -58.04080, 'Pasteur 1052 entre Treinta y Tres y Faustino Harrison', 12, 6); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Círculo Católico', -33.87021, -57.36780, 'Libertad 136', 18, 9); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Plaza de Deportes', -33.52134, -56.89787, 'Artigas entre Fondar y Herrera', 15, 8); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Policlínica ASSE', -33.95997, -57.08991, 'Artigas y Rivera', 16, 8); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital ASSE', -33.11815, -58.30437, 'Oribe entre Instrucciones y Echeverria', 19, 10); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('CAMY Pediatría', -32.69803, -57.62954, '25 de Agosto 3417', 20, 10); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('COMERO', -34.47703, -54.33720, 'Eliseo Marsol 152 entre Treinta y Tres y Florencio Sánchez', 22, 11); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Centro Cultural La Paloma', -34.65856, -54.15528, 'Javier Barrios Amorín s/n', 21, 11); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('CHLAEP', -33.37911, -56.52165, '18 de Julio 617 entre Manuel Oribe y E Piriz', 24, 12); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('CHLAEP', -33.34001, -55.62403, 'Av Dr Petrini 501 entre Presidente Berro y Dolores Vidal de Pereira', 23, 12); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Estadio Municipal Centro Empleados de Comercio', -33.22127, -54.37563, 'Florencio Sánchez entre 10 de Marzo y Maracopa', 25, 13); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Centro Auxiliar de ASSE', -32.92362, -54.95583, 'Av. Chiquito Saravia s/n casi Ruta 7', 26, 13); 
+
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('UTU Gimnasio', -32.37674, -54.16675, 'Navarrete s/n entre Manuel Oribe y Juan Antonio Lavalleja', 27, 14); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Plaza de Deportes', -32.59059, -53.37905, 'Joaquín Gundin S/N entre Victoria Ipar de Zamora y 10 de Junio', 28, 14); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Casa de la Cultura', -30.90691, -55.54542, 'Presidente Viera s/n', 29, 15);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Policlínica de ASSE', -31.19440, -55.76235, 'Calle 33 orientales S/N', 30, 15); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital de Agudos', -31.40356, -57.94944, 'Florencio Sánchez s/n esq Cerrito', 31, 16); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Local Comercial', -31.38576, -57.96400, 'Dr Soca y Brasil', 31, 16); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('CHLAEP', -32.32579, -58.08101, 'Monte Caseros 520 (entrada por Vizconde de Maua)', 33, 17); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Centro Auxiliar de ASSE', -32.35442, -57.20890, 'Avenida Pedro Guichón', 34, 17); 
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('COMTA - Clínica Fisioterapia', -31.71601, -55.98710, 'Olimpia Pintos entre Dr Ivo Ferreira y Gral Rivera', 35, 18);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Centro de Salud ', -32.61968, -55.83663, 'Yamandú Gamba 46', 36, 18); 
+
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Centro Tisiológico', -30.39867, -56.46245, 'Amaro F. Ramos S/N', 37, 19);
+INSERT INTO vacunatorios (nombre, latitud, longitud, direccion, fk_localidad, fk_departamento) VALUES ('Hospital ASSE', -30.25807, -57.59560, 'Rivera y Treinta y Tres', 38, 19);
+
+
+/* Puestos - Total: 192*/
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 1);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 1);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 1);
@@ -156,7 +194,7 @@ INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 3);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 3);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 4);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 4);
-INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3,4);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 4);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 4);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 4);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 5);
@@ -217,16 +255,139 @@ INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 14);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 14);
 INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 14); /* 85 */
 
-INSERT INTO puestos (numero) VALUES(1);
-INSERT INTO puestos (numero) VALUES(2);
-INSERT INTO puestos (numero) VALUES(3);
-INSERT INTO puestos (numero) VALUES(4);
-INSERT INTO puestos (numero) VALUES(5);
-INSERT INTO puestos (numero) VALUES(1);
-INSERT INTO puestos (numero) VALUES(2);
-INSERT INTO puestos (numero) VALUES(3);
-INSERT INTO puestos (numero) VALUES(4);
-INSERT INTO puestos (numero) VALUES(5); /* 95 */
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 15);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 15);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 15);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 15);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 15);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 16);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 16);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 16);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 16);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 16); /* 95 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 17);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 17);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 17);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 17);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 17);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 18);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 18);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 18);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 18);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 18); /* 105 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 19);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 19);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 19);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 19);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 19);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 20);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 20);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 20);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 20);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 20); /* 115 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 21);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 21);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 21);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 21);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 21);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 22);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 22);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 22);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 22);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 22); /* 125 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 23);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 23);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 23);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 23);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 23);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 23);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 24);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 24);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 24);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 24); /* 125 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 25);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 25);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 25);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 25);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 25);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 26);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 26);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 26);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 26);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 26); /* 135 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 27);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 27);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 27);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 27);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 27);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 28);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 28);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 28);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 28);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 28); /* 145 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 29);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 29);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 29);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 29);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 29);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 30);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 30);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 30);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 30);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 30); /* 155 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 31);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 31);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 31);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 31);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 31);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 32);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 32);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 32);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(4, 32);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(5, 32); /* 165 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 33);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 33);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 33);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 34);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 34);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 34);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 35);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 35);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 35); /* 174 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 36);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 36);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 36);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 37);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 37);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 37);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 38);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 38);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 38); /* 183 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 39);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 39);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 39);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 40);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 40);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 40);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 41);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 41);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 41); /* 192 */
+
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(1, 42);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(2, 42);
+INSERT INTO puestos (numero, fk_vacunatorio) VALUES(3, 42); /* 193 */
+
 
 /* Relación vacunatorios y puestos - Total: 80*/
 --INSERT INTO vacunatorios_puestos VALUES (1,1);

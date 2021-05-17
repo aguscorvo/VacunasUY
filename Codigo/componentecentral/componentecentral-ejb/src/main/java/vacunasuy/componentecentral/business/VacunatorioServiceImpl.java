@@ -178,7 +178,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	}
 	
 	@Override
-	public List<UsuarioMinDTO> solicitarAsignaciones(Long vacunatorio, String fecha) throws VacunasUyException{
+	public List<UsuarioMinDTO> enviarAsignaciones(Long vacunatorio, String fecha) throws VacunasUyException{
 		try {
 			// se valida el vacunatorio
 			Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);

@@ -176,11 +176,11 @@ public class VacunatorioREST {
 	}
 	
 	@GET
-	@Path("/solicitarAsignaciones/{vacunatorio}/{fecha}")
-	public Response solicitarAsignaciones(@PathParam("vacunatorio") Long vacunatorio, @PathParam("fecha") String fecha) {
+	@Path("/enviarAsignaciones/{vacunatorio}/{fecha}")
+	public Response enviarAsignaciones(@PathParam("vacunatorio") Long vacunatorio, @PathParam("fecha") String fecha) {
 		RespuestaREST<List<UsuarioMinDTO>> respuesta = null;
 		try {
-			List<UsuarioMinDTO> vacunadores = vacunatorioService.solicitarAsignaciones(vacunatorio, fecha);
+			List<UsuarioMinDTO> vacunadores = vacunatorioService.enviarAsignaciones(vacunatorio, fecha);
 			respuesta = new RespuestaREST<List<UsuarioMinDTO>>(true, "Vacunadores listados con éxito", vacunadores);
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {

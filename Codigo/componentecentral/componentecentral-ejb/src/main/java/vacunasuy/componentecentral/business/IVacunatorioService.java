@@ -22,7 +22,7 @@ public interface IVacunatorioService {
 	public List<VacunatorioDTO> listarVacunatoriosCercanos(VacunatorioCercanoDTO vacunatorioDTO) throws VacunasUyException;
 	public VacunatorioDTO agregarEvento(Long vacunatorio, Long evento) throws VacunasUyException;
 	public VacunatorioDTO agregarActoVacunal(Long vacunatorio, Long actoVacunal) throws VacunasUyException;
-	public List<UsuarioMinDTO> solicitarAsignaciones(Long vacunatorio, String fecha) throws VacunasUyException;
+	public List<UsuarioMinDTO> enviarAsignaciones(Long vacunatorio, String fecha) throws VacunasUyException;
 	public List<VacunatorioDTO> listarPorUbicacion(Long localidad, Long departamento) throws VacunasUyException;
 	public List<VacunatorioDTO> listarPorDepartamento(Long departamento) throws VacunasUyException;
 

@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
@@ -105,9 +106,11 @@ public class GubUyActivity extends AppCompatActivity {
                     && !(Uri.parse(url).getQuery().contains("client_id"))){
                 String access = Uri.parse(url).getQuery();
                 Log.i("GubUyActivity", ConnConstant.API_USRLOGIN_URL + access);
-                //view.loadUrl(ConnConstant.API_USRLOGIN_URL + access);
                 new LoginUserTask().execute(ConnConstant.API_USRLOGIN_URL + access);
-                GubUyActivity.super.onBackPressed();
+                //GubUyActivity.super.onBackPressed();
+                Intent intent = new Intent(GubUyActivity.this, MainActivity.class);
+                startActivity(intent);
+
                 return true;
             }
             return false;
@@ -146,9 +149,9 @@ public class GubUyActivity extends AppCompatActivity {
 
             if (result instanceof ArrayList) {
                 infoGral = (DtResponse) result;
+
             }else if(result instanceof String){
                 Log.i("onPostExecute", "response: " + ((String) result));
-
             }
         }
 
@@ -235,21 +238,23 @@ public class GubUyActivity extends AppCompatActivity {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("id")) {
+            if (name.equals("id") && reader.peek() != JsonToken.NULL) {
                 id = reader.nextInt();
-            } else if (name.equals("documento")) {
+            } else if (name.equals("documento") && reader.peek() != JsonToken.NULL) {
                 documento = reader.nextString();
-            } else if (name.equals("nombre")) {
+            } else if (name.equals("nombre") && reader.peek() != JsonToken.NULL) {
                 nombre = reader.nextString();
-            } else if (name.equals("apellido")) {
+            } else if (name.equals("apellido") && reader.peek() != JsonToken.NULL) {
                 apellido = reader.nextString();
             }  else if (name.equals("fechaNacimiento")&& reader.peek() != JsonToken.NULL) {
                 Long jfecha = (reader.nextLong());
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                 fechanacimiento = new Date(jfecha);
-            } else if (name.equals("roles")) {
+            } else if (name.equals("roles") && reader.peek() != JsonToken.NULL) {
                 roles = readDtRolArray(reader);
-            } else if (name.equals("token")) {
+            }  else if (name.equals("correo") && reader.peek() != JsonToken.NULL) {
+                correo = reader.nextString();
+            }else if (name.equals("token") && reader.peek() != JsonToken.NULL) {
                 token = reader.nextString();
             } else {
                 reader.skipValue();
@@ -301,4 +306,8 @@ public class GubUyActivity extends AppCompatActivity {
         return new DtRol(id, nombre);
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
 }

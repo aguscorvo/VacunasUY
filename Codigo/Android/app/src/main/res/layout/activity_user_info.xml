@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:paddingLeft="10dp"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:background="@drawable/textborder"
             />
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:paddingLeft="10dp"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:background="@drawable/textborder"
             />
             <TextView
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:paddingLeft="10dp"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:background="@drawable/textborder"
             />
             <TextView
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:paddingLeft="10dp"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:background="@drawable/textborder"
                 />
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:paddingLeft="10dp"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:background="@drawable/textborder"
                 />
 

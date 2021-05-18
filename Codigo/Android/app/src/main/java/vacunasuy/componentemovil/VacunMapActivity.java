@@ -1,6 +1,7 @@
 package vacunasuy.componentemovil;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -11,9 +12,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
-import android.graphics.drawable.ScaleDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -28,8 +26,11 @@ import android.util.JsonToken;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -53,13 +54,19 @@ import java.util.List;
 
 import vacunasuy.componentemovil.constant.ConnConstant;
 import vacunasuy.componentemovil.constant.MapConstant;
-import vacunasuy.componentemovil.obj.DtMessage;
-import vacunasuy.componentemovil.obj.DtResponse;
 import vacunasuy.componentemovil.obj.DtUbicacion;
 import vacunasuy.componentemovil.obj.DtUsuario;
 import vacunasuy.componentemovil.obj.DtVacunatorio;
+import vacunasuy.componentemovil.second.AddFechaNacimiento;
+import vacunasuy.componentemovil.second.MapDepto;
+import vacunasuy.componentemovil.second.MapDeptoLoc;
 
 public class VacunMapActivity extends AppCompatActivity implements  LocationListener{
+    private static final String TAG = "VacunasUY";
+    private static final int DEPARTAMENTO = 1;
+    private static final int LOCALIDAD = 2;
+    private static final int DISTANCIA = 3;
+    final static Integer CODE = 2021;
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
     MapView map;
@@ -69,7 +76,12 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
     private LocationManager locationManager;
     private Location location;
     private GeoPoint center;
+    private GeoPoint findCenter = null;
     ProgressBar progressBar;
+    String[] opcionesfilter;
+    Spinner filtermap;
+    Boolean filtradodeptoLoc = false;
+
 
 
     @Override
@@ -84,8 +96,39 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         imlocation = findViewById(R.id.imageButtonLocation);
         bottomNavigationView = findViewById(R.id.bottomNavigationViewMap);
         progressBar = findViewById(R.id.progressBarMapView);
+        filtermap = findViewById(R.id.spinnerFilterMap);
 
         progressBar.setVisibility(View.INVISIBLE);
+        opcionesfilter = getResources().getStringArray(R.array.mapopciones);
+        ArrayAdapter<String> aaop = new ArrayAdapter<String>(this, R.layout.map_spinner, opcionesfilter);
+        filtermap.setAdapter(aaop);
+
+        filtermap.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Intent select_filter;
+                Log.i(TAG, "onItemSelected position: " + position);
+                switch (position) {
+                    case DEPARTAMENTO:
+                        select_filter = new Intent(VacunMapActivity.this, MapDepto.class);
+                        startActivityForResult(select_filter, CODE+DEPARTAMENTO);
+                        break;
+                    case LOCALIDAD:
+                        select_filter = new Intent(VacunMapActivity.this, MapDeptoLoc.class);
+                        startActivityForResult(select_filter, CODE+LOCALIDAD);
+                        break;
+                    case DISTANCIA:
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         map = findViewById(R.id.map);
 
@@ -100,11 +143,12 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
         if(gpsEnabled){
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             } else{
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MapConstant.MAP_TIME_MS, MapConstant.MAP_DISTANCE_M, (LocationListener) this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MapConstant.MAP_TIME_MS, MapConstant.MAP_DISTANCE_M, this);
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 center = new GeoPoint(location.getLatitude(), location.getLongitude());
@@ -167,9 +211,13 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                     case R.id.menu_usuario:
                         DtUsuario usuario = DtUsuario.getInstance();
                         if(usuario.getRegistrado()){
-                            Intent userinfo = new Intent(VacunMapActivity.this, UserInfoActivity.class);
-                            startActivity(userinfo);
-
+                            if(usuario.getFechanacimiento()==null){
+                                Intent fnintent = new Intent(VacunMapActivity.this, AddFechaNacimiento.class);
+                                startActivity(fnintent);
+                            }else {
+                                Intent userinfo = new Intent(VacunMapActivity.this, UserInfoActivity.class);
+                                startActivity(userinfo);
+                            }
                         }else{
                             Intent userlogin = new Intent(VacunMapActivity.this, GubUyActivity.class);
                             startActivity(userlogin);
@@ -204,10 +252,13 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         super.onStop();
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
+
     public void addMarker (Marker marker){
-        //map.getOverlays().clear();
         map.getOverlays().add(marker);
-        //map.invalidate();
     }
 
     private void addVacunatorios(List<DtVacunatorio> vacunatorios){
@@ -224,6 +275,8 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             title = title + "Cantidad de puestos: " + dtv.getPuestos().size() + "\n";
             vmarker.setTitle(title);
             addMarker(vmarker);
+
+            findCenter = new GeoPoint(dtv.getLatitud(), dtv.getLongitud());
         }
     }
 
@@ -242,12 +295,68 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
     private void buscarVacunatorios() {
         connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connMgr.getActiveNetworkInfo();
+        filtradodeptoLoc = false;
 
         String stringUrl = ConnConstant.API_VACUNATORIOS_URL;
 
         if (networkInfo != null && networkInfo.isConnected()) {
             progressBar.setVisibility(View.VISIBLE);
             new VacunMapActivity.DownloadVacunasTask().execute(stringUrl);
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void buscarVacunatoriosDepto(String departamento) {
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+        filtradodeptoLoc = true;
+
+        String stringUrl = ConnConstant.API_VACUNATORIOS_FILTERDEPTO_URL;
+
+        stringUrl = stringUrl.replace("{departamento}", departamento);
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            progressBar.setVisibility(View.VISIBLE);
+
+            map.getOverlays().clear();
+
+            Marker marker = new Marker(map);
+            marker.setPosition(center);
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            marker.setTitle(getString(R.string.map_text_loc));
+            addMarker(marker);
+
+            new VacunMapActivity.DownloadVacunasTask().execute(stringUrl);
+
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void buscarVacunatoriosLocDepto(String departamento, String localidad) {
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+        filtradodeptoLoc = true;
+
+        String stringUrl = ConnConstant.API_VACUNATORIOS_FILTERLOCALIDAD_URL;
+
+        stringUrl = stringUrl.replace("{departamento}", departamento);
+        stringUrl = stringUrl.replace("{localidad}", localidad);
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            progressBar.setVisibility(View.VISIBLE);
+
+            map.getOverlays().clear();
+
+            Marker marker = new Marker(map);
+            marker.setPosition(center);
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            marker.setTitle(getString(R.string.map_text_loc));
+            addMarker(marker);
+
+            new VacunMapActivity.DownloadVacunasTask().execute(stringUrl);
+
         } else {
             progressBar.setVisibility(View.INVISIBLE);
         }
@@ -261,6 +370,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             try {
                 return VacunatoriosInfoGralUrl(urls[0]);
             } catch (IOException e) {
+                Log.i(TAG, "DownloadVacunasTask: " + e.getMessage());
                 return getString(R.string.err_recuperarpag);
             }
         }
@@ -270,8 +380,11 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         protected void onPostExecute(Object result) {
 
             if (result instanceof ArrayList) {
-                List<DtVacunatorio> vacunatorios = (List<DtVacunatorio>) result;
-                addVacunatorios(vacunatorios);
+                addVacunatorios((List<DtVacunatorio>) result);
+
+                if(filtradodeptoLoc && findCenter != null){
+                    mc.animateTo(findCenter);
+                }
 
             }else if(result instanceof String){
                 Log.i("onPostExecute", "response: " + ((String) result));
@@ -285,10 +398,12 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
 
     private List<DtVacunatorio> VacunatoriosInfoGralUrl(String myurl) throws IOException {
         InputStream is = null;
+        HttpURLConnection conn = null;
+
         try {
             URL url = new URL(myurl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            //conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
             conn.setRequestMethod("GET");
@@ -297,18 +412,15 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             // Starts the query
             conn.connect();
             int response = conn.getResponseCode();
-            if (response == 200){
-                is = conn.getInputStream();
-                return readInfoGralJsonStream(is);
-            }else{
-                return null;
-            }
+            is = conn.getInputStream();
+            return readInfoGralJsonStream(is);
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
         } finally {
             if (is != null) {
                 is.close();
+                conn.disconnect();
             }
         }
     }
@@ -454,5 +566,22 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         }
         reader.endObject();
         return numero;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODE+DEPARTAMENTO && resultCode == RESULT_OK) {
+            String sel_depto =  data.getStringExtra("departamento");
+
+            buscarVacunatoriosDepto(sel_depto);
+
+        } else if(requestCode == CODE+LOCALIDAD && resultCode == RESULT_OK){
+            String sel_depto =  data.getStringExtra("departamento");
+            String sel_loc = data.getStringExtra("localidad");
+
+            buscarVacunatoriosLocDepto(sel_depto, sel_loc);
+        }
+
     }
 }

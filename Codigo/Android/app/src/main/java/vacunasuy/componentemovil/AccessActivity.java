@@ -149,9 +149,10 @@ public class AccessActivity extends AppCompatActivity {
 
     private List<DtMessage> downloadInfoGralUrl(String myurl) throws IOException {
         InputStream is = null;
+        HttpURLConnection conn = null;
         try {
             URL url = new URL(myurl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
@@ -160,7 +161,7 @@ public class AccessActivity extends AppCompatActivity {
 
             // Starts the query
             conn.connect();
-            int response = conn.getResponseCode();
+            //int response = conn.getResponseCode();
 
             is = conn.getInputStream();
 
@@ -171,6 +172,7 @@ public class AccessActivity extends AppCompatActivity {
         } finally {
             if (is != null) {
                 is.close();
+                conn.disconnect();
             }
         }
     }

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import vacunasuy.componentemovil.obj.DtUsuario;
+import vacunasuy.componentemovil.second.AddFechaNacimiento;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,9 +42,13 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.menu_usuario:
                     DtUsuario usuario = DtUsuario.getInstance();
                     if(usuario.getRegistrado()){
-                        Intent userinfo = new Intent(MainActivity.this, UserInfoActivity.class);
-                        startActivity(userinfo);
-
+                        if(usuario.getFechanacimiento()==null){
+                            Intent fnintent = new Intent(MainActivity.this, AddFechaNacimiento.class);
+                            startActivity(fnintent);
+                        }else {
+                            Intent userinfo = new Intent(MainActivity.this, UserInfoActivity.class);
+                            startActivity(userinfo);
+                        }
                     }else{
                         Intent userlogin = new Intent(MainActivity.this, GubUyActivity.class);
                         startActivity(userlogin);
@@ -53,5 +58,10 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".second.AddFechaNacimiento">
+
+    <RelativeLayout
+        android:id="@+id/userinfo_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <LinearLayout
+            android:id="@+id/userinfo_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/addFecha_subtitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/user_info_subtitulo"
+                android:textAlignment="center"
+                android:background="@drawable/textborder"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/addFecha_tDocumento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_infoText_documento"
+                android:textAlignment="center"
+                android:background="@drawable/textborder"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/addFecha_idocumento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:paddingLeft="10dp"
+                android:textAlignment="center"
+                android:background="@drawable/textborder" />
+            <TextView
+                android:id="@+id/addFecha_subtitulob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/addFecha_subtitulo2"
+                android:textAlignment="center"
+                android:background="@drawable/textborder"
+                android:textSize="16sp" />
+            <DatePicker
+                android:id="@+id/addFecha_nacimiento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/tb_bg"
+                android:layout_gravity="center"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"/>
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/addFecha_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/button_design"
+            android:text="@string/addFecha_button" />
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

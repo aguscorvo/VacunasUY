@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.text.SimpleDateFormat;
 
 import vacunasuy.componentemovil.obj.DtUsuario;
+import vacunasuy.componentemovil.second.AddFechaNacimiento;
 
 public class UserInfoActivity extends AppCompatActivity {
 
@@ -45,7 +47,6 @@ public class UserInfoActivity extends AppCompatActivity {
         if(usuario.getFechanacimiento()!=null){
             SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
             nacimiento.setText(sdf.format(usuario.getFechanacimiento()));
-
         }
 
         bottomNavigationView = findViewById(R.id.bottomNavigationViewUserInfo);
@@ -75,5 +76,10 @@ public class UserInfoActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 }

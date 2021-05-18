@@ -38,13 +38,20 @@
     <string name="info_txt_vacunatorio">Vacunatorios</string>
 
     <!--VIEW MAP-->
-    <string name="map_text_srch">Distancia(mts):</string>
+    <string name="map_text_srch">Filtrar</string>
     <string name="map_text_hint">Ej: 1000</string>
     <string name="map_text_btn">Buscar</string>
     <string name="map_text_loc">Ubicación Actual</string>
     <string name="map_copyright">&#169; OpenStreetMap | VacunasUY</string>
     <string name="map_text_loc_err">Activar ubicación</string>
     <string name="map_text_loc_err_msg">Su ubicación esta desactivada.\nPor favor active su ubicación</string>
+
+    <string-array name="mapopciones">
+        <item></item>
+        <item>Departamento</item>
+        <item>Localidad</item>
+        <item>Distancia</item>
+    </string-array>
 
     <!--VIEW USER INFO-->
     <string name="user_info_titulo">Perfil</string>
@@ -61,5 +68,8 @@
     <string name="registros_err">Error del tipo de dato retornado</string>
     <string name="title_activity_vacunatorio_maps">Map</string>
 
+    <!--ADD FECHA NACIMIENTO-->
+    <string name="addFecha_subtitulo2">Ingrese Fecha Nacimiento</string>
+    <string name="addFecha_button">Actualizar</string>
 
 </resources>

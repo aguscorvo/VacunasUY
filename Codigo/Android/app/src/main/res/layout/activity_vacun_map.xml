@@ -30,21 +30,11 @@
                 android:layout_weight="1"
                 android:text="@string/map_text_srch" />
 
-            <EditText
-                android:id="@+id/map_editText_dis"
-                android:layout_width="0dp"
+            <Spinner
+                android:id="@+id/spinnerFilterMap"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:autofillHints="@string/map_text_srch"
-                android:hint="@string/map_text_hint"
-                android:inputType="number" />
-
-            <Button
-                android:id="@+id/map_button_srch"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/map_text_btn" />
+                android:layout_weight="1" />
 
 
         </LinearLayout>

@@ -26,6 +26,9 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 	@EJB
 	private AtiendeConverter atiendeConverter;
 	
+	@EJB
+	private SectorLaboralConverter sectorLaboralConverter;
+	
 	@Override
 	public UsuarioDTO fromEntity(Usuario e) {
 		if(e == null) return null;
@@ -37,6 +40,7 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 				.correo(e.getCorreo())
 				.fechaNacimiento(e.getFechaNacimiento().toString())
 				.roles(rolConverter.fromEntity(e.getRoles()))
+				.sectorLaboral(sectorLaboralConverter.fromEntity(e.getSectorLaboral()))
 				.actosVacunales(actoVacunalConverter.fromEntity(e.getActosVacunales()))
 				.agendas(agendaConverter.fromEntity(e.getAgendas()))
 				.atiende(atiendeConverter.fromEntity(e.getAtiende()))
@@ -68,8 +72,9 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 			.nombre(e.getNombre())
 			.apellido(e.getApellido())
 			.correo(e.getCorreo())
-			//.fechaNacimiento(e.getFechaNacimiento().toString())
+			.fechaNacimiento(e.getFechaNacimiento().toString())
 			.roles(rolConverter.fromEntity(e.getRoles()))
+			.sectorLaboral(sectorLaboralConverter.fromEntity(e.getSectorLaboral()))
 			.token(token)
 			.build();
 	}

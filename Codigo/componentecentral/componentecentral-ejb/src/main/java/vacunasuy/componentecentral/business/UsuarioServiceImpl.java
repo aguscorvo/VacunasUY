@@ -1,5 +1,6 @@
 package vacunasuy.componentecentral.business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -123,10 +124,15 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			}
 		}
 		try {
+			/* Se busca el sector laboral */
+			SectorLaboral sector = sectorLaboralDAO.listarPorId(usuarioDTO.getSectorLaboral());
+			if(sector == null) throw new VacunasUyException("El sector laboral indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 			/* Se editar los atributos */
 			usuario.setNombre(usuarioDTO.getNombre());
 			usuario.setApellido(usuarioDTO.getApellido());
 			usuario.setCorreo(usuarioDTO.getCorreo());
+			usuario.setFechaNacimiento(LocalDate.parse(usuarioDTO.getFechaNacimiento()));
+			usuario.setSectorLaboral(sector);
 			return usuarioConverter.fromEntity(usuarioDAO.editar(usuario));
 		} catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

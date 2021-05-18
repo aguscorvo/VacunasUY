@@ -23,6 +23,7 @@ public class UsuarioLoginExitosoDTO {
 	private String correo;
 	private String fechaNacimiento;
 	private List<RolDTO> roles;
+	private SectorLaboralDTO sectorLaboral;
 	private String token;
 	
 }

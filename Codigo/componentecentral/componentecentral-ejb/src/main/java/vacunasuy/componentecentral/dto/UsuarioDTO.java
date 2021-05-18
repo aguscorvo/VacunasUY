@@ -22,6 +22,7 @@ public class UsuarioDTO {
 	private String correo;
 	private String fechaNacimiento;
 	private List<RolDTO> roles;
+	private SectorLaboralDTO sectorLaboral;
 	private List<ActoVacunalDTO> actosVacunales;
 	private List<AgendaDTO> agendas;
 	private List<AtiendeDTO> atiende;

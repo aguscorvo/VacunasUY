@@ -61,6 +61,7 @@
     <string name="user_infoText_documento">Documento</string>
     <string name="user_infoText_correo">Correo electrónico</string>
     <string name="user_infoText_fnacimiento">Fecha nacimiento</string>
+    <string name="user_infoText_sectorlaboral">Sector Laboral</string>
 
     <!--CONNECTION MESSAGES-->
     <string name="err_conectividad">Error de conectiviad. No existe conexión de red disponible.</string>
@@ -70,6 +71,7 @@
 
     <!--ADD FECHA NACIMIENTO-->
     <string name="addFecha_subtitulo2">Ingrese Fecha Nacimiento</string>
+    <string name="addFecha_subtitulo3">Ingrese Sector Laboral</string>
     <string name="addFecha_button">Actualizar</string>
 
 </resources>

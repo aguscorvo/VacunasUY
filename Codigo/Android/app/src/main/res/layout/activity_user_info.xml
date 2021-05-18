@@ -118,6 +118,23 @@
                 android:textAlignment="center"
                 android:background="@drawable/textborder"
                 />
+            <TextView
+                android:id="@+id/userinfo_tsectorlaboral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_infoText_sectorlaboral"
+                android:textAlignment="center"
+                android:background="@drawable/textborder"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/userinfo_isectorlaboral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:paddingLeft="10dp"
+                android:textAlignment="center"
+                android:background="@drawable/textborder"
+                />
 
         </LinearLayout>
         <com.google.android.material.bottomnavigation.BottomNavigationView

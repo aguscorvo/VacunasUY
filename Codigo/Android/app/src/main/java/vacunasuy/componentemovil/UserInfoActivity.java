@@ -25,6 +25,7 @@ public class UserInfoActivity extends AppCompatActivity {
     TextView apellido;
     TextView correo;
     TextView nacimiento;
+    TextView sector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class UserInfoActivity extends AppCompatActivity {
         apellido = findViewById(R.id.userinfo_iapellido);
         correo = findViewById(R.id.userinfo_icorreo);
         nacimiento = findViewById(R.id.userinfo_ifnacimiento);
+        sector = findViewById(R.id.userinfo_isectorlaboral);
 
         DtUsuario usuario = DtUsuario.getInstance();
 
@@ -43,6 +45,7 @@ public class UserInfoActivity extends AppCompatActivity {
         nombre.setText(usuario.getNombre());
         apellido.setText(usuario.getApellido());
         correo.setText(usuario.getCorreo());
+        sector.setText(usuario.getSectorlaboral().getNombre());
 
         if(usuario.getFechanacimiento()!=null){
             SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");

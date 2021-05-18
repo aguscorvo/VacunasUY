@@ -272,7 +272,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             title = title + "Departamento: " + dtv.getUbicacion().getNombre_departamento() + "\n";
             title = title + "Localidad: " + dtv.getUbicacion().getNombre_localidad() + "\n";
             title = title + "Dirección: " + dtv.getUbicacion().getDireccion() + "\n";
-            title = title + "Cantidad de puestos: " + dtv.getPuestos().size() + "\n";
+            title = title + "Cantidad de puestos: " + (dtv.getPuestos()==null?0:dtv.getPuestos().size()) + "\n";
             vmarker.setTitle(title);
             addMarker(vmarker);
 

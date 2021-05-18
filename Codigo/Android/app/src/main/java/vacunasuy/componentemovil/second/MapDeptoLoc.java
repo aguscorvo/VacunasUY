@@ -140,9 +140,10 @@ public class MapDeptoLoc extends AppCompatActivity {
 
     private List<DtDepartamento> VacunatoriosInfoGralUrl(String myurl) throws IOException {
         InputStream is = null;
+        HttpURLConnection conn = null;
         try {
             URL url = new URL(myurl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             //conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
@@ -151,19 +152,16 @@ public class MapDeptoLoc extends AppCompatActivity {
 
             // Starts the query
             conn.connect();
-            int response = conn.getResponseCode();
-            if (response == 200){
-                is = conn.getInputStream();
-                return readInfoGralJsonStream(is);
-            }else{
-                return null;
-            }
+            //int response = conn.getResponseCode();
+            is = conn.getInputStream();
+            return readInfoGralJsonStream(is);
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
         } finally {
             if (is != null) {
                 is.close();
+                conn.disconnect();
             }
         }
     }

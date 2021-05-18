@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,10 +39,11 @@ import java.util.List;
 import vacunasuy.componentemovil.constant.ConnConstant;
 import vacunasuy.componentemovil.obj.DtResponse;
 import vacunasuy.componentemovil.obj.DtRol;
+import vacunasuy.componentemovil.obj.DtSectorLaboral;
 import vacunasuy.componentemovil.obj.DtUsuario;
 
 public class GubUyActivity extends AppCompatActivity {
-
+    private static final String TAG = "VacunasUY";
     WebView navegador;
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
@@ -98,7 +100,7 @@ public class GubUyActivity extends AppCompatActivity {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.i("GubUyActivity URL", url);
+            //Log.i("GubUyActivity URL", url);
             if (ConnConstant.API_GUBUY_URL.equals(url)) {
                 return false;
             } else if( Uri.parse(url).getQuery().contains("code")
@@ -194,6 +196,7 @@ public class GubUyActivity extends AppCompatActivity {
         while((str = breader.readLine())!= null){
             sb.append(str);
         }
+        Log.i(TAG, sb.toString());
         JsonReader reader = new JsonReader(new StringReader(sb.toString()));
         List<DtResponse> res = null;
         try {
@@ -234,6 +237,7 @@ public class GubUyActivity extends AppCompatActivity {
         String documento = null;
         String correo = null;
         List<DtRol> roles = null;
+        DtSectorLaboral sectorLaboral = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -247,15 +251,27 @@ public class GubUyActivity extends AppCompatActivity {
             } else if (name.equals("apellido") && reader.peek() != JsonToken.NULL) {
                 apellido = reader.nextString();
             }  else if (name.equals("fechaNacimiento")&& reader.peek() != JsonToken.NULL) {
-                Long jfecha = (reader.nextLong());
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                fechanacimiento = new Date(jfecha);
+                String sfecha = reader.nextString();
+                if(!sfecha.equalsIgnoreCase("")){
+                    //Long jfecha = (reader.nextLong());
+                    //fechanacimiento = new Date(jfecha);
+                    try {
+                        fechanacimiento = new SimpleDateFormat("yyyy-MM-dd").parse(sfecha);
+                    } catch (ParseException e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+                    ;
+                }
+
             } else if (name.equals("roles") && reader.peek() != JsonToken.NULL) {
                 roles = readDtRolArray(reader);
             }  else if (name.equals("correo") && reader.peek() != JsonToken.NULL) {
                 correo = reader.nextString();
+            } else if (name.equals("sectorLaboral") && reader.peek() != JsonToken.NULL) {
+                sectorLaboral = readDtSectorLaboral(reader);
             }else if (name.equals("token") && reader.peek() != JsonToken.NULL) {
                 token = reader.nextString();
+                Log.i(TAG, token);
             } else {
                 reader.skipValue();
             }
@@ -271,6 +287,7 @@ public class GubUyActivity extends AppCompatActivity {
         dtUsuario.setFechanacimiento(fechanacimiento);
         dtUsuario.setToken(token);
         dtUsuario.setRoles(roles);
+        dtUsuario.setSectorlaboral(sectorLaboral);
         dtUsuario.setRegistrado(true);
 
 
@@ -305,6 +322,26 @@ public class GubUyActivity extends AppCompatActivity {
         reader.endObject();
         return new DtRol(id, nombre);
     }
+
+    public DtSectorLaboral readDtSectorLaboral(JsonReader reader) throws IOException {
+        Integer id = null;
+        String nombre = null;
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("id")) {
+                id = reader.nextInt();
+            } else if (name.equals("nombre")) {
+                nombre = reader.nextString();
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return new DtSectorLaboral(id, nombre);
+    }
+
 
     @Override
     public void onBackPressed() {

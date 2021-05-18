@@ -14,6 +14,7 @@ public class DtUsuario {
     private String correo;
     private Boolean registrado = false;
     private List<DtRol> roles;
+    private DtSectorLaboral sectorlaboral;
 
     protected DtUsuario(){}
 
@@ -95,4 +96,13 @@ public class DtUsuario {
     public void setRoles(List<DtRol> roles) {
         this.roles = roles;
     }
+
+    public DtSectorLaboral getSectorlaboral() {
+        return sectorlaboral;
+    }
+
+    public void setSectorlaboral(DtSectorLaboral sectorlaboral) {
+        this.sectorlaboral = sectorlaboral;
+    }
+
 }

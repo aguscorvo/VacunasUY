@@ -45,6 +45,20 @@
                 android:textAlignment="center"
                 android:background="@drawable/textborder" />
             <TextView
+                android:id="@+id/addFecha_subtituloc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/addFecha_subtitulo3"
+                android:textAlignment="center"
+                android:background="@drawable/textborder"
+                android:textSize="16sp" />
+            <Spinner
+                android:id="@+id/spinnerFilterSectorLaboral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0" />
+            <TextView
                 android:id="@+id/addFecha_subtitulob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,6 +75,8 @@
                 android:layout_gravity="center"
                 android:datePickerMode="spinner"
                 android:calendarViewShown="false"/>
+
+
 
         </LinearLayout>
         <Button

@@ -519,19 +519,28 @@ INSERT INTO enfermedades (nombre) VALUES ('COVID-19');
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'CoronaVac', 1, 1);
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'Pfizer-BioNTech', 1, 1);
 
+/* Planes de Vacunacion - Total: 3*/
+INSERT INTO planes_vacunacion (edadminima, edadmaxima, fechainicio, fechafin, fk_vacuna) VALUES (30, 70, '2021-01-01', '2021-12-31', 1);
+INSERT INTO planes_vacunacion (edadminima, edadmaxima, fechainicio, fechafin, fk_vacuna) VALUES (71, 99, '2021-07-01', '2021-12-31', 2);
+INSERT INTO planes_vacunacion (edadminima, edadmaxima, fechainicio, fechafin, fk_vacuna) VALUES (18, 99, '2021-09-01', '2021-12-31', 1);
 
+/* Planes de Vacunacion - Sectores - Total: 6*/
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (1, 1);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (1, 2);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (1, 5);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (2, 3);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (3, 3);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (3, 4);
 
+/* Lotes - Total: 2*/
+INSERT INTO lotes (cantidad, cantidaddisponible, fk_proveedor, fk_vacuna) VALUES (50000, 50000, 1, 1);
+INSERT INTO lotes (cantidad, cantidaddisponible, fk_proveedor, fk_vacuna) VALUES (30000, 30000, 3, 2);
 
+/* Eventos - Total: 2*/
+INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista) VALUES (10000, 'Primer evento', '2021-05-18', 1, 1);
+INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista) VALUES (5000, 'Segundo evento', '2021-05-18', 2, 2);
 
-
-
-
-
-
-
-
-
-
-
-
+/* Vacunatorios - Eventos - Total: 2*/
+INSERT INTO vacunatorios_eventos (vacunatorio_id, eventos_id) VALUES (4, 2);
+INSERT INTO vacunatorios_eventos (vacunatorio_id, eventos_id) VALUES (35, 1);
 

@@ -185,8 +185,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			Rol rol = rolDAO.listarPorId(4L);
 			usuario.getRoles().add(rol);
 			/* Le agrego un sector aleatorio */
-			SectorLaboral sector = sectorLaboralDAO.listarRandom();
-			usuario.setSectorLaboral(sector);
+			/*SectorLaboral sector = sectorLaboralDAO.listarRandom();
+			usuario.setSectorLaboral(sector);*/
 			usuario = usuarioDAO.crear(usuario);
 		}else {
 			/* Verifico si el usuario tiene rol ciudadano */

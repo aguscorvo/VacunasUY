@@ -66,13 +66,17 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 	
 	public UsuarioLoginExitosoDTO fromLogin(Usuario e, String token) {
 		if(e == null) return null;
+		String fechaNacimiento = "";
+		if(e.getFechaNacimiento() != null) {
+			fechaNacimiento = e.getFechaNacimiento().toString();
+		}
 		return UsuarioLoginExitosoDTO.builder()
 			.id(e.getId())
 			.documento(e.getDocumento())
 			.nombre(e.getNombre())
 			.apellido(e.getApellido())
 			.correo(e.getCorreo())
-			.fechaNacimiento(e.getFechaNacimiento().toString())
+			.fechaNacimiento(fechaNacimiento)
 			.roles(rolConverter.fromEntity(e.getRoles()))
 			.sectorLaboral(sectorLaboralConverter.fromEntity(e.getSectorLaboral()))
 			.token(token)

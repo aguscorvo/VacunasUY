@@ -43,9 +43,10 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 				.direccion(v.getDireccion())
 				.localidad(localidadConverter.fromEntity(v.getLocalidad()))
 				.departamento(departamentoConverter.fromEntityToMin(v.getDepartamento()))
-				.puestos(puestoConverter.fromEntity(v.getPuestos()))
-				.eventos(eventoConverter.fromEntity(v.getEventos()))
-				.actosVacunales(actoVacunalConverter.fromEntity(v.getActosVacunales()))
+				//.puestos(puestoConverter.fromEntity(v.getPuestos()))
+				//.eventos(eventoConverter.fromEntity(v.getEventos()))
+				//.actosVacunales(actoVacunalConverter.fromEntity(v.getActosVacunales()))
+				.clave(v.getClave())
 				.build();								
 	}
 	
@@ -60,9 +61,9 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 				.direccion(v.getDireccion())
 				.localidad(localidadConverter.fromDTO(v.getLocalidad()))
 				.departamento(departamentoConverter.fromMinDTO(v.getDepartamento()))
-				.puestos(puestoConverter.fromDTO(v.getPuestos()))
-				.eventos(eventoConverter.fromDTO(v.getEventos()))
-				.actosVacunales(actoVacunalConverter.fromDTO(v.getActosVacunales()))
+				//.puestos(puestoConverter.fromDTO(v.getPuestos()))
+				//.eventos(eventoConverter.fromDTO(v.getEventos()))
+				//.actosVacunales(actoVacunalConverter.fromDTO(v.getActosVacunales()))
 				.build();
 	}
 	

@@ -12,6 +12,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import vacunasuy.componentecentral.business.IVacunatorioService;
@@ -20,8 +25,10 @@ import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
+import vacunasuy.componentecentral.dto.VacunatorioPerifericoDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
+import vacunasuy.componentecentral.util.Constantes;
 
 
 @RequestScoped
@@ -71,9 +78,9 @@ public class VacunatorioREST {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
 			VacunatorioDTO vacunatorio = vacunatorioService.crear(request);
+			registrarVacunatorioPeriferico(vacunatorio);
 			respuesta = new RespuestaREST<VacunatorioDTO>(true, "Vacunatorio creado con éxito.", vacunatorio);
 			return Response.ok(respuesta).build();
-			
 		}catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<VacunatorioDTO>(false, e.getLocalizedMessage());
 			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
@@ -227,6 +234,22 @@ public class VacunatorioREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}	
-	}	
+	}
+	
+	private void registrarVacunatorioPeriferico(VacunatorioDTO vacunatorio) {
+		Client cliente = ClientBuilder.newClient();
+		WebTarget target = cliente.target(Constantes.NODOS_PERIFERICOS_REST_URL+"/vacunatorios");
+		VacunatorioPerifericoDTO vacunatorioPeriferico = VacunatorioPerifericoDTO.builder()
+				.id(vacunatorio.getId())
+				.nombre(vacunatorio.getNombre())
+				.direccion(vacunatorio.getDireccion())
+				.clave(vacunatorio.getClave())
+				.build();
+		String response = target.request(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .post(Entity.json(vacunatorioPeriferico), String.class);
+		
+		System.out.println(response);
+	}
 	
 }

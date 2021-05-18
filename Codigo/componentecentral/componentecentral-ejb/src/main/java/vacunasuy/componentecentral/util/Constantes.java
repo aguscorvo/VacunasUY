@@ -13,5 +13,7 @@ public final class Constantes {
 	public static final String USERINFO_URL = "https://auth-testing.iduruguay.gub.uy/oidc/v1/userinfo";
 	public static final String REDIRECT_URI = "http://localhost:8080";
 	
+	/* Nodos periféricos */
+	public static final String NODOS_PERIFERICOS_REST_URL = "http://localhost:8080/nodosperifericos-web/rest";
 	
 }

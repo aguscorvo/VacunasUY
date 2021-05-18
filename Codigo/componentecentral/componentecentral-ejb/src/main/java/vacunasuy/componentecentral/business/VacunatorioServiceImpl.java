@@ -2,10 +2,9 @@ package vacunasuy.componentecentral.business;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
 import vacunasuy.componentecentral.converter.UsuarioConverter;
 import vacunasuy.componentecentral.converter.VacunatorioConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
@@ -50,7 +49,6 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	@EJB
 	private UsuarioConverter usuarioConverter;
 	
-	
 	@Override
 	public List<VacunatorioDTO> listar() throws VacunasUyException{
 		try {
@@ -80,11 +78,12 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		if (localidad == null) throw new VacunasUyException("La localidad indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		Departamento departamento = departamentoDAO.listarPorId(vacunatorioDTO.getDepartamento());
 		if(departamento==null) throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-	
 		//se crea el vacunatorio
 		try {
 			vacunatorio.setLocalidad(localidad);
 			vacunatorio.setDepartamento(departamento);
+			String clave = UUID.randomUUID().toString();
+			vacunatorio.setClave(clave);
 			return vacunatorioConverter.fromEntity(vacunatorioDAO.crear(vacunatorio));
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -226,6 +225,5 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}		
 	}
-
 	
 }

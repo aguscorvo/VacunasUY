@@ -49,6 +49,9 @@ public class Vacunatorio  implements Serializable{
 	@Column(name = "direccion", nullable = false, length = 150)
 	private String direccion;
 	
+	@Column(name = "clave", nullable = false, length = 100)
+	private String clave;
+	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_localidad", referencedColumnName = "id")
 	private Localidad localidad;

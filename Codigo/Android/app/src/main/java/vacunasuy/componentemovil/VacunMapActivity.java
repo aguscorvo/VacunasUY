@@ -28,9 +28,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -81,6 +83,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
     String[] opcionesfilter;
     Spinner filtermap;
     Boolean filtradodeptoLoc = false;
+    EditText distancia;
 
 
 
@@ -97,6 +100,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         bottomNavigationView = findViewById(R.id.bottomNavigationViewMap);
         progressBar = findViewById(R.id.progressBarMapView);
         filtermap = findViewById(R.id.spinnerFilterMap);
+
 
         progressBar.setVisibility(View.INVISIBLE);
         opcionesfilter = getResources().getStringArray(R.array.mapopciones);
@@ -119,9 +123,26 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                         startActivityForResult(select_filter, CODE+LOCALIDAD);
                         break;
                     case DISTANCIA:
-                        break;
+                        AlertDialog dialog = new AlertDialog.Builder(VacunMapActivity.this).create();
+                        dialog.setTitle(R.string.map_text_distancia_title);
 
+                        // set the custom layout
+                        final View customLayout = getLayoutInflater().inflate(R.layout.map_distancia,null);
+                        dialog.setView(customLayout);
+                        distancia = customLayout.findViewById(R.id.map_distancia);
+
+                        dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.map_text_btn), new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(VacunMapActivity.this, distancia.getText().toString(), Toast.LENGTH_LONG).show();
+                                buscarVacunatoriosDistancia(Double.valueOf(distancia.getText().toString()));
+                            }
+                        });
+                        dialog.show();
+                        break;
                 }
+
+                filtermap.setSelection(0);
             }
 
             @Override
@@ -211,7 +232,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                     case R.id.menu_usuario:
                         DtUsuario usuario = DtUsuario.getInstance();
                         if(usuario.getRegistrado()){
-                            if(usuario.getFechanacimiento()==null){
+                            if(usuario.getFechanacimiento()==null || usuario.getSectorlaboral() == null){
                                 Intent fnintent = new Intent(VacunMapActivity.this, AddFechaNacimiento.class);
                                 startActivity(fnintent);
                             }else {
@@ -307,14 +328,18 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         }
     }
 
-    private void buscarVacunatoriosDepto(String departamento) {
+    private void buscarVacunatoriosDistancia(Double distancia) {
         connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connMgr.getActiveNetworkInfo();
-        filtradodeptoLoc = true;
+        filtradodeptoLoc = false;
 
-        String stringUrl = ConnConstant.API_VACUNATORIOS_FILTERDEPTO_URL;
+        String stringUrl = ConnConstant.API_VACUNATORIOS_CERCANOS_URL;
+        Double latitud = center.getLatitude();
+        Double longitud = center.getLongitude();
 
-        stringUrl = stringUrl.replace("{departamento}", departamento);
+        stringUrl = stringUrl.replace("{latitud}", latitud.toString());
+        stringUrl = stringUrl.replace("{longitud}", longitud.toString());
+        stringUrl = stringUrl.replace("{distancia}", distancia.toString());
 
         if (networkInfo != null && networkInfo.isConnected()) {
             progressBar.setVisibility(View.VISIBLE);
@@ -343,6 +368,33 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
 
         stringUrl = stringUrl.replace("{departamento}", departamento);
         stringUrl = stringUrl.replace("{localidad}", localidad);
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            progressBar.setVisibility(View.VISIBLE);
+
+            map.getOverlays().clear();
+
+            Marker marker = new Marker(map);
+            marker.setPosition(center);
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            marker.setTitle(getString(R.string.map_text_loc));
+            addMarker(marker);
+
+            new VacunMapActivity.DownloadVacunasTask().execute(stringUrl);
+
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void buscarVacunatoriosDepto(String departamento) {
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+        filtradodeptoLoc = true;
+
+        String stringUrl = ConnConstant.API_VACUNATORIOS_FILTERDEPTO_URL;
+
+        stringUrl = stringUrl.replace("{departamento}", departamento);
 
         if (networkInfo != null && networkInfo.isConnected()) {
             progressBar.setVisibility(View.VISIBLE);

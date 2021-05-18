@@ -39,7 +39,7 @@
 
     <!--VIEW MAP-->
     <string name="map_text_srch">Filtrar</string>
-    <string name="map_text_hint">Ej: 1000</string>
+    <string name="map_text_distancia_title">Ingreso de distancia (Km)</string>
     <string name="map_text_btn">Buscar</string>
     <string name="map_text_loc">Ubicación Actual</string>
     <string name="map_copyright">&#169; OpenStreetMap | VacunasUY</string>

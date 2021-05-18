@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.menu_usuario:
                     DtUsuario usuario = DtUsuario.getInstance();
                     if(usuario.getRegistrado()){
-                        if(usuario.getFechanacimiento()==null){
+                        if(usuario.getFechanacimiento()==null || usuario.getSectorlaboral() == null){
                             Intent fnintent = new Intent(MainActivity.this, AddFechaNacimiento.class);
                             startActivity(fnintent);
                         }else {

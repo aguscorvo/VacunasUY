@@ -11,6 +11,7 @@ import vacunasuy.componentecentral.dao.IActoVacunalDAO;
 import vacunasuy.componentecentral.dao.IDepartamentoDAO;
 import vacunasuy.componentecentral.dao.IEventoDAO;
 import vacunasuy.componentecentral.dao.ILocalidadDAO;
+import vacunasuy.componentecentral.dao.IPlanVacunacionDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
@@ -21,6 +22,7 @@ import vacunasuy.componentecentral.entity.Atiende;
 import vacunasuy.componentecentral.entity.Departamento;
 import vacunasuy.componentecentral.entity.Evento;
 import vacunasuy.componentecentral.entity.Localidad;
+import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -30,6 +32,9 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 
 	@EJB
 	private IVacunatorioDAO vacunatorioDAO;
+	
+	@EJB
+	private IPlanVacunacionDAO planDAO;
 	
 	@EJB
 	private ILocalidadDAO localidadDAO;
@@ -221,6 +226,38 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			if(departamentoAux==null) throw new VacunasUyException("El departamento indicado no existe.", 
 					VacunasUyException.NO_EXISTE_REGISTRO);
 			return vacunatorioConverter.fromEntity(vacunatorioDAO.listarPorDepartamento(departamento));
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}		
+	}
+
+	@Override
+	public List<VacunatorioDTO> listarVacunatoriosDadoPlan(Long id_plan) throws VacunasUyException {
+		
+		try {
+			List<VacunatorioDTO> vacunatoriosReturn = new ArrayList<VacunatorioDTO>();
+			PlanVacunacion plan = planDAO.listarPorId(id_plan);
+			if(plan==null) throw new VacunasUyException("El plan de vacunación indicado no existe.", 
+					VacunasUyException.NO_EXISTE_REGISTRO);
+			else {
+				Long id_vacuna = planDAO.listarPorId(id_plan).getVacuna().getId();
+				List<Vacunatorio> vacunatorios = vacunatorioDAO.listar();
+				for (Vacunatorio v: vacunatorios) {
+					boolean hay_vacuna = false;
+					List<Evento> eventos = v.getEventos();
+					for (Evento e: eventos) {
+						if (e.getLote().getVacuna().getId() == id_vacuna) {
+							hay_vacuna = true;
+							break;
+						}
+					}
+					if (hay_vacuna) {
+						vacunatoriosReturn.add(vacunatorioConverter.fromEntity(v));
+					}
+							
+				}
+				return vacunatoriosReturn;
+			}
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}		

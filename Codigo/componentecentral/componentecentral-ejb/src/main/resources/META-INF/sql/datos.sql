@@ -536,11 +536,13 @@ INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (3
 INSERT INTO lotes (cantidad, cantidaddisponible, fk_proveedor, fk_vacuna) VALUES (50000, 50000, 1, 1);
 INSERT INTO lotes (cantidad, cantidaddisponible, fk_proveedor, fk_vacuna) VALUES (30000, 30000, 3, 2);
 
-/* Eventos - Total: 2*/
+/* Eventos - Total: 3*/
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista) VALUES (10000, 'Primer evento', '2021-05-18', 1, 1);
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista) VALUES (5000, 'Segundo evento', '2021-05-18', 2, 2);
+INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista) VALUES (10000, 'Tercer evento', '2021-05-18', 1, 1);
 
-/* Vacunatorios - Eventos - Total: 2*/
+/* Vacunatorios - Eventos - Total: 3*/
 INSERT INTO vacunatorios_eventos (vacunatorio_id, eventos_id) VALUES (4, 2);
 INSERT INTO vacunatorios_eventos (vacunatorio_id, eventos_id) VALUES (35, 1);
+INSERT INTO vacunatorios_eventos (vacunatorio_id, eventos_id) VALUES (36, 3);
 

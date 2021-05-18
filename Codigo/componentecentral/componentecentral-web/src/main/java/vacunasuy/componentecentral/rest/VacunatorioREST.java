@@ -236,6 +236,26 @@ public class VacunatorioREST {
 		}	
 	}
 	
+	@GET
+	@Path("/listarVacunatoriosDadoPlan/{id}")
+//	@RecursoProtegidoJWT
+	public Response listarVacunatoriosDadoPlan(@PathParam("id") Long id) {
+		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
+		try {
+			List<VacunatorioDTO> vacunatorios = vacunatorioService.listarVacunatoriosDadoPlan(id);
+			respuesta = new RespuestaREST<List<VacunatorioDTO>>(true, "Vacunatorios listados con éxito.", vacunatorios);
+			return Response.ok(respuesta).build();
+		}catch(VacunasUyException e) {
+			respuesta = new RespuestaREST<List<VacunatorioDTO>>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
+	
+	
 	private void registrarVacunatorioPeriferico(VacunatorioDTO vacunatorio) {
 		Client cliente = ClientBuilder.newClient();
 		WebTarget target = cliente.target(Constantes.NODOS_PERIFERICOS_REST_URL+"/vacunatorios");

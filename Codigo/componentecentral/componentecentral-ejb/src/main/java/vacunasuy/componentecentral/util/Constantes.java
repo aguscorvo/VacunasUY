@@ -11,7 +11,7 @@ public final class Constantes {
 	public static final String AUTHORIZATION_URL = "https://auth-testing.iduruguay.gub.uy/oidc/v1/authorize";
 	public static final String ACCESSTOKEN_URL = "https://auth-testing.iduruguay.gub.uy/oidc/v1/token";
 	public static final String USERINFO_URL = "https://auth-testing.iduruguay.gub.uy/oidc/v1/userinfo";
-	public static final String REDIRECT_URI = "http://localhost";
+	public static final String REDIRECT_URI = "http://localhost:8080";
 	
 	
 }

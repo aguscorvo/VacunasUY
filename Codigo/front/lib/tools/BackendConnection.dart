@@ -12,7 +12,8 @@ import 'package:VacunasUY/objects/Departamento.dart';
 import 'package:http/http.dart' as http;
 import 'package:VacunasUY/tools/UserCredentials.dart';
 
-const String baseUrl = "http://localhost:8080/rest";
+const String baseUrl = "https://vacunasuy.web.elasticloud.uy/rest";
+//const String baseUrl = "http://localhost:8080/rest";
 
 var authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials.getToken()}", "Content-Type": "application/json"};
 
@@ -219,13 +220,11 @@ class BackendConnection {
   }
 
   void exitoLoginGubUY(GubUY gubAuth) async {
-    var response = await http.get(
-      '$baseUrl/autenticaciongubuy/procesarTokens?code=' + gubAuth.code + '&state=' + gubAuth.state,
-      headers: authHeader,
-    );
+    String url = '$baseUrl/autenticaciongubuy/procesarTokens?code=' + gubAuth.code + '&state=' + gubAuth.state;
+    var response = await http.get(url);
+
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
-      print(json['mensaje']);
       if (json["mensaje"] == "Usuario logueado con éxito.") {
         storedUserCredentials = emptyUser;
         storedUserCredentials.setToken(json["cuerpo"]["token"]);

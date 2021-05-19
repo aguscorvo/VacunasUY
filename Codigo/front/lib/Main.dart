@@ -1,25 +1,26 @@
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:VacunasUY/assets/CustomNavBar.dart';
 import 'package:VacunasUY/tools/BackendConnection.dart';
 import 'package:VacunasUY/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'assets/CustomAppBar.dart';
 import 'objects/GubUY.dart';
+import 'paginas/VacunatoriosTab.dart';
 
 void main() async {
   await cookiesLoad();
-
+  await specialURL();
   runApp(MyApp());
 }
 
 void cookiesLoad() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String savedPreferencesString = prefs.getString("VacunasUY");
-  if (savedPreferencesString == null || savedPreferencesString == '') {
+  final String savedPreferencesString = prefs.getString("vacunasUY");
+  if (savedPreferencesString.toString() == "null" || savedPreferencesString == '') {
     storedUserCredentials = emptyUser;
   } else {
     Map savedPreferences = jsonDecode(savedPreferencesString);
@@ -29,6 +30,28 @@ void cookiesLoad() async {
     } else if (storedUserCredentials.getUserData().correo == '') {
       storedUserCredentials = emptyUser;
     }
+  }
+}
+
+void specialURL() async {
+  String url = window.location.href.toString();
+  if (url.contains("code=") && url.contains("state=")) {
+    String tokens = "";
+    List<String> urls = url.split("/");
+    urls.forEach((element) {
+      if (element.contains("code=") && element.contains("state=")) {
+        tokens = element.replaceAll(new RegExp(r'#'), '');
+      }
+    });
+    String code = tokens.split("&")[0].split("=")[1];
+    String state = tokens.split("&")[1].split("=")[1];
+
+    GubUY gubAuth = new GubUY();
+    gubAuth.code = code;
+    gubAuth.state = state;
+
+    BackendConnection bc = new BackendConnection();
+    await bc.exitoLoginGubUY(gubAuth);
   }
 }
 
@@ -61,28 +84,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String url = window.location.href.toString();
-    if (url.contains("code=") && url.contains("state=")) {
-      String tokens = "";
-      List<String> urls = url.split("/");
-      urls.forEach((element) {
-        if (element.contains("code=") && element.contains("state=")) {
-          tokens = element.replaceAll(new RegExp(r'#'), '');
-        }
-      });
-      String code = tokens.split("&")[0].split("=")[1];
-      String state = tokens.split("&")[1].split("=")[1];
-
-      GubUY gubAuth = new GubUY();
-      gubAuth.code = code;
-      gubAuth.state = state;
-
-      print(gubAuth.toJson());
-
-      BackendConnection bc = new BackendConnection();
-      bc.exitoLoginGubUY(gubAuth);
-    }
-
     return MaterialApp(
       title: 'Vacunas UY',
       debugShowCheckedModeBanner: false,
@@ -105,83 +106,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  int _selectedIndex = 0;
+  Widget _body = VacunatoriosTab();
 
-  void _incrementCounter() {
+  _setBody(Widget val) {
     setState(() {
-      _counter++;
-    });
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
+      _body = val;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    CustomNavBar navBar = CustomNavBar(
+      title: widget.title,
+      onElementSelected: (Widget val) => _setBody(val),
+    );
+    CustomAppBar appBar = CustomAppBar(
+      title: widget.title,
+      onElementSelected: (Widget val) => _setBody(val),
+    );
+
     return Scaffold(
-      appBar: CustomAppBar(title: widget.title),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              ':',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Image(image: AssetImage('assets/icons/vacuna_xs.png')),
-            label: 'Vacunas',
-            backgroundColor: colorCustom,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.apartment_sharp),
-            label: 'Vacunatorios',
-            backgroundColor: colorCustom,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: 'Planes de Vacunacion',
-            backgroundColor: colorCustom,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.coronavirus),
-            label: 'Enfermedades',
-            backgroundColor: colorCustom,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.directions_boat),
-            label: 'Proveedores',
-            backgroundColor: colorCustom,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            label: 'Agenda',
-            backgroundColor: colorCustom,
+      appBar: appBar,
+      body: Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: _body,
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-        showUnselectedLabels: true,
-        selectedFontSize: 16,
       ),
+      bottomNavigationBar: navBar,
     );
   }
 }

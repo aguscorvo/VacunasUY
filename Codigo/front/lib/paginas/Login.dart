@@ -1,6 +1,7 @@
 import 'package:VacunasUY/tools/BackendConnection.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:VacunasUY/tools/UserCredentials.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -41,7 +42,7 @@ class _LoginState extends State<Login> {
                           decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
                           child: FlatButton(
                             onPressed: () async {
-                              String url = 'http://localhost:8080/rest/autenticaciongubuy';
+                              String url = baseUrl + '/autenticaciongubuy';
                               launch(url);
                             },
                             child: Text(

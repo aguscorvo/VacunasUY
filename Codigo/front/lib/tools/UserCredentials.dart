@@ -19,15 +19,15 @@ Future<Null> saveUserCredentials() async {
 
 final UserCredentials emptyUser = UserCredentials(
   userData: Usuario(),
-  name: encrypter.encrypt("empty", iv: iv).base64,
-  token: encrypter.encrypt("empty", iv: iv).base64,
+  name: "", //encrypter.encrypt("empty", iv: iv).base64,
+  token: "", //encrypter.encrypt("empty", iv: iv).base64,
   isNewUser: true,
 );
 
 final UserCredentials logedOffUser = UserCredentials(
   userData: Usuario(),
-  name: encrypter.encrypt("empty", iv: iv).base64,
-  token: encrypter.encrypt("empty", iv: iv).base64,
+  name: "", //encrypter.encrypt("empty", iv: iv).base64,
+  token: "", //encrypter.encrypt("empty", iv: iv).base64,
   isNewUser: false,
 );
 

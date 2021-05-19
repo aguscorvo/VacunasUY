@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.menu_home:
                     return true;
                 case R.id.menu_agenda:
-                    Toast.makeText(MainActivity.this, "Opción Agenda", Toast.LENGTH_SHORT).show();
+                    Intent iagenda = new Intent(MainActivity.this, PlanVacunacion.class);
+                    startActivity(iagenda);
                     return true;
                 case R.id.menu_notificacion:
                     Toast.makeText(MainActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();

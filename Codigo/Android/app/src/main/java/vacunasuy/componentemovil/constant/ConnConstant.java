@@ -27,6 +27,9 @@ public class ConnConstant {
     final public static String API_VACUNATORIOS_FILTERLOCALIDAD_URL = "http://192.168.4.92:8080/rest/vacunatorios/listarPorUbicacion/{localidad}/{departamento}";
     final public static String API_VACUNATORIOS_CERCANOS_URL = "http://192.168.4.92:8080/rest/vacunatorios/listar/cercanos";
 
+    //PLANES DE VACUNACION
+    final public static String API_PLANESVACUNACION_URL = "http://192.168.4.92:8080/rest/planesVacunacion";
+
 
 
 }

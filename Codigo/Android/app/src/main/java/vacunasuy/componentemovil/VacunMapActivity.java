@@ -68,6 +68,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
     private static final int DEPARTAMENTO = 1;
     private static final int LOCALIDAD = 2;
     private static final int DISTANCIA = 3;
+    private static final int TODOS = 4;
     final static Integer CODE = 2021;
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
@@ -134,12 +135,16 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                         dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.map_text_btn), new DialogInterface.OnClickListener()
                         {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(VacunMapActivity.this, distancia.getText().toString(), Toast.LENGTH_LONG).show();
+                                //Toast.makeText(VacunMapActivity.this, distancia.getText().toString(), Toast.LENGTH_LONG).show();
                                 buscarVacunatoriosDistancia(Double.valueOf(distancia.getText().toString()));
                             }
                         });
                         dialog.show();
                         break;
+                    case TODOS:
+                        buscarVacunatorios();
+                        break;
+
                 }
 
                 filtermap.setSelection(0);
@@ -222,7 +227,9 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                         startActivity(ihome);
                         return true;
                     case R.id.menu_agenda:
-                        Toast.makeText(VacunMapActivity.this, "Opción Agenda", Toast.LENGTH_SHORT).show();
+                        Intent iagenda = new Intent(VacunMapActivity.this, PlanVacunacion.class);
+                        startActivity(iagenda);
+
                         return true;
                     case R.id.menu_notificacion:
                         Toast.makeText(VacunMapActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();

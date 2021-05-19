@@ -33,7 +33,8 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent2);
                         return true;
                     case R.id.menu_agenda:
-                        Toast.makeText(LoginActivity.this, "Opción Agenda", Toast.LENGTH_SHORT).show();
+                        Intent iagenda = new Intent(LoginActivity.this, PlanVacunacion.class);
+                        startActivity(iagenda);
                         return true;
                     case R.id.menu_notificacion:
                         Toast.makeText(LoginActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();

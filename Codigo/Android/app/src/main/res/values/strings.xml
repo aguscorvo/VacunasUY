@@ -51,6 +51,7 @@
         <item>Departamento</item>
         <item>Localidad</item>
         <item>Distancia</item>
+        <item>Todos</item>
     </string-array>
 
     <!--VIEW USER INFO-->
@@ -73,5 +74,19 @@
     <string name="addFecha_subtitulo2">Ingrese Fecha Nacimiento</string>
     <string name="addFecha_subtitulo3">Ingrese Sector Laboral</string>
     <string name="addFecha_button">Actualizar</string>
+
+    <!--PLAN-->
+    <string name="plan_group_title"> Plan - </string>
+    <string name="plan_title"> Plan de Vacunación</string>
+    <string name="plan_mensaje">¿Qué desea hacer?</string>
+    <string name="plan_mensaje_nologin">Para Agendarse debe estar logueado</string>
+    <string name="plan_group_vigente">Vigente</string>
+    <string name="plan_group_vencido">Vencido</string>
+    <string name="plan_group_proximo">Próximo</string>
+    <string name="plan_periodo">Período</string>
+    <string name="plan_detealle">Ver Detalle</string>
+    <string name="plan_agendar">Agendar</string>
+    <string name="plan_ingresar">Ingresar</string>
+
 
 </resources>

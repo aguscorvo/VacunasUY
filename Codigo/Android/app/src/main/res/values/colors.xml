@@ -22,4 +22,10 @@
     <!--MAPS COLORS-->
     <color name="mark_building">#FF78288C</color>
 
+    <!-- PLANES COLORS -->
+    <color name="plan_vigente">	#FF99C140</color>
+    <color name="plan_vencido">#FFCC3232</color>
+    <color name="plan_Proximo">	#FFE7B416</color>
+
+
 </resources>

@@ -64,7 +64,8 @@ public class UserInfoActivity extends AppCompatActivity {
                         startActivity(intent2);
                         return true;
                     case R.id.menu_agenda:
-                        Toast.makeText(UserInfoActivity.this, "Opción Agenda", Toast.LENGTH_SHORT).show();
+                        Intent iagenda = new Intent(UserInfoActivity.this, PlanVacunacion.class);
+                        startActivity(iagenda);
                         return true;
                     case R.id.menu_notificacion:
                         Toast.makeText(UserInfoActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();

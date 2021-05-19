@@ -80,7 +80,9 @@ public class GubUyActivity extends AppCompatActivity {
                     startActivity(intent2);
                     return true;
                 case R.id.menu_agenda:
-                    Toast.makeText(GubUyActivity.this, "Opción Agenda", Toast.LENGTH_SHORT).show();
+                    Intent iagenda = new Intent(GubUyActivity.this, PlanVacunacion.class);
+                    startActivity(iagenda);
+
                     return true;
                 case R.id.menu_notificacion:
                     Toast.makeText(GubUyActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
@@ -253,14 +255,11 @@ public class GubUyActivity extends AppCompatActivity {
             }  else if (name.equals("fechaNacimiento")&& reader.peek() != JsonToken.NULL) {
                 String sfecha = reader.nextString();
                 if(!sfecha.equalsIgnoreCase("")){
-                    //Long jfecha = (reader.nextLong());
-                    //fechanacimiento = new Date(jfecha);
                     try {
                         fechanacimiento = new SimpleDateFormat("yyyy-MM-dd").parse(sfecha);
                     } catch (ParseException e) {
                         Log.e(TAG, e.getMessage());
                     }
-                    ;
                 }
 
             } else if (name.equals("roles") && reader.peek() != JsonToken.NULL) {

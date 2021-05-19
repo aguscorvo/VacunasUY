@@ -26,6 +26,15 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			throw new NodosPerifericosException(e.getLocalizedMessage(), NodosPerifericosException.ERROR_GENERAL);
 		}
 	}
+	
+	@Override
+	public VacunatorioDTO listarPorId(Long id) throws NodosPerifericosException {
+		try {
+			return vacunatorioConverter.fromEntity(vacunatorioDAO.listarPorId(id));
+		} catch (Exception e) {
+			throw new NodosPerifericosException(e.getLocalizedMessage(), NodosPerifericosException.ERROR_GENERAL);
+		}
+	}
 
 	@Override
 	public VacunatorioDTO crear(VacunatorioDTO vacunatorioDTO) throws NodosPerifericosException {

@@ -11,6 +11,7 @@ import vacunasuy.nodosperifericos.exception.NodosPerifericosException;
 public interface IVacunatorioService {
 
 	public List<VacunatorioDTO> listar() throws NodosPerifericosException;
+	public VacunatorioDTO listarPorId(Long id) throws NodosPerifericosException;
 	public VacunatorioDTO crear(VacunatorioDTO vacunatorio) throws NodosPerifericosException;
 	
 }

@@ -5,7 +5,7 @@ import vacunasuy.nodosperifericos.dto.VacunatorioDTO;
 import vacunasuy.nodosperifericos.entity.Vacunatorio;
 
 @Singleton
-public class VacunatorioConverter extends AbstractConverter<Vacunatorio, VacunatorioDTO>{
+public class VacunatorioConverter extends AbstractConverter<Vacunatorio, VacunatorioDTO> {
 	
 	@Override
 	public VacunatorioDTO fromEntity(Vacunatorio v) {

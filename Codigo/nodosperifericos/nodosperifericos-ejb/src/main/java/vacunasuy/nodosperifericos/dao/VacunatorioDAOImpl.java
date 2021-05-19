@@ -20,6 +20,11 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
 	}
 
 	@Override
+	public Vacunatorio listarPorId(Long id) {		
+		return em.find(Vacunatorio.class, id);
+	}
+	
+	@Override
 	public Vacunatorio crear(Vacunatorio vacunatorio) {
 		em.persist(vacunatorio);
 		return vacunatorio;

@@ -182,13 +182,15 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	}
 	
 	@Override
-	public List<UsuarioMinDTO> enviarAsignaciones(Long vacunatorio, String fecha) throws VacunasUyException{
+	public List<UsuarioMinDTO> obtenerAsignacionVacunadores(Long idVacunatorio, String clave, String fecha) throws VacunasUyException{
 		try {
-			// se valida el vacunatorio
-			Vacunatorio vacunatorioAux = vacunatorioDAO.listarPorId(vacunatorio);
-			if(vacunatorioAux==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			/* Se valida que exista el vacunatorio */
+			Vacunatorio vacunatorio = vacunatorioDAO.listarPorId(idVacunatorio);
+			if(vacunatorio==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			/* Se valida la clave */
+			if(!vacunatorio.getClave().equalsIgnoreCase(clave)) throw new VacunasUyException("ID o clave de vacunatorio incorrectos.", VacunasUyException.DATOS_INCORRECTOS);
 			List<UsuarioMinDTO> vacunadores = new ArrayList();
-			for(Puesto p: vacunatorioAux.getPuestos()) {
+			for(Puesto p: vacunatorio.getPuestos()) {
 				for(Atiende a: p.getAtiende()) {
 					if(a.getFecha().toString().equals(fecha)) 
 						vacunadores.add(usuarioConverter.fromEntityToMin(a.getUsuario()));

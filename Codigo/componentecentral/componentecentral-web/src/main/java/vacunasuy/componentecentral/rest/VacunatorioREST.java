@@ -183,13 +183,13 @@ public class VacunatorioREST {
 	}
 	
 	@GET
-	@Path("/enviarAsignaciones/{vacunatorio}/{fecha}")
-	public Response enviarAsignaciones(@PathParam("vacunatorio") Long vacunatorio, @PathParam("fecha") String fecha) {
+	@Path("/obtenerAsignacionVacunadores/{vacunatorio}/{clave}/{fecha}")
+	public Response enviarAsignaciones(@PathParam("vacunatorio") Long vacunatorio, @PathParam("clave") String clave, @PathParam("fecha") String fecha) {
 		RespuestaREST<List<UsuarioMinDTO>> respuesta = null;
 		try {
-			List<UsuarioMinDTO> vacunadores = vacunatorioService.enviarAsignaciones(vacunatorio, fecha);
+			List<UsuarioMinDTO> vacunadores = vacunatorioService.obtenerAsignacionVacunadores(vacunatorio, clave, fecha);
 			respuesta = new RespuestaREST<List<UsuarioMinDTO>>(true, "Vacunadores listados con éxito", vacunadores);
-			return Response.ok(respuesta).build();
+			return Response.ok(vacunadores).build();
 		}catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<List<UsuarioMinDTO>>(false, e.getLocalizedMessage());
 			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO){

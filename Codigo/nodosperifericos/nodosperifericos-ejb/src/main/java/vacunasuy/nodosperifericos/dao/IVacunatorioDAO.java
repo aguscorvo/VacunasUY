@@ -8,6 +8,7 @@ import vacunasuy.nodosperifericos.entity.Vacunatorio;
 public interface IVacunatorioDAO {
 	
 	public List<Vacunatorio> listar();
+	public Vacunatorio listarPorId(Long id);
 	public Vacunatorio crear(Vacunatorio vacunatorio);
 	
 }

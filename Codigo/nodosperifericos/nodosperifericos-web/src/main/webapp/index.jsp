@@ -27,7 +27,7 @@
 	            <td>${vacunatorio.direccion}</td>
 	            <td>${vacunatorio.clave}</td>
 	            <td>
-	            	<a href="editar?id=<c:out value='${vacunatorio.id}' />">Recibir agenda</a>
+	            	<a href="obtenerVacunadores/<c:out value='${vacunatorio.id}' />">Recibir vacunadores</a>
 					<a href="eliminar?id=<c:out value='${vacunatorio.id}' />">Enviar reporte agenda</a>
 				</td>
 	        </tr>

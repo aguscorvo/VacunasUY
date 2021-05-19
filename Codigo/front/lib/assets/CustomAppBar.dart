@@ -50,7 +50,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(0.0),
-                  child: Text("Usuario"),
+                  child: Text("Iniciar Sesion"),
                 ),
                 RawMaterialButton(
                   onPressed: () {

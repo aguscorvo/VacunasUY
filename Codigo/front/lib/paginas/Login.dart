@@ -2,6 +2,7 @@ import 'package:VacunasUY/tools/BackendConnection.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:VacunasUY/tools/UserCredentials.dart';
+import 'dart:html' as html;
 
 class Login extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class _LoginState extends State<Login> {
                           child: FlatButton(
                             onPressed: () async {
                               String url = baseUrl + '/autenticaciongubuy';
-                              launch(url);
+                              html.window.location.replace(url);
                             },
                             child: Text(
                               'Iniciar Sesion',
@@ -72,7 +73,7 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: (width - 400) / 2),
                           child: TextFormField(
-                            controller: usernameController..text = "jo.cs1998@hotmail.com",
+                            controller: usernameController..text = "", //to set text
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'E-Mail',
@@ -83,7 +84,7 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: (width - 400) / 2, vertical: 15),
                           child: TextFormField(
-                            controller: passwordContrller..text = "Chiquito",
+                            controller: passwordContrller..text = "", //to set text
                             obscureText: true,
                             decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Contraseña', hintText: 'Ingresar Contraseña'),
                           ),
@@ -109,6 +110,9 @@ class _LoginState extends State<Login> {
                                 correo: usernameController.text,
                                 password: passwordContrller.text,
                               );
+                              if (valid) {
+                                html.window.location.reload();
+                              }
                             },
                             child: Text(
                               'Iniciar Sesion',

@@ -5,6 +5,12 @@ import java.util.List;
 import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Geometries;
+import org.geolatte.geom.Point;
+import org.geolatte.geom.crs.CoordinateReferenceSystems;
+
 import vacunasuy.componentecentral.converter.UsuarioConverter;
 import vacunasuy.componentecentral.converter.VacunatorioConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
@@ -263,6 +269,21 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}		
+	}	
+	
+	@Override
+	public void crearGeometrias() throws VacunasUyException{
+		try {
+			//GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326); // locationtech
+			for(Vacunatorio v: vacunatorioDAO.listar()) {
+				//Point point = factory.createPoint(new Coordinate(v.getLatitud(), v.getLongitud())); // locationtech
+				Point point = Geometries.mkPoint(new G2D(v.getLatitud(), v.getLongitud()), CoordinateReferenceSystems.WGS84); // geolatte
+				v.setGeom(point);
+				vacunatorioDAO.editar(v);
+			}
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
 	}
 	
 }

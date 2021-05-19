@@ -272,4 +272,19 @@ public class VacunatorioREST {
 		System.out.println(response);
 	}
 	
+	@PUT
+	@Path("/crearGeometrias")
+//	@RecursoProtegidoJWT
+	public Response crearGeometrias() {
+		RespuestaREST<VacunatorioDTO> respuesta = null;
+		try {
+			vacunatorioService.crearGeometrias();
+			respuesta = new RespuestaREST<VacunatorioDTO>(true, "Geometrías creadas con éxito.");
+			return Response.ok(respuesta).build();				
+		}catch(VacunasUyException e) {
+			respuesta = new RespuestaREST<VacunatorioDTO>(false, e.getLocalizedMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}
+	}
+	
 }

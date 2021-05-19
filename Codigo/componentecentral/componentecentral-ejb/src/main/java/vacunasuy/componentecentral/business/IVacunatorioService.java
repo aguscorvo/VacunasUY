@@ -26,5 +26,6 @@ public interface IVacunatorioService {
 	public List<UsuarioMinDTO> obtenerAsignacionVacunadores(Long vacunatorio, String clave, String fecha) throws VacunasUyException;
 	public List<VacunatorioDTO> listarPorUbicacion(Long localidad, Long departamento) throws VacunasUyException;
 	public List<VacunatorioDTO> listarPorDepartamento(Long departamento) throws VacunasUyException;
+	public void crearGeometrias() throws VacunasUyException;
 
 }

@@ -116,6 +116,13 @@
 		    <artifactId>jjwt</artifactId>
 		    <version>0.9.1</version>
 		</dependency>
+		
+		<!-- Hibernate Spatial -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-spatial</artifactId>
+		    <version>5.0.5.Final</version>
+		</dependency>
         
     </dependencies>
 

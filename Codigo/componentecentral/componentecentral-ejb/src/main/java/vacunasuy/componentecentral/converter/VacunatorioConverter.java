@@ -7,7 +7,6 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 import vacunasuy.componentecentral.dto.PuestoMinDTO;
-import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.dto.VacunatorioMinDTO;
@@ -76,15 +75,7 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 				.direccion(v.getDireccion())
 				.build();
 	}
-	
-	public Vacunatorio fromCercanoDTO(VacunatorioCercanoDTO v) {
-		if(v== null) return null;
-		return Vacunatorio.builder()
-				.latitud(v.getLatitud())
-				.longitud(v.getLongitud())
-				.build();
-	}
-	
+		
 	public VacunatorioMinDTO fromEntityToMin(Vacunatorio v) {
 		if(v==null) return null;
 		return VacunatorioMinDTO.builder()

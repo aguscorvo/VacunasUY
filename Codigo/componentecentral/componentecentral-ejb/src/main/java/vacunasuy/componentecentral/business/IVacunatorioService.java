@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
-import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -20,12 +20,13 @@ public interface IVacunatorioService {
 	public void eliminar(Long id) throws VacunasUyException;
 	
 	public List<VacunatorioDTO> listarVacunatoriosDadoPlan(Long id_plan) throws VacunasUyException;
-	public List<VacunatorioDTO> listarVacunatoriosCercanos(VacunatorioCercanoDTO vacunatorioDTO) throws VacunasUyException;
+	public List<VacunatorioDTO> listarCercanos(UbicacionDTO ubicacionDTO) throws VacunasUyException;
 	public VacunatorioDTO agregarEvento(Long vacunatorio, Long evento) throws VacunasUyException;
 	public VacunatorioDTO agregarActoVacunal(Long vacunatorio, Long actoVacunal) throws VacunasUyException;
 	public List<UsuarioMinDTO> obtenerAsignacionVacunadores(Long vacunatorio, String clave, String fecha) throws VacunasUyException;
 	public List<VacunatorioDTO> listarPorUbicacion(Long localidad, Long departamento) throws VacunasUyException;
 	public List<VacunatorioDTO> listarPorDepartamento(Long departamento) throws VacunasUyException;
 	public void crearGeometrias() throws VacunasUyException;
+	public Double distancia(Long vacunatorio1, Long vacunatorio2) throws VacunasUyException;
 
 }

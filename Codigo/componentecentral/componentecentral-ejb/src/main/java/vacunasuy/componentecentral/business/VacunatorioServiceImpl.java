@@ -11,6 +11,7 @@ import org.geolatte.geom.Geometries;
 import org.geolatte.geom.Point;
 import org.geolatte.geom.crs.CoordinateReferenceSystems;
 
+import vacunasuy.componentecentral.converter.UbicacionConverter;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
 import vacunasuy.componentecentral.converter.VacunatorioConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
@@ -19,8 +20,8 @@ import vacunasuy.componentecentral.dao.IEventoDAO;
 import vacunasuy.componentecentral.dao.ILocalidadDAO;
 import vacunasuy.componentecentral.dao.IPlanVacunacionDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
+import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
-import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.entity.ActoVacunal;
@@ -59,6 +60,9 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	
 	@EJB
 	private UsuarioConverter usuarioConverter;
+	
+	@EJB
+	private UbicacionConverter ubicacionConverter;
 	
 	@Override
 	public List<VacunatorioDTO> listar() throws VacunasUyException{
@@ -138,9 +142,9 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	}
 	
 	@Override
-	public List<VacunatorioDTO> listarVacunatoriosCercanos(VacunatorioCercanoDTO vacunatorioDTO) throws VacunasUyException{
+	public List<VacunatorioDTO> listarCercanos(UbicacionDTO ubicacionDTO) throws VacunasUyException{
 		try {
-			List<Vacunatorio> vacunatorios = vacunatorioDAO.listarVacunatoriosCercanos(vacunatorioConverter.fromCercanoDTO(vacunatorioDTO));
+			List<Vacunatorio> vacunatorios = vacunatorioDAO.listarCercanos(ubicacionConverter.fromDTO(ubicacionDTO));
 			return vacunatorioConverter.fromEntity(vacunatorios);
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -284,6 +288,18 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
+	}
+	
+	@Override
+	public Double distancia(Long vacunatorio1, Long vacunatorio2) throws VacunasUyException{
+		try {
+			Vacunatorio vacunatorioAux1 = vacunatorioDAO.listarPorId(vacunatorio1);
+			Vacunatorio vacunatorioAux2 = vacunatorioDAO.listarPorId(vacunatorio2);
+			return vacunatorioDAO.distancia(vacunatorioAux1, vacunatorioAux2);
+		}catch(Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+
 	}
 	
 }

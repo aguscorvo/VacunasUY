@@ -7,8 +7,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import vacunasuy.componentecentral.entity.Departamento;
-import vacunasuy.componentecentral.entity.Localidad;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Geometries;
+import org.geolatte.geom.Point;
+import org.geolatte.geom.crs.CoordinateReferenceSystems;
+
+import vacunasuy.componentecentral.entity.Ubicacion;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 
 @Singleton
@@ -46,10 +50,14 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
 	}
     
     @Override
-	public List<Vacunatorio> listarVacunatoriosCercanos(Vacunatorio vacunatorio){
-    	// Logica por hacer
-    	// Se devuelven todos los vacunatorios con id>5
-    	Query consulta = em.createQuery("SELECT v FROM Vacunatorio v WHERE v.id > 5");
+	public List<Vacunatorio> listarCercanos(Ubicacion ubicacion){
+    	Point ubicacionAux = Geometries.mkPoint(new G2D(ubicacion.getLatitud(), ubicacion.getLongitud()), CoordinateReferenceSystems.WGS84);
+    	Query consulta = em.createQuery("SELECT v "
+    			+ "FROM Vacunatorio v "
+    			+ "WHERE overlaps(v.geom, buffer( CAST(:ubicacion AS org.geolatte.geom.Point),  :distancia) ) = TRUE" 
+    			);
+    	consulta.setParameter("distancia", ubicacion.getDistancia());
+    	consulta.setParameter("ubicacion", ubicacionAux);
     	return consulta.getResultList();
     }
     
@@ -68,6 +76,20 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
 		consulta.setParameter("departamento", departamento);
     	return consulta.getResultList();
     }
+    
+    @Override
+	public Double distancia(Vacunatorio vacunatorio1, Vacunatorio vacunatorio2) {
+    	Point ubicacion1 = Geometries.mkPoint(new G2D(vacunatorio1.getLatitud(), vacunatorio1.getLongitud()), CoordinateReferenceSystems.WGS84);
+    	Point ubicacion2 = Geometries.mkPoint(new G2D(vacunatorio2.getLatitud(), vacunatorio2.getLongitud()), CoordinateReferenceSystems.WGS84);
+    	    	Query consulta = em.createQuery("SELECT v "
+    			+ "FROM Vacunatorio v "
+    			+ "WHERE distance( CAST(:ubicacion1 AS org.geolatte.geom.Point), CAST(:ubicacion2 AS org.geolatte.geom.Point) ) " 
+    			);
+    	consulta.setParameter("ubicacion1", ubicacion1);
+    	consulta.setParameter("ubicacion2", ubicacion2);
+    	return (double) consulta.getFirstResult();
+    }
+
 
 
 }

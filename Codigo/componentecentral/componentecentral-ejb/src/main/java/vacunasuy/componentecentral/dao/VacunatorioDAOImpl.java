@@ -51,7 +51,7 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
     
     @Override
 	public List<Vacunatorio> listarCercanos(Ubicacion ubicacion){
-    	Point ubicacionAux = Geometries.mkPoint(new G2D(ubicacion.getLatitud(), ubicacion.getLongitud()), CoordinateReferenceSystems.WGS84);
+    	Point ubicacionAux = Geometries.mkPoint(new G2D(ubicacion.getLongitud(), ubicacion.getLatitud()), CoordinateReferenceSystems.WGS84);
     	Query consulta = em.createQuery("SELECT v "
     			+ "FROM Vacunatorio v "
     			+ "WHERE overlaps(v.geom, buffer( CAST(:ubicacion AS org.geolatte.geom.Point),  :distancia) ) = TRUE" 
@@ -79,8 +79,8 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
     
     @Override
 	public Double distancia(Vacunatorio vacunatorio1, Vacunatorio vacunatorio2) {
-    	Point ubicacion1 = Geometries.mkPoint(new G2D(vacunatorio1.getLatitud(), vacunatorio1.getLongitud()), CoordinateReferenceSystems.WGS84);
-    	Point ubicacion2 = Geometries.mkPoint(new G2D(vacunatorio2.getLatitud(), vacunatorio2.getLongitud()), CoordinateReferenceSystems.WGS84);
+    	Point ubicacion1 = Geometries.mkPoint(new G2D(vacunatorio1.getLongitud(), vacunatorio1.getLatitud()), CoordinateReferenceSystems.WGS84);
+    	Point ubicacion2 = Geometries.mkPoint(new G2D(vacunatorio2.getLongitud(), vacunatorio2.getLatitud()), CoordinateReferenceSystems.WGS84);
     	    	Query consulta = em.createQuery("SELECT v "
     			+ "FROM Vacunatorio v "
     			+ "WHERE distance( CAST(:ubicacion1 AS org.geolatte.geom.Point), CAST(:ubicacion2 AS org.geolatte.geom.Point) ) " 

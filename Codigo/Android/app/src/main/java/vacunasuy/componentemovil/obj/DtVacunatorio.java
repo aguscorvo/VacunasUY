@@ -8,12 +8,12 @@ public class DtVacunatorio {
     Double latitud;
     Double longitud;
     DtUbicacion ubicacion;
-    List<Integer> puestos;
+    List<DtPuesto> puestos;
 
     public DtVacunatorio() {
     }
 
-    public DtVacunatorio(Integer id, String nombre, Double latitud, Double longitud, DtUbicacion ubicacion, List<Integer> puestos) {
+    public DtVacunatorio(Integer id, String nombre, Double latitud, Double longitud, DtUbicacion ubicacion, List<DtPuesto> puestos) {
         this.id = id;
         this.nombre = nombre;
         this.latitud = latitud;
@@ -62,11 +62,11 @@ public class DtVacunatorio {
         this.ubicacion = ubicacion;
     }
 
-    public List<Integer> getPuestos() {
+    public List<DtPuesto> getPuestos() {
         return puestos;
     }
 
-    public void setPuestos(List<Integer> puestos) {
+    public void setPuestos(List<DtPuesto> puestos) {
         this.puestos = puestos;
     }
 }

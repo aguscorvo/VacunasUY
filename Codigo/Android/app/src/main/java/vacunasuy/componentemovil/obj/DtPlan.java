@@ -1,9 +1,10 @@
 package vacunasuy.componentemovil.obj;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class DtPlan {
+public class DtPlan  {
     private Integer id;
     private Integer edadMinima;
     private Integer edadMaxima;

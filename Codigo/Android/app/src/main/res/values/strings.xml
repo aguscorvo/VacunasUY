@@ -87,6 +87,17 @@
     <string name="plan_detealle">Ver Detalle</string>
     <string name="plan_agendar">Agendar</string>
     <string name="plan_ingresar">Ingresar</string>
+    <string name="plan_detalle_edadmin">Edad mínima</string>
+    <string name="plan_detalle_edadmax">Edad máxima</string>
+    <string name="plan_detalle_fechaini">Fecha de inicio</string>
+    <string name="plan_detalle_fechafin">Fecha de fin</string>
+    <string name="plan_detalle_sectores">Sectores cubiertos</string>
+    <string name="plan_detalle_vacuna">Vacuna</string>
+    <string name="plan_detalle_vacuna_nombre">Nombre</string>
+    <string name="plan_detalle_vacuna_dosis">Cantidad de dósis</string>
+    <string name="plan_detalle_vacuna_periodo">Período</string>
+    <string name="plan_detalle_vacuna_inmunidad">Inmunidad</string>
+    <string name="plan_detalle_vacuna_enfermedad">Afección</string>
 
 
 </resources>

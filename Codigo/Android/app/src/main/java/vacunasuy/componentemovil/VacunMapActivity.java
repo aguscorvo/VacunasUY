@@ -56,6 +56,8 @@ import java.util.List;
 
 import vacunasuy.componentemovil.constant.ConnConstant;
 import vacunasuy.componentemovil.constant.MapConstant;
+import vacunasuy.componentemovil.obj.DtAgenda;
+import vacunasuy.componentemovil.obj.DtPuesto;
 import vacunasuy.componentemovil.obj.DtUbicacion;
 import vacunasuy.componentemovil.obj.DtUsuario;
 import vacunasuy.componentemovil.obj.DtVacunatorio;
@@ -136,7 +138,12 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                         {
                             public void onClick(DialogInterface dialog, int which) {
                                 //Toast.makeText(VacunMapActivity.this, distancia.getText().toString(), Toast.LENGTH_LONG).show();
-                                buscarVacunatoriosDistancia(Double.valueOf(distancia.getText().toString()));
+                                if (distancia.getText().toString().equalsIgnoreCase("")){
+                                    buscarVacunatoriosDistancia(0.0);
+                                } else{
+                                    buscarVacunatoriosDistancia(Double.valueOf(distancia.getText().toString()));
+                                }
+
                             }
                         });
                         dialog.show();
@@ -541,7 +548,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         Double latitud = null;
         Double longitud = null;
         DtUbicacion ubicacion = new DtUbicacion();
-        List<Integer> puestos = null;
+        List<DtPuesto> puestos = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -601,8 +608,8 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         reader.endObject();
         return ubicacion;
     }
-    public List<Integer> readPuestosArray(JsonReader reader) throws IOException {
-        List<Integer> puestos = new ArrayList<Integer>();
+    public List<DtPuesto> readPuestosArray(JsonReader reader) throws IOException {
+        List<DtPuesto> puestos = new ArrayList<DtPuesto>();
         reader.beginArray();
         while (reader.hasNext()) {
             puestos.add(readPuesto(reader));
@@ -611,20 +618,26 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         return puestos;
     }
 
-    public Integer readPuesto(JsonReader reader) throws IOException {
+    public DtPuesto readPuesto(JsonReader reader) throws IOException {
         Integer numero = null;
+        Integer id = null;
+        List<DtAgenda> agenda = null;
+
+
 
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("numero") && reader.peek() != JsonToken.NULL) {
+            if (name.equals("id") && reader.peek() != JsonToken.NULL) {
+                id = reader.nextInt();
+            } else if (name.equals("numero") && reader.peek() != JsonToken.NULL) {
                 numero = reader.nextInt();
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return numero;
+        return new DtPuesto(id, numero, agenda);
     }
 
     @Override

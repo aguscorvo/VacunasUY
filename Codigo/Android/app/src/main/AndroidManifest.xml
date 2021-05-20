@@ -19,7 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VacunasUY">
-        <activity android:name=".PlanVacunacion"></activity>
+        <activity android:name=".AgendarActivity"></activity>
+        <activity android:name=".second.DetallePlan" />
+        <activity android:name=".PlanVacunacion" />
         <activity android:name=".second.AddFechaNacimiento" />
         <activity
             android:name=".AccessActivity"

@@ -1,4 +1,4 @@
-package vacunasuy.componentecentral.dto;
+package vacunasuy.componentecentral.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,11 +8,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class VacunatorioCercanoDTO {
+public class Ubicacion {
+	
 	Double latitud; 
 	Double longitud;
-	Long distancia;
+	Double distancia;
+	
 }

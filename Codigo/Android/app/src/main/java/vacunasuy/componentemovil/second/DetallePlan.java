@@ -1,133 +1,169 @@
-package vacunasuy.componentemovil;
+package vacunasuy.componentemovil.second;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.Toast;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+import vacunasuy.componentemovil.AgendarActivity;
+import vacunasuy.componentemovil.GubUyActivity;
+import vacunasuy.componentemovil.PlanVacunacion;
+import vacunasuy.componentemovil.R;
 import vacunasuy.componentemovil.constant.ConnConstant;
-import vacunasuy.componentemovil.obj.DtDepartamento;
 import vacunasuy.componentemovil.obj.DtEnfermedad;
-import vacunasuy.componentemovil.obj.DtLocalidad;
 import vacunasuy.componentemovil.obj.DtPlan;
 import vacunasuy.componentemovil.obj.DtSectorLaboral;
 import vacunasuy.componentemovil.obj.DtUsuario;
 import vacunasuy.componentemovil.obj.DtVacuna;
-import vacunasuy.componentemovil.second.AddFechaNacimiento;
-import vacunasuy.componentemovil.second.CustomExpandableListAdapter;
-import vacunasuy.componentemovil.second.CustomExpandablePlanListAdapter;
-import vacunasuy.componentemovil.second.CustomListAdapter;
-import vacunasuy.componentemovil.second.DetallePlan;
-import vacunasuy.componentemovil.second.MapDepto;
-import vacunasuy.componentemovil.second.MapDeptoLoc;
 
-public class PlanVacunacion extends AppCompatActivity {
+public class DetallePlan extends AppCompatActivity {
     private static final String TAG = "VacunasUY";
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    BottomNavigationView bottomNavigationView;
+    DtPlan planvacunas = null;
+    DtUsuario usuario = DtUsuario.getInstance();
+
+    TextView edadmin;
+    TextView edadmax;
+    TextView fechaini;
+    TextView fechafin;
+    TextView sectores;
+    TextView vacunanombre;
+    TextView vacunadosis;
+    TextView vacunaperiodo;
+    TextView vacunainmunidad;
+    TextView enfermedad;
+    TextView nologin;
+    TextView nombreplan;
+    Button ingreso;
+    Button agendar;
+    Integer idPlan;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        buscarPlanes();
-        setContentView(R.layout.activity_plan_vacunacion);
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationPlan);
-        bottomNavigationView.setSelectedItemId(R.id.menu_agenda);
+        setContentView(R.layout.activity_detalle_plan);
+        Bundle bundle = this.getIntent().getExtras();
+        idPlan = bundle.getInt("IDPlan");
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.menu_home:
-                    Intent intent2 = new Intent(PlanVacunacion.this, MainActivity.class);
-                    startActivity(intent2);
-                    return true;
-                case R.id.menu_agenda:
-
-                    return true;
-                case R.id.menu_notificacion:
-                    Toast.makeText(PlanVacunacion.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.menu_vacunatorio:
-                    Intent ivacunatroio = new Intent(PlanVacunacion.this, VacunMapActivity.class);
-                    startActivity(ivacunatroio);
-                    return true;
-                case R.id.menu_usuario:
-                    DtUsuario usuario = DtUsuario.getInstance();
-                    if(usuario.getRegistrado()){
-                        if(usuario.getFechanacimiento()==null || usuario.getSectorlaboral() == null){
-                            Intent fnintent = new Intent(PlanVacunacion.this, AddFechaNacimiento.class);
-                            startActivity(fnintent);
-                        }else {
-                            Intent userinfo = new Intent(PlanVacunacion.this, UserInfoActivity.class);
-                            startActivity(userinfo);
-                        }
-                    }else{
-                        Intent userlogin = new Intent(PlanVacunacion.this, GubUyActivity.class);
-                        startActivity(userlogin);
-                    }
-                    return true;
-            }
-            return false;
-        });
+        buscarPlan();
 
 
 
     }
 
-    @Override
-    public void onBackPressed() {
-        //super.onBackPressed();
+    @SuppressLint("SetTextI18n")
+    private void addPlan(DtPlan dtplan){
+        edadmin = findViewById(R.id.plan_detalle_edadmin);
+        edadmax = findViewById(R.id.plan_detalle_edadmax);
+        fechaini = findViewById(R.id.plan_detalle_fechaini);
+        fechafin = findViewById(R.id.plan_detalle_fechafin);
+        sectores = findViewById(R.id.plan_detalle_sectores);
+        vacunanombre = findViewById(R.id.plan_detalle_vacuna_nombre);
+        vacunadosis = findViewById(R.id.plan_detalle_vacuna_dosis);
+        vacunaperiodo = findViewById(R.id.plan_detalle_vacuna_periodo);
+        vacunainmunidad = findViewById(R.id.plan_detalle_vacuna_inmunidad);
+        enfermedad = findViewById(R.id.plan_detalle_vacuna_enfermedad);
+        nombreplan = findViewById(R.id.plan_detalle_nombre);
+
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
+
+        String strname = getString(R.string.plan_group_title) + dtplan.getVacuna().getNombre();
+        nombreplan.setText(strname);
+
+        edadmin.setText(getString(R.string.plan_detalle_edadmin) + "\n" + dtplan.getEdadMinima());
+        edadmax.setText(getString(R.string.plan_detalle_edadmax) + "\n" + dtplan.getEdadMaxima());
+        fechaini.setText(getString(R.string.plan_detalle_fechaini) + "\n" + sdf.format(dtplan.getFechaInicio()));
+        fechafin.setText(getString(R.string.plan_detalle_fechafin) + "\n" + sdf.format(dtplan.getFechaFin()));
+
+        sectores.setText("");
+        for(DtSectorLaboral sec: dtplan.getSectores()){
+            if (sectores.getText().equals("")){
+                sectores.setText(sec.getNombre());
+            }else{
+                sectores.setText( sectores.getText() + "\n" + sec.getNombre());
+            }
+        }
+
+        vacunanombre.setText(getString(R.string.plan_detalle_vacuna_nombre) + "\n" + dtplan.getVacuna().getNombre());
+        vacunadosis.setText(getString(R.string.plan_detalle_vacuna_dosis) + "\n" + dtplan.getVacuna().getCant_dosis());
+        vacunaperiodo.setText(getString(R.string.plan_detalle_vacuna_periodo) + "\n" + dtplan.getVacuna().getPeriodo());
+        vacunainmunidad.setText(getString(R.string.plan_detalle_vacuna_inmunidad) + "\n" + dtplan.getVacuna().getInmunidad());
+        enfermedad.setText(dtplan.getVacuna().getEnfermedad().getNombre());
+
+        ingreso = findViewById(R.id.detalleplan_ingresar);
+        agendar = findViewById(R.id.detalleplan_agendar);
+        nologin = findViewById(R.id.plan_detalle_nologed);
+
+        if(usuario.getRegistrado()){
+            if( validarPlan(dtplan, usuario)){
+                ingreso.setVisibility(View.INVISIBLE);
+                nologin.setVisibility(View.INVISIBLE);
+                agendar.setVisibility(View.VISIBLE);
+            } else{
+                ingreso.setVisibility(View.INVISIBLE);
+                nologin.setVisibility(View.INVISIBLE);
+                agendar.setVisibility(View.INVISIBLE);
+            }
+
+        }else{
+            ingreso.setVisibility(View.VISIBLE);
+            nologin.setVisibility(View.VISIBLE);
+            agendar.setVisibility(View.INVISIBLE);
+        }
+
+        ingreso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent userlogin = new Intent(DetallePlan.this, GubUyActivity.class);
+                startActivity(userlogin);
+            }
+        });
+
+        agendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iagenda = new Intent(DetallePlan.this, AgendarActivity.class);
+                iagenda.putExtra("IDPlan", dtplan.getId());
+                startActivity(iagenda);
+
+            }
+        });
+
     }
 
     private Boolean validarPlan(DtPlan dtPlan, DtUsuario usuario){
         Date ahora = new Date();
-        Integer estadofi = ahora.compareTo(dtPlan.getFechaInicio());
-        Integer estadoff = ahora.compareTo(dtPlan.getFechaFin());
-        Boolean vigente = true;
+        int estadofi = ahora.compareTo(dtPlan.getFechaInicio());
+        int estadoff = ahora.compareTo(dtPlan.getFechaFin());
+        boolean vigente = true;
 
         if(estadofi > 0){
             if(estadoff > 0){
@@ -139,15 +175,18 @@ public class PlanVacunacion extends AppCompatActivity {
 
         long edadEnDias = (ahora.getTime()-usuario.getFechanacimiento().getTime())/(1000 * 60 * 60 * 24);
         int anos = Double.valueOf(edadEnDias / 365.25).intValue();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
 
         if(!(anos >= dtPlan.getEdadMinima() && anos <= dtPlan.getEdadMaxima()))
             vigente = false;
 
-        Boolean essector = false;
+        boolean essector = false;
         for(DtSectorLaboral dts : dtPlan.getSectores()){
-            if(dts.getId()==usuario.getSectorlaboral().getId())
+            if (dts.getId().equals(usuario.getSectorlaboral().getId())) {
                 essector = true;
+                break;
+            }
         }
 
         if(!essector)
@@ -157,113 +196,19 @@ public class PlanVacunacion extends AppCompatActivity {
         return vigente;
     }
 
-
-    private void addPlanes(List<DtPlan> planes){
-        Log.i(TAG, "addPlanes List<DtPlan>: " + planes.size());
-
-        if(planes.size()!=0){
-            expandableListView = findViewById(R.id.expandablePlan);
-            expandableListAdapter = new CustomExpandablePlanListAdapter(PlanVacunacion.this, planes);
-            expandableListView.setAdapter(expandableListAdapter);
-
-            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-                @Override
-                public void onGroupExpand(int groupPosition) {
-                }
-            });
-
-            expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-                @Override
-                public void onGroupCollapse(int groupPosition) {
-                }
-            });
-
-            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView parent, View v,
-                                            int groupPosition, int childPosition, long id) {
-
-                    AlertDialog dialog = new AlertDialog.Builder(PlanVacunacion.this).create();
-                    dialog.setTitle(R.string.plan_title);
-                    DtUsuario usuario = DtUsuario.getInstance();
-
-
-                    if(usuario.getRegistrado()){
-                        dialog.setMessage(getString(R.string.plan_mensaje));
-
-                        dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.plan_detealle), new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //Toast.makeText(PlanVacunacion.this, getString(R.string.plan_detealle), Toast.LENGTH_LONG).show();
-                                verDetalle(planes.get(groupPosition));
-
-                            }
-                        });
-                        if(validarPlan(planes.get(groupPosition), usuario)){
-                            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_agendar), new DialogInterface.OnClickListener()
-                            {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //Toast.makeText(PlanVacunacion.this, getString(R.string.plan_agendar), Toast.LENGTH_LONG).show();
-                                    Intent iagenda = new Intent(PlanVacunacion.this, AgendarActivity.class);
-                                    iagenda.putExtra("IDPlan", planes.get(groupPosition).getId());
-                                    startActivity(iagenda);
-                                }
-                            });
-                        }
-                    }else{
-                        dialog.setMessage(getString(R.string.plan_mensaje_nologin));
-
-                        dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.plan_detealle), new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int which) {
-                                verDetalle(planes.get(groupPosition));
-
-                            }
-                        });
-                        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_ingresar), new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //Toast.makeText(PlanVacunacion.this, getString(R.string.plan_ingresar), Toast.LENGTH_LONG).show();
-                                Intent userlogin = new Intent(PlanVacunacion.this, GubUyActivity.class);
-                                startActivity(userlogin);
-                            }
-                        });
-
-
-                    }
-                    dialog.show();
-                    return false;
-                }
-            });
-
-        }else {
-            finish();
-        }
-
-    }
-
-    private void verDetalle(DtPlan dtPlan){
-        Intent detalle = new Intent(PlanVacunacion.this, DetallePlan.class);
-        detalle.putExtra("IDPlan", dtPlan.getId());
-        startActivity(detalle);
-    }
-
-
-    private void buscarPlanes() {
+    private void buscarPlan() {
         connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connMgr.getActiveNetworkInfo();
 
         String stringUrl = ConnConstant.API_PLANESVACUNACION_URL;
 
         if (networkInfo != null && networkInfo.isConnected()) {
-            new PlanVacunacion.DownloadPlanesTask().execute(stringUrl);
-        } else {
+            new DetallePlan.DownloadPlanesTask().execute(stringUrl);
         }
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     private class DownloadPlanesTask extends AsyncTask<String, Void, Object> {
         @Override
         protected Object doInBackground(String... urls) {
@@ -281,7 +226,12 @@ public class PlanVacunacion extends AppCompatActivity {
 
             if (result instanceof ArrayList) {
                 List<DtPlan> planes = (List<DtPlan>) result;
-                addPlanes(planes);
+                for(DtPlan dtp: planes){
+                    if(dtp.getId().equals(idPlan)){
+                        addPlan(dtp);
+                    }
+                }
+
 
             }else if(result instanceof String){
                 Log.i("onPostExecute", "response: " + ((String) result));
@@ -338,7 +288,7 @@ public class PlanVacunacion extends AppCompatActivity {
     }
 
     public List<DtPlan> readRESTMessage(JsonReader reader) throws IOException {
-        Boolean ok = false;
+        boolean ok = false;
         String mensaje = null;
         List<DtPlan> res = null;
 
@@ -364,12 +314,13 @@ public class PlanVacunacion extends AppCompatActivity {
         reader.beginArray();
         while (reader.hasNext()) {
 
-            planes.add((DtPlan) readPlan(reader));
+            planes.add(readPlan(reader));
         }
         reader.endArray();
         return planes;
     }
 
+    @SuppressLint("SimpleDateFormat")
     public DtPlan readPlan(JsonReader reader) throws IOException {
         Integer id = null;
         Integer edadMinima = null;
@@ -496,6 +447,5 @@ public class PlanVacunacion extends AppCompatActivity {
         reader.endObject();
         return new DtEnfermedad(id, nombre);
     }
-
 
 }

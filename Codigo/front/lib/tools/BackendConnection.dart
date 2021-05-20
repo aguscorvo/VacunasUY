@@ -12,8 +12,8 @@ import 'package:VacunasUY/objects/Departamento.dart';
 import 'package:http/http.dart' as http;
 import 'package:VacunasUY/tools/UserCredentials.dart';
 
-const String baseUrl = "https://vacunasuy.web.elasticloud.uy/rest";
-//const String baseUrl = "http://localhost:8080/rest";
+//const String baseUrl = "https://vacunasuy.web.elasticloud.uy/rest";
+const String baseUrl = "http://localhost:8080/rest";
 
 var authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials.getToken()}", "Content-Type": "application/json"};
 

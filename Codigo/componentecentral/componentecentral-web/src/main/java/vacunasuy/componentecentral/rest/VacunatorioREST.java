@@ -20,9 +20,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import vacunasuy.componentecentral.business.IVacunatorioService;
-import vacunasuy.componentecentral.dto.PuestoCrearDTO;
+import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
-import vacunasuy.componentecentral.dto.VacunatorioCercanoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.dto.VacunatorioPerifericoDTO;
@@ -131,11 +130,20 @@ public class VacunatorioREST {
 	
 	@GET
 //	@RecursoProtegidoJWT
-	@Path("/listar/cercanos")
-	public Response listarVacunatoriosCercanos(VacunatorioCercanoDTO request) throws VacunasUyException{
+	@Path("/listar/cercanos/{latitud}/{longitud}/{distancia}")
+	public Response listarCercanos(
+			@PathParam("latitud") Double latitud, 
+			@PathParam("longitud")Double longitud,
+			@PathParam("distancia")Double distancia){
 		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
 		try {
-			List<VacunatorioDTO> vacunatorios = vacunatorioService.listarVacunatoriosCercanos(request);
+			UbicacionDTO ubicacion = new UbicacionDTO(latitud, longitud, distancia);
+			List<VacunatorioDTO> vacunatorios = vacunatorioService.listarCercanos(ubicacion);
+			if(!vacunatorios.isEmpty()) {
+				for(VacunatorioDTO v: vacunatorios) {
+					System.out.println(v.getNombre());
+				}
+			}else System.out.println("no hay vacunatorios");
 			respuesta = new RespuestaREST<List<VacunatorioDTO>>(true, "Vacunatorios listados con éxito.", vacunatorios);
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
@@ -283,6 +291,22 @@ public class VacunatorioREST {
 			return Response.ok(respuesta).build();				
 		}catch(VacunasUyException e) {
 			respuesta = new RespuestaREST<VacunatorioDTO>(false, e.getLocalizedMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}
+	}
+	
+	
+	@GET
+	@Path("/distancia/{vacunatorio1}/{vacunatorio2}")
+//	@RecursoProtegidoJWT
+	public Response distancia(@PathParam("vacunatorio1") Long vacunatorio1, @PathParam("vacunatorio2") Long vacunatorio2) {
+		RespuestaREST<Double> respuesta = null;
+		try {
+			Double distancia = vacunatorioService.distancia(vacunatorio1, vacunatorio2);
+			respuesta = new RespuestaREST<Double>(true, "Distancia calculada con éxito.", distancia);
+			return Response.ok(respuesta).build();
+		}catch(VacunasUyException e) {
+			respuesta = new RespuestaREST<Double>(false, e.getLocalizedMessage());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 		}
 	}

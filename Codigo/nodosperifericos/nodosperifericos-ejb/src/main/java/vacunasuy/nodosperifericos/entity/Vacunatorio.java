@@ -20,12 +20,12 @@ import lombok.Setter;
 public class Vacunatorio {
 
 	@Id
-	Long id;
+	private Long id;
 	@Column(name = "nombre", nullable = false, length = 50)
-	String nombre;
+	private String nombre;
 	@Column(name = "direccion", nullable = false, length = 150)
-	String direccion;
+	private String direccion;
 	@Column(name = "clave", nullable = false, length = 100)
-	String clave;
+	private String clave;
 	
 }

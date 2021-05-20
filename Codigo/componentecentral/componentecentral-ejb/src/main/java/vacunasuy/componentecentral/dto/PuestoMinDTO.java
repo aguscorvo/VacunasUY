@@ -17,5 +17,6 @@ public class PuestoMinDTO {
 
 	private Long id;
 	private int numero;
-	private List<AgendaMinDTO> agendas;	
+	private List<AgendaMinDTO> agendas;
+	
 }

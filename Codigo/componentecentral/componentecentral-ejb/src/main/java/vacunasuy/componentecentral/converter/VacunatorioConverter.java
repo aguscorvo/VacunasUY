@@ -43,7 +43,7 @@ public class VacunatorioConverter extends AbstractConverter<Vacunatorio, Vacunat
 				.direccion(v.getDireccion())
 				.localidad(localidadConverter.fromEntity(v.getLocalidad()))
 				.departamento(departamentoConverter.fromEntityToMin(v.getDepartamento()))
-				//.puestos(puestoConverter.fromEntity(v.getPuestos()))
+				.puestos(puestoConverter.fromEntityToMin(v.getPuestos()))
 				//.eventos(eventoConverter.fromEntity(v.getEventos()))
 				//.actosVacunales(actoVacunalConverter.fromEntity(v.getActosVacunales()))
 				.clave(v.getClave())

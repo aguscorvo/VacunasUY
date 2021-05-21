@@ -1,9 +1,11 @@
 package vacunasuy.componentemovil.second;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -31,6 +33,7 @@ import java.util.List;
 
 import vacunasuy.componentemovil.AgendarActivity;
 import vacunasuy.componentemovil.GubUyActivity;
+import vacunasuy.componentemovil.MainActivity;
 import vacunasuy.componentemovil.PlanVacunacion;
 import vacunasuy.componentemovil.R;
 import vacunasuy.componentemovil.constant.ConnConstant;
@@ -68,14 +71,12 @@ public class DetallePlan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_detalle_plan);
         Bundle bundle = this.getIntent().getExtras();
         idPlan = bundle.getInt("IDPlan");
 
         buscarPlan();
 
-
-
+        setContentView(R.layout.activity_detalle_plan);
     }
 
     @SuppressLint("SetTextI18n")
@@ -123,13 +124,12 @@ public class DetallePlan extends AppCompatActivity {
         nologin = findViewById(R.id.plan_detalle_nologed);
 
         if(usuario.getRegistrado()){
+            ingreso.setVisibility(View.INVISIBLE);
+            nologin.setVisibility(View.INVISIBLE);
+
             if( validarPlan(dtplan, usuario)){
-                ingreso.setVisibility(View.INVISIBLE);
-                nologin.setVisibility(View.INVISIBLE);
                 agendar.setVisibility(View.VISIBLE);
             } else{
-                ingreso.setVisibility(View.INVISIBLE);
-                nologin.setVisibility(View.INVISIBLE);
                 agendar.setVisibility(View.INVISIBLE);
             }
 
@@ -152,6 +152,11 @@ public class DetallePlan extends AppCompatActivity {
             public void onClick(View v) {
                 Intent iagenda = new Intent(DetallePlan.this, AgendarActivity.class);
                 iagenda.putExtra("IDPlan", dtplan.getId());
+                iagenda.putExtra("nombrePlan", getString(R.string.plan_group_title) + dtplan.getVacuna().getNombre());
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
+                iagenda.putExtra("FechaFin", sdf.format(dtplan.getFechaFin()));
+
                 startActivity(iagenda);
 
             }
@@ -231,11 +236,24 @@ public class DetallePlan extends AppCompatActivity {
                         addPlan(dtp);
                     }
                 }
+            }else {
+                AlertDialog dialog = new AlertDialog.Builder(DetallePlan.this).create();
+                dialog.setTitle(R.string.info_title);
 
-
-            }else if(result instanceof String){
-                Log.i("onPostExecute", "response: " + ((String) result));
-
+                if(result instanceof String){
+                    dialog.setMessage((String) result);
+                } else {
+                    dialog.setMessage(getString(R.string.err_recuperarpag));
+                    Log.i(TAG, getString(R.string.err_recuperarpag));
+                }
+                dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.alert_btn_neutral), new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent iplan = new Intent(DetallePlan.this, MainActivity.class);
+                        startActivity(iplan);
+                    }
+                });
+                dialog.show();
             }
         }
 

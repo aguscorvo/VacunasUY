@@ -6,4 +6,82 @@
     android:layout_height="match_parent"
     tools:context=".AgendarActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/agendaNombrePlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/tb_info_cel"
+            android:padding="3dp"
+            android:textAlignment="center"
+            android:textColor="@color/primary_color"/>
+        <TextView
+            android:id="@+id/agendaVacunatorioTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/agendaNombrePlan"
+            android:layout_margin="10dp"
+            android:background="@drawable/tb_info_cel"
+            android:padding="3dp"
+            android:text="@string/info_txt_vacunatorio"
+            android:textAlignment="center"
+            android:textColor="@color/primary_color"/>
+
+        <ExpandableListView
+            android:id="@+id/agendaexpandableListView"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+            android:layout_below="@+id/agendaVacunatorioTitle"
+            android:divider="@android:color/darker_gray"
+            android:background="@color/tb_bg"
+            android:dividerHeight="0.5dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+        <EditText
+            android:id="@+id/agendaFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/agendaexpandableListView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:hint="@string/agenda_hint_date"
+            android:inputType="date" />
+
+        <ImageButton
+            android:id="@+id/agendaImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/agendaFecha"
+            android:layout_toEndOf="@+id/agendaFecha"
+            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+
+        <Button
+            android:id="@+id/agendaAgendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/agendaBottomNavigationView"
+            android:layout_alignParentTop="@id/agendaBottomNavigationView"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_design"
+            android:text="@string/plan_agendar" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/agendaBottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/menu_bar_bg"
+            app:itemIconTint="@color/menu_bar_text"
+            app:itemTextColor="@color/menu_bar_text"
+            app:menu="@menu/bottom_navigation_menu" />
+
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

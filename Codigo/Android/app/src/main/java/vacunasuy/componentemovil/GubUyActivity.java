@@ -38,6 +38,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import vacunasuy.componentemovil.bd.AccesoBD;
+import vacunasuy.componentemovil.bd.Mensaje;
+import vacunasuy.componentemovil.bd.Usuario;
 import vacunasuy.componentemovil.constant.ConnConstant;
 import vacunasuy.componentemovil.obj.DtResponse;
 import vacunasuy.componentemovil.obj.DtRol;
@@ -52,13 +55,16 @@ public class GubUyActivity extends AppCompatActivity {
     NetworkInfo networkInfo;
     BottomNavigationView bottomNavigationView;
     ProgressBar progressBar;
-    //DtResponse infoGral;
+    AccesoBD bd;
+    DtUsuario dtUsuario;
 
     @SuppressLint({"SetJavaScriptEnabled", "NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gub_uy);
+
+        bd = AccesoBD.getInstance(this);
 
         navegador = findViewById(R.id.webView);
         progressBar = findViewById(R.id.progressBarWebView);
@@ -102,10 +108,20 @@ public class GubUyActivity extends AppCompatActivity {
 
     }
 
+    private void persistirUsuario(DtUsuario dtusr, DtResponse dtresp){
+
+        Usuario usr  = new Usuario(dtusr.getId(), dtusr.getDocumento(), dtusr.getNombre(), dtusr.getApellido());
+
+        if(bd.getUsuarioById(dtusr.getId())==null)
+            bd.addUsuario(usr);
+
+        Mensaje msg = new Mensaje(dtresp.getMensaje(), new Date(), dtusr.getId());
+        bd.addMensaje(msg);
+    }
+
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            //Log.i("GubUyActivity URL", url);
             if (ConnConstant.API_GUBUY_URL.equals(url)) {
                 return false;
             } else if( Uri.parse(url).getQuery().contains("code")
@@ -158,6 +174,9 @@ public class GubUyActivity extends AppCompatActivity {
             dialog.setTitle(R.string.info_title);
 
             if (result instanceof DtResponse) {
+                if(((DtResponse) result).getOk())
+                    persistirUsuario(dtUsuario, (DtResponse) result);
+
                 dialog.setMessage(((DtResponse) result).getMensaje());
 
                 Log.i("onPostExecute", "response: " + ((DtResponse) result).getMensaje());
@@ -167,6 +186,7 @@ public class GubUyActivity extends AppCompatActivity {
                 dialog.setMessage(getString(R.string.err_recuperarpag));
                 Log.i(TAG, getString(R.string.err_recuperarpag));
             }
+
             dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.alert_btn_neutral), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which) {
@@ -174,6 +194,7 @@ public class GubUyActivity extends AppCompatActivity {
                     startActivity(iplan);
                 }
             });
+            dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
 
@@ -294,7 +315,7 @@ public class GubUyActivity extends AppCompatActivity {
         }
         reader.endObject();
 
-        DtUsuario dtUsuario = DtUsuario.getInstance();
+        dtUsuario = DtUsuario.getInstance();
         dtUsuario.setId(id);
         dtUsuario.setNombre(nombre);
         dtUsuario.setApellido(apellido);

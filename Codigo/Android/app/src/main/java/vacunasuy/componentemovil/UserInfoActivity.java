@@ -1,8 +1,10 @@
 package vacunasuy.componentemovil;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -68,7 +70,23 @@ public class UserInfoActivity extends AppCompatActivity {
                         startActivity(iagenda);
                         return true;
                     case R.id.menu_notificacion:
-                        Toast.makeText(UserInfoActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
+                        if(usuario.getRegistrado()){
+                            Intent notificacioninfo = new Intent(UserInfoActivity.this, NotificacionActivity.class);
+                            startActivity(notificacioninfo);
+                        }else{
+                            AlertDialog dialog = new AlertDialog.Builder(UserInfoActivity.this).create();
+                            dialog.setTitle(R.string.info_title);
+                            dialog.setMessage(getString(R.string.plan_mensaje_nologin));
+
+                            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_ingresar), new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent userlogin = new Intent(UserInfoActivity.this, GubUyActivity.class);
+                                    startActivity(userlogin);
+                                }
+                            });
+                            dialog.show();
+                        }
                         return true;
                     case R.id.menu_vacunatorio:
                         Intent ivacunatroio = new Intent(UserInfoActivity.this, VacunMapActivity.class);

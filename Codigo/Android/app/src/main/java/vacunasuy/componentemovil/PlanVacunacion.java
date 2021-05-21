@@ -81,6 +81,7 @@ public class PlanVacunacion extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.menu_agenda);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            DtUsuario usuario = DtUsuario.getInstance();
             switch (item.getItemId()){
                 case R.id.menu_home:
                     Intent intent2 = new Intent(PlanVacunacion.this, MainActivity.class);
@@ -90,14 +91,30 @@ public class PlanVacunacion extends AppCompatActivity {
 
                     return true;
                 case R.id.menu_notificacion:
-                    Toast.makeText(PlanVacunacion.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
+                    if(usuario.getRegistrado()){
+                        Intent notificacioninfo = new Intent(PlanVacunacion.this, NotificacionActivity.class);
+                        startActivity(notificacioninfo);
+                    }else{
+                        AlertDialog dialog = new AlertDialog.Builder(PlanVacunacion.this).create();
+                        dialog.setTitle(R.string.info_title);
+                        dialog.setMessage(getString(R.string.plan_mensaje_nologin));
+
+                        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_ingresar), new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent userlogin = new Intent(PlanVacunacion.this, GubUyActivity.class);
+                                startActivity(userlogin);
+                            }
+                        });
+                        dialog.show();
+                    }
                     return true;
                 case R.id.menu_vacunatorio:
                     Intent ivacunatroio = new Intent(PlanVacunacion.this, VacunMapActivity.class);
                     startActivity(ivacunatroio);
                     return true;
                 case R.id.menu_usuario:
-                    DtUsuario usuario = DtUsuario.getInstance();
+
                     if(usuario.getRegistrado()){
                         if(usuario.getFechanacimiento()==null || usuario.getSectorlaboral() == null){
                             Intent fnintent = new Intent(PlanVacunacion.this, AddFechaNacimiento.class);

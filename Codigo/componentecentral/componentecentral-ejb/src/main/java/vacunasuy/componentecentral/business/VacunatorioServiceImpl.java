@@ -290,7 +290,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			//GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326); // locationtech
 			for(Vacunatorio v: vacunatorioDAO.listar()) {
 				//Point point = factory.createPoint(new Coordinate(v.getLatitud(), v.getLongitud())); // locationtech
-				Point point = Geometries.mkPoint(new G2D(v.getLatitud(), v.getLongitud()), CoordinateReferenceSystems.WGS84); // geolatte
+				Point point = Geometries.mkPoint(new G2D(v.getLongitud(), v.getLatitud()), CoordinateReferenceSystems.WGS84); // geolatte
 				v.setGeom(point);
 				vacunatorioDAO.editar(v);
 			}

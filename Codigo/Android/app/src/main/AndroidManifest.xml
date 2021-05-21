@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vacunasuy.componentemovil">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -11,6 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -19,10 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VacunasUY">
-        <activity android:name=".AgendarActivity"></activity>
-        <activity android:name=".second.DetallePlan" />
-        <activity android:name=".PlanVacunacion" />
-        <activity android:name=".second.AddFechaNacimiento" />
+
         <activity
             android:name=".AccessActivity"
             android:screenOrientation="portrait">
@@ -32,6 +31,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AgendarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".second.DetallePlan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PlanVacunacion"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".second.AddFechaNacimiento"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".second.MapDepto"
             android:screenOrientation="portrait" />

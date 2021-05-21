@@ -10,283 +10,280 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:orientation="vertical" >
-
-
-            <androidx.core.widget.NestedScrollView
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/tb_bg"
-                tools:context=".MainActivity"
-                tools:showIn="@layout/activity_main">
-
-                <TableLayout
-                    android:id="@+id/tableInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/tb_bg"
-                    android:paddingTop="20dp"
-                    android:shrinkColumns="*"
-                    android:stretchColumns="*">
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/plan_detalle_nombre"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_span="2"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:textStyle="bold"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/plan_detalle_edadmin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_edadmin"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-
-                        <TextView
-                            android:id="@+id/plan_detalle_edadmax"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_edadmax"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/plan_detalle_fechaini"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_fechaini"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-
-                        <TextView
-                            android:id="@+id/plan_detalle_fechafin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_fechafin"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_span="2"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_sectores"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/plan_detalle_sectores"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_span="2"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:paddingStart="10dp"
-                            android:text="@string/plan_detalle_sectores"
-                            android:textAlignment="textStart"
-                            android:textColor="@color/primary_color" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_span="2"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_vacuna"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/plan_detalle_vacuna_nombre"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_vacuna_nombre"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-
-                        <TextView
-                            android:id="@+id/plan_detalle_vacuna_dosis"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_vacuna_dosis"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/plan_detalle_vacuna_periodo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_vacuna_periodo"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-
-                        <TextView
-                            android:id="@+id/plan_detalle_vacuna_inmunidad"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_vacuna_inmunidad"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_span="2"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:text="@string/plan_detalle_vacuna_enfermedad"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_color" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/plan_detalle_vacuna_enfermedad"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_span="2"
-                            android:layout_weight="1"
-                            android:background="@drawable/tb_info_cel"
-                            android:padding="3dp"
-                            android:paddingStart="10dp"
-                            android:text="@string/plan_detalle_vacuna_enfermedad"
-                            android:textAlignment="textStart"
-                            android:textColor="@color/primary_color" />
-
-                    </TableRow>
-
-
-                </TableLayout>
-            </androidx.core.widget.NestedScrollView>
-
-        </LinearLayout>
-
         <TextView
             android:id="@+id/plan_detalle_nologed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:textAlignment="center"
-           android:text="@string/plan_mensaje_nologin" />
+            android:text="@string/plan_mensaje_nologin" />
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/detalleplan_buttons"
+            android:layout_below="@+id/plan_detalle_nologed"
+            android:layout_marginBottom="10dp"
+            android:background="@color/tb_bg"
+            tools:context=".MainActivity"
+            tools:showIn="@layout/activity_main">
+
+            <TableLayout
+                android:id="@+id/tableInfo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/tb_bg"
+                android:paddingTop="0dp"
+                android:shrinkColumns="*"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/plan_detalle_nombre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_span="2"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color"
+                        android:textStyle="bold" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/plan_detalle_edadmin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_edadmin"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+
+                    <TextView
+                        android:id="@+id/plan_detalle_edadmax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_edadmax"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/plan_detalle_fechaini"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_fechaini"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+
+                    <TextView
+                        android:id="@+id/plan_detalle_fechafin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_fechafin"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_span="2"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_sectores"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/plan_detalle_sectores"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_span="2"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:paddingStart="10dp"
+                        android:text="@string/plan_detalle_sectores"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/primary_color" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_span="2"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_vacuna"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/plan_detalle_vacuna_nombre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_vacuna_nombre"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+
+                    <TextView
+                        android:id="@+id/plan_detalle_vacuna_dosis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_vacuna_dosis"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/plan_detalle_vacuna_periodo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_vacuna_periodo"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+
+                    <TextView
+                        android:id="@+id/plan_detalle_vacuna_inmunidad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_vacuna_inmunidad"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_span="2"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:text="@string/plan_detalle_vacuna_enfermedad"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_color" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/plan_detalle_vacuna_enfermedad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_span="2"
+                        android:layout_weight="1"
+                        android:background="@drawable/tb_info_cel"
+                        android:padding="3dp"
+                        android:paddingStart="10dp"
+                        android:text="@string/plan_detalle_vacuna_enfermedad"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/primary_color" />
+
+                </TableRow>
+
+
+            </TableLayout>
+        </androidx.core.widget.NestedScrollView>
+
         <LinearLayout
+            android:id="@+id/detalleplan_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

@@ -1,8 +1,10 @@
 package vacunasuy.componentemovil;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
@@ -41,6 +43,7 @@ import vacunasuy.componentemovil.obj.DtResponse;
 import vacunasuy.componentemovil.obj.DtRol;
 import vacunasuy.componentemovil.obj.DtSectorLaboral;
 import vacunasuy.componentemovil.obj.DtUsuario;
+import vacunasuy.componentemovil.second.AddFechaNacimiento;
 
 public class GubUyActivity extends AppCompatActivity {
     private static final String TAG = "VacunasUY";
@@ -49,7 +52,7 @@ public class GubUyActivity extends AppCompatActivity {
     NetworkInfo networkInfo;
     BottomNavigationView bottomNavigationView;
     ProgressBar progressBar;
-    DtResponse infoGral;
+    //DtResponse infoGral;
 
     @SuppressLint({"SetJavaScriptEnabled", "NonConstantResourceId"})
     @Override
@@ -112,8 +115,8 @@ public class GubUyActivity extends AppCompatActivity {
                 Log.i("GubUyActivity", ConnConstant.API_USRLOGIN_URL + access);
                 new LoginUserTask().execute(ConnConstant.API_USRLOGIN_URL + access);
                 //GubUyActivity.super.onBackPressed();
-                Intent intent = new Intent(GubUyActivity.this, MainActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(GubUyActivity.this, MainActivity.class);
+                //startActivity(intent);
 
                 return true;
             }
@@ -151,12 +154,27 @@ public class GubUyActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Object result) {
 
-            if (result instanceof ArrayList) {
-                infoGral = (DtResponse) result;
+            AlertDialog dialog = new AlertDialog.Builder(GubUyActivity.this).create();
+            dialog.setTitle(R.string.info_title);
 
-            }else if(result instanceof String){
-                Log.i("onPostExecute", "response: " + ((String) result));
+            if (result instanceof DtResponse) {
+                dialog.setMessage(((DtResponse) result).getMensaje());
+
+                Log.i("onPostExecute", "response: " + ((DtResponse) result).getMensaje());
+            }else if (result instanceof String){
+                dialog.setMessage((String) result);
+            } else {
+                dialog.setMessage(getString(R.string.err_recuperarpag));
+                Log.i(TAG, getString(R.string.err_recuperarpag));
             }
+            dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.alert_btn_neutral), new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent iplan = new Intent(GubUyActivity.this, MainActivity.class);
+                    startActivity(iplan);
+                }
+            });
+            dialog.show();
         }
 
     }
@@ -261,7 +279,6 @@ public class GubUyActivity extends AppCompatActivity {
                         Log.e(TAG, e.getMessage());
                     }
                 }
-
             } else if (name.equals("roles") && reader.peek() != JsonToken.NULL) {
                 roles = readDtRolArray(reader);
             }  else if (name.equals("correo") && reader.peek() != JsonToken.NULL) {

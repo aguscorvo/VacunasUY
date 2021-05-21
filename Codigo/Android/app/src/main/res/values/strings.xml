@@ -2,6 +2,7 @@
     <string name="app_name">vacunasUY</string>
     <string name="alert_btn_positive">Si</string>
     <string name="alert_btn_negative">No</string>
+    <string name="alert_btn_neutral">OK</string>
 
     <!-- ACCESS-->
     <string name="access_title_err">Error de Permisos</string>
@@ -98,6 +99,13 @@
     <string name="plan_detalle_vacuna_periodo">Período</string>
     <string name="plan_detalle_vacuna_inmunidad">Inmunidad</string>
     <string name="plan_detalle_vacuna_enfermedad">Afección</string>
+
+    <!-- AGENDA -->
+    <string name="agenda_hint_date">yyyy-mm-dd</string>
+    <string name="agenda_puestoText">Puesto -</string>
+    <string name="agenda_sindisponibilidad">Sin Disponibilidad</string>
+    <string name="agenda_errorVacunatorios">No existen vacunatorios para el Plan Seleccionado</string>
+    <string name="agenda_DatePickeTitle">Seleccione Fecha</string>
 
 
 </resources>

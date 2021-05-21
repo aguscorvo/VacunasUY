@@ -1,8 +1,10 @@
 package vacunasuy.componentemovil.second;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -38,6 +40,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import vacunasuy.componentemovil.AgendarActivity;
+import vacunasuy.componentemovil.MainActivity;
+import vacunasuy.componentemovil.PlanVacunacion;
 import vacunasuy.componentemovil.R;
 import vacunasuy.componentemovil.VacunMapActivity;
 import vacunasuy.componentemovil.constant.ConnConstant;
@@ -120,10 +125,28 @@ public class AddFechaNacimiento extends AppCompatActivity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(Object result) {
+            AlertDialog dialog = new AlertDialog.Builder(AddFechaNacimiento.this).create();
+            dialog.setTitle(R.string.info_title);
+
             if (result instanceof DtResponse) {
-                Toast.makeText(AddFechaNacimiento.this, ((DtResponse) result).getMensaje(), Toast.LENGTH_LONG).show();
+                dialog.setMessage(((DtResponse) result).getMensaje());
+
                 Log.i("onPostExecute", "response: " + ((DtResponse) result).getMensaje());
+            }else if (result instanceof String){
+                dialog.setMessage((String) result);
+            } else {
+                dialog.setMessage(getString(R.string.err_recuperarpag));
+                Log.i(TAG, getString(R.string.err_recuperarpag));
             }
+            dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.alert_btn_neutral), new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent iplan = new Intent(AddFechaNacimiento.this, MainActivity.class);
+                    startActivity(iplan);
+                }
+            });
+            dialog.show();
+
         }
 
     }
@@ -257,7 +280,7 @@ public class AddFechaNacimiento extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(AddFechaNacimiento.this, gsectores.get(position).getNombre(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(AddFechaNacimiento.this, gsectores.get(position).getNombre(), Toast.LENGTH_LONG).show();
                 usuario.setSectorlaboral(gsectores.get(position));
             }
 

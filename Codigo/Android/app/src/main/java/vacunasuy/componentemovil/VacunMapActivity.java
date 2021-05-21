@@ -184,7 +184,15 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MapConstant.MAP_TIME_MS, MapConstant.MAP_DISTANCE_M, this);
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                center = new GeoPoint(location.getLatitude(), location.getLongitude());
+                if(location==null)
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                if(location==null){
+                    center = new GeoPoint(-34.917831, -56.166322);
+                }else{
+                    center = new GeoPoint(location.getLatitude(), location.getLongitude());
+                }
+
                 mc.setCenter(center);
                 mc.animateTo(center);
 

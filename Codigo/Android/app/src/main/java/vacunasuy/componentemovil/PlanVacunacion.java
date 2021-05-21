@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -205,9 +206,14 @@ public class PlanVacunacion extends AppCompatActivity {
                             dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_agendar), new DialogInterface.OnClickListener()
                             {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //Toast.makeText(PlanVacunacion.this, getString(R.string.plan_agendar), Toast.LENGTH_LONG).show();
                                     Intent iagenda = new Intent(PlanVacunacion.this, AgendarActivity.class);
                                     iagenda.putExtra("IDPlan", planes.get(groupPosition).getId());
+                                    iagenda.putExtra("nombrePlan", getString(R.string.plan_group_title) + planes.get(groupPosition).getVacuna().getNombre());
+
+                                    @SuppressLint("SimpleDateFormat")
+                                    SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
+                                    iagenda.putExtra("FechaFin", sdf.format(planes.get(groupPosition).getFechaFin()));
+
                                     startActivity(iagenda);
                                 }
                             });
@@ -283,9 +289,24 @@ public class PlanVacunacion extends AppCompatActivity {
                 List<DtPlan> planes = (List<DtPlan>) result;
                 addPlanes(planes);
 
-            }else if(result instanceof String){
-                Log.i("onPostExecute", "response: " + ((String) result));
+            }else{
+                AlertDialog dialog = new AlertDialog.Builder(PlanVacunacion.this).create();
+                dialog.setTitle(R.string.info_title);
 
+                if(result instanceof String){
+                    dialog.setMessage((String) result);
+                } else {
+                    dialog.setMessage(getString(R.string.err_recuperarpag));
+                    Log.i(TAG, getString(R.string.err_recuperarpag));
+                }
+                dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.alert_btn_neutral), new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent iplan = new Intent(PlanVacunacion.this, MainActivity.class);
+                        startActivity(iplan);
+                    }
+                });
+                dialog.show();
             }
         }
 

@@ -69,6 +69,8 @@ public class AgendaConverter extends AbstractConverter<Agenda, AgendaDTO>{
 		return AgendaVacunatorioDTO.builder()
 				.id(a.getId())
 				.fecha(a.getFecha().toString())
+				.idUsuario(a.getUsuario().getId())
+				.documento(a.getUsuario().getDocumento())
 				.idPuesto(a.getPuesto().getId())
 				.idPlanVacunacion(a.getPlanVacunacion().getId())
 				.build();

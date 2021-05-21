@@ -79,7 +79,8 @@ public class AgendaServiceImpl implements IAgendaService {
 		try {
 			agenda.setPuesto(puesto);
 			agenda.setPlanVacunacion(planVacunacion);
-			puesto.getAgendas().add(agenda);			
+			agenda.setUsuario(ciudadano);
+			puesto.getAgendas().add(agenda);	
 			return agendaConverter.fromEntityToMin(agendaDAO.crear(agenda));
 		}catch(Exception e){
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

@@ -15,6 +15,8 @@ public class AgendaVacunatorioDTO {
 
 	private Long id;
 	private String fecha;
+	private Long idUsuario;
+	private String documento;
 	private Long idPuesto;
 	private Long idPlanVacunacion;
 	

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import vacunasuy.componentecentral.dto.AgendaMinDTO;
+import vacunasuy.componentecentral.dto.AgendaVacunatorioDTO;
 import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
@@ -28,5 +30,6 @@ public interface IVacunatorioService {
 	public List<VacunatorioDTO> listarPorDepartamento(Long departamento) throws VacunasUyException;
 	public void crearGeometrias() throws VacunasUyException;
 	public Double distancia(Long vacunatorio1, Long vacunatorio2) throws VacunasUyException;
+	public List<AgendaVacunatorioDTO> listarAgendasPorVacunatorio(Long id, String fecha) throws VacunasUyException;
 
 }

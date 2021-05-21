@@ -20,6 +20,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import vacunasuy.componentecentral.business.IVacunatorioService;
+import vacunasuy.componentecentral.dto.AgendaDTO;
+import vacunasuy.componentecentral.dto.AgendaMinDTO;
+import vacunasuy.componentecentral.dto.AgendaVacunatorioDTO;
 import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
@@ -308,6 +311,23 @@ public class VacunatorioREST {
 		}catch(VacunasUyException e) {
 			respuesta = new RespuestaREST<Double>(false, e.getLocalizedMessage());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}
+	}
+	
+	@GET
+	@Path("/listarAgendasPorVacunatorio/{id}/{fecha}")
+	public Response listarAgendasPorVacunatorio(@PathParam("id") Long id, @PathParam("fecha") String fecha) {
+		RespuestaREST<List<AgendaVacunatorioDTO>> respuesta = null;
+		try {
+			List<AgendaVacunatorioDTO> agendas = vacunatorioService.listarAgendasPorVacunatorio(id, fecha);
+			return Response.ok(agendas).build();
+		}catch(VacunasUyException e) {
+			respuesta = new RespuestaREST<List<AgendaVacunatorioDTO>>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
 		}
 	}
 	

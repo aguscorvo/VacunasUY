@@ -1,5 +1,6 @@
 package vacunasuy.componentecentral.business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +12,7 @@ import org.geolatte.geom.Geometries;
 import org.geolatte.geom.Point;
 import org.geolatte.geom.crs.CoordinateReferenceSystems;
 
+import vacunasuy.componentecentral.converter.AgendaConverter;
 import vacunasuy.componentecentral.converter.UbicacionConverter;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
 import vacunasuy.componentecentral.converter.VacunatorioConverter;
@@ -20,11 +22,15 @@ import vacunasuy.componentecentral.dao.IEventoDAO;
 import vacunasuy.componentecentral.dao.ILocalidadDAO;
 import vacunasuy.componentecentral.dao.IPlanVacunacionDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
+import vacunasuy.componentecentral.dto.AgendaDTO;
+import vacunasuy.componentecentral.dto.AgendaMinDTO;
+import vacunasuy.componentecentral.dto.AgendaVacunatorioDTO;
 import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.entity.ActoVacunal;
+import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.Atiende;
 import vacunasuy.componentecentral.entity.Departamento;
 import vacunasuy.componentecentral.entity.Evento;
@@ -63,6 +69,9 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	
 	@EJB
 	private UbicacionConverter ubicacionConverter;
+	
+	@EJB
+	private AgendaConverter agendaConverter;
 	
 	@Override
 	public List<VacunatorioDTO> listar() throws VacunasUyException{
@@ -300,6 +309,30 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
 
+	}
+	
+	public List<AgendaVacunatorioDTO> listarAgendasPorVacunatorio(Long id, String fecha) throws VacunasUyException {
+		try {
+			/* Se valida que el vacunatorio exista */
+			Vacunatorio vacunatorio = vacunatorioDAO.listarPorId(id);
+			if(vacunatorio==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			List<AgendaVacunatorioDTO> agendas = new ArrayList<AgendaVacunatorioDTO>();
+			/* Itero cada puesto */
+			for (Puesto puesto : vacunatorio.getPuestos()) {
+				/* Itero cada agenda del puesto */
+				for (Agenda agenda : puesto.getAgendas()) {
+					/* Verifico si la fecha de la agenda es la solicitada */
+					if(agenda.getFecha().toLocalDate().equals(LocalDate.parse(fecha))) {
+						/* Construyo el DTO y lo agrego a la lista */
+						AgendaVacunatorioDTO agendaDTO = agendaConverter.fromEntityToAgendaVacunatorio(agenda);
+						agendas.add(agendaDTO);
+					}
+				}
+			}
+			return agendas;
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
 	}
 	
 }

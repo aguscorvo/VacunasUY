@@ -11,6 +11,7 @@ import javax.ejb.Singleton;
 import vacunasuy.componentecentral.dto.AgendaCrearDTO;
 import vacunasuy.componentecentral.dto.AgendaDTO;
 import vacunasuy.componentecentral.dto.AgendaMinDTO;
+import vacunasuy.componentecentral.dto.AgendaVacunatorioDTO;
 import vacunasuy.componentecentral.entity.Agenda;
 
 @Singleton
@@ -62,4 +63,15 @@ public class AgendaConverter extends AbstractConverter<Agenda, AgendaDTO>{
 			.map(e -> fromEntityToMin(e))
 			.collect(Collectors.toList());
 	}
+	
+	public AgendaVacunatorioDTO fromEntityToAgendaVacunatorio(Agenda a) {
+		if(a == null) return null;
+		return AgendaVacunatorioDTO.builder()
+				.id(a.getId())
+				.fecha(a.getFecha().toString())
+				.idPuesto(a.getPuesto().getId())
+				.idPlanVacunacion(a.getPlanVacunacion().getId())
+				.build();
+	}
+	
 }

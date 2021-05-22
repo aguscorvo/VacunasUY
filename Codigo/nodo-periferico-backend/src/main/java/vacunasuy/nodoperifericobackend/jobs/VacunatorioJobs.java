@@ -23,4 +23,11 @@ public class VacunatorioJobs {
 		vacunatorioService.obtenerAgendasPorVacunatorio();
 	}
 	
+	/* Enviar actos vacunales */
+	/* Se ejecuta cada minuto */
+	@Scheduled(cron = "0 * * * * ?")
+	public void enviarActosVacunalesPorVacunatorio() {
+		vacunatorioService.enviarActosVacunalesPorVacunatorio();
+	}
+	
 }

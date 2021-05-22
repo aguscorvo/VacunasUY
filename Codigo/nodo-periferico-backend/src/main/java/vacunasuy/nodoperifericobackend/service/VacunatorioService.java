@@ -1,11 +1,14 @@
 package vacunasuy.nodoperifericobackend.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,6 +24,7 @@ import vacunasuy.nodoperifericobackend.converter.VacunadorConverter;
 import vacunasuy.nodoperifericobackend.dao.IAgendaDAO;
 import vacunasuy.nodoperifericobackend.dao.IVacunadorDAO;
 import vacunasuy.nodoperifericobackend.dao.IVacunatorioDAO;
+import vacunasuy.nodoperifericobackend.dto.ActoVacunalDTO;
 import vacunasuy.nodoperifericobackend.dto.AgendaDTO;
 import vacunasuy.nodoperifericobackend.dto.VacunadorDTO;
 import vacunasuy.nodoperifericobackend.entity.Agenda;
@@ -98,7 +102,8 @@ public class VacunatorioService {
 	/* Método que obtiene las agendas para cada vacunatorio */
 	public void obtenerAgendasPorVacunatorio() {
 		Client cliente = ClientBuilder.newClient();
-		String fecha = LocalDate.now().toString();
+		String fecha = LocalDateTime.now().toString();
+		System.out.println("### Obtener agendas ###");
 		for (Vacunatorio v : vacunatorioDAO.findAll()) {
 			try {
 				System.out.println("Consultando agendas para el vacunatorio con ID: " + v.getId());
@@ -112,10 +117,11 @@ public class VacunatorioService {
 					List<AgendaDTO> agendas = new ArrayList<AgendaDTO>();
 					agendas = mapper.readValue(respuesta.readEntity(String.class), new TypeReference<List<AgendaDTO>>(){});
 					if(agendas.size() == 0) {
-						System.out.println("No hay agendas asignados para la fecha.");
+						System.out.println("No hay agendas asignadas para la fecha.");
 					} else {
 						for (AgendaDTO agendaDTO : agendas) {
 							Agenda agenda = agendaConverter.fromDTO(agendaDTO);
+							agenda.setIdVacunatorio(v.getId());
 							agenda.setVacunado(false);
 							agendaDAO.save(agenda);
 						}
@@ -125,6 +131,54 @@ public class VacunatorioService {
 			} catch (ProcessingException  e) {
 				System.out.println("No se pudo conectar al servidor. Intente más tarde.");
 				System.out.println(e.getLocalizedMessage());
+			} catch (JsonProcessingException e) {
+				System.out.println("Error al parsear los datos. Intente más tarde.");
+				System.out.println(e.getLocalizedMessage());
+			}
+		}
+	}
+	
+	/* Método que envia los actos vacunales por vacunatorio */
+	public void enviarActosVacunalesPorVacunatorio() {
+		Client cliente = ClientBuilder.newClient();
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+		LocalDateTime fecha = LocalDateTime.parse(LocalDateTime.now().format(formato).toString(), formato);
+		System.out.println("### Procesar agendas ###");
+		for (Vacunatorio v : vacunatorioDAO.findAll()) {
+			try {				
+				System.out.println("Vacunatorio: " + v.getId());
+				/* Itero cada agenda que cumpla con la fecha/hora */
+				List<Agenda> agendas = agendaDAO.findByFechaLessThanAndIdVacunatorioAndVacunado(fecha, v.getId(), false);
+				if(agendas.size() == 0) {
+					System.out.println("No hay agendas que procesar para la fecha/hora: " + fecha.toString());
+				} else {
+					for (Agenda agenda : agendas) {
+						System.out.println("Agenda a procesar: ID: " + agenda.getId() + " - fecha y hora: " + agenda.getFecha());
+						/* Se crea el acto vacunal */
+						ActoVacunalDTO actoVacunal = ActoVacunalDTO.builder()
+								.fecha(LocalDate.now().toString())
+								.planVacunacion(agenda.getIdPlanVacunacion())
+								.usuario(agenda.getIdUsuario())
+								.build();
+						/* Se envía al componente central */
+						ObjectMapper mapper = new ObjectMapper();
+						String actoVacunalJSON = mapper.writeValueAsString(actoVacunal);						
+						String URL = "/actosVacunales";
+						WebTarget target = cliente.target(baseURL+URL);
+						Response respuesta = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.json(actoVacunalJSON));
+						if(respuesta.getStatus() != 200) {
+							System.out.println("Error al procesar agenda. Intente más tarde.");
+						} else {
+							/* Se actualiza la agenda como vacunada */
+							agenda.setVacunado(true);
+							agendaDAO.save(agenda);
+							System.out.println("Agenda procesada con éxito.");
+						}
+					}
+				}
+			} catch (ProcessingException  e) {
+				System.out.println("No se pudo conectar al servidor. Intente más tarde.");
+				e.printStackTrace();
 			} catch (JsonProcessingException e) {
 				System.out.println("Error al parsear los datos. Intente más tarde.");
 				System.out.println(e.getLocalizedMessage());

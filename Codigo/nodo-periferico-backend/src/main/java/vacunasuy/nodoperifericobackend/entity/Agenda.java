@@ -20,8 +20,11 @@ public class Agenda {
 	@Id
     private Long id;
     private LocalDateTime fecha;
+    private Long idUsuario;
+    private String documento;
     private Long idPuesto;
     private Long idPlanVacunacion;
+    private Long idVacunatorio;
     private Boolean vacunado;
 	
 }

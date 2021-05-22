@@ -1,6 +1,7 @@
 package vacunasuy.componentecentral.business;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -321,8 +322,9 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			for (Puesto puesto : vacunatorio.getPuestos()) {
 				/* Itero cada agenda del puesto */
 				for (Agenda agenda : puesto.getAgendas()) {
+					System.out.println(LocalDateTime.parse(fecha));
 					/* Verifico si la fecha de la agenda es la solicitada */
-					if(agenda.getFecha().toLocalDate().equals(LocalDate.parse(fecha))) {
+					if(agenda.getFecha().isEqual(LocalDateTime.parse(fecha)) || agenda.getFecha().isAfter(LocalDateTime.parse(fecha))) {
 						/* Construyo el DTO y lo agrego a la lista */
 						AgendaVacunatorioDTO agendaDTO = agendaConverter.fromEntityToAgendaVacunatorio(agenda);
 						agendas.add(agendaDTO);

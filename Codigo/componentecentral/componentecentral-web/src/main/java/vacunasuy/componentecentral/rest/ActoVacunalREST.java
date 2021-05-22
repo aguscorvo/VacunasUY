@@ -21,7 +21,7 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @RequestScoped
-@Path("/actos_vacunales")
+@Path("/actosVacunales")
 @Consumes("application/json")
 @Produces("application/json")
 public class ActoVacunalREST {

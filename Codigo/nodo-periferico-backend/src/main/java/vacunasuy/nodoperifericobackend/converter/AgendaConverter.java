@@ -21,10 +21,12 @@ public class AgendaConverter extends AbstractConverter<Agenda, AgendaDTO>{
 	@Override
 	public Agenda fromDTO(AgendaDTO d) {
 		if(d == null) return null;
-		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 		return Agenda.builder()
 				.id(d.getId())
-				.fecha(LocalDateTime.parse(d.getFecha()))
+				.fecha(LocalDateTime.parse(d.getFecha(), formato))
+				.idUsuario(d.getIdUsuario())
+				.documento(d.getDocumento())
 				.idPuesto(d.getIdPuesto())
 				.idPlanVacunacion(d.getIdPlanVacunacion())
 				.build();

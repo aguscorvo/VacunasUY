@@ -157,7 +157,7 @@ public class AgendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(idPuesto == null)
-                    Toast.makeText(AgendarActivity.this, R.string.agenda_errorVacunatorios, Toast.LENGTH_LONG).show();
+                    Toast.makeText(AgendarActivity.this, R.string.agenda_ErrorPuesto, Toast.LENGTH_LONG).show();
 
                 if(fechaSolicitada==null)
                     Toast.makeText(AgendarActivity.this, R.string.agenda_ErrorFecha, Toast.LENGTH_LONG).show();
@@ -202,7 +202,7 @@ public class AgendarActivity extends AppCompatActivity {
                         }else{
                             AlertDialog dialog = new AlertDialog.Builder(AgendarActivity.this).create();
                             dialog.setTitle(R.string.info_title);
-                            dialog.setMessage(getString(R.string.plan_mensaje_nologin));
+                            dialog.setMessage(getString(R.string.menu_LoginNotificacion));
 
                             dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_ingresar), new DialogInterface.OnClickListener()
                             {
@@ -284,7 +284,6 @@ public class AgendarActivity extends AppCompatActivity {
                             vacunatorios.get(groupPosition).getUbicacion().getNombre_localidad() + "\n" +
                             vacunatorios.get(groupPosition).getUbicacion().getDireccion() + "\n" +
                             getString(R.string.agenda_AlertPuesto) +": " + vacunatorios.get(groupPosition).getPuestos().get(childPosition).getNumero();
-
 
                     return false;
                 }
@@ -699,7 +698,9 @@ public class AgendarActivity extends AppCompatActivity {
     public DtResponse readDtResponseMessage(JsonReader reader) throws IOException {
         Boolean ok = false;
         String mensaje = null;
+        String fecha = "";
         Object res = null;
+
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -708,13 +709,36 @@ public class AgendarActivity extends AppCompatActivity {
                 ok = reader.nextBoolean();
             }else if (name.equals("mensaje")) {
                 mensaje = reader.nextString();
+            } else if (name.equals("cuerpo") && reader.peek() != JsonToken.NULL) {
+                fecha = readResAgenda(reader);
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
+
+        if(ok)
+            mensaje = mensaje + getString(R.string.notificacion_tFecha) + ": " + fecha;
+
         return new DtResponse(ok, mensaje);
     }
+
+    private String readResAgenda(JsonReader reader) throws IOException {
+        String fecha = "";
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("fecha")) {
+                fecha = reader.nextString();
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return fecha;
+    }
+
 
     private String agendaToJSON(){
         String res = "";

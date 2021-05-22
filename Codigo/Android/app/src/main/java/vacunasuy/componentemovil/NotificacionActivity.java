@@ -99,7 +99,11 @@ public class NotificacionActivity extends AppCompatActivity {
 
         //ID
         TextView textViewId = new TextView(this);
-        textViewId.setText("   ");
+        textViewId.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f));
+
+        textViewId.setText(R.string.notificacion_tId);
         textViewId.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         textViewId.setPadding(5,5,5,0);
         textViewId.setBackground(getDrawable(R.drawable.notificiaciones_tabla_titulo));
@@ -107,6 +111,10 @@ public class NotificacionActivity extends AppCompatActivity {
 
         //Fecha
         TextView textViewFecha = new TextView(this);
+        textViewFecha.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f));
+
         textViewFecha.setText(R.string.notificacion_tFecha);
         textViewFecha.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         textViewFecha.setPadding(5,5,5,0);
@@ -115,7 +123,11 @@ public class NotificacionActivity extends AppCompatActivity {
 
         //Mensaje
         TextView textViewNombre = new TextView(this);
-        textViewNombre.setText(R.string.notificacion_tNombre);
+        textViewNombre.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f));
+
+        textViewNombre.setText(R.string.notificacion_tTexto);
         textViewNombre.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         textViewNombre.setPadding(5,5,5,0);
         textViewNombre.setBackground(getDrawable(R.drawable.notificiaciones_tabla_titulo));
@@ -123,6 +135,10 @@ public class NotificacionActivity extends AppCompatActivity {
 
         //Eliminar
         TextView textViewDel = new TextView(this);
+        textViewDel.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f));
+
         textViewDel.setText(R.string.notificacion_tEliminar);
         textViewDel.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         textViewDel.setPadding(5,5,5,0);
@@ -131,6 +147,10 @@ public class NotificacionActivity extends AppCompatActivity {
 
         //Ver
         TextView textViewVer = new TextView(this);
+        textViewVer.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f));
+
         textViewVer.setText(R.string.notificacion_tVer);
         textViewVer.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         textViewVer.setPadding(5,5,5,0);
@@ -139,7 +159,7 @@ public class NotificacionActivity extends AppCompatActivity {
 
         tableview.addView(tableRow, new TableLayout.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.MATCH_PARENT,
                 1.0f ));
     }
 

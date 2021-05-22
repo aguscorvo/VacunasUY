@@ -123,6 +123,7 @@
     <string name="successsful_deletion">Borrado Correcto</string>
     <string name="deletion_failed">No fue posible el Borrado</string>
     <string name="visualizacion_failed">No fue posible la visualización</string>
+    <string name="notificacion_tId">Id</string>
     <string name="notificacion_tNombre">Nombre</string>
     <string name="notificacion_tTexto">Mensaje</string>
     <string name="notificacion_tFecha">Fecha</string>

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     }else{
                         AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
                         dialog.setTitle(R.string.info_title);
-                        dialog.setMessage(getString(R.string.plan_mensaje_nologin));
+                        dialog.setMessage(getString(R.string.menu_LoginNotificacion));
 
                         dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_ingresar), new DialogInterface.OnClickListener()
                         {

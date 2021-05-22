@@ -54,7 +54,7 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
     	Point ubicacionAux = Geometries.mkPoint(new G2D(ubicacion.getLongitud(), ubicacion.getLatitud()), CoordinateReferenceSystems.WGS84);
     	Query consulta = em.createQuery("SELECT v "
     			+ "FROM Vacunatorio v "
-    			+ "WHERE overlaps(v.geom, buffer( CAST(:ubicacion AS org.geolatte.geom.Point),  :distancia) ) = TRUE" 
+    			+ "WHERE within(v.geom, buffer( CAST(:ubicacion AS org.geolatte.geom.Point),  :distancia) ) = TRUE" 
     			);
     	consulta.setParameter("distancia", ubicacion.getDistancia());
     	consulta.setParameter("ubicacion", ubicacionAux);

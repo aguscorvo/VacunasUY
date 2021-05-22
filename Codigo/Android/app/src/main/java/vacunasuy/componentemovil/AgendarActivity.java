@@ -29,13 +29,19 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,11 +49,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import vacunasuy.componentemovil.bd.AccesoBD;
+import vacunasuy.componentemovil.bd.Mensaje;
+import vacunasuy.componentemovil.bd.Usuario;
 import vacunasuy.componentemovil.constant.ConnConstant;
 import vacunasuy.componentemovil.obj.DtAgenda;
 import vacunasuy.componentemovil.obj.DtDepartamento;
 import vacunasuy.componentemovil.obj.DtPlan;
 import vacunasuy.componentemovil.obj.DtPuesto;
+import vacunasuy.componentemovil.obj.DtResponse;
 import vacunasuy.componentemovil.obj.DtUbicacion;
 import vacunasuy.componentemovil.obj.DtUsuario;
 import vacunasuy.componentemovil.obj.DtVacunatorio;
@@ -62,11 +72,13 @@ public class AgendarActivity extends AppCompatActivity {
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
     DtUsuario usuario = DtUsuario.getInstance();
+    AccesoBD bd;
     Integer idPlan;
-    Integer idVacunatorio;
-    Integer idPuesto;
-    String fechaSolicitada;
+    Integer idVacunatorio = null;
+    Integer idPuesto = null;
+    String fechaSolicitada = null;
     String nombrePlan;
+    String nombrePuesto;
     String fechaFin;
     Integer mYear;
     Integer mMonth;
@@ -79,7 +91,7 @@ public class AgendarActivity extends AppCompatActivity {
     TextView plantitle;
     ImageButton imageCalendar;
     Button agendar;
-    EditText dateText;
+    TextView dateText;
 
 
 
@@ -87,6 +99,8 @@ public class AgendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agendar);
+
+        bd = AccesoBD.getInstance(this);
 
         Bundle bundle = this.getIntent().getExtras();
         idPlan = bundle.getInt("IDPlan");
@@ -139,9 +153,34 @@ public class AgendarActivity extends AppCompatActivity {
             }
         });
 
+        agendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(idPuesto == null)
+                    Toast.makeText(AgendarActivity.this, R.string.agenda_ErrorPuesto, Toast.LENGTH_LONG).show();
 
+                if(fechaSolicitada==null)
+                    Toast.makeText(AgendarActivity.this, R.string.agenda_ErrorFecha, Toast.LENGTH_LONG).show();
 
+                if (idPuesto != null && fechaSolicitada != null){
+                    AlertDialog dialog = new AlertDialog.Builder(AgendarActivity.this).create();
+                    dialog.setTitle(R.string.agenda_AlertTitle);
+                    String mensajeConfirmacion =  nombrePlan + "\n" + nombrePuesto + "\n" +
+                            getString(R.string.agenda_AlertFecha) + ": " + fechaSolicitada;
 
+                    dialog.setMessage(mensajeConfirmacion);
+
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.alert_btn_neutral), new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int which) {
+                            cargarAgenda();
+                        }
+                    });
+                    dialog.show();
+
+                }
+            }
+        });
 
         bottomNavigationView.setSelectedItemId(R.id.menu_agenda);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -157,7 +196,23 @@ public class AgendarActivity extends AppCompatActivity {
                         startActivity(iagenda);
                         return true;
                     case R.id.menu_notificacion:
-                        Toast.makeText(AgendarActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
+                        if(usuario.getRegistrado()){
+                            Intent notificacioninfo = new Intent(AgendarActivity.this, NotificacionActivity.class);
+                            startActivity(notificacioninfo);
+                        }else{
+                            AlertDialog dialog = new AlertDialog.Builder(AgendarActivity.this).create();
+                            dialog.setTitle(R.string.info_title);
+                            dialog.setMessage(getString(R.string.menu_LoginNotificacion));
+
+                            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_ingresar), new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent userlogin = new Intent(AgendarActivity.this, GubUyActivity.class);
+                                    startActivity(userlogin);
+                                }
+                            });
+                            dialog.show();
+                        }
                         return true;
                     case R.id.menu_vacunatorio:
                         Intent ivacunatroio = new Intent(AgendarActivity.this, VacunMapActivity.class);
@@ -183,6 +238,16 @@ public class AgendarActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void persistirUsuario(DtUsuario dtusr, DtResponse dtresp){
+
+        Usuario usr  = new Usuario(dtusr.getId(), dtusr.getDocumento(), dtusr.getNombre(), dtusr.getApellido());
+        if(bd.getUsuarioById(dtusr.getId())==null)
+            bd.addUsuario(usr);
+
+        Mensaje msg = new Mensaje(dtresp.getMensaje(), new Date(), dtusr.getId());
+        bd.addMensaje(msg);
     }
 
 
@@ -214,8 +279,11 @@ public class AgendarActivity extends AppCompatActivity {
                                             int groupPosition, int childPosition, long id) {
                     idVacunatorio = vacunatorios.get(groupPosition).getId();
                     idPuesto = vacunatorios.get(groupPosition).getPuestos().get(childPosition).getId();
-
-
+                    nombrePuesto = getString(R.string.agenda_AlertVacunatoio) +": " + vacunatorios.get(groupPosition).getNombre() + "\n" +
+                            vacunatorios.get(groupPosition).getUbicacion().getNombre_departamento() + "-" +
+                            vacunatorios.get(groupPosition).getUbicacion().getNombre_localidad() + "\n" +
+                            vacunatorios.get(groupPosition).getUbicacion().getDireccion() + "\n" +
+                            getString(R.string.agenda_AlertPuesto) +": " + vacunatorios.get(groupPosition).getPuestos().get(childPosition).getNumero();
 
                     return false;
                 }
@@ -308,7 +376,7 @@ public class AgendarActivity extends AppCompatActivity {
             conn.connect();
             int response = conn.getResponseCode();
             is = conn.getInputStream();
-            return readInfoGralJsonStream(is);
+            return readInfoGralDtVacunatorioJsonStream(is);
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
@@ -320,7 +388,7 @@ public class AgendarActivity extends AppCompatActivity {
         }
     }
 
-    public List<DtVacunatorio> readInfoGralJsonStream(InputStream in) throws IOException {
+    public List<DtVacunatorio> readInfoGralDtVacunatorioJsonStream(InputStream in) throws IOException {
         //creating an InputStreamReader object
         InputStreamReader isReader = new InputStreamReader(in);
         //Creating a BufferedReader object
@@ -504,5 +572,194 @@ public class AgendarActivity extends AppCompatActivity {
         reader.endObject();
         return new DtAgenda(id, fecha);
     }
+
+    private DtResponse AgendaUpdateUrl(String myurl) throws IOException {
+        InputStream is = null;
+        HttpURLConnection conn = null;
+
+        try {
+
+            String authorization ="Bearer  " + usuario.getToken();
+
+            URL url = new URL(myurl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn.setRequestProperty("Authorization", authorization);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            String data = agendaToJSON();
+            Log.i(TAG, data);
+
+            byte[] out = data.getBytes(StandardCharsets.UTF_8);
+            OutputStream stream = conn.getOutputStream();
+            stream.write(out);
+
+            // Starts the query
+            conn.connect();
+            int response = conn.getResponseCode();
+            Log.i(TAG, "conn.getResponseCode: " + response +" - " + conn.getResponseMessage());
+            if (response == 200){
+                is = conn.getInputStream();
+                return readInfoGralJsonStream(is);
+            }else{
+                return new DtResponse(false, response +" - " + conn.getResponseMessage());
+            }
+            // Makes sure that the InputStream is closed after the app is
+            // finished using it.
+        } finally {
+            if (is != null) {
+                is.close();
+                conn.disconnect();
+            }
+        }
+    }
+
+
+    private void cargarAgenda() {
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+
+        String stringUrl = ConnConstant.API_ADDAGENDA_URL;
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new AgendarActivity.PutAgendaTask().execute(stringUrl);
+        }
+    }
+
+
+    private class PutAgendaTask extends AsyncTask<String, Void, Object> {
+        @Override
+        protected Object doInBackground(String... urls) {
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                return AgendaUpdateUrl(urls[0]);
+            } catch (IOException e) {
+                return getString(R.string.err_recuperarpag);
+            }
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(Object result) {
+            AlertDialog dialog = new AlertDialog.Builder(AgendarActivity.this).create();
+            dialog.setTitle(R.string.info_title);
+
+            if (result instanceof DtResponse) {
+                Log.i(TAG, "onPostExecute: " + ((DtResponse) result).getOk());
+
+                if(((DtResponse) result).getOk())
+                    persistirUsuario(usuario, (DtResponse) result);
+
+                dialog.setMessage(((DtResponse) result).getMensaje());
+
+            }else if (result instanceof String){
+                dialog.setMessage((String) result);
+            } else {
+                dialog.setMessage(getString(R.string.err_recuperarpag));
+                Log.i(TAG, getString(R.string.err_recuperarpag));
+            }
+            dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.alert_btn_neutral), new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int which) {
+                    //Intent iplan = new Intent(AgendarActivity.this, MainActivity.class);
+                    //startActivity(iplan);
+                }
+            });
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+
+        }
+
+    }
+
+    public DtResponse readInfoGralJsonStream(InputStream in) throws IOException {
+        //creating an InputStreamReader object
+        InputStreamReader isReader = new InputStreamReader(in);
+        //Creating a BufferedReader object
+        BufferedReader breader = new BufferedReader(isReader);
+        StringBuffer sb = new StringBuffer();
+        String str;
+        while((str = breader.readLine())!= null){
+            sb.append(str);
+        }
+        Log.i(TAG, sb.toString());
+        JsonReader reader = new JsonReader(new StringReader(sb.toString()));
+        List<DtResponse> res = null;
+        try {
+            return readDtResponseMessage(reader);
+        } finally {
+            reader.close();
+        }
+    }
+    public DtResponse readDtResponseMessage(JsonReader reader) throws IOException {
+        Boolean ok = false;
+        String mensaje = null;
+        String fecha = "";
+        Object res = null;
+
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("ok")) {
+                ok = reader.nextBoolean();
+            }else if (name.equals("mensaje")) {
+                mensaje = reader.nextString();
+            } else if (name.equals("cuerpo") && reader.peek() != JsonToken.NULL) {
+                fecha = readResAgenda(reader);
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+
+        if(ok)
+            mensaje = mensaje + getString(R.string.notificacion_tFecha) + ": " + fecha;
+
+        return new DtResponse(ok, mensaje);
+    }
+
+    private String readResAgenda(JsonReader reader) throws IOException {
+        String fecha = "";
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("fecha")) {
+                fecha = reader.nextString();
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return fecha;
+    }
+
+
+    private String agendaToJSON(){
+        String res = "";
+
+        JSONObject jsonObject= new JSONObject();
+        try {
+            jsonObject.put("fecha", fechaSolicitada + " 00:00");
+            jsonObject.put("puesto", idPuesto);
+            jsonObject.put("usuario", usuario.getId());
+            jsonObject.put("planVacunacion", idPlan);
+
+
+            res = jsonObject.toString();
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+            res = "";
+        }
+
+        return res;
+    }
+
 
 }

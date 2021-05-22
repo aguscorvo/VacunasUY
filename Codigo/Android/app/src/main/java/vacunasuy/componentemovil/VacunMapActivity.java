@@ -236,6 +236,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                DtUsuario usuario = DtUsuario.getInstance();
                 switch (item.getItemId()) {
                     case R.id.menu_home:
                         Intent ihome = new Intent(VacunMapActivity.this, MainActivity.class);
@@ -247,12 +248,28 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
 
                         return true;
                     case R.id.menu_notificacion:
-                        Toast.makeText(VacunMapActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
+                        if(usuario.getRegistrado()){
+                            Intent notificacioninfo = new Intent(VacunMapActivity.this, NotificacionActivity.class);
+                            startActivity(notificacioninfo);
+                        }else{
+                            AlertDialog dialog = new AlertDialog.Builder(VacunMapActivity.this).create();
+                            dialog.setTitle(R.string.info_title);
+                            dialog.setMessage(getString(R.string.menu_LoginNotificacion));
+
+                            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_ingresar), new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent userlogin = new Intent(VacunMapActivity.this, GubUyActivity.class);
+                                    startActivity(userlogin);
+                                }
+                            });
+                            dialog.show();
+                        }
                         return true;
                     case R.id.menu_vacunatorio:
                         return true;
                     case R.id.menu_usuario:
-                        DtUsuario usuario = DtUsuario.getInstance();
+
                         if(usuario.getRegistrado()){
                             if(usuario.getFechanacimiento()==null || usuario.getSectorlaboral() == null){
                                 Intent fnintent = new Intent(VacunMapActivity.this, AddFechaNacimiento.class);

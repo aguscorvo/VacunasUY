@@ -13,6 +13,7 @@
     <color name="primary_color">#FF000000</color>
     <color name="menu_bar_bg">#FF174378</color>
     <color name="menu_bar_text">#FFFFFFFF</color>
+    <color name="dark_grey">#3C3F41</color>
 
     <!--TABLE INFO COLORS-->
     <color name="tb_bg">#FFEEEEEE</color>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,7 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/tb_info_cel"
-            android:padding="3dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="@color/primary_color"/>
         <TextView
@@ -24,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/agendaNombrePlan"
-            android:layout_margin="10dp"
+            android:layout_marginTop="0dp"
             android:background="@drawable/tb_info_cel"
             android:padding="3dp"
             android:text="@string/info_txt_vacunatorio"
@@ -41,22 +43,37 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"/>
 
-        <EditText
+        <TextView
+            android:id="@+id/agendaFechaTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/agendaexpandableListView"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tb_info_cel"
+            android:padding="3dp"
+            android:text="@string/agenda_DatePickeTitle"
+            android:textAlignment="center"
+            android:textColor="@color/primary_color"/>
+
+        <TextView
             android:id="@+id/agendaFecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/agendaexpandableListView"
+            android:layout_below="@+id/agendaFechaTitle"
+            android:layout_marginTop="5dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:ems="10"
-            android:hint="@string/agenda_hint_date"
-            android:inputType="date" />
+            android:background="@drawable/text_info_date"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:text="@string/agenda_hint_date"
+            android:textAlignment="center"
+            android:textColor="@color/dark_grey"/>
 
         <ImageButton
             android:id="@+id/agendaImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/agendaFecha"
+            android:layout_alignTop="@+id/agendaFecha"
             android:layout_toEndOf="@+id/agendaFecha"
             app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 

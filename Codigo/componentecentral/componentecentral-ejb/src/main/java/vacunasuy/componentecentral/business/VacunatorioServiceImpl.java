@@ -154,6 +154,8 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	@Override
 	public List<VacunatorioDTO> listarCercanos(UbicacionDTO ubicacionDTO) throws VacunasUyException{
 		try {
+			//kms. a grados aprox.
+			ubicacionDTO.setDistancia(ubicacionDTO.getDistancia()/111);
 			List<Vacunatorio> vacunatorios = vacunatorioDAO.listarCercanos(ubicacionConverter.fromDTO(ubicacionDTO));
 			return vacunatorioConverter.fromEntity(vacunatorios);
 		}catch(Exception e) {
@@ -305,7 +307,8 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		try {
 			Vacunatorio vacunatorioAux1 = vacunatorioDAO.listarPorId(vacunatorio1);
 			Vacunatorio vacunatorioAux2 = vacunatorioDAO.listarPorId(vacunatorio2);
-			return vacunatorioDAO.distancia(vacunatorioAux1, vacunatorioAux2);
+			// se devuelve la distancia en kms. aprox.
+			return vacunatorioDAO.distancia(vacunatorioAux1, vacunatorioAux2)*111;
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}

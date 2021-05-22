@@ -38,6 +38,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import vacunasuy.componentemovil.AgendarActivity;
@@ -45,8 +46,12 @@ import vacunasuy.componentemovil.MainActivity;
 import vacunasuy.componentemovil.PlanVacunacion;
 import vacunasuy.componentemovil.R;
 import vacunasuy.componentemovil.VacunMapActivity;
+import vacunasuy.componentemovil.bd.AccesoBD;
+import vacunasuy.componentemovil.bd.Mensaje;
+import vacunasuy.componentemovil.bd.Usuario;
 import vacunasuy.componentemovil.constant.ConnConstant;
 import vacunasuy.componentemovil.obj.DtLocalidad;
+import vacunasuy.componentemovil.obj.DtMessage;
 import vacunasuy.componentemovil.obj.DtResponse;
 import vacunasuy.componentemovil.obj.DtSectorLaboral;
 import vacunasuy.componentemovil.obj.DtUsuario;
@@ -62,11 +67,14 @@ public class AddFechaNacimiento extends AppCompatActivity {
     DtUsuario usuario;
     Spinner spinnersectores;
     List<DtSectorLaboral> gsectores;
+    AccesoBD bd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_fecha_nacimiento);
+
+        bd = AccesoBD.getInstance(this);
 
         documento = findViewById(R.id.addFecha_idocumento);
         fechanacimiento = findViewById(R.id.addFecha_nacimiento);
@@ -94,9 +102,18 @@ public class AddFechaNacimiento extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
     }
 
+    private void persistirUsuario(DtUsuario dtusr, DtResponse dtresp){
+
+        Usuario usr  = new Usuario(dtusr.getId(), dtusr.getDocumento(), dtusr.getNombre(), dtusr.getApellido());
+        if(bd.getUsuarioById(dtusr.getId())==null)
+            bd.addUsuario(usr);
+
+        Mensaje msg = new Mensaje(dtresp.getMensaje(), new Date(), dtusr.getId());
+        bd.addMensaje(msg);
+    }
 
     private void cargarUsuario() {
         connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -129,9 +146,12 @@ public class AddFechaNacimiento extends AppCompatActivity {
             dialog.setTitle(R.string.info_title);
 
             if (result instanceof DtResponse) {
-                dialog.setMessage(((DtResponse) result).getMensaje());
 
                 Log.i("onPostExecute", "response: " + ((DtResponse) result).getMensaje());
+                if(((DtResponse) result).getOk())
+                    persistirUsuario(usuario, (DtResponse) result);
+                dialog.setMessage(((DtResponse) result).getMensaje());
+
             }else if (result instanceof String){
                 dialog.setMessage((String) result);
             } else {
@@ -145,6 +165,7 @@ public class AddFechaNacimiento extends AppCompatActivity {
                     startActivity(iplan);
                 }
             });
+            dialog.setCanceledOnTouchOutside(false);
             dialog.show();
 
         }

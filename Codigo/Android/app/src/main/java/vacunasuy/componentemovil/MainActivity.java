@@ -1,10 +1,12 @@
 package vacunasuy.componentemovil;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.menu_home);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            DtUsuario usuario = DtUsuario.getInstance();
             switch (item.getItemId()){
                 case R.id.menu_home:
                     return true;
@@ -34,14 +37,29 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(iagenda);
                     return true;
                 case R.id.menu_notificacion:
-                    Toast.makeText(MainActivity.this, "Opción Notificación", Toast.LENGTH_SHORT).show();
+                    if(usuario.getRegistrado()){
+                        Intent notificacioninfo = new Intent(MainActivity.this, NotificacionActivity.class);
+                        startActivity(notificacioninfo);
+                    }else{
+                        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
+                        dialog.setTitle(R.string.info_title);
+                        dialog.setMessage(getString(R.string.menu_LoginNotificacion));
+
+                        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_ingresar), new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent userlogin = new Intent(MainActivity.this, GubUyActivity.class);
+                                startActivity(userlogin);
+                            }
+                        });
+                        dialog.show();
+                    }
                     return true;
                 case R.id.menu_vacunatorio:
                     Intent ivacunatroio = new Intent(MainActivity.this, VacunMapActivity.class);
                     startActivity(ivacunatroio);
                     return true;
                 case R.id.menu_usuario:
-                    DtUsuario usuario = DtUsuario.getInstance();
                     if(usuario.getRegistrado()){
                         if(usuario.getFechanacimiento()==null || usuario.getSectorlaboral() == null){
                             Intent fnintent = new Intent(MainActivity.this, AddFechaNacimiento.class);

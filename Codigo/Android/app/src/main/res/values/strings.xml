@@ -28,6 +28,7 @@
     <string name="menu_bt_user">Mi Estado</string>
     <string name="menu_bt_agenda">Agenda</string>
     <string name="menu_bt_notificacion">Notificaciones</string>
+    <string name="menu_LoginNotificacion">Para ver las notificaciones debe estar logueado</string>
 
     <!--VIEW INFO -->
     <string name="info_title">Información</string>
@@ -105,7 +106,28 @@
     <string name="agenda_puestoText">Puesto -</string>
     <string name="agenda_sindisponibilidad">Sin Disponibilidad</string>
     <string name="agenda_errorVacunatorios">No existen vacunatorios para el Plan Seleccionado</string>
-    <string name="agenda_DatePickeTitle">Seleccione Fecha</string>
+    <string name="agenda_DatePickeTitle">Seleccione Fecha Tentativa</string>
+    <string name="agenda_ErrorPuesto">Debe seleccionar un puesto de Vacunación</string>
+    <string name="agenda_ErrorFecha">Debe seleccionar una fecha tentativa</string>
+    <string name="agenda_AlertTitle">Confirmar datos</string>
+    <string name="agenda_AlertVacunatoio">Vacunatorio</string>
+    <string name="agenda_AlertPuesto">Puesto</string>
+    <string name="agenda_AlertFecha">Fecha</string>
 
+
+    <!-- NOTIFICACIONES -->
+    <string name="notificacion_title">Notificaciones</string>
+    <string name="notificacion_fecha">Fecha</string>
+    <string name="notificacion_texto">Mensaje</string>
+    <string name="notificacion_eliminar">Eliminar</string>
+    <string name="successsful_deletion">Borrado Correcto</string>
+    <string name="deletion_failed">No fue posible el Borrado</string>
+    <string name="visualizacion_failed">No fue posible la visualización</string>
+    <string name="notificacion_tId">Id</string>
+    <string name="notificacion_tNombre">Nombre</string>
+    <string name="notificacion_tTexto">Mensaje</string>
+    <string name="notificacion_tFecha">Fecha</string>
+    <string name="notificacion_tEliminar">Eliminar</string>
+    <string name="notificacion_tVer">Ver</string>
 
 </resources>

@@ -50,18 +50,6 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
 	}
     
     @Override
-	public List<Vacunatorio> listarCercanos(Ubicacion ubicacion){
-    	Point ubicacionAux = Geometries.mkPoint(new G2D(ubicacion.getLongitud(), ubicacion.getLatitud()), CoordinateReferenceSystems.WGS84);
-    	Query consulta = em.createQuery("SELECT v "
-    			+ "FROM Vacunatorio v "
-    			+ "WHERE within(v.geom, buffer( CAST(:ubicacion AS org.geolatte.geom.Point),  :distancia) ) = TRUE" 
-    			);
-    	consulta.setParameter("distancia", ubicacion.getDistancia());
-    	consulta.setParameter("ubicacion", ubicacionAux);
-    	return consulta.getResultList();
-    }
-    
-    @Override
 	public List<Vacunatorio> listarPorUbicacion(Long localidad, Long departamento){
     	Query consulta = em.createQuery("SELECT v FROM Vacunatorio v "
     			+ "WHERE v.localidad.id = :localidad AND v.departamento.id = :departamento");
@@ -77,19 +65,4 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
     	return consulta.getResultList();
     }
     
-    @Override
-	public Double distancia(Vacunatorio vacunatorio1, Vacunatorio vacunatorio2) {
-    	Point ubicacion1 = Geometries.mkPoint(new G2D(vacunatorio1.getLongitud(), vacunatorio1.getLatitud()), CoordinateReferenceSystems.WGS84);
-    	Point ubicacion2 = Geometries.mkPoint(new G2D(vacunatorio2.getLongitud(), vacunatorio2.getLatitud()), CoordinateReferenceSystems.WGS84);
-    	    	Query consulta = em.createQuery("SELECT v "
-    			+ "FROM Vacunatorio v "
-    			+ "WHERE distance( CAST(:ubicacion1 AS org.geolatte.geom.Point), CAST(:ubicacion2 AS org.geolatte.geom.Point) ) " 
-    			);
-    	consulta.setParameter("ubicacion1", ubicacion1);
-    	consulta.setParameter("ubicacion2", ubicacion2);
-    	return (double) consulta.getFirstResult();
-    }
-
-
-
 }

@@ -18,8 +18,7 @@ public interface IVacunatorioDAO {
 	public Vacunatorio editar(Vacunatorio vacunatorio);
 	public void eliminar(Vacunatorio vacunatorio);
 	
-	public List<Vacunatorio> listarCercanos(Ubicacion ubicacion);
 	public List<Vacunatorio> listarPorUbicacion(Long localidad, Long departamento);
 	public List<Vacunatorio> listarPorDepartamento(Long departamento);
-	public Double distancia(Vacunatorio vacunatorio1, Vacunatorio vacunatorio2);
+	
 }

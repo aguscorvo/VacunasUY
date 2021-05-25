@@ -52,6 +52,9 @@ import vacunasuy.componentecentral.util.Constantes;
 public class VacunatorioServiceImpl implements IVacunatorioService {
 
 	@EJB
+	private IVacunatorioGeoService vacunatorioGeoService;
+	
+	@EJB
 	private IVacunatorioDAO vacunatorioDAO;
 	
 	@EJB
@@ -163,9 +166,11 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	@Override
 	public List<VacunatorioDTO> listarCercanos(UbicacionDTO ubicacionDTO) throws VacunasUyException{
 		try {
-			//kms. a grados aprox.
-			ubicacionDTO.setDistancia(ubicacionDTO.getDistancia()/111);
-			List<Vacunatorio> vacunatorios = vacunatorioDAO.listarCercanos(ubicacionConverter.fromDTO(ubicacionDTO));
+			List<Long> vacunatoriosId = vacunatorioGeoService.listarCercanos(ubicacionDTO);
+			List<Vacunatorio> vacunatorios = new ArrayList<Vacunatorio>();
+			for(Long id: vacunatoriosId) {
+				vacunatorios.add(vacunatorioDAO.listarPorId(id));
+			}
 			return vacunatorioConverter.fromEntity(vacunatorios);
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -299,12 +304,8 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	@Override
 	public void crearGeometrias() throws VacunasUyException{
 		try {
-			//GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326); // locationtech
 			for(Vacunatorio v: vacunatorioDAO.listar()) {
-				//Point point = factory.createPoint(new Coordinate(v.getLatitud(), v.getLongitud())); // locationtech
-				Point point = Geometries.mkPoint(new G2D(v.getLongitud(), v.getLatitud()), CoordinateReferenceSystems.WGS84); // geolatte
-				v.setGeom(point);
-				vacunatorioDAO.editar(v);
+				vacunatorioGeoService.crear(vacunatorioConverter.fromEntity(v));
 			}
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -314,14 +315,12 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	@Override
 	public Double distancia(Long vacunatorio1, Long vacunatorio2) throws VacunasUyException{
 		try {
-			Vacunatorio vacunatorioAux1 = vacunatorioDAO.listarPorId(vacunatorio1);
-			Vacunatorio vacunatorioAux2 = vacunatorioDAO.listarPorId(vacunatorio2);
-			// se devuelve la distancia en kms. aprox.
-			return vacunatorioDAO.distancia(vacunatorioAux1, vacunatorioAux2)*111;
+			if(vacunatorioDAO.listarPorId(vacunatorio1)==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			if(vacunatorioDAO.listarPorId(vacunatorio2)==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			return vacunatorioGeoService.distancia(vacunatorio1, vacunatorio2);
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
-
 	}
 	
 	public List<AgendaVacunatorioDTO> listarAgendasPorVacunatorio(Long id, String fecha) throws VacunasUyException {

@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.geolatte.geom.Point;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -67,11 +66,5 @@ public class Vacunatorio implements Serializable{
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<ActoVacunal> actosVacunales = new ArrayList<ActoVacunal>();
-	
-	@Column(name = "geom")
-	private Point geom;
-	
-	
-	
-	
+			
 }

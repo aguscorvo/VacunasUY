@@ -141,11 +141,6 @@ public class VacunatorioREST {
 		try {
 			UbicacionDTO ubicacion = new UbicacionDTO(latitud, longitud, distancia);
 			List<VacunatorioDTO> vacunatorios = vacunatorioService.listarCercanos(ubicacion);
-			if(!vacunatorios.isEmpty()) {
-				for(VacunatorioDTO v: vacunatorios) {
-					System.out.println(v.getNombre());
-				}
-			}else System.out.println("no hay vacunatorios");
 			respuesta = new RespuestaREST<List<VacunatorioDTO>>(true, "Vacunatorios listados con éxito.", vacunatorios);
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
@@ -279,22 +274,21 @@ public class VacunatorioREST {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 		}
 	}
-	
-	
-	@GET
-	@Path("/distancia/{vacunatorio1}/{vacunatorio2}")
-//	@RecursoProtegidoJWT
-	public Response distancia(@PathParam("vacunatorio1") Long vacunatorio1, @PathParam("vacunatorio2") Long vacunatorio2) {
-		RespuestaREST<Double> respuesta = null;
-		try {
-			Double distancia = vacunatorioService.distancia(vacunatorio1, vacunatorio2);
-			respuesta = new RespuestaREST<Double>(true, "Distancia calculada con éxito.", distancia);
-			return Response.ok(respuesta).build();
-		}catch(VacunasUyException e) {
-			respuesta = new RespuestaREST<Double>(false, e.getLocalizedMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-		}
-	}
+		
+//	@GET
+//	@Path("/distancia/{vacunatorio1}/{vacunatorio2}")
+////	@RecursoProtegidoJWT
+//	public Response distancia(@PathParam("vacunatorio1") Long vacunatorio1, @PathParam("vacunatorio2") Long vacunatorio2) {
+//		RespuestaREST<Double> respuesta = null;
+//		try {
+//			Double distancia = vacunatorioService.distancia(vacunatorio1, vacunatorio2);
+//			respuesta = new RespuestaREST<Double>(true, "Distancia calculada con éxito.", distancia);
+//			return Response.ok(respuesta).build();
+//		}catch(VacunasUyException e) {
+//			respuesta = new RespuestaREST<Double>(false, e.getLocalizedMessage());
+//			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+//		}
+//	}
 	
 	@GET
 	@Path("/listarAgendasPorVacunatorio/{id}/{fecha}")

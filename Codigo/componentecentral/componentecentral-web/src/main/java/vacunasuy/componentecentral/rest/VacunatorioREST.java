@@ -275,21 +275,6 @@ public class VacunatorioREST {
 		}
 	}
 		
-//	@GET
-//	@Path("/distancia/{vacunatorio1}/{vacunatorio2}")
-////	@RecursoProtegidoJWT
-//	public Response distancia(@PathParam("vacunatorio1") Long vacunatorio1, @PathParam("vacunatorio2") Long vacunatorio2) {
-//		RespuestaREST<Double> respuesta = null;
-//		try {
-//			Double distancia = vacunatorioService.distancia(vacunatorio1, vacunatorio2);
-//			respuesta = new RespuestaREST<Double>(true, "Distancia calculada con éxito.", distancia);
-//			return Response.ok(respuesta).build();
-//		}catch(VacunasUyException e) {
-//			respuesta = new RespuestaREST<Double>(false, e.getLocalizedMessage());
-//			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-//		}
-//	}
-	
 	@GET
 	@Path("/listarAgendasPorVacunatorio/{id}/{fecha}")
 	public Response listarAgendasPorVacunatorio(@PathParam("id") Long id, @PathParam("fecha") String fecha) {

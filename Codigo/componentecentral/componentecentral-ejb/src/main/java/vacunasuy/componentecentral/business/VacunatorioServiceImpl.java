@@ -312,17 +312,6 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}
 	}
 	
-	@Override
-	public Double distancia(Long vacunatorio1, Long vacunatorio2) throws VacunasUyException{
-		try {
-			if(vacunatorioDAO.listarPorId(vacunatorio1)==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			if(vacunatorioDAO.listarPorId(vacunatorio2)==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			return vacunatorioGeoService.distancia(vacunatorio1, vacunatorio2);
-		}catch(Exception e) {
-			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-		}
-	}
-	
 	public List<AgendaVacunatorioDTO> listarAgendasPorVacunatorio(Long id, String fecha) throws VacunasUyException {
 		try {
 			/* Se valida que el vacunatorio exista */

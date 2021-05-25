@@ -21,8 +21,6 @@ public interface IVacunatorioGeoService {
 //	public void eliminar(Long id) throws VacunasUyException;
 	
 //  desde backend
-	public Double distancia(Long vacunatorio1, Long vacunatorio2) throws VacunasUyException;
 	public List<Long> listarCercanos(UbicacionDTO ubicacionDTO) throws VacunasUyException;
-
 	
 }

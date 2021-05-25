@@ -29,7 +29,6 @@ public interface IVacunatorioService {
 	public List<VacunatorioDTO> listarPorUbicacion(Long localidad, Long departamento) throws VacunasUyException;
 	public List<VacunatorioDTO> listarPorDepartamento(Long departamento) throws VacunasUyException;
 	public void crearGeometrias() throws VacunasUyException;
-	public Double distancia(Long vacunatorio1, Long vacunatorio2) throws VacunasUyException;
 	public List<AgendaVacunatorioDTO> listarAgendasPorVacunatorio(Long id, String fecha) throws VacunasUyException;
 
 }

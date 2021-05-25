@@ -17,7 +17,6 @@ public interface IVacunatorioGeoDAO {
 	public VacunatorioGeo editar(VacunatorioGeo vacunatorio);
 	public void eliminar(VacunatorioGeo vacunatorio);
 	
-	public Double distancia(Vacunatorio vacunatorio1, Vacunatorio vacunatorio2);
 	public List<Long> listarCercanos(Ubicacion ubicacion);
 
 }

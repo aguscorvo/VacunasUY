@@ -50,17 +50,6 @@ public class VacunatorioGeoDAOImpl implements IVacunatorioGeoDAO {
 	public void eliminar(VacunatorioGeo vacunatorio) {
 		em.remove(vacunatorio);
 	}
-		
-  @Override
-	public Double distancia(Vacunatorio vacunatorio1, Vacunatorio vacunatorio2) {
-  	Point ubicacion1 = Geometries.mkPoint(new G2D(vacunatorio1.getLongitud(), vacunatorio1.getLatitud()), CoordinateReferenceSystems.WGS84);
-  	Point ubicacion2 = Geometries.mkPoint(new G2D(vacunatorio2.getLongitud(), vacunatorio2.getLatitud()), CoordinateReferenceSystems.WGS84);
-  	Query consulta = em.createQuery("SELECT distance( CAST(:ubicacion1 AS org.geolatte.geom.Point), "
-  			+ "CAST(:ubicacion2 AS org.geolatte.geom.Point) ) ");
-  	consulta.setParameter("ubicacion1", ubicacion1);
-  	consulta.setParameter("ubicacion2", ubicacion2);
-  	return (double) consulta.getFirstResult();
-  }
   
 	@Override
 	public List<Long> listarCercanos(Ubicacion ubicacion){

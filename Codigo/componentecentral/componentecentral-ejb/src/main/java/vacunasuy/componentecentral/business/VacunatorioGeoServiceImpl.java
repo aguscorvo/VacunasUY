@@ -95,19 +95,6 @@ public class VacunatorioGeoServiceImpl implements IVacunatorioGeoService {
 //	}
 	
 	@Override
-	public Double distancia(Long vacunatorio1, Long vacunatorio2) throws VacunasUyException{
-		try {
-			Vacunatorio vacunatorioAux1 = vacunatorioDAO.listarPorId(vacunatorio1);
-			Vacunatorio vacunatorioAux2 = vacunatorioDAO.listarPorId(vacunatorio2);
-			// se devuelve la distancia en kms. aprox.
-			return vacunatorioGeoDAO.distancia(vacunatorioAux1, vacunatorioAux2)*111;
-		}catch(Exception e) {
-			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-		}
-
-	}
-	
-	@Override
 	public List<Long> listarCercanos(UbicacionDTO ubicacionDTO) throws VacunasUyException{
 		try {
 			//kms. a grados aprox.

@@ -3,7 +3,6 @@ package vacunasuy.componentecentral.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import org.geolatte.geom.Point;
-import org.hibernate.annotations.Type;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +27,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "vacunatorios")
-public class Vacunatorio  implements Serializable{
+public class Vacunatorio implements Serializable{
 	
 
 	private static final long serialVersionUID = 1L;
@@ -63,10 +59,10 @@ public class Vacunatorio  implements Serializable{
     @JoinColumn(name = "fk_departamento", referencedColumnName = "id")
 	private Departamento departamento;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="vacunatorio", orphanRemoval=true) 
+	@OneToMany(mappedBy="vacunatorio", cascade = CascadeType.ALL, orphanRemoval=true) 
 	private List<Puesto> puestos = new ArrayList<Puesto>();
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="vacunatorio", cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Evento> eventos = new ArrayList<Evento>();
 	
 	@OneToMany(cascade = CascadeType.ALL)

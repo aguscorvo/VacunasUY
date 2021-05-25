@@ -17,7 +17,9 @@ public class EventoDTO {
 	private String fecha;
 	private String detalle;
 	private Long cantidad;
+	private String estado;
 	private LoteDTO lote;
 	private TransportistaDTO transportista;
+	private VacunatorioDTO vacunatorio;
 
 }

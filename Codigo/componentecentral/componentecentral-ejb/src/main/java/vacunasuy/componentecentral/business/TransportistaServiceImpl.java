@@ -4,13 +4,21 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 import vacunasuy.componentecentral.converter.TransportistaConverter;
 import vacunasuy.componentecentral.dao.ITransportistaDAO;
 import vacunasuy.componentecentral.dto.TransportistaCrearDTO;
 import vacunasuy.componentecentral.dto.TransportistaDTO;
+import vacunasuy.componentecentral.dto.VacunatorioDTO;
+import vacunasuy.componentecentral.dto.VacunatorioPerifericoDTO;
 import vacunasuy.componentecentral.entity.Transportista;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.util.Constantes;
 
 @Stateless
 public class TransportistaServiceImpl implements ITransportistaService {
@@ -46,7 +54,9 @@ public class TransportistaServiceImpl implements ITransportistaService {
 	public TransportistaDTO crear(TransportistaCrearDTO transportistaDTO) throws VacunasUyException{
 		try {
 			Transportista transportista = transportistaConverter.fromCrearDTO(transportistaDTO);
-			return transportistaConverter.fromEntity(transportistaDAO.crear(transportista));
+			transportistaDAO.crear(transportista);
+			registrarTransportistaPeriferico(transportista);
+			return transportistaConverter.fromEntity(transportista);
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
@@ -75,6 +85,20 @@ public class TransportistaServiceImpl implements ITransportistaService {
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}		
+	}
+    
+    /* Registra al transportista en el nodo periférico */
+    private void registrarTransportistaPeriferico(Transportista transportista) {
+		Client cliente = ClientBuilder.newClient();
+		WebTarget target = cliente.target(Constantes.NODOS_PERIFERICOS_REST_URL+"/transportistas");
+		TransportistaDTO transportistaPeriferico = TransportistaDTO.builder()
+				.id(transportista.getId())
+				.nombre(transportista.getNombre())
+				.build();
+		String response = target.request(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .post(Entity.json(transportistaPeriferico), String.class);
+		System.out.println(response);
 	}
 
 }

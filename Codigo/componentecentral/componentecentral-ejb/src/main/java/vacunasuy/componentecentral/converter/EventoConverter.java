@@ -8,6 +8,7 @@ import javax.ejb.Singleton;
 import vacunasuy.componentecentral.dto.EventoCrearDTO;
 import vacunasuy.componentecentral.dto.EventoDTO;
 import vacunasuy.componentecentral.entity.Evento;
+import vacunasuy.componentecentral.util.EstadoEvento;
 
 @Singleton
 public class EventoConverter extends AbstractConverter<Evento, EventoDTO>{
@@ -18,16 +19,27 @@ public class EventoConverter extends AbstractConverter<Evento, EventoDTO>{
 	@EJB
 	private TransportistaConverter transportistaConverter;
 	
+	@EJB
+	private VacunatorioConverter vacunatorioConverter;
+	
 	@Override
 	public EventoDTO fromEntity(Evento e) {
 		if(e == null) return null;
+		String estado = "Iniciado";
+		if(e.getEstado().equals(EstadoEvento.TRANSITO)) {
+			estado = "Transito";
+		}else if(e.getEstado().equals(EstadoEvento.RECIBIDO)) {
+			estado = "Recibido";
+		}
 		return EventoDTO.builder()
 				.id(e.getId())
 				.fecha(e.getFecha().toString())
 				.detalle(e.getDetalle())
 				.cantidad(e.getCantidad())
+				.estado(estado)
 				.lote(loteConverter.fromEntity(e.getLote()))
 				.transportista(transportistaConverter.fromEntity(e.getTransportista()))
+				.vacunatorio(vacunatorioConverter.fromEntity(e.getVacunatorio()))
 				.build();
 	}
 
@@ -47,10 +59,17 @@ public class EventoConverter extends AbstractConverter<Evento, EventoDTO>{
 	public Evento fromCrearDTO(EventoCrearDTO d) {
 		if(d == null) return null;
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		Enum<EstadoEvento> estado = EstadoEvento.INICIADO;
+		if(d.getEstado().equalsIgnoreCase("transito")) {
+			estado = EstadoEvento.TRANSITO;
+		}else if(d.getEstado().equalsIgnoreCase("recibido")) {
+			estado = EstadoEvento.RECIBIDO;
+		}
 		return Evento.builder()
 				.fecha(LocalDateTime.parse(d.getFecha(), formato))
 				.detalle(d.getDetalle())
 				.cantidad(d.getCantidad())
+				.estado(estado)
 				.build();
 	}
 

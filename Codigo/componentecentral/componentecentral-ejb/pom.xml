@@ -123,6 +123,13 @@
 		    <artifactId>hibernate-spatial</artifactId>
 		    <version>5.0.5.Final</version>
 		</dependency>
+		
+		<!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly / JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+            <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
         
     </dependencies>
 

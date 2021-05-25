@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vacunasuy.componentecentral.util.EstadoEvento;
 
 @Getter
 @Setter
@@ -36,13 +38,19 @@ public class Evento implements Serializable {
 	private String detalle;
 	@Column(name = "cantidad", nullable = false)
 	private Long cantidad;
+	@Column(name = "estado", nullable =false)
+	private Enum<EstadoEvento> estado;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_lote")
 	private Lote lote;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_transportista")
 	private Transportista transportista;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_vacunatorio")
+	private Vacunatorio vacunatorio;
 	
 }

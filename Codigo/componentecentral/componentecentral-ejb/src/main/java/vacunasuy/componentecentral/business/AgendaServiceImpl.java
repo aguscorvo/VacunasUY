@@ -73,17 +73,15 @@ public class AgendaServiceImpl implements IAgendaService {
 		if(puesto==null)throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		//se valida que el plan de vacunacion exista
 		PlanVacunacion planVacunacion = planVacunacionDAO.listarPorId(agendaDTO.getPlanVacunacion());
-		if(planVacunacion==null)throw new VacunasUyException("El plan de vacunación indicado no existe.", 
-				VacunasUyException.NO_EXISTE_REGISTRO);
-		
+		if(planVacunacion==null)throw new VacunasUyException("El plan de vacunación indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		//Hora random
-		String hora = String.valueOf(((int) (Math.random() * 12) + 10));
-		
+		String hora = String.valueOf(((int) (Math.random() * 12) + 8));
+		if(Integer.parseInt(hora) < 10) {
+			hora = "0" + hora;
+		}
 		//Minutos random
-		String minutos = String.valueOf(((int) (Math.random() * 4.99) + 1) * 10);
-		
+		String minutos = String.valueOf(((int) (Math.random() * 4.99) + 1) * 10);		
 		String fecha_hora = agendaDTO.getFecha()+ " " + hora + ":" + minutos;
-		
 		agendaDTO.setFecha(fecha_hora);
 		
 		Agenda agenda = agendaConverter.fromCrearDTO(agendaDTO);

@@ -16,7 +16,9 @@ public class EventoCrearDTO {
 	private String fecha;
 	private String detalle;
 	private Long cantidad;
+	private String estado;
 	private Long idLote;
 	private Long idTransportista;
+	private Long idVacunatorio;
 
 }

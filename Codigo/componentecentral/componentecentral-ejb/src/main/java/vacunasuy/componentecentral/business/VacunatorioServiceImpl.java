@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Geometries;
@@ -30,6 +35,7 @@ import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
+import vacunasuy.componentecentral.dto.VacunatorioPerifericoDTO;
 import vacunasuy.componentecentral.entity.ActoVacunal;
 import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.Atiende;
@@ -40,6 +46,7 @@ import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.util.Constantes;
 
 @Stateless
 public class VacunatorioServiceImpl implements IVacunatorioService {
@@ -109,7 +116,9 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			vacunatorio.setDepartamento(departamento);
 			String clave = UUID.randomUUID().toString();
 			vacunatorio.setClave(clave);
-			return vacunatorioConverter.fromEntity(vacunatorioDAO.crear(vacunatorio));
+			vacunatorioDAO.crear(vacunatorio);
+			registrarVacunatorioPeriferico(vacunatorio);
+			return vacunatorioConverter.fromEntity(vacunatorio);
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}	
@@ -338,6 +347,22 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		} catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
+	}
+	
+	/* Registra al vacunatorio en el nodo periférico */
+	private void registrarVacunatorioPeriferico(Vacunatorio vacunatorio) {
+		Client cliente = ClientBuilder.newClient();
+		WebTarget target = cliente.target(Constantes.NODOS_PERIFERICOS_REST_URL+"/vacunatorios");
+		VacunatorioPerifericoDTO vacunatorioPeriferico = VacunatorioPerifericoDTO.builder()
+				.id(vacunatorio.getId())
+				.nombre(vacunatorio.getNombre())
+				.direccion(vacunatorio.getDireccion())
+				.clave(vacunatorio.getClave())
+				.build();
+		String response = target.request(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .post(Entity.json(vacunatorioPeriferico), String.class);
+		System.out.println(response);
 	}
 	
 }

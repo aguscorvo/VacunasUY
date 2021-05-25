@@ -80,7 +80,6 @@ public class VacunatorioREST {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
 			VacunatorioDTO vacunatorio = vacunatorioService.crear(request);
-			registrarVacunatorioPeriferico(vacunatorio);
 			respuesta = new RespuestaREST<VacunatorioDTO>(true, "Vacunatorio creado con éxito.", vacunatorio);
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
@@ -264,23 +263,6 @@ public class VacunatorioREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}
-	}
-	
-	
-	private void registrarVacunatorioPeriferico(VacunatorioDTO vacunatorio) {
-		Client cliente = ClientBuilder.newClient();
-		WebTarget target = cliente.target(Constantes.NODOS_PERIFERICOS_REST_URL+"/vacunatorios");
-		VacunatorioPerifericoDTO vacunatorioPeriferico = VacunatorioPerifericoDTO.builder()
-				.id(vacunatorio.getId())
-				.nombre(vacunatorio.getNombre())
-				.direccion(vacunatorio.getDireccion())
-				.clave(vacunatorio.getClave())
-				.build();
-		String response = target.request(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .post(Entity.json(vacunatorioPeriferico), String.class);
-		
-		System.out.println(response);
 	}
 	
 	@PUT

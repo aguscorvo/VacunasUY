@@ -97,6 +97,7 @@ public class VacunatorioService {
 				System.out.println(e.getLocalizedMessage());
 			}
 		}
+		cliente.close();
 	}
 	
 	/* Método que obtiene las agendas para cada vacunatorio */
@@ -128,6 +129,7 @@ public class VacunatorioService {
 						System.out.println("Total de agendas registrados: " + agendas.size());
 					}
 				}
+				
 			} catch (ProcessingException  e) {
 				System.out.println("No se pudo conectar al servidor. Intente más tarde.");
 				System.out.println(e.getLocalizedMessage());
@@ -136,15 +138,16 @@ public class VacunatorioService {
 				System.out.println(e.getLocalizedMessage());
 			}
 		}
+		cliente.close();
 	}
 	
 	/* Método que envia los actos vacunales por vacunatorio */
 	public void enviarActosVacunalesPorVacunatorio() {
-		Client cliente = ClientBuilder.newClient();
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 		LocalDateTime fecha = LocalDateTime.parse(LocalDateTime.now().format(formato).toString(), formato);
 		System.out.println("### Procesar agendas ###");
 		for (Vacunatorio v : vacunatorioDAO.findAll()) {
+			Client cliente = ClientBuilder.newClient();
 			try {				
 				System.out.println("Vacunatorio: " + v.getId());
 				/* Itero cada agenda que cumpla con la fecha/hora */
@@ -183,6 +186,7 @@ public class VacunatorioService {
 				System.out.println("Error al parsear los datos. Intente más tarde.");
 				System.out.println(e.getLocalizedMessage());
 			}
+			cliente.close();
 		}
 	}
 	

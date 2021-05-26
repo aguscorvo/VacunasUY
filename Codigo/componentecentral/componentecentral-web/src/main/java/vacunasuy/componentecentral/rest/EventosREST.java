@@ -14,8 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import vacunasuy.componentecentral.business.IEventoService;
 import vacunasuy.componentecentral.dto.EventoDTO;
+import vacunasuy.componentecentral.dto.EventoPerifericoDTO;
 import vacunasuy.componentecentral.dto.EventoCrearDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.util.EstadoEvento;
 
 @RequestScoped
 @Path("/eventos")
@@ -33,6 +35,31 @@ public class EventosREST {
 			List<EventoDTO> eventos = eventoService.listar();
 			respuesta = new RespuestaREST<List<EventoDTO>>(true, "Eventos listados con éxito.", eventos);
 			return Response.ok(respuesta).build();
+		} catch (Exception e) {
+			respuesta = new RespuestaREST<>(false, e.getLocalizedMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}
+	}
+	
+	@GET
+	@Path("/listarPorEstado/{estado}")
+	public Response listar(@PathParam("estado") String estado) {
+		RespuestaREST<List<EventoPerifericoDTO>> respuesta = null;
+		try {
+			EstadoEvento estadoEnum = null;
+			if(estado.equalsIgnoreCase("Iniciado")) {
+				estadoEnum = EstadoEvento.INICIADO;
+			} else if(estado.equalsIgnoreCase("Transito")) {
+				estadoEnum = EstadoEvento.TRANSITO;
+			} else if(estado.equalsIgnoreCase("Recibido")) {
+				estadoEnum = EstadoEvento.RECIBIDO;
+			} else {
+				respuesta = new RespuestaREST<>(false, "Estado inválido.");
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}
+			List<EventoPerifericoDTO> eventos = eventoService.listarPorEstado(estadoEnum);
+			respuesta = new RespuestaREST<List<EventoPerifericoDTO>>(true, "Eventos listados con éxito.", eventos);
+			return Response.ok(eventos).build();
 		} catch (Exception e) {
 			respuesta = new RespuestaREST<>(false, e.getLocalizedMessage());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();

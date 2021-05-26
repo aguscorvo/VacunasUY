@@ -12,6 +12,7 @@ import vacunasuy.componentecentral.dao.ITransportistaDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
 import vacunasuy.componentecentral.dto.EventoCrearDTO;
 import vacunasuy.componentecentral.dto.EventoDTO;
+import vacunasuy.componentecentral.dto.EventoPerifericoDTO;
 import vacunasuy.componentecentral.entity.Evento;
 import vacunasuy.componentecentral.entity.Lote;
 import vacunasuy.componentecentral.entity.Transportista;
@@ -56,6 +57,15 @@ public class EventoServiceImpl implements IEventoService {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
 	}
+	
+	@Override
+	public List<EventoPerifericoDTO> listarPorEstado(EstadoEvento estado) throws VacunasUyException {
+		try {
+			return eventoConverter.toEventoPeriferico(eventoDAO.listarPorEstado(estado));
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
 
 	@Override
 	public EventoDTO crear(EventoCrearDTO eventoDTO) throws VacunasUyException {
@@ -68,6 +78,7 @@ public class EventoServiceImpl implements IEventoService {
 			/* Se valida que la cantidad del evento no sea mayor a la del lote */
 			if(evento.getCantidad() > lote.getCantidadDisponible()) throw new VacunasUyException("La cantidad del evento no puede superar la cantidad disponible del lote.", VacunasUyException.DATOS_INCORRECTOS);
 			evento.setLote(lote);
+			evento.setEstado(EstadoEvento.INICIADO);
 			evento.setVacunatorio(vacunatorio);
 			eventoDAO.crear(evento);
 			/* Se resta la cantidad del evento al lote */

@@ -141,7 +141,7 @@ public class VacunatorioService {
 		cliente.close();
 	}
 	
-	/* Método que envia los actos vacunales por vacunatorio */
+	/* Método que envÍa los actos vacunales por vacunatorio */
 	public void enviarActosVacunalesPorVacunatorio() {
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 		LocalDateTime fecha = LocalDateTime.parse(LocalDateTime.now().format(formato).toString(), formato);

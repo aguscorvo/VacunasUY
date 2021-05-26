@@ -18,16 +18,16 @@ public class VacunatorioJobs {
 	}*/
 	
 	/* Obtener agendas */
-	@Scheduled(fixedDelay = 10000)
+	/*@Scheduled(fixedDelay = 10000)
 	public void obtenerAgendas() {
 		vacunatorioService.obtenerAgendasPorVacunatorio();
-	}
+	}*/
 	
 	/* Enviar actos vacunales */
 	/* Se ejecuta cada minuto */
-	@Scheduled(cron = "0 * * * * ?")
+	/*@Scheduled(cron = "0 * * * * ?")
 	public void enviarActosVacunalesPorVacunatorio() {
 		vacunatorioService.enviarActosVacunalesPorVacunatorio();
-	}
+	}*/
 	
 }

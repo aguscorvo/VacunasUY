@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import vacunasuy.componentecentral.entity.Evento;
+import vacunasuy.componentecentral.util.EstadoEvento;
 
 @Singleton
 public class EventoDAOImpl implements IEventoDAO {
@@ -22,6 +23,13 @@ public class EventoDAOImpl implements IEventoDAO {
 	@Override
 	public Evento listarPorId(Long id) {
 		return em.find(Evento.class, id);
+	}
+	
+	@Override
+	public List<Evento> listarPorEstado(EstadoEvento estado) {
+		Query consulta = em.createQuery("SELECT e FROM Evento e WHERE e.estado = :estadoEvento");
+		consulta.setParameter("estadoEvento", estado);
+		return consulta.getResultList();
 	}
 
 	@Override

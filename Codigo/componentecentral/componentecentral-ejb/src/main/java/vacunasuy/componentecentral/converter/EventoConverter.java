@@ -2,12 +2,17 @@ package vacunasuy.componentecentral.converter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import vacunasuy.componentecentral.dto.EventoCrearDTO;
 import vacunasuy.componentecentral.dto.EventoDTO;
+import vacunasuy.componentecentral.dto.EventoPerifericoDTO;
+import vacunasuy.componentecentral.dto.VacunatorioMinDTO;
 import vacunasuy.componentecentral.entity.Evento;
+import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.util.EstadoEvento;
 
 @Singleton
@@ -71,6 +76,32 @@ public class EventoConverter extends AbstractConverter<Evento, EventoDTO>{
 				.cantidad(d.getCantidad())
 				.estado(estado)
 				.build();
+	}
+	
+	public EventoPerifericoDTO toEventoPeriferico(Evento e) {
+		if(e == null) return null;
+		String estado = "Iniciado";
+		if(e.getEstado().equals(EstadoEvento.TRANSITO)) {
+			estado = "Transito";
+		} else if(e.getEstado().equals(EstadoEvento.RECIBIDO)) {
+			estado = "Recibido";
+		}
+		return EventoPerifericoDTO.builder()
+				.id(e.getId())
+				.fecha(e.getFecha().toString())
+				.detalle(e.getDetalle())
+				.cantidad(e.getCantidad())
+				.estado(estado)
+				.idLote(e.getLote().getId())
+				.idVacunatorio(e.getVacunatorio().getId())
+				.build();
+	}
+	
+	public List<EventoPerifericoDTO> toEventoPeriferico(List<Evento> entities){
+		if(entities == null) return null;
+		return entities.stream()
+			.map(e -> toEventoPeriferico(e))
+			.collect(Collectors.toList());
 	}
 
 }

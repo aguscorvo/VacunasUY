@@ -17,5 +17,26 @@ public class TransportistaJobs {
 	public void obtenerEventosIniciados() {
 		transportistaService.obtenerEventosIniciados();
 	}
+	
+	/* Obtener eventos en estado TRANSITO */
+	/* Se ejecuta cada minuto */
+	@Scheduled(cron = "0 * * * * ?")
+	public void obtenerEventosTransito() {
+		transportistaService.obtenerEventosTransito();
+	}
 
+	/* Procesar eventos en estado INICIADO */
+	/* Se ejecuta cada minuto */
+	@Scheduled(cron = "0 * * * * ?")
+	public void procesarEventosIniciados() {
+		transportistaService.procesarEventosIniciados();
+	}
+	
+	/* Procesar eventos en estado INICIADO */
+	/* Se ejecuta cada minuto */
+	@Scheduled(cron = "0 * * * * ?")
+	public void procesarEventosTransito() {
+		transportistaService.procesarEventosTransito();
+	}
+	
 }

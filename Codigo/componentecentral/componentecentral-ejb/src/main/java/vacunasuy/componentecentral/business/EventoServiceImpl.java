@@ -109,8 +109,7 @@ public class EventoServiceImpl implements IEventoService {
 				estado = EstadoEvento.RECIBIDO;
 			}
 			evento.setEstado(estado);
-			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-			evento.setFecha(LocalDateTime.parse(eventoDTO.getFecha(), formato));
+			evento.setFecha(LocalDateTime.now());
 			eventoDAO.editar(evento);
 			return eventoConverter.fromEntity(evento);
 		} catch (Exception e) {

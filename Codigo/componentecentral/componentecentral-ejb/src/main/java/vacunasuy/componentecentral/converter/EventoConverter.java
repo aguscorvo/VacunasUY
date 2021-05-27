@@ -36,9 +36,10 @@ public class EventoConverter extends AbstractConverter<Evento, EventoDTO>{
 		}else if(e.getEstado().equals(EstadoEvento.RECIBIDO)) {
 			estado = "Recibido";
 		}
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		return EventoDTO.builder()
 				.id(e.getId())
-				.fecha(e.getFecha().toString())
+				.fecha(e.getFecha().format(formato))
 				.detalle(e.getDetalle())
 				.cantidad(e.getCantidad())
 				.estado(estado)
@@ -63,7 +64,6 @@ public class EventoConverter extends AbstractConverter<Evento, EventoDTO>{
 	
 	public Evento fromCrearDTO(EventoCrearDTO d) {
 		if(d == null) return null;
-		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		Enum<EstadoEvento> estado = EstadoEvento.INICIADO;
 		if(d.getEstado().equalsIgnoreCase("transito")) {
 			estado = EstadoEvento.TRANSITO;
@@ -71,7 +71,7 @@ public class EventoConverter extends AbstractConverter<Evento, EventoDTO>{
 			estado = EstadoEvento.RECIBIDO;
 		}
 		return Evento.builder()
-				.fecha(LocalDateTime.parse(d.getFecha(), formato))
+				.fecha(LocalDateTime.now())
 				.detalle(d.getDetalle())
 				.cantidad(d.getCantidad())
 				.estado(estado)
@@ -86,13 +86,19 @@ public class EventoConverter extends AbstractConverter<Evento, EventoDTO>{
 		} else if(e.getEstado().equals(EstadoEvento.RECIBIDO)) {
 			estado = "Recibido";
 		}
+		Long idTransportista = null;
+		if(e.getTransportista() != null) {
+			idTransportista = e.getTransportista().getId();
+		}
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		return EventoPerifericoDTO.builder()
 				.id(e.getId())
-				.fecha(e.getFecha().toString())
+				.fecha(e.getFecha().format(formato))
 				.detalle(e.getDetalle())
 				.cantidad(e.getCantidad())
 				.estado(estado)
 				.idLote(e.getLote().getId())
+				.idTransportista(idTransportista)
 				.idVacunatorio(e.getVacunatorio().getId())
 				.build();
 	}

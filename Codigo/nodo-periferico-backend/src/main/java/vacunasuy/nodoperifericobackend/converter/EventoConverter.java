@@ -26,7 +26,7 @@ public class EventoConverter extends AbstractConverter<Evento, EventoDTO> {
 	@Override
 	public Evento fromDTO(EventoDTO d) {
 		if(d == null) return null;
-		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		return Evento.builder()
 				.id(d.getId())
 				.fecha(LocalDateTime.parse(d.getFecha(), formato))

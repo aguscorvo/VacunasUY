@@ -83,9 +83,12 @@ public class EventosREST {
 	@Path("/editar/{id}")
 	public Response editar(@PathParam("id") Long id, EventoCrearDTO request) {
 		RespuestaREST<EventoDTO> respuesta = null;
+		System.out.println("Llegue al REST");
 		try {
-			EventoDTO lote = eventoService.editar(id, request);
-			respuesta = new RespuestaREST<EventoDTO>(true, "Evento editado con éxito.", lote);
+			System.out.println("Voy a editar");
+			EventoDTO evento = eventoService.editar(id, request);
+			System.out.println("Pase editar");
+			respuesta = new RespuestaREST<EventoDTO>(true, "Evento editado con éxito.", evento);
 			return Response.ok(respuesta).build();
 		} catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<EventoDTO>(false, e.getLocalizedMessage());

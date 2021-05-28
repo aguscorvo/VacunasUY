@@ -23,6 +23,7 @@ public interface IUsuarioService {
 	public void eliminar(Long id) throws VacunasUyException;
 	public UsuarioLoginExitosoDTO loginBackoffice(UsuarioLoginBackofficeDTO usuarioDTO) throws VacunasUyException;
 	public UsuarioLoginExitosoDTO loginGubUy(RespuestaUserInfoDTO usuarioDTO) throws VacunasUyException;
+	public boolean existeAgenda (Long id_usuario, Long id_plan) throws VacunasUyException;
 	
 	public void asignarVacunadorAPuesto(AtiendeCrearDTO atiendeDTO) throws VacunasUyException;
 	

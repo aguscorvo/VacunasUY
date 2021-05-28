@@ -67,15 +67,21 @@ public class AgendaServiceImpl implements IAgendaService {
 	
 	@Override
 	public List<AgendaMinDTO> crear(AgendaCrearDTO agendaDTO)  throws VacunasUyException{
+		
 		//se valida que ciudadano exista
 		Usuario ciudadano = usuarioDAO.listarPorId(agendaDTO.getUsuario());
 		if(ciudadano==null)throw new VacunasUyException("El ciudadano indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		
 		//se valida que el puesto exista
 		Puesto puesto = puestoDAO.listarPorId(agendaDTO.getPuesto());
 		if(puesto==null)throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		
 		//se valida que el plan de vacunacion exista
 		PlanVacunacion planVacunacion = planVacunacionDAO.listarPorId(agendaDTO.getPlanVacunacion());
 		if(planVacunacion==null)throw new VacunasUyException("El plan de vacunación indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		
+		boolean hay_agenda = usuarioService.existeAgenda(agendaDTO.getUsuario(), agendaDTO.getPlanVacunacion());
+		if(hay_agenda)throw new VacunasUyException("El usuario ya está agendado para este plan de vacunación.", VacunasUyException.EXISTE_REGISTRO);
 		
 		int cantidad_de_agendas = planVacunacion.getVacuna().getCant_dosis();
 		int periodo = planVacunacion.getVacuna().getPeriodo();

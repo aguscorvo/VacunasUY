@@ -262,5 +262,17 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		usuarioDAO.editar(usuarioAux);
 	}
 
+	@Override
+	public boolean existeAgenda(Long id_usuario, Long id_plan) throws VacunasUyException {
+		Usuario u = usuarioDAO.listarPorId(id_usuario);
+		List<Agenda> agendas = u.getAgendas();
+		for (Agenda a: agendas) {
+			if (a.getPlanVacunacion().getId()==id_plan) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 }

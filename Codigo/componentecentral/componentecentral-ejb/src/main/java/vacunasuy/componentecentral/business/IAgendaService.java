@@ -14,7 +14,7 @@ public interface IAgendaService {
 
 	public List<AgendaDTO> listar() throws VacunasUyException;
 	public AgendaDTO listarPorId(Long id) throws VacunasUyException;
-	public AgendaMinDTO crear(AgendaCrearDTO agendaDTO) throws VacunasUyException;
+	public List<AgendaMinDTO> crear(AgendaCrearDTO agendaDTO) throws VacunasUyException;
 	public AgendaDTO editar(Long id, AgendaCrearDTO agendaDTO) throws VacunasUyException;
 	public void eliminar(Long id) throws VacunasUyException;
 	

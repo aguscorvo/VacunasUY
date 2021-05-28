@@ -1,6 +1,8 @@
 package vacunasuy.componentecentral.business;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -64,7 +66,7 @@ public class AgendaServiceImpl implements IAgendaService {
 	}
 	
 	@Override
-	public AgendaMinDTO crear(AgendaCrearDTO agendaDTO)  throws VacunasUyException{
+	public List<AgendaMinDTO> crear(AgendaCrearDTO agendaDTO)  throws VacunasUyException{
 		//se valida que ciudadano exista
 		Usuario ciudadano = usuarioDAO.listarPorId(agendaDTO.getUsuario());
 		if(ciudadano==null)throw new VacunasUyException("El ciudadano indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
@@ -74,6 +76,10 @@ public class AgendaServiceImpl implements IAgendaService {
 		//se valida que el plan de vacunacion exista
 		PlanVacunacion planVacunacion = planVacunacionDAO.listarPorId(agendaDTO.getPlanVacunacion());
 		if(planVacunacion==null)throw new VacunasUyException("El plan de vacunación indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		
+		int cantidad_de_agendas = planVacunacion.getVacuna().getCant_dosis();
+		int periodo = planVacunacion.getVacuna().getPeriodo();
+		
 		//Hora random
 		String hora = String.valueOf(((int) (Math.random() * 12) + 8));
 		if(Integer.parseInt(hora) < 10) {
@@ -82,16 +88,28 @@ public class AgendaServiceImpl implements IAgendaService {
 		//Minutos random
 		String minutos = String.valueOf(((int) (Math.random() * 4.99) + 1) * 10);		
 		String fecha_hora = agendaDTO.getFecha()+ " " + hora + ":" + minutos;
-		agendaDTO.setFecha(fecha_hora);
 		
-		Agenda agenda = agendaConverter.fromCrearDTO(agendaDTO);
+		agendaDTO.setFecha(fecha_hora);
+		Agenda agenda;
+		List<AgendaMinDTO> agendas = new ArrayList<AgendaMinDTO>();
 		
 		try {
-			agenda.setPuesto(puesto);
-			agenda.setPlanVacunacion(planVacunacion);
-			agenda.setUsuario(ciudadano);
-			puesto.getAgendas().add(agenda);	
-			return agendaConverter.fromEntityToMin(agendaDAO.crear(agenda));
+			
+			for (int i=0;i<cantidad_de_agendas;i++) {
+				agenda = agendaConverter.fromCrearDTO(agendaDTO);
+				agenda.setPuesto(puesto);
+				agenda.setPlanVacunacion(planVacunacion);
+				agenda.setUsuario(ciudadano);
+				puesto.getAgendas().add(agenda);	
+				AgendaMinDTO a_agregar = agendaConverter.fromEntityToMin(agendaDAO.crear(agenda));
+				agendas.add(a_agregar);
+				fecha_hora = agendaDTO.getFecha();
+				String nueva_fecha_hora = sumarDias(fecha_hora, periodo);
+				agendaDTO.setFecha(nueva_fecha_hora);
+				
+			}
+			return agendas;
+			
 		}catch(Exception e){
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}		
@@ -125,5 +143,18 @@ public class AgendaServiceImpl implements IAgendaService {
 		}
 	}	
     
+	public static String sumarDias(String fechaYHora, long dias) {
+	    // Crear un formateador como 2018-10-16 15:00
+	    DateTimeFormatter formateador = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm");
 
+	    // Lo convertimos a objeto para poder trabajar con él
+	    LocalDateTime fechaYHoraLocal = LocalDateTime.parse(fechaYHora, formateador);
+
+	    // Sumar los años indicados
+	    fechaYHoraLocal = fechaYHoraLocal.plusDays(dias);
+
+	    //Formatear de nuevo y regresar como cadena
+	    return fechaYHoraLocal.format(formateador);
+	}
+	
 }

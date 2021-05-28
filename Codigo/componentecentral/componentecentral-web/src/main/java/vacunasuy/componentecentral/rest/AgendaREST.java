@@ -65,13 +65,13 @@ public class AgendaREST {
 	
 	@POST
 	public Response crear(AgendaCrearDTO request) {
-		RespuestaREST<AgendaMinDTO> respuesta = null;
+		RespuestaREST <List<AgendaMinDTO>> respuesta = null;
 		try {
-			AgendaMinDTO agenda = agendaService.crear(request);
-			respuesta = new RespuestaREST<AgendaMinDTO>(true, "Agenda creada con éxito.", agenda);
+			List<AgendaMinDTO> agendas = agendaService.crear(request);
+			respuesta = new RespuestaREST<List<AgendaMinDTO>>(true, "Agenda creada con éxito.", agendas);
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
-			respuesta = new RespuestaREST<AgendaMinDTO>(false, e.getLocalizedMessage());
+			respuesta = new RespuestaREST<List<AgendaMinDTO>>(false, e.getLocalizedMessage());
 			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			} else {

@@ -327,7 +327,7 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             Marker vmarker = new Marker(map);
             vmarker.setPosition(vpoint);
             vmarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            vmarker.setIcon(ResourcesCompat.getDrawable( getResources(), R.drawable.ic_building_map, null));
+            vmarker.setIcon(ResourcesCompat.getDrawable( getResources(), R.drawable.ic_vacunatorio_map, null));
             String title = "Nombre: " + dtv.getNombre() + "\n";
             title = title + "Departamento: " + dtv.getUbicacion().getNombre_departamento() + "\n";
             title = title + "Localidad: " + dtv.getUbicacion().getNombre_localidad() + "\n";

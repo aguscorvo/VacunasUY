@@ -130,7 +130,7 @@ public class AgendarActivity extends AppCompatActivity {
                         // TODO Auto-generated method stub
                         /*      Your code   to get date and time    */
                         fechaSolicitada = selectedyear + "-" +
-                                (selectedmonth<10?"0":"") + selectedmonth + "-" +
+                                ((selectedmonth+1)<10?"0":"") + (selectedmonth+1) + "-" +
                                 (selectedday<10?"0":"") + selectedday;
                         dateText.setText(fechaSolicitada);
 
@@ -651,8 +651,13 @@ public class AgendarActivity extends AppCompatActivity {
             if (result instanceof DtResponse) {
                 Log.i(TAG, "onPostExecute: " + ((DtResponse) result).getOk());
 
-                if(((DtResponse) result).getOk())
+                if(((DtResponse) result).getOk()){
                     persistirUsuario(usuario, (DtResponse) result);
+                } else{
+
+                }
+
+
 
                 dialog.setMessage(((DtResponse) result).getMensaje());
 

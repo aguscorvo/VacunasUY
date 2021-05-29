@@ -20,7 +20,7 @@ public class ConnConstant {
     final public static String API_VACUNATORIOS_URL = "https://vacunasuy.web.elasticloud.uy/rest/vacunatorios";
     final public static String API_VACUNATORIOS_FILTERDEPTO_URL = "https://vacunasuy.web.elasticloud.uy/rest/vacunatorios/listarPorDepartamento/{departamento}";
     final public static String API_VACUNATORIOS_FILTERLOCALIDAD_URL = "https://vacunasuy.web.elasticloud.uy/rest/vacunatorios/listarPorUbicacion/{localidad}/{departamento}";
-    final public static String API_VACUNATORIOS_CERCANOS_URL = "https://vacunasuy.web.elasticloud.uy/rest/vacunatorios//listar/cercanos/{latitud}/{longitud}/{distancia}";
+    final public static String API_VACUNATORIOS_CERCANOS_URL = "https://vacunasuy.web.elasticloud.uy/rest/vacunatorios/listar/cercanos/{latitud}/{longitud}/{distancia}";
     final public static String API_VACUNATORIOSPLAN_URL = "https://vacunasuy.web.elasticloud.uy/rest/vacunatorios/listarVacunatoriosDadoPlan/{id}";
 
     //PLANES DE VACUNACION

@@ -1,0 +1,31 @@
+@charset "ISO-8859-1";
+
+.container-scroller {
+	display: flex;
+	position: relative;
+}
+
+.container-scroller {
+	overflow: hidden;
+}
+
+.main-panel {
+	transition: width 0.25s ease, margin 0.25s ease;
+	width: 100%;
+	min-height: calc(100vh - 130px);
+	padding-top: 130px;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+}
+
+.top-header {
+	font-size: 12px;
+	transition: -webkit-transform .2s ease;
+	transition: transform .2s ease;
+	transition: transform .2s ease, -webkit-transform .2s ease;
+	-webkit-transform-origin: top;
+	transform-origin: top;
+	font-weight: 600;
+}

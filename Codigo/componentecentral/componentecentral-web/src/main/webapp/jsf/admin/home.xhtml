@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<meta charset="ISO-8859-1"></meta>
+	<title>VacunasUy-Administrador</title>
+
+	<ui:include src="/WEB-INF/includes/header_lib.xhtml" />
+
+	<style>
+.selected {
+	background-color: #B0BED9 !important;
+}
+</style>
+
+</h:head>
+
+<h:body>
+
+
+	<header class="fixed-top header"> <ui:include
+		src="/WEB-INF/includes/header_log.xhtml" /> <!-- top header -->
+	<div class="navigation w-100">
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg navbar-light bg-light"> <a
+				class="navbar-brand" href="/jsf/admin/home.xhtml">VacunasUy</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link"
+						href="/jsf/admin/usuario/usuarios.xhtml">Usuarios</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/jsf/admin/vacunatorio/vacunatorios.xhtml">Vacunatorios</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/jsf/admin/transportista/transportistas.xhtml">Transportistas</a></li>
+				</ul>
+
+			</div>
+			</nav>
+		</div>
+	</div>
+	</header>
+
+	<section class="section" id="main_section"> 
+	<div>
+		
+	</div>
+	
+	</section>
+
+	<ui:include src="/WEB-INF/includes/footer_lib.xhtml" />
+</h:body>
+</html>

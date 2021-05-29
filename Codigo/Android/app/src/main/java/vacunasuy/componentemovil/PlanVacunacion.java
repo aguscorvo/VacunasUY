@@ -92,8 +92,13 @@ public class PlanVacunacion extends AppCompatActivity {
                     return true;
                 case R.id.menu_notificacion:
                     if(usuario.getRegistrado()){
-                        Intent notificacioninfo = new Intent(PlanVacunacion.this, NotificacionActivity.class);
-                        startActivity(notificacioninfo);
+                        if(usuario.getFechanacimiento()==null || usuario.getSectorlaboral() == null){
+                            Intent fnintent = new Intent(PlanVacunacion.this, AddFechaNacimiento.class);
+                            startActivity(fnintent);
+                        }else {
+                            Intent notificacioninfo = new Intent(PlanVacunacion.this, NotificacionActivity.class);
+                            startActivity(notificacioninfo);
+                        }
                     }else{
                         AlertDialog dialog = new AlertDialog.Builder(PlanVacunacion.this).create();
                         dialog.setTitle(R.string.info_title);
@@ -209,31 +214,36 @@ public class PlanVacunacion extends AppCompatActivity {
 
 
                     if(usuario.getRegistrado()){
-                        dialog.setMessage(getString(R.string.plan_mensaje));
+                        if(usuario.getFechanacimiento()==null || usuario.getSectorlaboral() == null){
+                            Intent fnintent = new Intent(PlanVacunacion.this, AddFechaNacimiento.class);
+                            startActivity(fnintent);
+                        }else {
+                            dialog.setMessage(getString(R.string.plan_mensaje));
 
-                        dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.plan_detealle), new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //Toast.makeText(PlanVacunacion.this, getString(R.string.plan_detealle), Toast.LENGTH_LONG).show();
-                                verDetalle(planes.get(groupPosition));
-
-                            }
-                        });
-                        if(validarPlan(planes.get(groupPosition), usuario)){
-                            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_agendar), new DialogInterface.OnClickListener()
+                            dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.plan_detealle), new DialogInterface.OnClickListener()
                             {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent iagenda = new Intent(PlanVacunacion.this, AgendarActivity.class);
-                                    iagenda.putExtra("IDPlan", planes.get(groupPosition).getId());
-                                    iagenda.putExtra("nombrePlan", getString(R.string.plan_group_title) + planes.get(groupPosition).getVacuna().getNombre());
+                                    //Toast.makeText(PlanVacunacion.this, getString(R.string.plan_detealle), Toast.LENGTH_LONG).show();
+                                    verDetalle(planes.get(groupPosition));
 
-                                    @SuppressLint("SimpleDateFormat")
-                                    SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
-                                    iagenda.putExtra("FechaFin", sdf.format(planes.get(groupPosition).getFechaFin()));
-
-                                    startActivity(iagenda);
                                 }
                             });
+                            if(validarPlan(planes.get(groupPosition), usuario)){
+                                dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.plan_agendar), new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent iagenda = new Intent(PlanVacunacion.this, AgendarActivity.class);
+                                        iagenda.putExtra("IDPlan", planes.get(groupPosition).getId());
+                                        iagenda.putExtra("nombrePlan", getString(R.string.plan_group_title) + planes.get(groupPosition).getVacuna().getNombre());
+
+                                        @SuppressLint("SimpleDateFormat")
+                                        SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
+                                        iagenda.putExtra("FechaFin", sdf.format(planes.get(groupPosition).getFechaFin()));
+
+                                        startActivity(iagenda);
+                                    }
+                                });
+                            }
                         }
                     }else{
                         dialog.setMessage(getString(R.string.plan_mensaje_nologin));

@@ -65,6 +65,7 @@ public class VacunatorioService {
 	public void obtenerAsignacionVacunadores() {
 		Client cliente = ClientBuilder.newClient();
 		String fecha = LocalDate.now().toString();
+		System.out.println("##### Obtener asignación de vacunadores por vacunatorio #####");
 		for (Vacunatorio v : vacunatorioDAO.findAll()) {
 			try {
 				System.out.println("Consultando vacunadores para el vacunatorio con ID: " + v.getId());
@@ -89,6 +90,7 @@ public class VacunatorioService {
 						System.out.println("Total de vacunadores registrados: " + vacunadores.size());
 					}
 				}
+				respuesta.close();
 			} catch (ProcessingException  e) {
 				System.out.println("No se pudo conectar al servidor. Intente más tarde.");
 				System.out.println(e.getLocalizedMessage());
@@ -104,7 +106,7 @@ public class VacunatorioService {
 	public void obtenerAgendasPorVacunatorio() {
 		Client cliente = ClientBuilder.newClient();
 		String fecha = LocalDateTime.now().toString();
-		System.out.println("### Obtener agendas ###");
+		System.out.println("##### Obtener agendas por vacunatorio #####");
 		for (Vacunatorio v : vacunatorioDAO.findAll()) {
 			try {
 				System.out.println("Consultando agendas para el vacunatorio con ID: " + v.getId());
@@ -129,7 +131,7 @@ public class VacunatorioService {
 						System.out.println("Total de agendas registrados: " + agendas.size());
 					}
 				}
-				
+				respuesta.close();
 			} catch (ProcessingException  e) {
 				System.out.println("No se pudo conectar al servidor. Intente más tarde.");
 				System.out.println(e.getLocalizedMessage());
@@ -141,13 +143,13 @@ public class VacunatorioService {
 		cliente.close();
 	}
 	
-	/* Método que envÍa los actos vacunales por vacunatorio */
+	/* Método que envía los actos vacunales por vacunatorio */
 	public void enviarActosVacunalesPorVacunatorio() {
+		Client cliente = ClientBuilder.newClient();
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 		LocalDateTime fecha = LocalDateTime.parse(LocalDateTime.now().format(formato).toString(), formato);
-		System.out.println("### Procesar agendas ###");
+		System.out.println("##### Procesar agendas por vacunatorio (enviar actos vacunales) ######");
 		for (Vacunatorio v : vacunatorioDAO.findAll()) {
-			Client cliente = ClientBuilder.newClient();
 			try {				
 				System.out.println("Vacunatorio: " + v.getId());
 				/* Itero cada agenda que cumpla con la fecha/hora */
@@ -177,6 +179,7 @@ public class VacunatorioService {
 							agendaDAO.save(agenda);
 							System.out.println("Agenda procesada con éxito.");
 						}
+						respuesta.close();
 					}
 				}
 			} catch (ProcessingException  e) {
@@ -186,8 +189,8 @@ public class VacunatorioService {
 				System.out.println("Error al parsear los datos. Intente más tarde.");
 				System.out.println(e.getLocalizedMessage());
 			}
-			cliente.close();
 		}
+		cliente.close();
 	}
 	
 }

@@ -12,22 +12,24 @@ public class VacunatorioJobs {
 	private VacunatorioService vacunatorioService;
 	
 	/* Obtener vacunadores */
-	/* @Scheduled(fixedDelay = 5000)
+	/* Se ejecuta cada minuto en el segundo 30 */
+	@Scheduled(cron = "30 * * * * ?")
 	public void obtenerVacunadores() {
 		vacunatorioService.obtenerAsignacionVacunadores();
-	}*/
+	}
 	
 	/* Obtener agendas */
-	/*@Scheduled(fixedDelay = 10000)
+	/* Se ejecuta cada minuto en el segundo 30 */
+	@Scheduled(cron = "30 * * * * ?")
 	public void obtenerAgendas() {
 		vacunatorioService.obtenerAgendasPorVacunatorio();
-	}*/
+	}
 	
 	/* Enviar actos vacunales */
-	/* Se ejecuta cada minuto */
-	/*@Scheduled(cron = "0 * * * * ?")
+	/* Se ejecuta cada minuto en el segundo 30 */
+	@Scheduled(cron = "30 * * * * ?")
 	public void enviarActosVacunalesPorVacunatorio() {
 		vacunatorioService.enviarActosVacunalesPorVacunatorio();
-	}*/
+	}
 	
 }

@@ -70,6 +70,7 @@ public class TransportistaService {
 					System.out.println("Total de eventos registrados: " + eventos.size());
 				}
 			}
+			respuesta.close();
 		} catch (ProcessingException e) {
 			System.out.println("No se pudo conectar al servidor. Intente más tarde.");
 			System.out.println(e.getLocalizedMessage());
@@ -104,6 +105,7 @@ public class TransportistaService {
 					System.out.println("Total de eventos registrados: " + eventos.size());
 				}
 			}
+			respuesta.close();
 		} catch (ProcessingException e) {
 			System.out.println("No se pudo conectar al servidor. Intente más tarde.");
 			System.out.println(e.getLocalizedMessage());
@@ -174,6 +176,7 @@ public class TransportistaService {
 			if(eventos.size() == 0) {
 				System.out.println("No hay eventos en tránsito que procesar.");
 			} else {
+				Client cliente = ClientBuilder.newClient();
 				for (Evento evento : eventos) {
 					EventoDTO eventoDTO = EventoDTO.builder()
 							.detalle("Se recepcionan vacunas en el vacunatorio " + evento.getIdVacunatorio())
@@ -184,7 +187,6 @@ public class TransportistaService {
 							.idVacunatorio(evento.getIdVacunatorio())
 							.build();
 					/* Se envía al componente central */
-					Client cliente = ClientBuilder.newClient();
 					ObjectMapper mapper = new ObjectMapper();
 					String eventoJSON = mapper.writeValueAsString(eventoDTO);						
 					String URL = "/eventos/editar/" + evento.getId();
@@ -200,8 +202,8 @@ public class TransportistaService {
 						System.out.println("Evento procesado con éxito.");
 					}
 					respuesta.close();
-					cliente.close();
 				}
+				cliente.close();
 			}
 		} catch (ProcessingException e) {
 			System.out.println("No se pudo conectar al servidor. Intente más tarde.");

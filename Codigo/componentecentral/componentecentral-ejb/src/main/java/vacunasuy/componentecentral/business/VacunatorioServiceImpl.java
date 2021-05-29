@@ -2,6 +2,7 @@ package vacunasuy.componentecentral.business;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -318,13 +319,13 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			Vacunatorio vacunatorio = vacunatorioDAO.listarPorId(id);
 			if(vacunatorio==null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 			List<AgendaVacunatorioDTO> agendas = new ArrayList<AgendaVacunatorioDTO>();
+			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyy-MM-dd'T'hh:MM");
 			/* Itero cada puesto */
 			for (Puesto puesto : vacunatorio.getPuestos()) {
 				/* Itero cada agenda del puesto */
 				for (Agenda agenda : puesto.getAgendas()) {
-					System.out.println(LocalDateTime.parse(fecha));
 					/* Verifico si la fecha de la agenda es la solicitada */
-					if(agenda.getFecha().isEqual(LocalDateTime.parse(fecha)) || agenda.getFecha().isAfter(LocalDateTime.parse(fecha))) {
+					if(agenda.getFecha().toLocalDate().isEqual(LocalDateTime.parse(fecha).toLocalDate())  && (agenda.getFecha().isEqual(LocalDateTime.parse(fecha)) || agenda.getFecha().isAfter(LocalDateTime.parse(fecha)))) {
 						/* Construyo el DTO y lo agrego a la lista */
 						AgendaVacunatorioDTO agendaDTO = agendaConverter.fromEntityToAgendaVacunatorio(agenda);
 						agendas.add(agendaDTO);

@@ -25,9 +25,23 @@ class Usuario {
     json['roles'].forEach((rol) => {roles.add(Rol.fromJson(rol))});
   }
 
-  Map<String, dynamic> toJson() => {'documento': documento ?? "", 'nombre': nombre ?? "", 'apellido': apellido ?? "", 'correo': correo ?? "", 'fechaNacimiento': fechaNacimiento ?? ""};
+  Map<String, dynamic> toJson() => {
+        'documento': documento ?? "",
+        'nombre': nombre ?? "",
+        'apellido': apellido ?? "",
+        'correo': correo ?? "",
+        'fechaNacimiento': fechaNacimiento ?? "",
+        'roles': roles ?? "",
+      };
   Map<String, dynamic> toNestedJson() => {
-        "Usuario": {'documento': documento ?? "", 'nombre': nombre ?? "", 'apellido': apellido ?? "", 'correo': correo ?? "", 'fechaNacimiento': fechaNacimiento ?? ""},
+        "Usuario": {
+          'documento': documento ?? "",
+          'nombre': nombre ?? "",
+          'apellido': apellido ?? "",
+          'correo': correo ?? "",
+          'fechaNacimiento': fechaNacimiento ?? "",
+          'roles': roles ?? "",
+        },
       };
 
   Map<String, dynamic> toNestedValidatedJson(String pass) => {
@@ -37,5 +51,6 @@ class Usuario {
         'correo': correo ?? "",
         'fechaNacimiento': fechaNacimiento ?? "",
         'password': pass ?? "",
+        'roles': roles ?? "",
       };
 }

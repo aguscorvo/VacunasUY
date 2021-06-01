@@ -8,8 +8,8 @@ import 'Puesto.dart';
 class Vacunatorio {
   int id;
   String nombre;
-  String latitud;
-  String longitud;
+  double latitud;
+  double longitud;
   String direccion;
   Localidad localidad;
   Departamento departamento;

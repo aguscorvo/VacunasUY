@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:VacunasUY/assets/CustomNavBar.dart';
+import 'package:VacunasUY/paginas/BienvenidaTab.dart';
 import 'package:VacunasUY/tools/BackendConnection.dart';
 import 'package:VacunasUY/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'assets/CustomAppBar.dart';
 import 'objects/GubUY.dart';
-import 'paginas/VacunatoriosTab.dart';
 
 void main() async {
   await cookiesLoad();
@@ -29,6 +29,8 @@ void cookiesLoad() async {
       storedUserCredentials = emptyUser;
     } else if (storedUserCredentials.getUserData().correo == '') {
       storedUserCredentials = emptyUser;
+    } else {
+      await checkToken();
     }
   }
 }
@@ -52,6 +54,14 @@ void specialURL() async {
 
     BackendConnection bc = new BackendConnection();
     await bc.exitoLoginGubUY(gubAuth);
+  }
+}
+
+void checkToken() async {
+  var client = BackendConnection();
+  var valid = await client.getUsuarios();
+  if (valid.length == 0) {
+    storedUserCredentials = emptyUser;
   }
 }
 
@@ -93,7 +103,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Widget _body = VacunatoriosTab();
+  Widget _body = BienvenidaTab();
 
   _setBody(Widget val) {
     setState(() {

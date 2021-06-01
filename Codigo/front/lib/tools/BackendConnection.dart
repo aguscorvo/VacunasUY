@@ -12,8 +12,8 @@ import 'package:VacunasUY/objects/Departamento.dart';
 import 'package:http/http.dart' as http;
 import 'package:VacunasUY/tools/UserCredentials.dart';
 
-//const String baseUrl = "https://vacunasuy.web.elasticloud.uy/rest";
-const String baseUrl = "http://localhost:8080/rest";
+const String baseUrl = "https://vacunasuy.web.elasticloud.uy/rest";
+//const String baseUrl = "http://localhost:8080/rest";
 
 var authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials.getToken()}", "Content-Type": "application/json"};
 
@@ -71,9 +71,10 @@ class BackendConnection {
   //USUARIOS
   Future<List<Usuario>> getUsuarios() async {
     var response = await http.get(
-      '$baseUrl/vacunatorios',
+      '$baseUrl/usuarios',
       headers: authHeader,
     );
+
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
 
@@ -81,7 +82,6 @@ class BackendConnection {
       for (var i = 0; i < jsonResponse.length; i++) {
         contentList.add(Usuario.fromJson(jsonResponse[i]));
       }
-      print(contentList.toString());
       return contentList;
     }
     return new List<Usuario>();
@@ -91,7 +91,6 @@ class BackendConnection {
   Future<List<Vacunatorio>> getVacunatorios() async {
     var response = await http.get(
       '$baseUrl/vacunatorios',
-      headers: authHeader,
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -100,10 +99,10 @@ class BackendConnection {
       for (var i = 0; i < jsonResponse.length; i++) {
         contentList.add(Vacunatorio.fromJson(jsonResponse[i]));
       }
-      print(contentList.toString());
       return contentList;
+    } else {
+      return new List<Vacunatorio>();
     }
-    return new List<Vacunatorio>();
   }
 
   Future<List<Puesto>> getPuestosDeVacunatorio({int idVacunatorio}) async {
@@ -126,10 +125,7 @@ class BackendConnection {
 
   //DEPARTAMENTOS
   Future<List<Departamento>> getDepartamentos() async {
-    var response = await http.get(
-      '$baseUrl/departamentos',
-      headers: authHeader,
-    );
+    var response = await http.get('$baseUrl/departamentos');
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
 
@@ -137,7 +133,6 @@ class BackendConnection {
       for (var i = 0; i < jsonResponse.length; i++) {
         contentList.add(Departamento.fromJson(jsonResponse[i]));
       }
-      print(contentList.toString());
       return contentList;
     }
     return new List<Departamento>();
@@ -147,7 +142,6 @@ class BackendConnection {
   Future<List<Localidad>> getLocalidades() async {
     var response = await http.get(
       '$baseUrl/localidades',
-      headers: authHeader,
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -156,7 +150,6 @@ class BackendConnection {
       for (var i = 0; i < jsonResponse.length; i++) {
         contentList.add(Localidad.fromJson(jsonResponse[i]));
       }
-      print(contentList.toString());
       return contentList;
     }
     return new List<Localidad>();

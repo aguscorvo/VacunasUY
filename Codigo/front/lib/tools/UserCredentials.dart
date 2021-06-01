@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:html';
 
+import 'package:VacunasUY/objects/Rol.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:VacunasUY/objects/Usuario.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +16,11 @@ UserCredentials storedUserCredentials;
 
 Future<Null> saveUserCredentials() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString("vacunasUY", jsonEncode(storedUserCredentials));
+  final Storage sesionStorage = window.localStorage;
+  var usercredentials = jsonEncode(storedUserCredentials);
+  print(usercredentials.toString());
+  prefs.setString("vacunasUY", usercredentials);
+  sesionStorage['USERLOGIN'] = usercredentials;
 }
 
 final UserCredentials emptyUser = UserCredentials(
@@ -30,6 +36,78 @@ final UserCredentials logedOffUser = UserCredentials(
   token: "", //encrypter.encrypt("empty", iv: iv).base64,
   isNewUser: false,
 );
+
+bool isUserLogedOn() {
+  bool toReturn = false;
+
+  if (storedUserCredentials.toString() != "null" && storedUserCredentials.toString() != '') {
+    if (storedUserCredentials.token != "") {
+      if (storedUserCredentials.userData.toString() != "null") {
+        if (storedUserCredentials.userData.correo != "") {
+          toReturn = true;
+        }
+      }
+    }
+  }
+
+  return toReturn;
+}
+
+bool isUserType(String type) {
+  bool toReturn = false;
+
+  if (isUserLogedOn()) {
+    if (storedUserCredentials.userData.roles.toString() != "null") {
+      storedUserCredentials.userData.roles.forEach((element) {
+        if (element.nombre == type) {
+          toReturn = true;
+        }
+      });
+    }
+  }
+
+  return toReturn;
+}
+
+bool isUserAdmin() {
+  bool toReturn = false;
+
+  if (isUserType("Administrador")) {
+    toReturn = true;
+  }
+
+  return toReturn;
+}
+
+bool isUserAutoridad() {
+  bool toReturn = false;
+
+  if (isUserType("Autoridad")) {
+    toReturn = true;
+  }
+
+  return toReturn;
+}
+
+bool isUserVacunador() {
+  bool toReturn = false;
+
+  if (isUserType("Vacunador")) {
+    toReturn = true;
+  }
+
+  return toReturn;
+}
+
+bool isUserCiudadano() {
+  bool toReturn = false;
+
+  if (isUserType("Ciudadano")) {
+    toReturn = true;
+  }
+
+  return toReturn;
+}
 
 class UserCredentials {
   String name;
@@ -85,6 +163,13 @@ class UserCredentials {
     userData.correo = jsonUserData['correo'];
     userData.documento = jsonUserData['documento'];
     userData.fechaNacimiento = jsonUserData['fechaNacimiento'];
+    userData.roles = [];
+
+    List<dynamic> jsonRoles = jsonUserData['roles'];
+
+    jsonRoles.forEach((element) {
+      userData.roles.add(new Rol(id: element['id'], nombre: element['nombre']));
+    });
   }
 
   Map<String, dynamic> toJson() => {'nickName': name, 'token': token, 'isNewUser': isNewUser, 'userData': userData.toJson()};

@@ -51,38 +51,47 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    nabBarItems = <BottomNavigationBarItem>[
-      BottomNavigationBarItem(
-        icon: Icon(Icons.apartment_sharp),
-        label: 'Vacunatorios',
-        backgroundColor: colorCustom,
-      ),
-      BottomNavigationBarItem(
-        icon: Image(image: AssetImage('assets/icons/vacuna_xs.png')),
-        label: 'Vacunas',
-        backgroundColor: colorCustom,
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.list_alt),
-        label: 'Planes de Vacunacion',
-        backgroundColor: colorCustom,
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.coronavirus),
-        label: 'Enfermedades',
-        backgroundColor: colorCustom,
-      ),
-      BottomNavigationBarItem(
+    nabBarItems = [];
+
+    nabBarItems.add(BottomNavigationBarItem(
+      icon: Icon(Icons.apartment_sharp),
+      label: 'Vacunatorios',
+      backgroundColor: colorCustom,
+    ));
+
+    nabBarItems.add(BottomNavigationBarItem(
+      icon: Image(image: AssetImage('assets/icons/vacuna_xs.png')),
+      label: 'Vacunas',
+      backgroundColor: colorCustom,
+    ));
+
+    nabBarItems.add(BottomNavigationBarItem(
+      icon: Icon(Icons.list_alt),
+      label: 'Planes de Vacunacion',
+      backgroundColor: colorCustom,
+    ));
+
+    nabBarItems.add(BottomNavigationBarItem(
+      icon: Icon(Icons.coronavirus),
+      label: 'Enfermedades',
+      backgroundColor: colorCustom,
+    ));
+
+    if (isUserAdmin()) {
+      nabBarItems.add(BottomNavigationBarItem(
         icon: Icon(Icons.directions_boat),
         label: 'Proveedores',
         backgroundColor: colorCustom,
-      ),
-      BottomNavigationBarItem(
+      ));
+    }
+
+    if (isUserLogedOn()) {
+      nabBarItems.add(BottomNavigationBarItem(
         icon: Icon(Icons.menu_book),
         label: 'Agenda',
         backgroundColor: colorCustom,
-      ),
-    ];
+      ));
+    }
 
     return BottomNavigationBar(
       items: nabBarItems,

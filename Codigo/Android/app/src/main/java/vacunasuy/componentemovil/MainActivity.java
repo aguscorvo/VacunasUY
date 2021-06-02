@@ -4,12 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
-
+import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import vacunasuy.componentemovil.obj.DtUsuario;
 import vacunasuy.componentemovil.second.AddFechaNacimiento;
@@ -26,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.menu_home);
+
+        /* Mostrar token */
+        mostrarToken();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             DtUsuario usuario = DtUsuario.getInstance();
@@ -77,6 +84,17 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+    }
+
+    public void mostrarToken(){
+        Task<InstanceIdResult> task = FirebaseInstanceId.getInstance().getInstanceId();
+        task.addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult authResult) {
+                String fcmToken = authResult.getToken();
+                Log.d("TOKEN", fcmToken);
+            }
+        });
     }
 
     @Override

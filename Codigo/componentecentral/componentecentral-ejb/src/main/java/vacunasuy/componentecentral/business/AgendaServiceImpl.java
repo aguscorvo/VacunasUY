@@ -43,7 +43,11 @@ public class AgendaServiceImpl implements IAgendaService {
 	private IUsuarioService usuarioService;
 	
 	@EJB
+	private INotificacionService notificacionService;
+	
+	@EJB
 	private AgendaConverter agendaConverter;
+	
 	
 	@Override
 	public List<AgendaDTO> listar() throws VacunasUyException{
@@ -133,6 +137,10 @@ public class AgendaServiceImpl implements IAgendaService {
 				String nueva_fecha_hora = sumarDias(fecha_hora, periodo);
 				agendaDTO.setFecha(nueva_fecha_hora);				
 			}
+			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+			DateTimeFormatter formato1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			/* Se envía notificación para la primera agenda */
+			notificacionService.enviarNotificacionFirebase("", "Agenda registrada con éxito.", "Documento: " + ciudadano.getDocumento() + " - Fecha/hora: " + LocalDateTime.parse(agendas.get(0).getFecha(), formato).format(formato1) + " - Vacunatorio: " + puesto.getVacunatorio().getNombre() + " - Dirección: " + puesto.getVacunatorio().getDireccion());
 			return agendas;
 		}catch(Exception e){
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

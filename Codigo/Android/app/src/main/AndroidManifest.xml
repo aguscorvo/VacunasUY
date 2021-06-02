@@ -64,6 +64,7 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
 
+        <!-- Servicio para Firebase Push Notifications -->
         <service
             android:name=".notification.NotificacionFirebase"
             android:exported="false">
@@ -71,6 +72,11 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <!-- Icono para la notificación -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_vacunatorio" />
 
     </application>
 

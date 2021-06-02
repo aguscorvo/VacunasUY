@@ -16,4 +16,8 @@ public final class Constantes {
 	/* Nodos periféricos */
 	public static final String NODOS_PERIFERICOS_REST_URL = "http://localhost:8081";
 	
+	/* Notificaciones Firebase */
+	public static final String FIREBASE_API_KEY = "AAAA-gQUGLA:APA91bHmp4bPTOP1nX9zvKZWOG-kwJ6REZ7D66OJUtXHSavf1YxgRHLZJGG3jeQP8-1CQtUufu8GUSo_SxjC1GvoAJTiOvSxGlbKaFqoj1lnE75RUxQdIwatvGTvv_xSVdcbYjj7uPQh";
+	public static final String FIREBASE_FCM_URL = "https://fcm.googleapis.com/fcm/send";
+	
 }

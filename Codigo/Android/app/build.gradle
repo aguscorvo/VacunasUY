@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.application'
+    // Se agrega para trabajar con Firebase
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -55,5 +57,8 @@ dependencies {
 
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
+
+    // Se agrega para trabajar con Firebase
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 
 }

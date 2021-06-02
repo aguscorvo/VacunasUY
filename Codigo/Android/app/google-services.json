@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1073810249904",
+    "project_id": "vacunasuynotificaciones",
+    "storage_bucket": "vacunasuynotificaciones.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073810249904:android:afd02d5c3d5939601cc375",
+        "android_client_info": {
+          "package_name": "vacunasuy.componentemovil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073810249904-bdg43fidlnbba59e1pmu70h4144df6ue.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZcYTPtMgI2gC_4RxinQsR8O_DUBi43oA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073810249904-bdg43fidlnbba59e1pmu70h4144df6ue.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

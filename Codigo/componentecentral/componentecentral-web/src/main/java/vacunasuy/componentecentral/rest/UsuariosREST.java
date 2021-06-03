@@ -18,6 +18,7 @@ import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
+import vacunasuy.componentecentral.dto.UsuarioRegistrarTFDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
@@ -117,7 +118,6 @@ public class UsuariosREST {
 		}
 	}
 	
-	
 	@POST
 	@Path("/asignarVacunador")
 	public Response asignarVacunadorAPuesto(AtiendeCrearDTO atiendeDTO) {
@@ -134,7 +134,24 @@ public class UsuariosREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}
-
+	}
+	
+	@POST
+	@Path("/registrarTokenFirebase")
+	public Response registrarTokenFirebase(UsuarioRegistrarTFDTO request) {
+		RespuestaREST<UsuarioDTO> respuesta = null;
+		try {
+			usuarioService.registrarTokenFirebase(request);
+			respuesta = new RespuestaREST<UsuarioDTO>(true, "Token registrado con éxito.");
+			return Response.ok(respuesta).build();
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<UsuarioDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
 	}
 	
 }

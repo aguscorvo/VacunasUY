@@ -25,5 +25,6 @@ public class UsuarioLoginExitosoDTO {
 	private List<RolDTO> roles;
 	private SectorLaboralDTO sectorLaboral;
 	private String token;
+	private String tokenFirebase;
 	
 }

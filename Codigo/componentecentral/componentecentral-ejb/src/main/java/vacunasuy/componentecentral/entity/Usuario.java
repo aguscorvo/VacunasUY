@@ -50,6 +50,8 @@ public class Usuario implements Serializable {
 	private LocalDate fechaNacimiento;
 	@Column(name = "password", length = 255)
 	private String password;
+	@Column(name = "token_firebase", length = 255)
+	private String tokenFirebase;
 	
 	@ManyToMany
 	@JoinTable(name = "usuarios_roles", 

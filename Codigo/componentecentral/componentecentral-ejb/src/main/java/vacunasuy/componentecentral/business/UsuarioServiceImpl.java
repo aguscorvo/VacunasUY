@@ -24,6 +24,7 @@ import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
+import vacunasuy.componentecentral.dto.UsuarioRegistrarTFDTO;
 import vacunasuy.componentecentral.entity.ActoVacunal;
 import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.Atiende;
@@ -273,6 +274,18 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		}
 		return false;
 	}
-
+	
+	@Override
+	public void registrarTokenFirebase(UsuarioRegistrarTFDTO usuarioDTO) throws VacunasUyException {
+		try {
+			/* Se valida que exista el usuario */
+			Usuario usuario = usuarioDAO.listarPorId(usuarioDTO.getId());
+			if(usuario == null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			usuario.setTokenFirebase(usuarioDTO.getToken());
+			usuarioDAO.editar(usuario);
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
 
 }

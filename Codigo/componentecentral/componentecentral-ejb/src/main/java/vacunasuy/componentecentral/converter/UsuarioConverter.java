@@ -80,6 +80,7 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 			.roles(rolConverter.fromEntity(e.getRoles()))
 			.sectorLaboral(sectorLaboralConverter.fromEntity(e.getSectorLaboral()))
 			.token(token)
+			.tokenFirebase(e.getTokenFirebase())
 			.build();
 	}
 	

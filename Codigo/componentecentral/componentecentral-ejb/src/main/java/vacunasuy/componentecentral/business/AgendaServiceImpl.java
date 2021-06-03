@@ -41,7 +41,10 @@ public class AgendaServiceImpl implements IAgendaService {
 	
 	@EJB
 	private IUsuarioService usuarioService;
-	
+
+	@EJB
+	private IVacunatorioService vacunatorioService;
+
 	@EJB
 	private INotificacionService notificacionService;
 	
@@ -81,10 +84,15 @@ public class AgendaServiceImpl implements IAgendaService {
 		Puesto puesto = puestoDAO.listarPorId(agendaDTO.getPuesto());
 		if(puesto==null)throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		
+		//se valida que el puesto esté en un vacunatorio apropiado
+		boolean puesto_valido = vacunatorioService.vacunatorioTienePlan(puesto.getVacunatorio().getId(), agendaDTO.getPlanVacunacion());
+		if (!puesto_valido)throw new VacunasUyException("El vacunatorio asociado al puesto ingresado no tiene vacunas para el plan ingresado.", VacunasUyException.NO_EXISTE_REGISTRO);
+		
 		//se valida que el plan de vacunacion exista
 		PlanVacunacion planVacunacion = planVacunacionDAO.listarPorId(agendaDTO.getPlanVacunacion());
 		if(planVacunacion==null)throw new VacunasUyException("El plan de vacunación indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		
+		//se valida que el usuario no esté agendado para el plan
 		boolean hay_agenda = usuarioService.existeAgenda(agendaDTO.getUsuario(), agendaDTO.getPlanVacunacion());
 		if(hay_agenda)throw new VacunasUyException("El usuario ya está agendado para este plan de vacunación.", VacunasUyException.EXISTE_REGISTRO);
 		

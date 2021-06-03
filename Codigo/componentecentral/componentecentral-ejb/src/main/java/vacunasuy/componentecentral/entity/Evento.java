@@ -38,7 +38,7 @@ public class Evento implements Serializable {
 	private String detalle;
 	@Column(name = "cantidad", nullable = false)
 	private Long cantidad;
-	@Column(name = "estado", nullable =false)
+	@Column(name = "estado")
 	private Enum<EstadoEvento> estado;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

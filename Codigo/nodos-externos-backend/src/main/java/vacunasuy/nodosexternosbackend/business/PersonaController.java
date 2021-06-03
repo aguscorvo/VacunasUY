@@ -27,7 +27,7 @@ public class PersonaController {
 	private PersonaConverter personaConverter;
 	
 	@GetMapping(path= "/{cedula}")
-	public ResponseEntity<WrapperResponse<PersonaDTO>> getPersona(@PathVariable("cedula") int cedula){
+	public ResponseEntity<WrapperResponse<PersonaDTO>> getPersona(@PathVariable("cedula") String cedula){
 		WrapperResponse<PersonaDTO> respuesta = null;
 		try {
 			respuesta = new WrapperResponse<PersonaDTO>(true, "Persona listada con éxito.", 
@@ -38,32 +38,5 @@ public class PersonaController {
 			return respuesta.createResponse(HttpStatus.INTERNAL_SERVER_ERROR);
 		}	
 	}
-	
-	//	
-//	@PostMapping
-//	public ResponseEntity<WrapperResponse<PersonaDTO>> crear(@RequestBody PersonaDTO request){
-//		WrapperResponse<PersonaDTO> respuesta = null;
-//		try {
-//			respuesta = new WrapperResponse<PersonaDTO>(true, "Personas creada con éxito.", 
-//					personaConverter.fromEntity(personaService.crear(personaConverter.fromDTO(request))));
-//			return respuesta.createResponse(HttpStatus.OK);
-//		}catch(Exception e) {
-//			respuesta = new WrapperResponse<PersonaDTO>(false, e.getLocalizedMessage());
-//			return respuesta.createResponse(HttpStatus.INTERNAL_SERVER_ERROR);
-//		}		
-//	}
-	
-//	@GetMapping
-//	public ResponseEntity<WrapperResponse<List<PersonaDTO>>> listar(){
-//		WrapperResponse<List<PersonaDTO>> respuesta = null;
-//		try {
-//			respuesta = new WrapperResponse<List<PersonaDTO>>(true, "Personas listadas con éxito.", 
-//					personaConverter.fromEntity(personaService.listar()));
-//			return respuesta.createResponse(HttpStatus.OK);
-//		}catch (Exception e) {
-//			respuesta = new WrapperResponse<List<PersonaDTO>>(false, e.getLocalizedMessage());
-//			return respuesta.createResponse(HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
 	
 }

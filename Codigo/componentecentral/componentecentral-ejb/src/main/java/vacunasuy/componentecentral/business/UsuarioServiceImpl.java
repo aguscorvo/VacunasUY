@@ -13,6 +13,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.jsonwebtoken.Jwts;
@@ -308,9 +309,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	private UsuarioDNICDTO getDatosDNIC(String cedula) {
 		Client cliente = ClientBuilder.newClient();
 		WebTarget target = cliente.target(Constantes.NODOS_EXTERNOS_REST_URL+"/personas/"+cedula);
-		String response = target.request(MediaType.APPLICATION_JSON)
+		UsuarioDNICDTO response = target.request(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .get();
+                .get(UsuarioDNICDTO.class);
 		return response;
 	}
 

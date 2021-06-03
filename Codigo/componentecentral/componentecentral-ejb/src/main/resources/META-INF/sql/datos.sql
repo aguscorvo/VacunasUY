@@ -5,11 +5,17 @@ INSERT INTO roles (nombre) VALUES ('Vacunador');
 INSERT INTO roles (nombre) VALUES ('Ciudadano');
 
 /* Sectores */
-INSERT INTO sectores_laborales (nombre) VALUES ('Salud');
-INSERT INTO sectores_laborales (nombre) VALUES ('Educacion');
-INSERT INTO sectores_laborales (nombre) VALUES ('Comercio');
-INSERT INTO sectores_laborales (nombre) VALUES ('Funcion Publica');
-INSERT INTO sectores_laborales (nombre) VALUES ('Defensa');
+INSERT INTO sectores_laborales (nombre) VALUES ('Bombero');
+INSERT INTO sectores_laborales (nombre) VALUES ('Militar');
+INSERT INTO sectores_laborales (nombre) VALUES ('Personal de la Salud');
+INSERT INTO sectores_laborales (nombre) VALUES ('Policía');
+INSERT INTO sectores_laborales (nombre) VALUES ('Docente');
+INSERT INTO sectores_laborales (nombre) VALUES ('Otra ocupación');
+INSERT INTO sectores_laborales (nombre) VALUES ('No tiene');
+INSERT INTO sectores_laborales (nombre) VALUES ('Jubilado');
+
+
+
 
 /* Departamentos */
 INSERT INTO departamentos (nombre) VALUES ('Montevideo');

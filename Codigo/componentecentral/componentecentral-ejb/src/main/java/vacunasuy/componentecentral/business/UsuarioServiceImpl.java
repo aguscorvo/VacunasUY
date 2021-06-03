@@ -4,13 +4,21 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import vacunasuy.componentecentral.converter.AtiendeConverter;
+import vacunasuy.componentecentral.converter.SectorLaboralConverter;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
 import vacunasuy.componentecentral.dao.IAgendaDAO;
@@ -21,6 +29,7 @@ import vacunasuy.componentecentral.dao.IUsuarioDAO;
 import vacunasuy.componentecentral.dto.AtiendeCrearDTO;
 import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
+import vacunasuy.componentecentral.dto.UsuarioDNICDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginExitosoDTO;
@@ -61,6 +70,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	
 	@EJB
 	private AtiendeConverter atiendeConverter;
+	
+	@EJB
+	private SectorLaboralConverter sectorLaboralConverter;
 
 	@Override
 	public List<UsuarioDTO> listar() throws VacunasUyException {
@@ -185,9 +197,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			/* Le agrego el rol de ciudadano */
 			Rol rol = rolDAO.listarPorId(4L);
 			usuario.getRoles().add(rol);
-			/* Le agrego un sector aleatorio */
-			/*SectorLaboral sector = sectorLaboralDAO.listarRandom();
-			usuario.setSectorLaboral(sector);*/
+			/* Le agrego fecha de nacimiento*/
+			UsuarioDNICDTO usuarioDNIC = getDatosDNIC(usuarioDTO.getNumero_documento());
+			usuario.setDocumento(usuarioDNIC.getCedula());
+			/* Le agrego un sector laboral aleatorio */
+			List<SectorLaboral> sectoresLaborales = sectorLaboralDAO.listar();
+			SectorLaboral sectorLaboral = sectoresLaborales.stream().filter(sector -> 
+				sector.getNombre().equals(usuarioDNIC.getSectorLaboral())).findFirst().orElse(null);
+			usuario.setSectorLaboral(sectorLaboral);
 			usuario = usuarioDAO.crear(usuario);
 		}else {
 			/* Verifico si el usuario tiene rol ciudadano */
@@ -286,6 +303,15 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		} catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
+	}
+	
+	private UsuarioDNICDTO getDatosDNIC(String cedula) {
+		Client cliente = ClientBuilder.newClient();
+		WebTarget target = cliente.target(Constantes.NODOS_EXTERNOS_REST_URL+"/personas/"+cedula);
+		String response = target.request(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .get();
+		return response;
 	}
 
 }

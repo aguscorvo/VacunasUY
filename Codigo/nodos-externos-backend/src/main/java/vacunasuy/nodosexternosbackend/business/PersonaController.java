@@ -1,5 +1,8 @@
 package vacunasuy.nodosexternosbackend.business;
 
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,15 +30,13 @@ public class PersonaController {
 	private PersonaConverter personaConverter;
 	
 	@GetMapping(path= "/{cedula}")
-	public ResponseEntity<WrapperResponse<PersonaDTO>> getPersona(@PathVariable("cedula") String cedula){
-		WrapperResponse<PersonaDTO> respuesta = null;
+	public ResponseEntity<PersonaDTO> getPersona(@PathVariable("cedula") String cedula){
+		PersonaDTO respuesta = null;
 		try {
-			respuesta = new WrapperResponse<PersonaDTO>(true, "Persona listada con éxito.", 
-					personaConverter.fromEntity(personaService.getPersona( cedula )) );
-			return respuesta.createResponse(HttpStatus.OK);			
+			respuesta = personaConverter.fromEntity(personaService.getPersona(cedula));
+			return ResponseEntity.ok(respuesta);	
 		}catch(Exception e) {
-			respuesta = new WrapperResponse<PersonaDTO>(false, e.getLocalizedMessage());
-			return respuesta.createResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}	
 	}
 	

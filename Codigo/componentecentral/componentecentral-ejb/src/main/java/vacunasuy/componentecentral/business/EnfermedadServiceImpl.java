@@ -33,6 +33,15 @@ public class EnfermedadServiceImpl implements IEnfermedadService{
 	public Enfermedad listarPorId(Long id) {
 		return enfermedadDAO.listarPorId(id);
 	}
+	
+	@Override
+	public List<EnfermedadDTO> listarEnfermedadesPorUsuario(Long idUsuario) throws VacunasUyException {
+		try {
+			return eConverter.fromEntity(enfermedadDAO.listarEnfermedadesPorUsuario(idUsuario));
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
 
 	@Override
 	public EnfermedadDTO crear(EnfermedadCrearDTO enfermedadCrearDTO) throws VacunasUyException {

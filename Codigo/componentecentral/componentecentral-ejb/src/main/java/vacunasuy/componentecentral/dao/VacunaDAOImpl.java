@@ -6,6 +6,7 @@ import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import vacunasuy.componentecentral.entity.Vacuna;
 
@@ -25,6 +26,13 @@ public class VacunaDAOImpl implements IVacunaDAO{
 	@Override
 	public Vacuna listarPorId(Long id) {
 		return em.find(Vacuna.class, id);
+	}
+	
+	@Override
+	public List<Vacuna> listarVacunasPorUsuario(Long idUsuario) {
+		TypedQuery<Vacuna> vacunas = em.createNamedQuery("listarVacunasPorUsuario", Vacuna.class);
+		vacunas.setParameter("idUsuario", idUsuario);
+		return vacunas.getResultList();
 	}
 
 	@Override

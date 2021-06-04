@@ -9,6 +9,7 @@ public interface IEnfermedadDAO {
 
 	public List<Enfermedad> listar();
 	public Enfermedad listarPorId(Long id);
+	public List<Enfermedad> listarEnfermedadesPorUsuario(Long idUsuario);
 	public Enfermedad crear(Enfermedad enfermedad);
 	public Enfermedad editar(Enfermedad enfermedad);
 	public void eliminar(Enfermedad enfermedad);

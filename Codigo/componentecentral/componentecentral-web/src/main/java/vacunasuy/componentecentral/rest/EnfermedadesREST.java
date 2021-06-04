@@ -41,6 +41,21 @@ public class EnfermedadesREST {
 		}
 	}
 	
+	@GET
+	@Path("/listarEnfermedadesPorUsuario/{id}")
+	//@RecursoProtegidoJWT
+	public Response listar(@PathParam("id") Long id) {
+		RespuestaREST<List<EnfermedadDTO>> respuesta = null;
+		try {
+			List<EnfermedadDTO> enfermedades = eService.listarEnfermedadesPorUsuario(id);
+			respuesta = new RespuestaREST<List<EnfermedadDTO>>(true, "Enfermedades listadas con éxito.", enfermedades);
+			return Response.ok(respuesta).build();
+		} catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<>(false, e.getLocalizedMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}
+	}
+	
 	@POST
 	public Response crear(EnfermedadCrearDTO request) {
 		RespuestaREST<EnfermedadDTO> respuesta = null;

@@ -1,12 +1,11 @@
 package vacunasuy.componentecentral.dao;
 
 import java.util.List;
-
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
+import javax.persistence.TypedQuery;
 import vacunasuy.componentecentral.entity.Enfermedad;
 
 @Singleton
@@ -25,6 +24,13 @@ public class EnfermedadDAOImpl implements IEnfermedadDAO{
 	@Override
 	public Enfermedad listarPorId(Long id) {
 		return em.find(Enfermedad.class, id);
+	}
+	
+	@Override
+	public List<Enfermedad> listarEnfermedadesPorUsuario(Long idUsuario) {
+		TypedQuery<Enfermedad> enfermedades = em.createNamedQuery("listarEnfermedadesPorUsuario", Enfermedad.class);
+		enfermedades.setParameter("idUsuario", idUsuario);
+		return enfermedades.getResultList();
 	}
 
 	@Override

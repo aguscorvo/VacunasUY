@@ -11,9 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ActoVacunalCrearDTO {
+public class VacunaMinDTO {
+	
+	private Long id;
+	private String nombre;
+	private int cant_dosis;
+	private int periodo;
+	private int inmunidad;
 
-	private String fecha;
-	private Long planVacunacion;
-	private Long usuario;
 }

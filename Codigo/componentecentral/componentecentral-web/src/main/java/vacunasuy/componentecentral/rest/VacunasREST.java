@@ -1,7 +1,6 @@
 package vacunasuy.componentecentral.rest;
 
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -13,12 +12,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-
 import vacunasuy.componentecentral.business.IVacunaService;
 import vacunasuy.componentecentral.dto.VacunaCrearDTO;
 import vacunasuy.componentecentral.dto.VacunaDTO;
+import vacunasuy.componentecentral.dto.VacunaMinDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
-
 
 @RequestScoped
 @Path("/vacunas")
@@ -36,6 +34,21 @@ public class VacunasREST {
 		try {
 			List<VacunaDTO> vacunas = vacunaService.listar();
 			respuesta = new RespuestaREST<List<VacunaDTO>>(true, "Vacunas listadas con éxito.", vacunas);
+			return Response.ok(respuesta).build();
+		} catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<>(false, e.getLocalizedMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}
+	}
+	
+	@GET
+	@Path("/listarVacunasPorUsuario/{id}")
+	//@RecursoProtegidoJWT
+	public Response listarVacunasPorUsuario(@PathParam("id") Long id) {
+		RespuestaREST<List<VacunaMinDTO>> respuesta = null;
+		try {
+			List<VacunaMinDTO> vacunas = vacunaService.listarVacunasPorUsuario(id);
+			respuesta = new RespuestaREST<List<VacunaMinDTO>>(true, "Vacunas listadas con éxito.", vacunas);
 			return Response.ok(respuesta).build();
 		} catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<>(false, e.getLocalizedMessage());

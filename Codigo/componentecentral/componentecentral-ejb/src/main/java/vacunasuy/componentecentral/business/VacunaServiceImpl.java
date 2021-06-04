@@ -10,6 +10,7 @@ import vacunasuy.componentecentral.dao.IEnfermedadDAO;
 import vacunasuy.componentecentral.dao.IVacunaDAO;
 import vacunasuy.componentecentral.dto.VacunaCrearDTO;
 import vacunasuy.componentecentral.dto.VacunaDTO;
+import vacunasuy.componentecentral.dto.VacunaMinDTO;
 import vacunasuy.componentecentral.entity.Enfermedad;
 import vacunasuy.componentecentral.entity.Vacuna;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -38,6 +39,15 @@ public class VacunaServiceImpl implements IVacunaService{
 	@Override
 	public Vacuna listarPorId(Long id) {
 		return vacunaDAO.listarPorId(id);
+	}
+	
+	@Override
+	public List<VacunaMinDTO> listarVacunasPorUsuario(Long idUsuario) throws VacunasUyException {
+		try {
+			return vacunaConverter.fromEntityToMin(vacunaDAO.listarVacunasPorUsuario(idUsuario));
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
 	}
 
 	@Override

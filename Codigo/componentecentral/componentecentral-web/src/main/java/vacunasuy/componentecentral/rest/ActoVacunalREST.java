@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import vacunasuy.componentecentral.business.IActoVacunalService;
+import vacunasuy.componentecentral.dto.ActoVacunalCertificadoDTO;
 import vacunasuy.componentecentral.dto.ActoVacunalCrearDTO;
 import vacunasuy.componentecentral.dto.ActoVacunalDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -54,6 +55,25 @@ public class ActoVacunalREST {
 			return Response.ok(respuesta).build();
 		}catch(VacunasUyException e) {
 			respuesta = new RespuestaREST<ActoVacunalDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
+	
+	@GET
+	@Path("/listarActosVacunalesPorUsuarioEnfermedad/{idUsuario}/{idEnfermedad}")
+//	@RecursoProtegidoJWT
+	public Response listarActosVacunalesPorUsuarioEnfermedad(@PathParam("idUsuario") Long idUsuario, @PathParam("idEnfermedad") Long idEnfermedad) {
+		RespuestaREST<List<ActoVacunalCertificadoDTO>> respuesta =null;
+		try {
+			List<ActoVacunalCertificadoDTO> actosVacunales = actoVacunalService.listarActosVacunalesPorUsuarioEnfermedad(idUsuario, idEnfermedad);
+			respuesta = new RespuestaREST<List<ActoVacunalCertificadoDTO>>(true, "Actos vacunales listados con éxito.", actosVacunales);
+			return Response.ok(respuesta).build();
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<List<ActoVacunalCertificadoDTO>>(false, e.getLocalizedMessage());
 			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			}else {

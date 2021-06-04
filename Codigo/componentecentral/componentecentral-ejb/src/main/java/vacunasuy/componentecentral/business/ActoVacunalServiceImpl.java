@@ -8,11 +8,14 @@ import javax.ejb.Stateless;
 
 import vacunasuy.componentecentral.converter.ActoVacunalConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
+import vacunasuy.componentecentral.dao.IEnfermedadDAO;
 import vacunasuy.componentecentral.dao.IPlanVacunacionDAO;
 import vacunasuy.componentecentral.dao.IUsuarioDAO;
+import vacunasuy.componentecentral.dto.ActoVacunalCertificadoDTO;
 import vacunasuy.componentecentral.dto.ActoVacunalCrearDTO;
 import vacunasuy.componentecentral.dto.ActoVacunalDTO;
 import vacunasuy.componentecentral.entity.ActoVacunal;
+import vacunasuy.componentecentral.entity.Enfermedad;
 import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.entity.Usuario;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -32,6 +35,9 @@ public class ActoVacunalServiceImpl implements IActoVacunalService {
     
     @EJB
     private IUsuarioDAO usuarioDAO;
+    
+    @EJB
+    private IEnfermedadDAO enfermedadDAO;
     
     @EJB
     private ActoVacunalConverter actoVacunalConverter;
@@ -56,6 +62,21 @@ public class ActoVacunalServiceImpl implements IActoVacunalService {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}    	
 	}
+    
+    @Override
+	public List<ActoVacunalCertificadoDTO> listarActosVacunalesPorUsuarioEnfermedad(Long idUsuario, Long idEnfermedad) throws VacunasUyException {
+    	try {
+    		/* Se valida que exista el usuario */
+        	Usuario usuario = usuarioDAO.listarPorId(idUsuario); 
+        	if(usuario == null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+        	/* Se valida que exista la enfermedad */
+        	Enfermedad enfermedad = enfermedadDAO.listarPorId(idEnfermedad); 
+        	if(enfermedad == null) throw new VacunasUyException("La enfermedad indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+        	return actoVacunalDAO.listarActosVacunalesPorUsuarioEnfermedad(idUsuario, idEnfermedad);
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+    }
 	
 	@Override
 	public ActoVacunalDTO crear(ActoVacunalCrearDTO actoVacunalDTO) throws VacunasUyException{

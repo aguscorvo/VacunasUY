@@ -27,7 +27,7 @@ public class NotificacionServiceImpl implements INotificacionService {
 					.body(mensaje)
 					.build();
 			NotificacionFirebase notificacionFirebase = NotificacionFirebase.builder()
-					.to("eeMeBSquQ4CRujuZalRJsK:APA91bECd2VLnHMxT3OJX9eRzEVGvTyPHp-rRWIQEhTFuXUc8oclxUVOQ6vorybHsFdvlT3PL2MRR9pvlVYO4Gi5HGqDVdhUKuqjIJl0gbDE8RwVM06UXm8yiowazMUglxSk3ekvdh2v")
+					.to(destinatario)
 					.notification(notificacion)
 					.build();
 			Response response = target.request(MediaType.APPLICATION_JSON)

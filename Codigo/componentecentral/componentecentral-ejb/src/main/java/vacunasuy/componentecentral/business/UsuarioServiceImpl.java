@@ -200,7 +200,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			usuario.getRoles().add(rol);
 			/* Le agrego fecha de nacimiento*/
 			UsuarioDNICDTO usuarioDNIC = getDatosDNIC(usuarioDTO.getNumero_documento());
-			usuario.setDocumento(usuarioDNIC.getCedula());
+			usuario.setFechaNacimiento(LocalDate.parse(usuarioDNIC.getFechaDeNacimiento()));
 			/* Le agrego un sector laboral aleatorio */
 			List<SectorLaboral> sectoresLaborales = sectorLaboralDAO.listar();
 			SectorLaboral sectorLaboral = sectoresLaborales.stream().filter(sector -> 

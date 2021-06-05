@@ -4,17 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.jsonwebtoken.Jwts;
@@ -292,48 +288,16 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		usuarioDAO.editar(usuarioAux);
 	}
 	
-	//desde backend
-	@Override
-	public void agregarAgenda(Long usuario, Long agenda) throws VacunasUyException{
-		Agenda agendaAux = agendaDAO.listarPorId(agenda);
-		if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
-		usuarioAux.getAgendas().add(agendaAux);
-		usuarioDAO.editar(usuarioAux);
-	}
-	
-	@Override
-	public void cancelarAgenda(Long usuario, Long agenda) throws VacunasUyException{
-		try {
-			Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
-			if(usuarioAux==null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			Agenda agendaAux = agendaDAO.listarPorId(agenda);
-			if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			// se obtienen las agendas posteriores del mismo plan
-//			List<Agenda> agendas = usuarioAux.getAgendas();
-//			List<Agenda> agendasAEliminar = agendas.stream()
-//					.filter(a -> a.getPlanVacunacion()==agendaAux.getPlanVacunacion() && 
-//						(a.getFecha().compareTo(agendaAux.getFecha()) > 0))
-//					.collect(Collectors.toList());	
-			
-//			List<Agenda> agendasAEliminar = new ArrayList<Agenda>();			segunda prueba
-//			agendasAEliminar.add(agendaAux);
-//			for(Agenda a: agendas) {
-//				if((a.getPlanVacunacion()==agendaAux.getPlanVacunacion() ) &&  (a.getFecha().compareTo(agendaAux.getFecha()) > 0)) {
-//					agendasAEliminar.add(a);
-//				}
-//			}
-			//se borran las agendas
-//			for(Agenda a: agendasAEliminar) {
-//				agendaService.eliminar(a.getId());
-//			}	
-			agendaService.eliminar(agenda);
-
-		}catch (Exception e) {
-			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-		}
-	}
-
+//	//desde backend
+//	@Override
+//	public void agregarAgenda(Long usuario, Long agenda) throws VacunasUyException{
+//		Agenda agendaAux = agendaDAO.listarPorId(agenda);
+//		if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+//		Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
+//		usuarioAux.getAgendas().add(agendaAux);
+//		usuarioDAO.editar(usuarioAux);
+//	}
+		
 
 	@Override
 	public boolean existeAgenda(Long id_usuario, Long id_plan) throws VacunasUyException {

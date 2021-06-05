@@ -43,6 +43,7 @@ public class AgendaDAOImpl implements IAgendaDAO {
 	
 	@Override
 	public void eliminar(Agenda agenda) {
+		System.out.println("adentro de eliminar en AgendaDAO, agenda con id: " + agenda.getId());
 		em.remove(agenda);
 	}
 	

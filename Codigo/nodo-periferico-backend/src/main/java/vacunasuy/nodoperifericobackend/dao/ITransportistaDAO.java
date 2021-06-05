@@ -7,5 +7,6 @@ import vacunasuy.nodoperifericobackend.entity.Transportista;
 
 @Repository
 public interface ITransportistaDAO extends MongoRepository<Transportista, TransportistaDTO>{
-
+	
+	
 }

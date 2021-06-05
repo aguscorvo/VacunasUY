@@ -11,5 +11,6 @@ import vacunasuy.nodoperifericobackend.entity.Agenda;
 public interface IAgendaDAO extends MongoRepository<Agenda, AgendaDTO> {
 
 	public List<Agenda> findByFechaLessThanAndIdVacunatorioAndVacunado(LocalDateTime fecha, Long idVacunatorio, Boolean vacunado);
+	public List<Agenda> findByFechaGreaterThanAndVacunado(LocalDateTime fecha, Boolean vacunado);
 	
 }

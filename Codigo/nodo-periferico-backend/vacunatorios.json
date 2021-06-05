@@ -1,0 +1,42 @@
+{"_id":1,"nombre":"Antel Arena","direccion":"Dámaso A. Larrañaga entre Jose P. Varela y J. Serrato","clave":"78a7506b-74e5-4d34-81ba-6aff0765c87d"}
+{"_id":2,"nombre":"Hospital de Clinicas","direccion":"Av.Italia S/N 1º Piso Consulta Externa Ala Este","clave":"c9aa375f-a4cf-47ed-bae0-2e9f4c49515b"}
+{"_id":3,"nombre":"Hospital Pereira Rossell","direccion":"Lord Ponsomby (Vacunatorio)","clave":"eb310d55-e120-4d40-90f8-9dfe428146fe"}
+{"_id":4,"nombre":"Hospital de Canelones","direccion":"Cendán esq G Taube","clave":"c20d9d32-8305-46ae-935e-78800c14e097"}
+{"_id":5,"nombre":"Hospital de Pando","direccion":"Luis Correch y Ruta 8","clave":"7f9314ad-0973-4a55-88f7-942b610df462"}
+{"_id":6,"nombre":"Centro Proteccion de Choferes","direccion":"Doctor Julian Bengoa ente 25 de Mayo y Sarandi","clave":"61880536-6bec-4122-99ea-5c74eefc4ec9"}
+{"_id":7,"nombre":"Hospital ASSE","direccion":"Artigas 626","clave":"c334c98d-8de1-4a55-bfd4-8444dc289d49"}
+{"_id":8,"nombre":"Campus Municipal de Maldonado","direccion":"3 de Febrero entre Av. Fco. Acuña de Figueroa y Santa Teresa","clave":"941bd7e0-1810-4141-ad2e-95322b3c835a"}
+{"_id":9,"nombre":"Hospital de Pan de Azucar","direccion":"Rincón 571 entre Francisco Bonilla y Lazo Batista y Goicochea","clave":"bd26242e-0d36-4035-bb0b-9168961901a4"}
+{"_id":10,"nombre":"Estadio Municipal Juan Antonio Lavalleja","direccion":"Hector Gutierrez Ruiz s/nº entre Ciudad de Aiguá y Matías Lazarte","clave":"bc9f787e-af30-40cb-8fa4-6e02fc191fb4"}
+{"_id":11,"nombre":"Hospital ASSE - CP Florida CHLAEP","direccion":"Baltasar Brum 414","clave":"30c811de-bf61-4021-804e-3ac4ddff0065"}
+{"_id":12,"nombre":"Hospital Samuel Berton CHLA-EP","direccion":"Av Batlle y Ordoñez y Bassahun","clave":"a0e0be6a-af47-4e7a-8e5b-3d3aa1993b4c"}
+{"_id":13,"nombre":"Hospital ASSE","direccion":"Av Artigas 346 entre Ruta 21 y 19 de Abril","clave":"a4136fb1-7eff-4304-a4b8-e5833672e1ea"}
+{"_id":14,"nombre":"Hospital de Mercedes","direccion":"Florencio Sánchez s/n esq Cerrito","clave":"b3d5ab44-5854-4a70-bffc-91c404170b52"}
+{"_id":15,"nombre":"Centro de Salud Cerro","direccion":"Doctor Pedro Catellino","clave":"4abd3f66-eb49-4894-a07e-6a055cf0c820"}
+{"_id":16,"nombre":"Asociación Española","direccion":"Margarita 5718 esq. Garzón","clave":"7413744e-7b9c-4769-b54d-de95f10dbdc4"}
+{"_id":17,"nombre":"Centro Salud ASSE","direccion":"Secco García y García Arocena s/n","clave":"9e36add3-0460-4cb7-9ae7-6f8290b2b852"}
+{"_id":18,"nombre":"Local Espacio Adolescente","direccion":"Eduardo Fabini esquina Minas","clave":"ff491c79-9326-4240-9c02-562b8a1594fe"}
+{"_id":19,"nombre":"Hospital ASSE","direccion":"Pasteur 1052 entre Treinta y Tres y Faustino Harrison","clave":"808532b1-820b-4f31-bbc8-9b9d9fbb2786"}
+{"_id":20,"nombre":"Círculo Católico","direccion":"Libertad 136","clave":"5b3fd21a-e961-4763-8f99-e05f96927a76"}
+{"_id":21,"nombre":"Plaza de Deportes","direccion":"Artigas entre Fondar y Herrera","clave":"90eda8d0-0d55-4bc4-a6d3-84b75f5a307f"}
+{"_id":22,"nombre":"Policlínica ASSE","direccion":"Artigas y Rivera","clave":"b1ccecbf-f9d5-453d-b53b-147a045d396d"}
+{"_id":23,"nombre":"Hospital ASSE","direccion":"Oribe entre Instrucciones y Echeverria","clave":"e78d4aac-17d1-48ed-8668-a7f5a9f21cb6"}
+{"_id":24,"nombre":"CAMY Pediatría","direccion":"25 de Agosto 3417","clave":"944e599a-64e1-4cd9-8ae0-93d79794894f"}
+{"_id":25,"nombre":"COMERO","direccion":"Eliseo Marsol 152 entre Treinta y Tres y Florencio Sánchez","clave":"661186d1-c018-482c-896b-b009ea80f1aa"}
+{"_id":26,"nombre":"Centro Cultural La Paloma","direccion":"Javier Barrios Amorín s/n","clave":"4d96bdda-f823-4cd3-b754-7e40dffb445f"}
+{"_id":27,"nombre":"CHLAEP","direccion":"18 de Julio 617 entre Manuel Oribe y E Piriz","clave":"d1351ce1-a739-4887-a5ad-96582b20c22d"}
+{"_id":28,"nombre":"CHLAEP","direccion":"Av Dr Petrini 501 entre Presidente Berro y Dolores Vidal de Pereira","clave":"ca155ddc-e6c8-41f8-a7fc-b17f1ab16539"}
+{"_id":29,"nombre":"Estadio Municipal Centro Empleados de Comercio","direccion":"Florencio Sánchez entre 10 de Marzo y Maracopa","clave":"c4a454df-f9f9-4644-ae55-a8d1facb5eb8"}
+{"_id":30,"nombre":"Centro Auxiliar de ASSE","direccion":"Av. Chiquito Saravia s/n casi Ruta 7","clave":"ff994ad7-f393-4d1a-9995-bec934c65789"}
+{"_id":31,"nombre":"UTU Gimnasio","direccion":"Navarrete s/n entre Manuel Oribe y Juan Antonio Lavalleja","clave":"c4a9e6e0-d2aa-4cd1-b454-12a093f205a2"}
+{"_id":32,"nombre":"Plaza de Deportes","direccion":"Joaquín Gundin S/N entre Victoria Ipar de Zamora y 10 de Junio","clave":"44317212-82e9-43ff-aa56-00929fa7e4ae"}
+{"_id":33,"nombre":"Casa de la Cultura","direccion":"Presidente Viera s/n","clave":"461c38fe-f13c-4a91-ae53-27128d14d392"}
+{"_id":34,"nombre":"Policlínica de ASSE","direccion":"Calle 33 orientales S/N","clave":"bb15a6b1-05e3-40fa-a32e-de42f9dabf2c"}
+{"_id":35,"nombre":"Hospital de Agudos","direccion":"Florencio Sánchez s/n esq Cerrito","clave":"b365d765-9ff3-468d-9a2a-91b9664f2fb0"}
+{"_id":36,"nombre":"Local Comercial","direccion":"Dr Soca y Brasil","clave":"e0af0aa5-d64f-4dcb-a06c-a8250127f355"}
+{"_id":37,"nombre":"CHLAEP","direccion":"Monte Caseros 520 (entrada por Vizconde de Maua)","clave":"9ef05006-5264-4e28-bd5f-4f42e39b1303"}
+{"_id":38,"nombre":"Centro Auxiliar de ASSE","direccion":"Avenida Pedro Guichón","clave":"82edd03f-030e-426c-a5b2-4a3719acea32"}
+{"_id":39,"nombre":"COMTA - Clínica Fisioterapia","direccion":"Olimpia Pintos entre Dr Ivo Ferreira y Gral Rivera","clave":"cb682256-e221-4e94-9105-362c398fa8ec"}
+{"_id":40,"nombre":"Centro de Salud ","direccion":"Yamandú Gamba 46","clave":"ae2eae80-1b51-413e-8f1e-ff48f904c2a6"}
+{"_id":41,"nombre":"Centro Tisiológico","direccion":"Amaro F. Ramos S/N","clave":"5fb6c043-eaa4-4151-9e22-256a5d569bf9"}
+{"_id":42,"nombre":"Hospital ASSE","direccion":"Rivera y Treinta y Tres","clave":"453aa201-7285-45d7-a2c2-51d370f0f81f"}

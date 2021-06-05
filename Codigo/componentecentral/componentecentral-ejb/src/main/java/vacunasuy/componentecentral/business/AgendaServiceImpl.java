@@ -147,8 +147,10 @@ public class AgendaServiceImpl implements IAgendaService {
 			}
 			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 			DateTimeFormatter formato1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-			/* Se envía notificación para la primera agenda */
-			notificacionService.enviarNotificacionFirebase(ciudadano.getTokenFirebase(), "Agenda registrada con éxito.", "Documento: " + ciudadano.getDocumento() + " - Fecha/hora: " + LocalDateTime.parse(agendas.get(0).getFecha(), formato).format(formato1) + " - Vacunatorio: " + puesto.getVacunatorio().getNombre() + " - Dirección: " + puesto.getVacunatorio().getDireccion());
+			/* Si tiene un token de firebase definido, se le envía la notificación */
+			if(ciudadano.getTokenFirebase() != null) {
+				notificacionService.enviarNotificacionFirebase(ciudadano.getTokenFirebase(), "Agenda registrada con éxito.", "Documento: " + ciudadano.getDocumento() + " - Fecha/hora: " + LocalDateTime.parse(agendas.get(0).getFecha(), formato).format(formato1) + " - Vacunatorio: " + puesto.getVacunatorio().getNombre() + " - Dirección: " + puesto.getVacunatorio().getDireccion());
+			}		
 			return agendas;
 		}catch(Exception e){
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

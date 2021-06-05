@@ -1,9 +1,7 @@
 package vacunasuy.nodosexternosbackend.service;
 
 import java.time.LocalDate;
-
 import org.springframework.stereotype.Service;
-
 import vacunasuy.nodosexternosbackend.entity.Persona;
 
 @Service
@@ -13,6 +11,8 @@ public class PersonaService {
 		LocalDate fechaNacimiento = randomDate();		
 		String sectorLaboral =  randomSectorLaboral(fechaNacimiento);		
 		Persona persona = new Persona (cedula, fechaNacimiento, sectorLaboral);
+		System.out.println("Se recibe solicitud - Documento: " + cedula);
+		System.out.println("Se asignan datos: " + persona.toString());
 		return persona;
 	}
 	

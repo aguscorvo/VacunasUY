@@ -122,7 +122,10 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			vacunatorio.setClave(clave);
 			vacunatorioDAO.crear(vacunatorio);
 			registrarVacunatorioPeriferico(vacunatorio);
-			return vacunatorioConverter.fromEntity(vacunatorio);
+			// se crea la geometría
+			VacunatorioDTO vacunatorioCreado = vacunatorioConverter.fromEntity(vacunatorio);
+			vacunatorioGeoService.crear(vacunatorioCreado);
+			return vacunatorioCreado;
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}	

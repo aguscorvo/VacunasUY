@@ -3,7 +3,9 @@ package vacunasuy.componentecentral.business;
 import java.util.List;
 import javax.ejb.Local;
 
+import vacunasuy.componentecentral.dto.AgendaDTO;
 import vacunasuy.componentecentral.dto.AtiendeCrearDTO;
+import vacunasuy.componentecentral.dto.AtiendeDTO;
 import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
@@ -17,8 +19,8 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public interface IUsuarioService {
 	
 	public List<UsuarioDTO> listar() throws VacunasUyException;
-	public Usuario listarPorId(Long id);
-	public Usuario listarPorCorreo(String correo);
+	public UsuarioDTO listarPorId(Long id) throws VacunasUyException;
+	public UsuarioDTO listarPorCorreo(String correo) throws VacunasUyException;
 	public UsuarioDTO crear(UsuarioCrearDTO usuarioDTO) throws VacunasUyException;
 	public UsuarioDTO editar(Long id, UsuarioCrearDTO usuarioDTO) throws VacunasUyException;
 	public void eliminar(Long id) throws VacunasUyException;
@@ -29,5 +31,7 @@ public interface IUsuarioService {
 	public void agregarActoVacunal(Long usuario, Long actoVacunal) throws VacunasUyException;
 	public void agregarAgenda(Long usuario, Long agenda) throws VacunasUyException;
 	public void registrarTokenFirebase(UsuarioRegistrarTFDTO usuarioDTO) throws VacunasUyException;
+	public List<AgendaDTO> listarAgendasCiudadano(Long id) throws VacunasUyException;
+	public List<AtiendeDTO> listarAtiendeVacunador(Long id) throws VacunasUyException;
 	
 }

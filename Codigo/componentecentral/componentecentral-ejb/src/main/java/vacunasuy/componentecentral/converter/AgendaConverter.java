@@ -29,7 +29,7 @@ public class AgendaConverter extends AbstractConverter<Agenda, AgendaDTO>{
 		return AgendaDTO.builder()
 				.id(a.getId())
 				.fecha(a.getFecha().toString())
-				.puesto(puestoConverter.fromEntity(a.getPuesto()))
+				.puesto(puestoConverter.fromEntityToSinAgendas(a.getPuesto()))
 				.planVacunacion(planVacunacionConverter.fromEntity(a.getPlanVacunacion()))
 				.build();
 	}

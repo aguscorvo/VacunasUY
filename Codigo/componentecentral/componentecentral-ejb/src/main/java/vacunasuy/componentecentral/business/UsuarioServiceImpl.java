@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import vacunasuy.componentecentral.converter.AgendaConverter;
 import vacunasuy.componentecentral.converter.AtiendeConverter;
 import vacunasuy.componentecentral.converter.SectorLaboralConverter;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
@@ -27,7 +28,9 @@ import vacunasuy.componentecentral.dao.IPuestoDAO;
 import vacunasuy.componentecentral.dao.IRolDAO;
 import vacunasuy.componentecentral.dao.ISectorLaboralDAO;
 import vacunasuy.componentecentral.dao.IUsuarioDAO;
+import vacunasuy.componentecentral.dto.AgendaDTO;
 import vacunasuy.componentecentral.dto.AtiendeCrearDTO;
+import vacunasuy.componentecentral.dto.AtiendeDTO;
 import vacunasuy.componentecentral.dto.RespuestaUserInfoDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDNICDTO;
@@ -73,6 +76,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	private AtiendeConverter atiendeConverter;
 	
 	@EJB
+	private AgendaConverter agendaConverter;
+	
+	@EJB
 	private SectorLaboralConverter sectorLaboralConverter;
 
 	@Override
@@ -85,14 +91,25 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
-	public Usuario listarPorId(Long id) {
-		return usuarioDAO.listarPorId(id);
+	public UsuarioDTO listarPorId(Long id) throws VacunasUyException {
+		try {
+			Usuario usuario = usuarioDAO.listarPorId(id);
+			if(usuario == null)	throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);			
+			return usuarioConverter.fromEntity(usuario);
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
 	}
 
 	@Override
-	public Usuario listarPorCorreo(String correo) {
-		// TODO Auto-generated method stub
-		return null;
+	public UsuarioDTO listarPorCorreo(String correo) throws VacunasUyException {
+		try {
+			Usuario usuario = usuarioDAO.listarPorCorreo(correo);
+			if(usuario == null)	throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);			
+			return usuarioConverter.fromEntity(usuario);
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
 	}
 
 	@Override
@@ -314,5 +331,36 @@ public class UsuarioServiceImpl implements IUsuarioService {
                 .get(UsuarioDNICDTO.class);
 		return response;
 	}
+	
+	@Override
+	public List<AgendaDTO> listarAgendasCiudadano(Long id) throws VacunasUyException{
+		try{
+			Usuario usuario = usuarioDAO.listarPorId(id);
+			if(usuario == null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			// se valida que sea ciudadano
+			List<Rol> roles = usuario.getRoles();
+			Rol rol = roles.stream().filter(r -> r.getNombre().equals("Ciudadano")).findFirst().orElse(null);
+			if(rol == null) throw new VacunasUyException("El usuario indicado no es un ciudadano.", VacunasUyException.DATOS_INCORRECTOS);
+			return agendaConverter.fromEntity(usuario.getAgendas());
+		}catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}		
+	}
+	
+	@Override
+	public List<AtiendeDTO> listarAtiendeVacunador(Long id) throws VacunasUyException{
+		try{
+			Usuario usuario = usuarioDAO.listarPorId(id);
+			if(usuario == null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			// se valida que sea vacunador
+			List<Rol> roles = usuario.getRoles();
+			Rol rol = roles.stream().filter(r -> r.getNombre().equals("Vacunador")).findFirst().orElse(null);
+			if(rol == null) throw new VacunasUyException("El usuario indicado no es un vacunador.", VacunasUyException.DATOS_INCORRECTOS);
+			return atiendeConverter.fromEntity(usuario.getAtiende());
+		}catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}	
+	
 
 }

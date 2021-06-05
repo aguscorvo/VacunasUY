@@ -13,7 +13,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import vacunasuy.componentecentral.business.IUsuarioService;
+import vacunasuy.componentecentral.dto.AgendaDTO;
 import vacunasuy.componentecentral.dto.AtiendeCrearDTO;
+import vacunasuy.componentecentral.dto.AtiendeDTO;
 import vacunasuy.componentecentral.dto.UsuarioCrearDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.dto.UsuarioLoginBackofficeDTO;
@@ -153,5 +155,43 @@ public class UsuariosREST {
 			}
 		}
 	}
+	
+	@GET
+	@Path("/listarAgendasCiudadano/{id}")
+	public Response listarAgendasCiudadano(@PathParam("id") Long id) {
+		RespuestaREST<List<AgendaDTO>> respuesta = null;
+		try {
+			List<AgendaDTO> agendas = usuarioService.listarAgendasCiudadano(id);
+			respuesta = new RespuestaREST<List<AgendaDTO>>(true, "Agendas listadas con éxito", agendas);
+			return Response.ok(respuesta).build();
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<List<AgendaDTO>>(false, e.getLocalizedMessage());
+			if((e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) || (e.getCodigo() == VacunasUyException.DATOS_INCORRECTOS)) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
+	
+	@GET
+	@Path("/listarAtiendeVacunador/{id}")
+	public Response listarAtiendeVacunador(@PathParam("id") Long id) {
+		RespuestaREST<List<AtiendeDTO>> respuesta = null;
+		try {
+			List<AtiendeDTO> atiende = usuarioService.listarAtiendeVacunador(id);
+			respuesta = new RespuestaREST<List<AtiendeDTO>>(true, "Atiende listados con éxito", atiende);
+			return Response.ok(respuesta).build();
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<List<AtiendeDTO>>(false, e.getLocalizedMessage());
+			if((e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) || (e.getCodigo() == VacunasUyException.DATOS_INCORRECTOS)) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}	
+	
+	
 	
 }

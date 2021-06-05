@@ -10,6 +10,7 @@ import vacunasuy.componentecentral.dto.AgendaMinDTO;
 import vacunasuy.componentecentral.dto.PuestoCrearDTO;
 import vacunasuy.componentecentral.dto.PuestoDTO;
 import vacunasuy.componentecentral.dto.PuestoMinDTO;
+import vacunasuy.componentecentral.dto.PuestoSinAgendasDTO;
 import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.Puesto;
 
@@ -61,5 +62,15 @@ public class PuestoConverter extends AbstractConverter<Puesto, PuestoDTO>{
 			.map(e -> fromEntityToMin(e))
 			.collect(Collectors.toList());
 	}
+
+	public PuestoSinAgendasDTO fromEntityToSinAgendas(Puesto p) {
+		if(p==null) return null;
+		return PuestoSinAgendasDTO.builder()
+				.id(p.getId())
+				.numero(p.getNumero())
+				.vacunatorio(vacunatorioConverter.fromEntityToMin(p.getVacunatorio()))
+				.build();		
+	} 
+	
 
 }

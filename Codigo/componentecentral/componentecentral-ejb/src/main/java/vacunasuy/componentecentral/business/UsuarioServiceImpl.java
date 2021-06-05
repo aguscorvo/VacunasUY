@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -50,6 +51,9 @@ import vacunasuy.componentecentral.util.Constantes;
 
 @Stateless
 public class UsuarioServiceImpl implements IUsuarioService {
+	
+	@EJB
+	private IAgendaService agendaService;
 	
 	@EJB
 	private IUsuarioDAO usuarioDAO;
@@ -297,6 +301,39 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		usuarioAux.getAgendas().add(agendaAux);
 		usuarioDAO.editar(usuarioAux);
 	}
+	
+	@Override
+	public void cancelarAgenda(Long usuario, Long agenda) throws VacunasUyException{
+		try {
+			Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
+			if(usuarioAux==null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			Agenda agendaAux = agendaDAO.listarPorId(agenda);
+			if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			// se obtienen las agendas posteriores del mismo plan
+//			List<Agenda> agendas = usuarioAux.getAgendas();
+//			List<Agenda> agendasAEliminar = agendas.stream()
+//					.filter(a -> a.getPlanVacunacion()==agendaAux.getPlanVacunacion() && 
+//						(a.getFecha().compareTo(agendaAux.getFecha()) > 0))
+//					.collect(Collectors.toList());	
+			
+//			List<Agenda> agendasAEliminar = new ArrayList<Agenda>();			segunda prueba
+//			agendasAEliminar.add(agendaAux);
+//			for(Agenda a: agendas) {
+//				if((a.getPlanVacunacion()==agendaAux.getPlanVacunacion() ) &&  (a.getFecha().compareTo(agendaAux.getFecha()) > 0)) {
+//					agendasAEliminar.add(a);
+//				}
+//			}
+			//se borran las agendas
+//			for(Agenda a: agendasAEliminar) {
+//				agendaService.eliminar(a.getId());
+//			}	
+			agendaService.eliminar(agenda);
+
+		}catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+
 
 	@Override
 	public boolean existeAgenda(Long id_usuario, Long id_plan) throws VacunasUyException {

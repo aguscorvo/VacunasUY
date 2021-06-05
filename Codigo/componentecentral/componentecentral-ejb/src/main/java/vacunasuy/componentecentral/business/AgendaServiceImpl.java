@@ -171,12 +171,11 @@ public class AgendaServiceImpl implements IAgendaService {
 		}		
 	}
 	
+	//desde backend
 	@Override
 	public void eliminar(Long id) throws VacunasUyException{
-		// se valida que la agenda exista
-		Agenda agenda = agendaDAO.listarPorId(id);
-		if(agenda==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		try {
+			Agenda agenda = agendaDAO.listarPorId(id);
 			agendaDAO.eliminar(agenda);
 		}catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

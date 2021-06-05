@@ -30,6 +30,7 @@ public interface IUsuarioService {
 	public void asignarVacunadorAPuesto(AtiendeCrearDTO atiendeDTO) throws VacunasUyException;
 	public void agregarActoVacunal(Long usuario, Long actoVacunal) throws VacunasUyException;
 	public void agregarAgenda(Long usuario, Long agenda) throws VacunasUyException;
+	public void cancelarAgenda(Long usuario, Long agenda) throws VacunasUyException;
 	public void registrarTokenFirebase(UsuarioRegistrarTFDTO usuarioDTO) throws VacunasUyException;
 	public List<AgendaDTO> listarAgendasCiudadano(Long id) throws VacunasUyException;
 	public List<AtiendeDTO> listarAtiendeVacunador(Long id) throws VacunasUyException;

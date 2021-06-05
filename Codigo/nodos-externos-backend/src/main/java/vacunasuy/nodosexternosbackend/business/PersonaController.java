@@ -1,8 +1,5 @@
 package vacunasuy.nodosexternosbackend.business;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import vacunasuy.nodosexternosbackend.converter.PersonaConverter;
 import vacunasuy.nodosexternosbackend.dto.PersonaDTO;
 import vacunasuy.nodosexternosbackend.service.PersonaService;
-import vacunasuy.nodosexternosbackend.util.WrapperResponse;
 
 @RestController
-@CrossOrigin(origins = "*", methods = { RequestMethod.GET})
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET })
 @RequestMapping("/personas")
 public class PersonaController {
 	

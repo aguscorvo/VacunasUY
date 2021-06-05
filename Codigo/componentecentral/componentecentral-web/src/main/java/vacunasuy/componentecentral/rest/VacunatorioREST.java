@@ -57,7 +57,7 @@ public class VacunatorioREST {
 	}
 	
 	@GET
-	@Path("/{id}")
+	@Path("/listar/{id}")
 //	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;

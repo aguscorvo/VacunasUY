@@ -10,11 +10,10 @@
 	</parent>
 	<groupId>vacunasuy</groupId>
 	<artifactId>nodos-externos-backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>nodos-externos-backend</name>
 	<description>Nodos externos</description>
 	<properties>
-		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<!--  <dependency>

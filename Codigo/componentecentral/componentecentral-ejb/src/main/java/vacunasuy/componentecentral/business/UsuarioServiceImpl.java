@@ -4,16 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.jsonwebtoken.Jwts;
@@ -50,6 +47,9 @@ import vacunasuy.componentecentral.util.Constantes;
 
 @Stateless
 public class UsuarioServiceImpl implements IUsuarioService {
+	
+	@EJB
+	private IAgendaService agendaService;
 	
 	@EJB
 	private IUsuarioDAO usuarioDAO;
@@ -288,15 +288,16 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		usuarioDAO.editar(usuarioAux);
 	}
 	
-	//desde backend
-	@Override
-	public void agregarAgenda(Long usuario, Long agenda) throws VacunasUyException{
-		Agenda agendaAux = agendaDAO.listarPorId(agenda);
-		if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-		Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
-		usuarioAux.getAgendas().add(agendaAux);
-		usuarioDAO.editar(usuarioAux);
-	}
+//	//desde backend
+//	@Override
+//	public void agregarAgenda(Long usuario, Long agenda) throws VacunasUyException{
+//		Agenda agendaAux = agendaDAO.listarPorId(agenda);
+//		if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+//		Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
+//		usuarioAux.getAgendas().add(agendaAux);
+//		usuarioDAO.editar(usuarioAux);
+//	}
+		
 
 	@Override
 	public boolean existeAgenda(Long id_usuario, Long id_plan) throws VacunasUyException {

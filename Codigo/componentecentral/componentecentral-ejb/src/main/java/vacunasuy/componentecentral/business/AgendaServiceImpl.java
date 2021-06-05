@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.sound.midi.Soundbank;
 
 import vacunasuy.componentecentral.converter.AgendaConverter;
 import vacunasuy.componentecentral.dao.IAgendaDAO;
@@ -20,6 +21,7 @@ import vacunasuy.componentecentral.dto.AgendaMinDTO;
 import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.entity.Puesto;
+import vacunasuy.componentecentral.entity.Rol;
 import vacunasuy.componentecentral.entity.Usuario;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
@@ -173,17 +175,61 @@ public class AgendaServiceImpl implements IAgendaService {
 		}		
 	}
 	
+//	//desde backend
+//	@Override
+//	public void eliminar(Long id) throws VacunasUyException{
+//		try {
+//			Agenda agenda = agendaDAO.listarPorId(id);
+//			System.out.println("Entre al eliminar, elimina agenda con id: " +id+" del usuario: " + agenda.getUsuario().getApellido());			
+//			agendaDAO.eliminar(agenda);
+//		}catch (Exception e) {
+//			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+//		}
+//	}
+	
 	@Override
-	public void eliminar(Long id) throws VacunasUyException{
-		// se valida que la agenda exista
-		Agenda agenda = agendaDAO.listarPorId(id);
-		if(agenda==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+	public void cancelarAgenda(Long usuario, Long agenda) throws VacunasUyException{
 		try {
-			agendaDAO.eliminar(agenda);
+			//se valida que el usuario exista
+			Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
+			if(usuarioAux==null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			//se valida si el usuario es un ciudadano
+			List<Rol> roles = usuarioAux.getRoles();
+			Rol rol = roles.stream().filter(r -> r.getNombre().equals("Ciudadano")).findFirst().orElse(null);
+			if(rol == null) throw new VacunasUyException("El usuario indicado no es un ciudadano.", VacunasUyException.DATOS_INCORRECTOS);
+			//se valida que la agenda exista
+			Agenda agendaAux = agendaDAO.listarPorId(agenda);
+			if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			//validar si el usuario y la agenda están asociadoos
+			List<Agenda> agendas = usuarioAux.getAgendas();
+			Agenda asociada = agendas.stream()
+					.filter(a -> a.getId()==agenda).findFirst().orElse(null);
+			if(asociada==null) throw new VacunasUyException("El usuario y la agenda indicados no están asociados.",
+					VacunasUyException.NO_EXISTE_REGISTRO);			
+			// se obtienen las agendas posteriores del mismo plan
+//			List<Agenda> agendas = usuarioAux.getAgendas();
+//			List<Agenda> agendasAEliminar = agendas.stream()
+//					.filter(a -> a.getPlanVacunacion()==agendaAux.getPlanVacunacion() && 
+//						(a.getFecha().compareTo(agendaAux.getFecha()) > 0))
+//					.collect(Collectors.toList());	
+			
+//			List<Agenda> agendasAEliminar = new ArrayList<Agenda>();			segunda prueba
+//			agendasAEliminar.add(agendaAux);
+//			for(Agenda a: agendas) {
+//				if((a.getPlanVacunacion()==agendaAux.getPlanVacunacion() ) &&  (a.getFecha().compareTo(agendaAux.getFecha()) > 0)) {
+//					agendasAEliminar.add(a);
+//				}
+//			}
+			//se borran las agendas
+//			for(Agenda a: agendasAEliminar) {
+//				agendaService.eliminar(a.getId());
+//			}
+			System.out.println("Antes de operacion eliminar agenda, se envia agenda con id: " + agendaAux.getId());
+			agendaDAO.eliminar(agendaAux);
 		}catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
-	}	
+	}
     
 	public static String sumarDias(String fechaYHora, long dias) {
 	    // Crear un formateador como 2018-10-16 15:00

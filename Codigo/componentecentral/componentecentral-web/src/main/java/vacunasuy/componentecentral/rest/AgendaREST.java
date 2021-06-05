@@ -99,14 +99,32 @@ public class AgendaREST {
 		}
 	}
 	
+//	@DELETE
+//	@Path("/eliminar/{id}")
+//	@RecursoProtegidoJWT
+//	public Response eliminar(@PathParam("id") Long id) {
+//		RespuestaREST<AgendaDTO> respuesta = null;
+//		try {
+//			agendaService.eliminar(id);
+//			respuesta = new RespuestaREST<AgendaDTO>(true, "Agenda eliminada con éxito.");
+//			return Response.ok(respuesta).build();
+//		}catch (VacunasUyException e) {
+//			respuesta = new RespuestaREST<AgendaDTO>(false, e.getLocalizedMessage());
+//			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
+//				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+//			} else {
+//				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+//			}
+//		}
+//	}
+	
 	@DELETE
-	@Path("/eliminar/{id}")
-	@RecursoProtegidoJWT
-	public Response eliminar(@PathParam("id") Long id) {
+	@Path("/cancelarAgenda/{usuario}/{agenda}")
+	public Response cancelarAgenda(@PathParam("usuario") Long usuario, @PathParam("agenda")Long agenda) {
 		RespuestaREST<AgendaDTO> respuesta = null;
 		try {
-			agendaService.eliminar(id);
-			respuesta = new RespuestaREST<AgendaDTO>(true, "Agenda eliminada con éxito.");
+			agendaService.cancelarAgenda(usuario, agenda);
+			respuesta = new RespuestaREST<AgendaDTO>(true, "Agenda cancelada con éxito");
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<AgendaDTO>(false, e.getLocalizedMessage());
@@ -116,7 +134,7 @@ public class AgendaREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}
-	}
+	}	
 	
 	
 }

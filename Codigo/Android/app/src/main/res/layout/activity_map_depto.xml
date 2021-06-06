@@ -7,7 +7,7 @@
     tools:context=".second.MapDepto">
 
     <ListView
-        android:id="@+id/departamentoListView"
+        android:id="@+id/enfermedadListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

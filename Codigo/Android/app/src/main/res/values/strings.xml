@@ -113,6 +113,10 @@
     <string name="agenda_AlertVacunatoio">Vacunatorio</string>
     <string name="agenda_AlertPuesto">Puesto</string>
     <string name="agenda_AlertFecha">Fecha</string>
+    <string name="agenda_Certificado">Certificado</string>
+    <string name="agenda_VerMiAgenda">Mi Agenda</string>
+    <string name="titleEnfermedadUsuario">Enfermedades cubiertas</string>
+    <string name="agenda_ok">Agendado con éxito</string>
 
 
     <!-- NOTIFICACIONES -->
@@ -130,4 +134,12 @@
     <string name="notificacion_tEliminar">Eliminar</string>
     <string name="notificacion_tVer">Ver</string>
 
+    <!-- CERTIFICADO -->
+    <string name="certificado_Title">Certificado Digital</string>
+    <string name="certificado_tNombre">Nombre</string>
+    <string name="certificado_tDocumento">Documento</string>
+    <string name="certificado_tDosis">Dosis</string>
+    <string name="certificado_tFecha">Fecha</string>
+    <string name="certificado_tVacuna">Vacuna</string>
+    <string name="certificado_qr">Inmformación</string>
 </resources>

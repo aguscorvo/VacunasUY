@@ -15,6 +15,11 @@ public class ConnConstant {
     final public static String API_GUBUY_URL = "https://vacunasuy.web.elasticloud.uy/rest/autenticaciongubuy";
     final public static String API_USRLOGIN_URL = "https://vacunasuy.web.elasticloud.uy/rest/autenticaciongubuy/procesarTokens?";
     final public static String API_EDITUSR_URL = "https://vacunasuy.web.elasticloud.uy/rest/usuarios/editar/{id}";
+    final public static String API_ADDTOKENFIREBASE_URL = "https://vacunasuy.web.elasticloud.uy/rest/usuarios/registrarTokenFirebase";
+    final public static String API_GETENFERMEDADESVACUNAS_URL = "https://vacunasuy.web.elasticloud.uy/rest/enfermedades/listarEnfermedadesPorUsuario/{id}";
+    final public static String API_GETENFERMEDADVACUNAS_URL = "https://vacunasuy.web.elasticloud.uy/rest/actosVacunales/listarActosVacunalesPorUsuarioEnfermedad/{idUsuario}/{idEnfermedad}";
+    final public static String API_GETUSUARIOAGENDA_URL = "https://vacunasuy.web.elasticloud.uy/rest/usuarios/listarAgendasCiudadano/{idUsuario}";
+
 
     //VACUNATORIO
     final public static String API_VACUNATORIOS_URL = "https://vacunasuy.web.elasticloud.uy/rest/vacunatorios";

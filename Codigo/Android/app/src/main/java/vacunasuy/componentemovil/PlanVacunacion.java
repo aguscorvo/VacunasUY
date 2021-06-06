@@ -1,8 +1,6 @@
 package vacunasuy.componentemovil;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,15 +13,14 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -31,45 +28,38 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import vacunasuy.componentemovil.constant.ConnConstant;
-import vacunasuy.componentemovil.obj.DtDepartamento;
 import vacunasuy.componentemovil.obj.DtEnfermedad;
-import vacunasuy.componentemovil.obj.DtLocalidad;
 import vacunasuy.componentemovil.obj.DtPlan;
 import vacunasuy.componentemovil.obj.DtSectorLaboral;
 import vacunasuy.componentemovil.obj.DtUsuario;
 import vacunasuy.componentemovil.obj.DtVacuna;
 import vacunasuy.componentemovil.second.AddFechaNacimiento;
-import vacunasuy.componentemovil.second.CustomExpandableListAdapter;
 import vacunasuy.componentemovil.second.CustomExpandablePlanListAdapter;
-import vacunasuy.componentemovil.second.CustomListAdapter;
 import vacunasuy.componentemovil.second.DetallePlan;
-import vacunasuy.componentemovil.second.MapDepto;
-import vacunasuy.componentemovil.second.MapDeptoLoc;
+import vacunasuy.componentemovil.second.MapEnfermedadesVaccunas;
+import vacunasuy.componentemovil.second.MiAgenda;
 
 public class PlanVacunacion extends AppCompatActivity {
-    private static final String TAG = "VacunasUY";
+    private static final String TAG = "PlanVacunacion";
+    private final int GRUPO_CERTIFICADO = 0;
+    private final int MENU_CERTIFICADO = 1;
+    private final int MENU_VERMIAGENDA = 2;
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     BottomNavigationView bottomNavigationView;
+    DtUsuario usuario = DtUsuario.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +71,7 @@ public class PlanVacunacion extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.menu_agenda);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            DtUsuario usuario = DtUsuario.getInstance();
+
             switch (item.getItemId()){
                 case R.id.menu_home:
                     Intent intent2 = new Intent(PlanVacunacion.this, MainActivity.class);
@@ -545,5 +535,44 @@ public class PlanVacunacion extends AppCompatActivity {
         return new DtEnfermedad(id, nombre);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        if(usuario.getRegistrado()){
+            menu.add(GRUPO_CERTIFICADO, MENU_CERTIFICADO, Menu.NONE, getString(R.string.agenda_Certificado));
+            menu.add(GRUPO_CERTIFICADO, MENU_VERMIAGENDA, Menu.NONE, getString(R.string.agenda_VerMiAgenda));
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (item.getItemId()){
+            case MENU_CERTIFICADO:
+                //Toast.makeText(PlanVacunacion.this, "MENU CERTIFICADO", Toast.LENGTH_SHORT).show();
+                Intent ienfermedades = new Intent(PlanVacunacion.this, MapEnfermedadesVaccunas.class);
+                startActivity(ienfermedades);
+
+
+                if (Build.VERSION.SDK_INT >= 11)
+                {
+                    //invalidateOptionsMenu();
+                }
+                return true;
+            case MENU_VERMIAGENDA:
+                //Toast.makeText(PlanVacunacion.this, "MENU CERTIFICADO", Toast.LENGTH_SHORT).show();
+                Intent imiagenda = new Intent(PlanVacunacion.this, MiAgenda.class);
+                startActivity(imiagenda);
+
+                if (Build.VERSION.SDK_INT >= 11)
+                {
+                    //invalidateOptionsMenu();
+                }
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

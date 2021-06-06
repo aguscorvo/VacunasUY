@@ -26,7 +26,6 @@
             android:layout_below="@+id/plan_detalle_nologed"
             android:layout_marginBottom="10dp"
             android:background="@color/tb_bg"
-            tools:context=".MainActivity"
             tools:showIn="@layout/activity_main">
 
             <TableLayout
@@ -288,26 +287,26 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/detalleplan_ingresar"
                 android:layout_width="0dp"
-                android:layout_weight = "1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/plan_ingresar"
-                android:background="@drawable/button_design">
-            </Button>
+                android:layout_weight="1"
+                android:background="@drawable/button_design"
+                android:text="@string/plan_ingresar"></Button>
+
             <Button
                 android:id="@+id/detalleplan_agendar"
                 android:layout_width="0dp"
-                android:layout_weight = "1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/plan_agendar"
-                android:background="@drawable/button_design">
-            </Button>
+                android:layout_weight="1"
+                android:background="@drawable/button_design"
+                android:text="@string/plan_agendar"></Button>
         </LinearLayout>
 
     </RelativeLayout>

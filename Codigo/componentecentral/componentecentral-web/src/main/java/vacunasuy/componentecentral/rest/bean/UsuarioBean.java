@@ -16,6 +16,7 @@ import org.jboss.logging.Logger;
 import vacunasuy.componentecentral.business.IUsuarioService;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @Named("beanusuario")
 @RequestScoped
@@ -25,12 +26,16 @@ public class UsuarioBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	List<UsuarioDTO> usuarios;
+	String strbuscar;
 	
 	@EJB
 	IUsuarioService usuarioService;
 	
+	
+	
 	public UsuarioBean() {
 	}
+	
 	@PostConstruct
 	public void init() {
 		try {
@@ -54,6 +59,19 @@ public class UsuarioBean implements Serializable {
 		this.usuarios = usuarios;
 	}
 	
+	public void buscarUsuario() {
+		
+		
+		
+	}
+
+	public String getStrbuscar() {
+		return strbuscar;
+	}
+
+	public void setStrbuscar(String strbuscar) {
+		this.strbuscar = strbuscar;
+	}
 	
 
 }

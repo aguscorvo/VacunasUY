@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
@@ -68,7 +67,7 @@ import vacunasuy.componentemovil.second.DetallePlan;
 import vacunasuy.componentemovil.second.MapDeptoLoc;
 
 public class AgendarActivity extends AppCompatActivity {
-    private static final String TAG = "VacunasUY";
+    private static final String TAG = "AgendarActivity";
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
     DtUsuario usuario = DtUsuario.getInstance();
@@ -84,7 +83,6 @@ public class AgendarActivity extends AppCompatActivity {
     Integer mMonth;
     Integer mDay;
 
-
     BottomNavigationView bottomNavigationView;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
@@ -92,6 +90,7 @@ public class AgendarActivity extends AppCompatActivity {
     ImageButton imageCalendar;
     Button agendar;
     TextView dateText;
+    List<DtAgenda> agendas = new ArrayList<DtAgenda>();
 
 
 
@@ -240,13 +239,13 @@ public class AgendarActivity extends AppCompatActivity {
         });
     }
 
-    private void persistirUsuario(DtUsuario dtusr, DtResponse dtresp){
+    private void persistirUsuario(DtUsuario dtusr, String mensaje){
 
         Usuario usr  = new Usuario(dtusr.getId(), dtusr.getDocumento(), dtusr.getNombre(), dtusr.getApellido());
         if(bd.getUsuarioById(dtusr.getId())==null)
             bd.addUsuario(usr);
 
-        Mensaje msg = new Mensaje(dtresp.getMensaje(), new Date(), dtusr.getId());
+        Mensaje msg = new Mensaje(mensaje, new Date(), dtusr.getId());
         bd.addMensaje(msg);
     }
 
@@ -601,11 +600,15 @@ public class AgendarActivity extends AppCompatActivity {
             // Starts the query
             conn.connect();
             int response = conn.getResponseCode();
+
             Log.i(TAG, "conn.getResponseCode: " + response +" - " + conn.getResponseMessage());
             if (response == 200){
                 is = conn.getInputStream();
                 return readInfoGralJsonStream(is);
-            }else{
+            } else if (response == 500) {
+                is = conn.getErrorStream();
+                return readInfoGralJsonStream(is);
+            } else{
                 return new DtResponse(false, response +" - " + conn.getResponseMessage());
             }
             // Makes sure that the InputStream is closed after the app is
@@ -652,12 +655,15 @@ public class AgendarActivity extends AppCompatActivity {
                 Log.i(TAG, "onPostExecute: " + ((DtResponse) result).getOk());
 
                 if(((DtResponse) result).getOk()){
-                    persistirUsuario(usuario, (DtResponse) result);
+                     for(DtAgenda dt: agendas ){
+                         String msg = nombrePlan + "\n" + getString(R.string.notificacion_tFecha) +
+                                 ": " + (new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dt.getFecha())) ;
+                         persistirUsuario(usuario, msg);
+                     }
+
                 } else{
-
+                    Log.i(TAG, "onPostExecute: " + ((DtResponse) result).getOk());
                 }
-
-
 
                 dialog.setMessage(((DtResponse) result).getMensaje());
 
@@ -670,8 +676,6 @@ public class AgendarActivity extends AppCompatActivity {
             dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.alert_btn_neutral), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which) {
-                    //Intent iplan = new Intent(AgendarActivity.this, MainActivity.class);
-                    //startActivity(iplan);
                 }
             });
             dialog.setCanceledOnTouchOutside(false);
@@ -688,10 +692,12 @@ public class AgendarActivity extends AppCompatActivity {
         BufferedReader breader = new BufferedReader(isReader);
         StringBuffer sb = new StringBuffer();
         String str;
+        Log.i(TAG, "readInfoGralJsonStream: ACA ESTOY");
+
         while((str = breader.readLine())!= null){
             sb.append(str);
         }
-        Log.i(TAG, sb.toString());
+        Log.i(TAG, "readInfoGralJsonStream: " + sb.toString());
         JsonReader reader = new JsonReader(new StringReader(sb.toString()));
         List<DtResponse> res = null;
         try {
@@ -703,7 +709,6 @@ public class AgendarActivity extends AppCompatActivity {
     public DtResponse readDtResponseMessage(JsonReader reader) throws IOException {
         Boolean ok = false;
         String mensaje = null;
-        String fecha = "";
         Object res = null;
 
 
@@ -715,33 +720,17 @@ public class AgendarActivity extends AppCompatActivity {
             }else if (name.equals("mensaje")) {
                 mensaje = reader.nextString();
             } else if (name.equals("cuerpo") && reader.peek() != JsonToken.NULL) {
-                fecha = readResAgenda(reader);
+                agendas = readAgendaArray(reader);
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
 
-        if(ok)
-            mensaje = mensaje + getString(R.string.notificacion_tFecha) + ": " + fecha;
+        //if(ok)
+        //    mensaje = mensaje + getString(R.string.notificacion_tFecha) + ": " + fecha;
 
         return new DtResponse(ok, mensaje);
-    }
-
-    private String readResAgenda(JsonReader reader) throws IOException {
-        String fecha = "";
-
-        reader.beginObject();
-        while (reader.hasNext()) {
-            String name = reader.nextName();
-            if (name.equals("fecha")) {
-                fecha = reader.nextString();
-            } else {
-                reader.skipValue();
-            }
-        }
-        reader.endObject();
-        return fecha;
     }
 
 
@@ -750,7 +739,7 @@ public class AgendarActivity extends AppCompatActivity {
 
         JSONObject jsonObject= new JSONObject();
         try {
-            jsonObject.put("fecha", fechaSolicitada + " 00:00");
+            jsonObject.put("fecha", fechaSolicitada);
             jsonObject.put("puesto", idPuesto);
             jsonObject.put("usuario", usuario.getId());
             jsonObject.put("planVacunacion", idPlan);

@@ -44,7 +44,13 @@
 					<li class="nav-item"><a class="nav-link"
 						href="/jsf/admin/transportista/transportistas.xhtml">Transportistas</a></li>
 				</ul>
-
+				<h:form class="form-inline">
+					<p:inputText placeholder="Documento/correo"
+						aria-label="Buscar" minValue="0" emptyValue="empty"
+						value="#{beanusuario.strbuscar}" />
+					<h:commandButton class="btn btn-outline-success my-2 my-sm-0"
+						action="#{beanusuario.buscarUsuario()}" value="Buscar" />
+				</h:form>
 			</div>
 			</nav>
 		</div>
@@ -83,19 +89,24 @@
 			</div>
 		</div>
 	</div>
-	
+
+	<div class="col-12 d-flex flex-row-reverse">
+		<div class="p-2">
+			
+		</div>
+
+	</div>
+
 	<!-- Modal ERROR -->
-	<div class="modal fade" id="error_usuario" tabindex="-1"
-		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="error_usuario" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="errorModalLabel">Error</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
-						<span aria-hidden="true">
-							&times;
-						</span>
+						<span aria-hidden="true"> &times; </span>
 					</button>
 				</div>
 				<div class="modal-body">
@@ -118,9 +129,9 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<ui:include src="/WEB-INF/includes/footer_lib.xhtml" />
-	
+
 	<script type="text/javascript">
 
 	var $ds = jQuery.noConflict();
@@ -183,6 +194,6 @@
 	});
 
 </script>
-	
+
 </h:body>
 </html>

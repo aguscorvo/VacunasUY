@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.menu_home);
 
-        /* Mostrar token */
-        mostrarToken();
-
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             DtUsuario usuario = DtUsuario.getInstance();
             switch (item.getItemId()){
@@ -84,17 +81,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-    }
-
-    public void mostrarToken(){
-        Task<InstanceIdResult> task = FirebaseInstanceId.getInstance().getInstanceId();
-        task.addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-            @Override
-            public void onSuccess(InstanceIdResult authResult) {
-                String fcmToken = authResult.getToken();
-                Log.d("TOKEN", fcmToken);
-            }
-        });
     }
 
     @Override

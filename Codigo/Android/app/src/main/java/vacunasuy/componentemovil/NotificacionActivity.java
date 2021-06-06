@@ -132,6 +132,17 @@ public class NotificacionActivity extends AppCompatActivity {
         textViewNombre.setPadding(5,5,5,0);
         textViewNombre.setBackground(getDrawable(R.drawable.notificiaciones_tabla_titulo));
         tableRow.addView(textViewNombre);
+        //Ver
+        TextView textViewVer = new TextView(this);
+        textViewVer.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f));
+
+        textViewVer.setText(R.string.notificacion_tVer);
+        textViewVer.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        textViewVer.setPadding(5,5,5,0);
+        textViewVer.setBackground(getDrawable(R.drawable.notificiaciones_tabla_titulo));
+        tableRow.addView(textViewVer);
 
         //Eliminar
         TextView textViewDel = new TextView(this);
@@ -145,18 +156,6 @@ public class NotificacionActivity extends AppCompatActivity {
         textViewDel.setBackground(getDrawable(R.drawable.notificiaciones_tabla_titulo));
         tableRow.addView(textViewDel);
 
-        //Ver
-        TextView textViewVer = new TextView(this);
-        textViewVer.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.MATCH_PARENT,
-                1.0f));
-
-        textViewVer.setText(R.string.notificacion_tVer);
-        textViewVer.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        textViewVer.setPadding(5,5,5,0);
-        textViewVer.setBackground(getDrawable(R.drawable.notificiaciones_tabla_titulo));
-        tableRow.addView(textViewVer);
-
         tableview.addView(tableRow, new TableLayout.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.MATCH_PARENT,
@@ -165,7 +164,7 @@ public class NotificacionActivity extends AppCompatActivity {
 
     private void agregarDatos(List<Mensaje> mensajes){
 
-        SimpleDateFormat sdf 	= new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf 	= new SimpleDateFormat("yyyy-MM-dd");
 
         for(Mensaje msg: mensajes){
             TableRow tableRow = new TableRow(this);
@@ -195,33 +194,6 @@ public class NotificacionActivity extends AppCompatActivity {
             textViewNombre.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             textViewNombre.setPadding(5,5,5,0);
             tableRow.addView(textViewNombre);
-
-            //Eliminar
-            ImageButton eliminar = new ImageButton(this);
-            eliminar.setImageDrawable(getDrawable(android.R.drawable.ic_delete));
-            eliminar.setBackgroundColor(getColor(R.color.design_default_color_background));
-
-            eliminar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TableRow currentRow = (TableRow) v.getParent();
-                    TextView tvid = (TextView) currentRow.getChildAt(0);
-                    Integer id = Integer.parseInt(tvid.getText().toString());
-                    try {
-                        bd.deleteMensaje(bd.getMensajeById(id));
-                        currentRow.removeAllViews();
-                        Toast.makeText(NotificacionActivity.this, getString(R.string.successsful_deletion), Toast.LENGTH_SHORT).show();
-                    }catch (Exception e){
-                        Toast.makeText(NotificacionActivity.this, getString(R.string.deletion_failed) + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-            tableRow.addView(eliminar, new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    1.0f
-            ));
 
             //VER
             ImageButton ver = new ImageButton(this);
@@ -258,6 +230,33 @@ public class NotificacionActivity extends AppCompatActivity {
 
 
             tableRow.addView(ver, new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    1.0f
+            ));
+
+            //Eliminar
+            ImageButton eliminar = new ImageButton(this);
+            eliminar.setImageDrawable(getDrawable(android.R.drawable.ic_delete));
+            eliminar.setBackgroundColor(getColor(R.color.design_default_color_background));
+
+            eliminar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TableRow currentRow = (TableRow) v.getParent();
+                    TextView tvid = (TextView) currentRow.getChildAt(0);
+                    Integer id = Integer.parseInt(tvid.getText().toString());
+                    try {
+                        bd.deleteMensaje(bd.getMensajeById(id));
+                        currentRow.removeAllViews();
+                        Toast.makeText(NotificacionActivity.this, getString(R.string.successsful_deletion), Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Toast.makeText(NotificacionActivity.this, getString(R.string.deletion_failed) + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            tableRow.addView(eliminar, new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.MATCH_PARENT,
                     1.0f

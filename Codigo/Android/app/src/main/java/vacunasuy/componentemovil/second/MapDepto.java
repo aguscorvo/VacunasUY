@@ -58,7 +58,7 @@ public class MapDepto extends AppCompatActivity {
         Log.i(TAG, "addDepartamentos List<DtDepartamento>: " + departamentos.size());
 
         if(departamentos.size()!=0){
-            listView = findViewById(R.id.departamentoListView);
+            listView = findViewById(R.id.enfermedadListView);
             listAdapter = new CustomListAdapter(this, departamentos);
             listView.setAdapter(listAdapter);
 
@@ -89,7 +89,6 @@ public class MapDepto extends AppCompatActivity {
 
         if (networkInfo != null && networkInfo.isConnected()) {
             new MapDepto.DownloadDepartamentosTask().execute(stringUrl);
-        } else {
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,15 +24,25 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +68,7 @@ public class GubUyActivity extends AppCompatActivity {
     ProgressBar progressBar;
     AccesoBD bd;
     DtUsuario dtUsuario;
+    String firebaseToken = null;
 
     @SuppressLint({"SetJavaScriptEnabled", "NonConstantResourceId"})
     @Override
@@ -106,17 +118,13 @@ public class GubUyActivity extends AppCompatActivity {
             return false;
         });
 
-    }
-
-    private void persistirUsuario(DtUsuario dtusr, DtResponse dtresp){
-
-        Usuario usr  = new Usuario(dtusr.getId(), dtusr.getDocumento(), dtusr.getNombre(), dtusr.getApellido());
-
-        if(bd.getUsuarioById(dtusr.getId())==null)
-            bd.addUsuario(usr);
-
-        Mensaje msg = new Mensaje(dtresp.getMensaje(), new Date(), dtusr.getId());
-        bd.addMensaje(msg);
+        Task<InstanceIdResult> task = FirebaseInstanceId.getInstance().getInstanceId();
+        task.addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult authResult) {
+                firebaseToken = authResult.getToken();
+            }
+        });
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -130,10 +138,6 @@ public class GubUyActivity extends AppCompatActivity {
                 String access = Uri.parse(url).getQuery();
                 Log.i("GubUyActivity", ConnConstant.API_USRLOGIN_URL + access);
                 new LoginUserTask().execute(ConnConstant.API_USRLOGIN_URL + access);
-                //GubUyActivity.super.onBackPressed();
-                //Intent intent = new Intent(GubUyActivity.this, MainActivity.class);
-                //startActivity(intent);
-
                 return true;
             }
             return false;
@@ -175,8 +179,14 @@ public class GubUyActivity extends AppCompatActivity {
 
             if (result instanceof DtResponse) {
                 if(((DtResponse) result).getOk())
-                    persistirUsuario(dtUsuario, (DtResponse) result);
+                    actualizarTokenFirebase();
+/*
+                if(dtUsuario.getTokenFirebase() == null ||
+                            dtUsuario.getTokenFirebase().equalsIgnoreCase("") ||
+                            !dtUsuario.getTokenFirebase().equalsIgnoreCase(firebaseToken)){
 
+                    }
+*/
                 dialog.setMessage(((DtResponse) result).getMensaje());
 
                 Log.i("onPostExecute", "response: " + ((DtResponse) result).getMensaje());
@@ -279,6 +289,7 @@ public class GubUyActivity extends AppCompatActivity {
         String correo = null;
         List<DtRol> roles = null;
         DtSectorLaboral sectorLaboral = null;
+        String tokenFirebase = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -309,6 +320,9 @@ public class GubUyActivity extends AppCompatActivity {
             }else if (name.equals("token") && reader.peek() != JsonToken.NULL) {
                 token = reader.nextString();
                 Log.i(TAG, token);
+            } else if (name.equals("tokenFirebase") && reader.peek() != JsonToken.NULL) {
+                tokenFirebase = reader.nextString();
+                Log.i(TAG, "Firebase: " + token);
             } else {
                 reader.skipValue();
             }
@@ -326,6 +340,7 @@ public class GubUyActivity extends AppCompatActivity {
         dtUsuario.setRoles(roles);
         dtUsuario.setSectorlaboral(sectorLaboral);
         dtUsuario.setRegistrado(true);
+        dtUsuario.setTokenFirebase(tokenFirebase);
 
 
     }
@@ -379,6 +394,103 @@ public class GubUyActivity extends AppCompatActivity {
         return new DtSectorLaboral(id, nombre);
     }
 
+    private void actualizarTokenFirebase() {
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+
+        String stringUrl = ConnConstant.API_ADDTOKENFIREBASE_URL;
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new GubUyActivity.PostUsuarioTask().execute(stringUrl);
+        }
+    }
+
+    private class PostUsuarioTask extends AsyncTask<String, Void, Object> {
+        @Override
+        protected Object doInBackground(String... urls) {
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                return UsuarioUpdateUrl(urls[0]);
+            } catch (IOException e) {
+                return getString(R.string.err_recuperarpag);
+            }
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(Object result) {
+            dtUsuario.setTokenFirebase(firebaseToken);
+        }
+
+    }
+
+    private DtResponse UsuarioUpdateUrl(String myurl) throws IOException {
+        InputStream is = null;
+        HttpURLConnection conn = null;
+
+        try {
+
+            String authorization ="Bearer  " + dtUsuario.getToken();
+
+            URL url = new URL(myurl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn.setRequestProperty("Authorization", authorization);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            String data = usuarioToJSON();
+
+            Log.i(TAG, "DATA TOKEN: " + data);
+
+            byte[] out = data.getBytes(StandardCharsets.UTF_8);
+            OutputStream stream = conn.getOutputStream();
+            stream.write(out);
+
+            // Starts the query
+            conn.connect();
+            int response = conn.getResponseCode();
+            Log.i(TAG, "UsuarioUpdateUrl: " + response +" - " + conn.getResponseMessage());
+            if (response == 200){
+                is = conn.getInputStream();
+                return new DtResponse(true, response +" - " + conn.getResponseMessage());
+            }else{
+                return new DtResponse(false, response +" - " + conn.getResponseMessage());
+            }
+
+            // Makes sure that the InputStream is closed after the app is
+            // finished using it.
+        } finally {
+            if (is != null) {
+                is.close();
+                conn.disconnect();
+            }
+        }
+    }
+
+    private String usuarioToJSON(){
+        String res = "";
+
+        JSONObject jsonObject= new JSONObject();
+        try {
+
+            Log.i(TAG, "dtUsuario TOKEN: " + dtUsuario.getTokenFirebase());
+
+            jsonObject.put("id", dtUsuario.getId());
+            jsonObject.put("token", firebaseToken);
+
+            res = jsonObject.toString();
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+            res = "";
+        }
+
+        return res;
+    }
 
     @Override
     public void onBackPressed() {

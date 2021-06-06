@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,17 +40,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import vacunasuy.componentemovil.AgendarActivity;
 import vacunasuy.componentemovil.MainActivity;
-import vacunasuy.componentemovil.PlanVacunacion;
 import vacunasuy.componentemovil.R;
-import vacunasuy.componentemovil.VacunMapActivity;
 import vacunasuy.componentemovil.bd.AccesoBD;
 import vacunasuy.componentemovil.bd.Mensaje;
 import vacunasuy.componentemovil.bd.Usuario;
 import vacunasuy.componentemovil.constant.ConnConstant;
 import vacunasuy.componentemovil.obj.DtLocalidad;
-import vacunasuy.componentemovil.obj.DtMessage;
 import vacunasuy.componentemovil.obj.DtResponse;
 import vacunasuy.componentemovil.obj.DtSectorLaboral;
 import vacunasuy.componentemovil.obj.DtUsuario;

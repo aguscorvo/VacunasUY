@@ -20,7 +20,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VacunasUY">
-        <activity android:name=".NotificacionActivity"></activity>
+        <activity android:name=".second.MiAgenda"></activity>
+        <activity android:name=".second.CertificadoVacuna" />
+        <activity android:name=".second.MapEnfermedadesVaccunas" />
+        <activity
+            android:name=".NotificacionActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AccessActivity"
             android:screenOrientation="portrait">
@@ -62,22 +67,17 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
-
-        <!-- Servicio para Firebase Push Notifications -->
+            android:screenOrientation="portrait" /> <!-- Servicio para Firebase Push Notifications -->
         <service
             android:name=".notification.NotificacionFirebase"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-
-        <!-- Icono para la notificación -->
+        </service> <!-- Icono para la notificación -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_vacunatorio" />
-
     </application>
 
 </manifest>

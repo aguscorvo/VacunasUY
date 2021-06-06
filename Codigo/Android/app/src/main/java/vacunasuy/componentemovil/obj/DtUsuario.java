@@ -16,6 +16,16 @@ public class DtUsuario {
     private List<DtRol> roles;
     private DtSectorLaboral sectorlaboral;
 
+    public String getTokenFirebase() {
+        return tokenFirebase;
+    }
+
+    public void setTokenFirebase(String tokenFirebase) {
+        this.tokenFirebase = tokenFirebase;
+    }
+
+    private String tokenFirebase;
+
     protected DtUsuario(){}
 
     public static synchronized DtUsuario getInstance() {

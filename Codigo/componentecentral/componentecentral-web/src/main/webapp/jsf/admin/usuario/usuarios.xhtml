@@ -45,11 +45,10 @@
 						href="/jsf/admin/transportista/transportistas.xhtml">Transportistas</a></li>
 				</ul>
 				<h:form class="form-inline">
-					<p:inputText placeholder="Documento/correo"
-						aria-label="Buscar" minValue="0" emptyValue="empty"
-						value="#{beanusuario.strbuscar}" />
+					<p:inputText placeholder="Documento/correo" aria-label="Buscar"
+						minValue="0" emptyValue="empty" value="#{beanusuario.strbuscar}" />
 					<h:commandButton class="btn btn-outline-success my-2 my-sm-0"
-						action="#{beanusuario.buscarUsuario()}" value="Buscar" />
+						action="#{beanusuario.srchUsuario()}" value="Buscar" />
 				</h:form>
 			</div>
 			</nav>
@@ -87,15 +86,25 @@
 					</p:column>
 				</p:dataTable>
 			</div>
+			<div class="col-12 d-flex flex-row-reverse">
+				<div class="p-2">
+					<div class="btn-group" data-toggle="buttons">
+						<a class="btn btn-secondary" href="javascript:addUsuario();"
+							role="button"> <i class="fas fa-user-plus"></i>
+						</a> <a class="btn btn-secondary" href="javascript:delUsuario();"
+							role="button"> <i class="fas fa-user-minus"></i>
+						</a> <a class="btn btn-secondary" href="javascript:updUsuario();"
+							role="button"> <i class="fas fa-user-edit"></i>
+						</a>
+
+
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 
-	<div class="col-12 d-flex flex-row-reverse">
-		<div class="p-2">
-			
-		</div>
-
-	</div>
 
 	<!-- Modal ERROR -->
 	<div class="modal fade" id="error_usuario" tabindex="-1" role="dialog"
@@ -130,6 +139,147 @@
 		</div>
 	</div>
 
+	<!-- Modal ADD-->
+	<div class="modal" tabindex="-1" role="dialog" id="addUsuario">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Crear Usuario</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h:form class="addusuario-form">
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<div class="col-6  mb-3">
+									<p:outputLabel for="addDocumento" value="Documento" />
+								</div>
+								<div class="col-6  mb-3">
+									<h:inputText type="text" class="form-control" id="addDocumento"
+										required="true" name="addDocumento"
+										value="#{beanusuario.documento}" emptyValue="empty" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addName" value="Nombre" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="addName"
+										required="true" name="addName" value="#{beanusuario.nombre}"
+										validator="#{beanusuario.validateModelNombre}">
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addApellido" value="Apellido" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="addApellido"
+										name="addApellido" value="#{beanusuario.apellido}"
+										validator="#{beanusuario.validateModelApellido}">
+									</h:inputText>
+								</div>
+							</div>
+
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addCorreo" value="Correo" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="addCorreo"
+										required="true" name="addCorreo" value="#{beanusuario.correo}"
+										validator="#{beanusuario.validateModelCorreo}">
+										<f:passThroughAttribute name="type" value="email" />
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addFechaNacimiento"
+										value="Fecha Nacimiento" />
+								</div>
+								<div class="col-9  d-flex flex-row mb-3 mr-0 pr-0">
+									<h:inputText type="text" value="#{beanusuario.fechaNacimiento}"
+										id="addFechaNacimiento" name="addFechaNacimiento"
+										styleClass="form-control datepicker" >
+										<f:passThroughAttribute name="type" value="date" />
+										</h:inputText>
+										
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addPassword" value="Contrase&ntilde;a" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputSecret type="text" class="form-control"
+										id="addPassword" required="true" name="addPassword"
+										value="#{beanusuario.password}">
+									</h:inputSecret>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addRol" value="Rol" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="addRol" value="#{beanusuario.rolID}"
+										class="form-control">
+										<f:selectItems value="#{beanusuario.roles}" var="rol"
+											itemValue="#{rol.id}" itemLabel="#{rol.nombre}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+
+
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addSectorLaboral" value="Sector Laboral" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="addSectorLaboral"
+										value="#{beanusuario.sectorLaboral}" class="form-control">
+										<f:selectItems value="#{beanusuario.sectores}" var="sector"
+											itemValue="#{sector.id}" itemLabel="#{sector.nombre}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+
+						</div>
+						<div class="col-12">
+							<p>
+								<h:message for="addApellido" style="color:red" />
+							</p>
+							<p>
+								<h:message for="addName" style="color:red" />
+							</p>
+							<p>
+								<h:message for="addCorreo" style="color:red" />
+							</p>
+							<p>
+								<h:message for="addRol" style="color:red" />
+							</p>
+						</div>
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:commandButton class="btn btn-primary"
+									action="#{beanusuario.addUsuario()}" value="CREAR" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
 	<ui:include src="/WEB-INF/includes/footer_lib.xhtml" />
 
 	<script type="text/javascript">
@@ -142,44 +292,47 @@
 		}	
 		
 	});
+
+
+
 	
 	
-	function addEnfermedad(){
-		$ds('#addEnfermedad').modal('show');
+	function addUsuario(){
+		$ds('#addUsuario').modal('show');
 	}
 
-	function updEnfermedad(){
+	function updUsuario(){
 		var id = $ds('#listaUsuario_data tr.selected').find("td").eq(0).html();
 
 		if(id==undefined){
 			$ds('#errorModalLabel').html('Error'),
 			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
-			$ds('#general_error_msj').html('Debe Seleccionar una Enfermedad');
+			$ds('#general_error_msj').html('Debe Seleccionar un Usuario');
 		    $ds('#error_usuario').modal('show');
 		}else{
 			$ds("input[id*='updId']").val(id);
 			$ds("input[id*='updIdView']").val(id);
 		    $ds("input[id*='updName']").val($ds('#listaUsuario_data tr.selected').find("td").eq(1).html());
 		    $ds("textarea[id*='updDescription']").text($ds('#listaUsuario_data tr.selected').find("td").eq(2).html());
-		    $ds('#updEnfermedad').modal('show');
+		    $ds('#updUsuario').modal('show');
 		}
 		
 	}
 
-	function delEnfermedad(){
+	function delUsuario(){
 		var id = $ds('#listaUsuario_data tr.selected').find("td").eq(0).html();
 
 		if(id==undefined){
 			$ds('#errorModalLabel').html('Error'),
 			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
-			$ds('#general_error_msj').html('Debe Seleccionar una Enfermedad');
+			$ds('#general_error_msj').html('Debe Seleccionar un Usuario');
 		    $ds('#error_usuario').modal('show');
 		}else{
 			$ds("input[id*='delId']").val(id);
 			$ds("input[id*='delIdView']").val(id);
 		    $ds("input[id*='delName']").val($ds('#listaUsuario_data tr.selected').find("td").eq(1).html());
 		    $ds("textarea[id*='delDescription']").text($ds('#listaUsuario_data tr.selected').find("td").eq(2).html());
-		    $ds('#delEnfermedad').modal('show');
+		    $ds('#delUsuario').modal('show');
 		}
 	}
 

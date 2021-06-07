@@ -29,3 +29,9 @@
 	transform-origin: top;
 	font-weight: 600;
 }
+
+/*Datepicker*/
+.ui-datepicker-trigger{
+	width: 2rem !important;
+	height: 2rem !important;
+}

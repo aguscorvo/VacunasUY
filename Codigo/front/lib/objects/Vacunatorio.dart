@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'Localidad.dart';
 import 'Departamento.dart';
 import 'Puesto.dart';
@@ -25,7 +22,10 @@ class Vacunatorio {
     direccion = json['direccion'];
     localidad = Localidad.fromJson(json['localidad']);
     departamento = Departamento.fromJsonShort(json['departamento']);
+
     puestos = [];
-    json['puestos'].forEach((puesto) => {puestos.add(Puesto.fromJson(puesto))});
+    if (json['puestos'] != null) {
+      json['puestos'].forEach((puesto) => {puestos.add(Puesto.fromJson(puesto))});
+    }
   }
 }

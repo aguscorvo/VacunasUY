@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 class GubUY {
   String code;
   String state;

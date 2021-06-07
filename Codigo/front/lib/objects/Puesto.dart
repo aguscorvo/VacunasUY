@@ -1,19 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
+import 'Vacunatorio.dart';
 import 'Agenda.dart';
 
 class Puesto {
   int id;
-  String nombre;
-  List<Agenda> agenda;
+  int numero;
+  Vacunatorio vacunatorio;
+  List<Agenda> agendas;
 
-  Puesto({this.id, this.nombre, this.agenda});
+  Puesto({this.id, this.numero, this.vacunatorio, this.agendas});
 
   Puesto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    nombre = json['nombre'];
-    agenda = [];
-    json['agendas'].forEach((localidad) => {agenda.add(Agenda.fromJson(localidad))});
+    numero = json['numero'];
+
+    if (json['vacunatorio'] != null) {
+      vacunatorio = Vacunatorio.fromJson(json['vacunatorio']);
+    } else {
+      vacunatorio = null;
+    }
+
+    agendas = [];
+    if (json['agendas'] != null) {
+      json['agendas'].forEach((localidad) => {agendas.add(Agenda.fromJson(localidad))});
+    }
   }
 }

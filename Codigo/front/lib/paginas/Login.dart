@@ -1,8 +1,6 @@
-import 'package:VacunasUY/tools/BackendConnection.dart';
+import 'package:vacunas_uy/tools/BackendConnection.dart';
+import 'package:vacunas_uy/tools/PlatformSpecific.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:VacunasUY/tools/UserCredentials.dart';
-import 'dart:html' as html;
 
 class Login extends StatefulWidget {
   @override
@@ -41,10 +39,10 @@ class _LoginState extends State<Login> {
                           height: 50,
                           width: 250,
                           decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-                          child: FlatButton(
+                          child: TextButton(
                             onPressed: () async {
                               String url = baseUrl + '/autenticaciongubuy';
-                              html.window.location.replace(url);
+                              urlReplace(url);
                             },
                             child: Text(
                               'Iniciar Sesion',
@@ -89,7 +87,7 @@ class _LoginState extends State<Login> {
                             decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Contraseña', hintText: 'Ingresar Contraseña'),
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             //Codigo de Olbido Contraseña
                           },
@@ -102,7 +100,7 @@ class _LoginState extends State<Login> {
                           height: 50,
                           width: 250,
                           decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-                          child: FlatButton(
+                          child: TextButton(
                             onPressed: () async {
                               bool valid = false;
                               var client = BackendConnection();
@@ -111,7 +109,7 @@ class _LoginState extends State<Login> {
                                 password: passwordContrller.text,
                               );
                               if (valid) {
-                                html.window.location.reload();
+                                appReload();
                               }
                             },
                             child: Text(

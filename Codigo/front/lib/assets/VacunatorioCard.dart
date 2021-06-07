@@ -1,14 +1,16 @@
-import 'package:VacunasUY/objects/Vacunatorio.dart';
-import 'package:VacunasUY/subPaginas/VacunatoriosForm.dart';
-import 'package:VacunasUY/tools/UserCredentials.dart';
+import 'package:vacunas_uy/objects/Vacunatorio.dart';
+import 'package:vacunas_uy/subPaginas/VacunatorioForm.dart';
+import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
 
 class VacunatorioCard extends StatelessWidget {
   final Vacunatorio vacunatorio;
+  final Row body;
   final Color color;
   const VacunatorioCard({
     Key key,
-    this.vacunatorio = null,
+    this.vacunatorio,
+    this.body,
     this.color = Colors.blue,
   }) : super(key: key);
 

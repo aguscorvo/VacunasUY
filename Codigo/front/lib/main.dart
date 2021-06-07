@@ -1,68 +1,8 @@
-import 'dart:convert';
-import 'dart:html';
-
-import 'package:VacunasUY/assets/CustomNavBar.dart';
-import 'package:VacunasUY/paginas/BienvenidaTab.dart';
-import 'package:VacunasUY/tools/BackendConnection.dart';
-import 'package:VacunasUY/tools/UserCredentials.dart';
+import 'package:vacunas_uy/BaseApp.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'assets/CustomAppBar.dart';
-import 'objects/GubUY.dart';
-
-void main() async {
-  await cookiesLoad();
-  await specialURL();
+void main() {
   runApp(MyApp());
-}
-
-void cookiesLoad() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String savedPreferencesString = prefs.getString("vacunasUY");
-  if (savedPreferencesString.toString() == "null" || savedPreferencesString == '') {
-    storedUserCredentials = emptyUser;
-  } else {
-    Map savedPreferences = jsonDecode(savedPreferencesString);
-    storedUserCredentials = UserCredentials.fromJson(savedPreferences);
-    if (storedUserCredentials.getUserData() == null) {
-      storedUserCredentials = emptyUser;
-    } else if (storedUserCredentials.getUserData().correo == '') {
-      storedUserCredentials = emptyUser;
-    } else {
-      await checkToken();
-    }
-  }
-}
-
-void specialURL() async {
-  String url = window.location.href.toString();
-  if (url.contains("code=") && url.contains("state=")) {
-    String tokens = "";
-    List<String> urls = url.split("/");
-    urls.forEach((element) {
-      if (element.contains("code=") && element.contains("state=")) {
-        tokens = element.replaceAll(new RegExp(r'#'), '');
-      }
-    });
-    String code = tokens.split("&")[0].split("=")[1];
-    String state = tokens.split("&")[1].split("=")[1];
-
-    GubUY gubAuth = new GubUY();
-    gubAuth.code = code;
-    gubAuth.state = state;
-
-    BackendConnection bc = new BackendConnection();
-    await bc.exitoLoginGubUY(gubAuth);
-  }
-}
-
-void checkToken() async {
-  var client = BackendConnection();
-  var valid = await client.getUsuarios();
-  if (valid.length == 0) {
-    storedUserCredentials = emptyUser;
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -89,51 +29,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: "/",
-      home: MyHomePage(title: 'Vacunas UY'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  Widget _body = BienvenidaTab();
-
-  _setBody(Widget val) {
-    setState(() {
-      _body = val;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    CustomNavBar navBar = CustomNavBar(
-      title: widget.title,
-      onElementSelected: (Widget val) => _setBody(val),
-    );
-    CustomAppBar appBar = CustomAppBar(
-      title: widget.title,
-      onElementSelected: (Widget val) => _setBody(val),
-    );
-
-    return Scaffold(
-      appBar: appBar,
-      body: Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: _body,
-          ),
-        ],
-      ),
-      bottomNavigationBar: navBar,
+      home: BaseApp(title: 'Vacunas UY'),
     );
   }
 }

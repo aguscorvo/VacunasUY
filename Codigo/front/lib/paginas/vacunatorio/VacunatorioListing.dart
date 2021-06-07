@@ -1,16 +1,24 @@
-import 'package:VacunasUY/assets/VacunatorioCard.dart';
-import 'package:VacunasUY/objects/Departamento.dart';
-import 'package:VacunasUY/objects/Localidad.dart';
-import 'package:VacunasUY/objects/Vacunatorio.dart';
-import 'package:VacunasUY/tools/BackendConnection.dart';
+import 'package:vacunas_uy/assets/VacunatorioCard.dart';
+import 'package:vacunas_uy/objects/Departamento.dart';
+import 'package:vacunas_uy/objects/Localidad.dart';
+import 'package:vacunas_uy/objects/Vacunatorio.dart';
+import 'package:vacunas_uy/paginas/vacunatorio/VacunatorioSelected.dart';
+import 'package:vacunas_uy/tools/BackendConnection.dart';
+import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
 
-class VacunatoriosTab extends StatefulWidget {
+class VacunatorioListing extends StatefulWidget {
+  final VacunatorioSelected vacunSelected;
+  const VacunatorioListing({Key key, this.vacunSelected}) : super(key: key);
+
   @override
-  _VacunatoriosTabState createState() => _VacunatoriosTabState();
+  _VacunatorioListingState createState() => _VacunatorioListingState(vacunSelected);
 }
 
-class _VacunatoriosTabState extends State<VacunatoriosTab> {
+class _VacunatorioListingState extends State<VacunatorioListing> {
+  final VacunatorioSelected vacunSelected;
+  _VacunatorioListingState(this.vacunSelected);
+
   String _selectedDepartamento = "";
   String _selectedLocalidad = "";
   List<Departamento> _depGuardados = [];
@@ -28,26 +36,44 @@ class _VacunatoriosTabState extends State<VacunatoriosTab> {
       _selectedLocalidad = todasLasLocalidades.nombre;
     }
 
-    return Scaffold(
-      body: Column(
-        //mainAxisSize: MainAxisSize.max,
-        //crossAxisAlignment: CrossAxisAlignment.start,
+    var topRow = <Container>[];
+    topRow.add(filtroDepartamento(client, todosLosDepartamentos));
+    topRow.add(filtroLocalidad(client, todasLasLocalidades));
+    if (isUserAdmin()) {
+      topRow.add(addVacunatorio());
+    }
+
+    return Expanded(
+      flex: 7,
+      child: Column(
         children: [
-          new Container(
-            height: 100,
-            padding: const EdgeInsets.fromLTRB(50.0, 25.0, 50.0, 20),
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                filtroDepartamento(client, todosLosDepartamentos),
-                filtroLocalidad(client, todasLasLocalidades),
-              ],
-            ),
-          ),
+          new LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+            if (constraints.maxWidth >= 900.0) {
+              return new Container(
+                height: 100,
+                padding: const EdgeInsets.fromLTRB(50.0, 25.0, 50.0, 20),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: topRow,
+                ),
+              );
+            } else {
+              return new Container(
+                height: 200,
+                padding: const EdgeInsets.fromLTRB(50.0, 25.0, 50.0, 20),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: topRow,
+                ),
+              );
+            }
+          }),
           Expanded(
+            flex: 7,
             child: new Container(
-              padding: const EdgeInsets.fromLTRB(50.0, 0, 50.0, 50.0),
+              padding: const EdgeInsets.fromLTRB(50.0, 0, 25.0, 50.0),
               alignment: Alignment.center,
               child: FutureBuilder(
                 future: client.getVacunatorios(),
@@ -75,15 +101,16 @@ class _VacunatoriosTabState extends State<VacunatoriosTab> {
                         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                           childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 4),
                           maxCrossAxisExtent: 600,
-                          mainAxisExtent: 175,
+                          mainAxisExtent: 176,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                         ),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                         itemCount: vacunatorios.length,
                         itemBuilder: (context, index) {
                           return new InkWell(
                             hoverColor: Colors.transparent,
-                            onTap: () => Navigator.of(context).pushNamed('', arguments: ''),
+                            onTap: () => {VacunatorioSelected.state.changeVacunatorio(vacunatorios[index])},
                             child: new Container(
                               child: new VacunatorioCard(
                                 vacunatorio: vacunatorios[index],
@@ -99,6 +126,24 @@ class _VacunatoriosTabState extends State<VacunatoriosTab> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Container addVacunatorio() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+      decoration: new BoxDecoration(
+        border: new Border.all(
+          color: Colors.blueAccent,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(25)),
+        color: Colors.blueAccent,
+      ),
+      child: FloatingActionButton(
+        onPressed: () {},
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
       ),
     );
   }

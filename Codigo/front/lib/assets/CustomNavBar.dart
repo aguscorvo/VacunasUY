@@ -1,13 +1,15 @@
-import 'package:VacunasUY/paginas/AgendaTab.dart';
-import 'package:VacunasUY/paginas/EnfermedadesTab.dart';
-import 'package:VacunasUY/paginas/ErrorTab.dart';
-import 'package:VacunasUY/paginas/PlanVacunacionTab.dart';
-import 'package:VacunasUY/paginas/ProveedoresTab.dart';
-import 'package:VacunasUY/paginas/VacunasTab.dart';
-import 'package:VacunasUY/paginas/VacunatoriosTab.dart';
+import 'package:vacunas_uy/paginas/agenda/AgendaTab.dart';
+import 'package:vacunas_uy/paginas/EnfermedadesTab.dart';
+import 'package:vacunas_uy/paginas/ErrorTab.dart';
+import 'package:vacunas_uy/paginas/PlanVacunacionTab.dart';
+import 'package:vacunas_uy/paginas/ProveedoresTab.dart';
+import 'package:vacunas_uy/paginas/VacunasTab.dart';
+import 'package:vacunas_uy/paginas/monitorVacunacion/MonitorVacunacionTab.dart';
+import 'package:vacunas_uy/paginas/vacunatorio/VacunatorioTab.dart';
 import 'package:flutter/material.dart';
 
-import 'package:VacunasUY/tools/UserCredentials.dart';
+import 'package:vacunas_uy/tools/UserCredentials.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 final MaterialColor colorCustom = MaterialColor(0xFF174378, {
   050: Color.fromRGBO(0, 0, 250, .1),
@@ -54,28 +56,38 @@ class _CustomNavBarState extends State<CustomNavBar> {
     nabBarItems = [];
 
     nabBarItems.add(BottomNavigationBarItem(
+      icon: Icon(Icons.info),
+      label: 'Monitor Vacunacion',
+      backgroundColor: colorCustom,
+    ));
+
+    nabBarItems.add(BottomNavigationBarItem(
       icon: Icon(Icons.apartment_sharp),
       label: 'Vacunatorios',
       backgroundColor: colorCustom,
     ));
 
     nabBarItems.add(BottomNavigationBarItem(
-      icon: Image(image: AssetImage('assets/icons/vacuna_xs.png')),
+      icon: Icon(TablerIcons.vaccine),
       label: 'Vacunas',
       backgroundColor: colorCustom,
     ));
 
-    nabBarItems.add(BottomNavigationBarItem(
-      icon: Icon(Icons.list_alt),
-      label: 'Planes de Vacunacion',
-      backgroundColor: colorCustom,
-    ));
+    if (isUserVacunador()) {
+      nabBarItems.add(BottomNavigationBarItem(
+        icon: Icon(Icons.list_alt),
+        label: 'Planes de Vacunacion',
+        backgroundColor: colorCustom,
+      ));
+    }
 
-    nabBarItems.add(BottomNavigationBarItem(
-      icon: Icon(Icons.coronavirus),
-      label: 'Enfermedades',
-      backgroundColor: colorCustom,
-    ));
+    if (isUserVacunador()) {
+      nabBarItems.add(BottomNavigationBarItem(
+        icon: Icon(Icons.coronavirus),
+        label: 'Enfermedades',
+        backgroundColor: colorCustom,
+      ));
+    }
 
     if (isUserAdmin()) {
       nabBarItems.add(BottomNavigationBarItem(
@@ -85,13 +97,11 @@ class _CustomNavBarState extends State<CustomNavBar> {
       ));
     }
 
-    if (isUserLogedOn()) {
-      nabBarItems.add(BottomNavigationBarItem(
-        icon: Icon(Icons.menu_book),
-        label: 'Agenda',
-        backgroundColor: colorCustom,
-      ));
-    }
+    nabBarItems.add(BottomNavigationBarItem(
+      icon: Icon(Icons.menu_book),
+      label: 'Agendas',
+      backgroundColor: colorCustom,
+    ));
 
     return BottomNavigationBar(
       items: nabBarItems,
@@ -117,15 +127,17 @@ class _CustomNavBarState extends State<CustomNavBar> {
       _selectedIndex = index;
     });
 
-    if (label == 'Vacunatorios') {
-      return new VacunatoriosTab();
+    if (label == 'Monitor Vacunacion') {
+      return new MonitorVacunacionTab();
+    } else if (label == 'Vacunatorios') {
+      return new VacunatorioTab();
     } else if (label == 'Vacunas') {
       return new VacunasTab();
     } else if (label == 'Planes de Vacunacion') {
       return new PlanVacunacionTab();
     } else if (label == 'Proveedores') {
       return new ProveedoresTab();
-    } else if (label == 'Agenda') {
+    } else if (label == 'Agendas') {
       return new AgendaTab();
     } else if (label == 'Enfermedades') {
       return new EnfermedadesTab();

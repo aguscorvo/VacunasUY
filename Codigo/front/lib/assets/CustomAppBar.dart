@@ -1,10 +1,10 @@
-import 'package:VacunasUY/paginas/Profile.dart';
+import 'package:vacunas_uy/paginas/Profile.dart';
 import 'package:flutter/material.dart';
 
 import '../paginas/Login.dart';
 import '../paginas/Profile.dart';
 
-import 'package:VacunasUY/tools/UserCredentials.dart';
+import 'package:vacunas_uy/tools/UserCredentials.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -14,21 +14,35 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
       : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
+  static _CustomAppBarState appbarstate;
+
   @override
   final Size preferredSize; // default is 56.0
 
   @override
-  _CustomAppBarState createState() => _CustomAppBarState(onElementSelected);
+  _CustomAppBarState createState() => appbarstate = _CustomAppBarState(onElementSelected);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
   final Function(Widget) onElementSelected;
   _CustomAppBarState(this.onElementSelected);
 
+  Text usernamewidget;
+
+  void userNameChange(String username) {
+    setState(() {
+      usernamewidget = Text(username);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (storedUserCredentials.token != '') {
-      return getLogedAppBar(context, widget);
+    if (storedUserCredentials != null) {
+      if (storedUserCredentials.token != '') {
+        return getLogedAppBar(context, widget);
+      } else {
+        return getNoLogedAppBar(context, widget);
+      }
     } else {
       return getNoLogedAppBar(context, widget);
     }
@@ -90,7 +104,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(0.0),
-                  child: Text(storedUserCredentials.userData.nombre + ' ' + storedUserCredentials.userData.apellido),
+                  child: usernamewidget = Text(storedUserCredentials.userData.nombre + ' ' + storedUserCredentials.userData.apellido),
                 ),
                 RawMaterialButton(
                   onPressed: () {

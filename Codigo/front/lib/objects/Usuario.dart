@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
+import 'dart:convert';
+import 'Sector.dart';
 import 'Rol.dart';
 
 class Usuario {
@@ -9,48 +8,82 @@ class Usuario {
   String nombre;
   String apellido;
   String correo;
-  String fechaNacimiento;
+  DateTime fechaNacimiento;
   List<Rol> roles;
+  Sector sectorLaboral;
 
-  Usuario({this.documento, this.nombre, this.apellido, this.id, this.correo, this.fechaNacimiento, this.roles});
+  Usuario({this.documento, this.nombre, this.apellido, this.id, this.correo, this.fechaNacimiento, this.roles, this.sectorLaboral});
 
   Usuario.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'] != null ? json['id'] : "";
     documento = json['documento'] != null ? json['documento'] : "";
     nombre = json['nombre'];
     apellido = json['apellido'];
     correo = json['correo'];
-    fechaNacimiento = json['fechaNacimiento'];
+    fechaNacimiento = DateTime.parse(json['fechaNacimiento']);
     roles = [];
-    json['roles'].forEach((rol) => {roles.add(Rol.fromJson(rol))});
+    if (json['roles'] != null) {
+      json['roles'].forEach((rol) => {roles.add(Rol.fromJson(rol))});
+    }
+    if (json['sectorLaboral'] != null) {
+      sectorLaboral = Sector.fromJson(json['sectorLaboral']);
+    } else {
+      sectorLaboral = Sector(id: 7, nombre: "No tiene");
+    }
   }
 
   Map<String, dynamic> toJson() => {
+        'id': id ?? "",
         'documento': documento ?? "",
         'nombre': nombre ?? "",
         'apellido': apellido ?? "",
         'correo': correo ?? "",
-        'fechaNacimiento': fechaNacimiento ?? "",
-        'roles': roles ?? "",
+        'fechaNacimiento': (fechaNacimiento.year.toString() + "-" + fechaNacimiento.month.toString() + "-" + fechaNacimiento.day.toString()) ?? "",
+        'roles': jsonEncode(roles) ?? "",
+        'sectorLaboral': jsonEncode(sectorLaboral) ?? Sector(id: 6, nombre: "Otra ocupación"),
       };
   Map<String, dynamic> toNestedJson() => {
         "Usuario": {
+          'id': id ?? "",
           'documento': documento ?? "",
           'nombre': nombre ?? "",
           'apellido': apellido ?? "",
           'correo': correo ?? "",
-          'fechaNacimiento': fechaNacimiento ?? "",
-          'roles': roles ?? "",
+          'fechaNacimiento': (fechaNacimiento.year.toString() + "-" + fechaNacimiento.month.toString() + "-" + fechaNacimiento.day.toString()) ?? "",
+          'roles': jsonEncode(roles) ?? "",
+          'sectorLaboral': jsonEncode(sectorLaboral) ?? Sector(id: 6, nombre: "Otra ocupación"),
         },
       };
 
   Map<String, dynamic> toNestedValidatedJson(String pass) => {
+        'id': id ?? "",
         'documento': documento ?? "",
         'nombre': nombre ?? "",
         'apellido': apellido ?? "",
         'correo': correo ?? "",
-        'fechaNacimiento': fechaNacimiento ?? "",
+        'fechaNacimiento': (fechaNacimiento.year.toString() + "-" + fechaNacimiento.month.toString() + "-" + fechaNacimiento.day.toString()) ?? "",
         'password': pass ?? "",
-        'roles': roles ?? "",
+        'roles': jsonEncode(roles) ?? "",
+        'sectorLaboral': jsonEncode(sectorLaboral) ?? Sector(id: 6, nombre: "Otra ocupación"),
       };
+
+  Map<String, dynamic> toUpdateUserJson() => {
+        'documento': documento ?? "",
+        'nombre': nombre ?? "",
+        'apellido': apellido ?? "",
+        'correo': correo ?? "",
+        'fechaNacimiento': (fechaNacimiento.year.toString() + "-" + fechaNacimiento.month.toString() + "-" + fechaNacimiento.day.toString()) ?? "",
+        'roles': jsonEncode(roles) ?? "",
+        'sectorLaboral': sectorLaboral == null ? 6 : sectorLaboral.id,
+      };
+
+  List<int> rolesLongArray() {
+    List<int> rolesInt = [];
+
+    roles.forEach((element) {
+      rolesInt.add(element.id);
+    });
+
+    return rolesInt;
+  }
 }

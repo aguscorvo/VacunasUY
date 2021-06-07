@@ -18,7 +18,20 @@ class _AgendaTabState extends State<AgendaTab> {
       if (isUserCiudadano()) {
         agendaToLoad = AgendaCiudadano();
       } else if (isUserVacunador()) {
-        agendaToLoad = AgendaVacunador();
+        agendaToLoad = DefaultTabController(
+            length: 2,
+            child: Scaffold(
+                appBar: AppBar(
+                    title: Text("Mis Agendas"),
+                    bottom: TabBar(
+                      tabs: [Tab(text: "Mis Agendas Como Ciudadano"), Tab(text: "Mis Agendas Como Vacunador")],
+                    )),
+                body: TabBarView(
+                  children: [
+                    AgendaCiudadano(),
+                    AgendaVacunador(),
+                  ],
+                )));
       }
     } else {
       agendaToLoad = AgendaPublico();

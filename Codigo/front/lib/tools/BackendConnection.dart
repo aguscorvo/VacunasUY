@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:vacunas_uy/AppConfig.dart';
 import 'package:vacunas_uy/objects/Agenda.dart';
+import 'package:vacunas_uy/objects/Atiende.dart';
 import 'package:vacunas_uy/objects/Enfermedad.dart';
 import 'package:vacunas_uy/objects/GubUY.dart';
 import 'package:vacunas_uy/objects/Localidad.dart';
@@ -325,6 +326,22 @@ class BackendConnection {
       List<Agenda> contentList = [];
       for (var i = 0; i < jsonResponse.length; i++) {
         contentList.add(Agenda.fromJson(jsonResponse[i]));
+      }
+      return contentList;
+    }
+    return [];
+  }
+
+  Future<List<Atiende>> getAgendasVacunador(int id) async {
+    var response = await http.get(
+      '$baseUrl/usuarios/listarAtiendeVacunador/$id',
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+
+      List<Atiende> contentList = [];
+      for (var i = 0; i < jsonResponse.length; i++) {
+        contentList.add(Atiende.fromJson(jsonResponse[i]));
       }
       return contentList;
     }

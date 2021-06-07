@@ -557,7 +557,3 @@ INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vac
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento3', '2021-06-02', 3, 1, 35);
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento4', '2021-06-02', 1, 1, 41);
 
-
-
-
-

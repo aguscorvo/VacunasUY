@@ -190,6 +190,6 @@ public class UsuariosREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}
-	}	
+	}
 	
 }

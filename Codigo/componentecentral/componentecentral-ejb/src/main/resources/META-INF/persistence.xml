@@ -40,16 +40,14 @@
 	  <class>vacunasuy.componentecentral.entity.Lote</class>
 	  <class>vacunasuy.componentecentral.entity.PlanVacunacion</class>
 	  <class>vacunasuy.componentecentral.entity.Atiende</class>
-	  
+	  <class>vacunasuy.componentecentral.entity.Stock</class>
 	  		  	 
       <properties>
          <!--  <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>-->
 		 <!--  <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
 		 <property name="hibernate.dialect" value="org.hibernate.spatial.dialect.postgis.PostgisDialect"/>
-		 <!-- <property name="hibernate.hbm2ddl.auto" value="create"/> -->
-		 <property name="hibernate.hbm2ddl.auto" value="none"/>
-		<!--  <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/datos.sql"/> -->
-		 
+		 <property name="hibernate.hbm2ddl.auto" value="create"/>
+		 <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/datos.sql"/>
       </properties>
    </persistence-unit>
 </persistence>

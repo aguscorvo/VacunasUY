@@ -66,5 +66,8 @@ public class Vacunatorio implements Serializable{
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<ActoVacunal> actosVacunales = new ArrayList<ActoVacunal>();
+	
+	@OneToMany(mappedBy="vacunatorio", cascade = CascadeType.ALL, orphanRemoval=true)
+	private List<Stock> stock = new ArrayList();
 			
 }

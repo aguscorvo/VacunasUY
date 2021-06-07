@@ -15,6 +15,7 @@ import vacunasuy.componentecentral.dto.EventoDTO;
 import vacunasuy.componentecentral.dto.EventoPerifericoDTO;
 import vacunasuy.componentecentral.entity.Evento;
 import vacunasuy.componentecentral.entity.Lote;
+import vacunasuy.componentecentral.entity.Stock;
 import vacunasuy.componentecentral.entity.Transportista;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -34,6 +35,9 @@ public class EventoServiceImpl implements IEventoService {
 	
 	@EJB
 	private EventoConverter eventoConverter;
+	
+	@EJB
+	private IVacunatorioService vacunatorioService;
 	
 	@EJB
 	private IVacunatorioDAO vacunatorioDAO;
@@ -111,6 +115,10 @@ public class EventoServiceImpl implements IEventoService {
 			evento.setEstado(estado);
 			evento.setFecha(LocalDateTime.now());
 			eventoDAO.editar(evento);
+			/* Si se recibe, se aumenta el stock del vacunatorio */
+			if(eventoDTO.getEstado().equalsIgnoreCase("recibido")) {
+				vacunatorioService.sumarStock(vacunatorio, lote.getVacuna(), evento.getCantidad());
+			}
 			return eventoConverter.fromEntity(evento);
 		} catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

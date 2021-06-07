@@ -45,6 +45,8 @@ import vacunasuy.componentecentral.entity.Evento;
 import vacunasuy.componentecentral.entity.Localidad;
 import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.entity.Puesto;
+import vacunasuy.componentecentral.entity.Stock;
+import vacunasuy.componentecentral.entity.Vacuna;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.util.Constantes;
@@ -373,6 +375,25 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}
 		
 		return false;
+	}
+	
+	public void sumarStock(Vacunatorio vacunatorio, Vacuna vacuna, Long cantidad) throws VacunasUyException {
+		try {
+			Stock stock = vacunatorioDAO.listarStockPorVacuna(vacunatorio.getId(), vacuna.getId());
+			if(stock == null) {
+				stock = Stock.builder()
+						.vacunatorio(vacunatorio)
+						.vacuna(vacuna)
+						.cantidad(cantidad)
+						.build();
+				vacunatorio.getStock().add(stock);
+			} else {
+				stock.setCantidad(stock.getCantidad() + cantidad);
+			}
+			vacunatorioDAO.editar(vacunatorio);
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
 	}
 	
 }

@@ -10,6 +10,8 @@ import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
+import vacunasuy.componentecentral.entity.Vacuna;
+import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
 @Local
@@ -20,7 +22,6 @@ public interface IVacunatorioService {
 	public VacunatorioDTO crear(VacunatorioCrearDTO vacunatorioDTO) throws VacunasUyException;
 	public VacunatorioDTO editar(Long id, VacunatorioCrearDTO vacunatorioDTO) throws VacunasUyException;
 	public void eliminar(Long id) throws VacunasUyException;
-	
 	public List<VacunatorioDTO> listarVacunatoriosDadoPlan(Long id_plan) throws VacunasUyException;
 	public List<VacunatorioDTO> listarCercanos(UbicacionDTO ubicacionDTO) throws VacunasUyException;
 	public VacunatorioDTO agregarEvento(Long vacunatorio, Long evento) throws VacunasUyException;
@@ -31,5 +32,6 @@ public interface IVacunatorioService {
 	public void crearGeometrias() throws VacunasUyException;
 	public List<AgendaVacunatorioDTO> listarAgendasPorVacunatorio(Long id, String fecha) throws VacunasUyException;
 	public boolean vacunatorioTienePlan (Long idVacunatorio, Long idPlan) throws VacunasUyException;
+	public void sumarStock(Vacunatorio vacunatorio, Vacuna vacuna, Long cantidad) throws VacunasUyException;
 	
 }

@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import vacunasuy.componentecentral.entity.Departamento;
 import vacunasuy.componentecentral.entity.Localidad;
+import vacunasuy.componentecentral.entity.Stock;
 import vacunasuy.componentecentral.entity.Ubicacion;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 
@@ -20,5 +21,6 @@ public interface IVacunatorioDAO {
 	
 	public List<Vacunatorio> listarPorUbicacion(Long localidad, Long departamento);
 	public List<Vacunatorio> listarPorDepartamento(Long departamento);
+	public Stock listarStockPorVacuna(Long idVacunatorio, Long idVacuna);
 	
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'PlanVacunacion.dart';
 import 'Puesto.dart';
 
@@ -23,6 +25,13 @@ class Agenda {
       planVacunacion = null;
     }
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id ?? "",
+        'fecha': fecha.toString() ?? "",
+        'puesto': puesto != null ? jsonEncode(puesto) : null,
+        'planVacunacion': planVacunacion != null ? jsonEncode(planVacunacion) : null,
+      };
 
   DateTime calculateDate(String date) {
     DateTime toReturn = DateTime.parse(date);

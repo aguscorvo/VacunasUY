@@ -32,16 +32,22 @@ class Usuario {
     }
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() {
+    try {
+      Map<String, dynamic> toReturn = {
         'id': id ?? "",
         'documento': documento ?? "",
         'nombre': nombre ?? "",
         'apellido': apellido ?? "",
         'correo': correo ?? "",
-        'fechaNacimiento': (fechaNacimiento.year.toString() + "-" + fechaNacimiento.month.toString() + "-" + fechaNacimiento.day.toString()) ?? "",
-        'roles': jsonEncode(roles) ?? "",
-        'sectorLaboral': jsonEncode(sectorLaboral) ?? Sector(id: 6, nombre: "Otra ocupación"),
+        'fechaNacimiento': fechaNacimiento != null ? (fechaNacimiento.year.toString() + "-" + fechaNacimiento.month.toString() + "-" + fechaNacimiento.day.toString()) : "",
+        'roles': roles != null ? jsonEncode(roles) : "[]",
+        'sectorLaboral': sectorLaboral != null ? jsonEncode(sectorLaboral) : Sector(id: 6, nombre: "Otra ocupación"),
       };
+      return toReturn;
+    } catch (err) {}
+  }
+
   Map<String, dynamic> toNestedJson() => {
         "Usuario": {
           'id': id ?? "",

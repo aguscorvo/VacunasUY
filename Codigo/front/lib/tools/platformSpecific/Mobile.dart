@@ -17,9 +17,9 @@ Future<bool> cookiesLoad() async {
   } else {
     Map savedPreferences = jsonDecode(savedPreferencesString);
     storedUserCredentials = UserCredentials.fromJson(savedPreferences);
-    if (storedUserCredentials.getUserData() == null) {
+    if (storedUserCredentials.userData == null) {
       storedUserCredentials = emptyUser;
-    } else if (storedUserCredentials.getUserData().correo == '') {
+    } else if (storedUserCredentials.userData.correo == '') {
       storedUserCredentials = emptyUser;
     }
   }
@@ -56,6 +56,14 @@ Future<bool> saveUserCredentials() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   var usercredentials = jsonEncode(storedUserCredentials);
   prefs.setString("vacunasUY", usercredentials);
+  return Future<bool>.sync(() => true);
+}
+
+Future<bool> deleteUserCredentials() async {
+  try {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  } catch (err) {}
   return Future<bool>.sync(() => true);
 }
 

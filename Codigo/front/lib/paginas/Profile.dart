@@ -245,8 +245,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     child: TextButton(
                       onPressed: () async {
                         storedUserCredentials = logedOffUser;
-                        saveUserCredentials();
-                        appReload();
+                        await deleteUserCredentials();
+                        await appReload();
                       },
                       child: Text(
                         'Cerrar Sesion',

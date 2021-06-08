@@ -585,6 +585,7 @@ class _PuestosListState extends State<PuestosList> {
                         child: datetimeform = DateTimeFormField(
                           mode: DateTimeFieldPickerMode.date,
                           autovalidateMode: AutovalidateMode.always,
+                          //validator: (date),
                           decoration: const InputDecoration(hintText: "Fecha Preferencial"),
                           onDateSelected: (value) => {fechaPreferencial = value, selectedDate = true, dateSelected()},
                         ),

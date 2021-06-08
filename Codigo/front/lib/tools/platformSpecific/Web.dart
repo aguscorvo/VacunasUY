@@ -16,19 +16,22 @@ Future<bool> autoLogIn() async {
 
 Future<bool> cookiesLoad() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String savedPreferencesString = prefs.getString("vacunasUY");
-  if (savedPreferencesString.toString() == "null" || savedPreferencesString == '') {
-    storedUserCredentials = emptyUser;
-  } else {
-    Map savedPreferences = jsonDecode(savedPreferencesString);
-    storedUserCredentials = UserCredentials.fromJson(savedPreferences);
-    if (storedUserCredentials.getUserData() == null) {
+  if (prefs.getString("vacunasUY") != null) {
+    final String savedPreferencesString = prefs.getString("vacunasUY");
+    if (savedPreferencesString.toString() == "null" || savedPreferencesString == '') {
       storedUserCredentials = emptyUser;
-    } else if (storedUserCredentials.getUserData().correo == '') {
-      storedUserCredentials = emptyUser;
+    } else {
+      Map savedPreferences = jsonDecode(savedPreferencesString);
+      storedUserCredentials = UserCredentials.fromJson(savedPreferences);
+      if (storedUserCredentials.userData == null) {
+        storedUserCredentials = emptyUser;
+      } else if (storedUserCredentials.userData.correo == '') {
+        storedUserCredentials = emptyUser;
+      }
     }
+  } else {
+    storedUserCredentials = emptyUser;
   }
-
   if (!AppConfig.flutterBackOffice) {
     if (isUserAdmin()) {
       urlReplace(AppConfig.adminBackOfficeURL);
@@ -72,21 +75,30 @@ Future<bool> checkToken() async {
 }
 
 Future<bool> saveUserCredentials() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final Storage sesionStorage = window.localStorage;
-  var usercredentials = jsonEncode(storedUserCredentials);
-  if (!AppConfig.flutterBackOffice) {
-    sesionStorage['USERLOGIN'] = usercredentials;
-    if (isUserAdmin()) {
-      urlReplace(AppConfig.adminBackOfficeURL);
-    } else if (isUserAutoridad()) {
-      urlReplace(AppConfig.autoridadBackOfficeURL);
-    } else {
-      prefs.setString("vacunasUY", usercredentials);
-    }
-  } else {
+  try {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var usercredentials = jsonEncode(storedUserCredentials);
     prefs.setString("vacunasUY", usercredentials);
-  }
+    if (!AppConfig.flutterBackOffice) {
+      final Storage sesionStorage = window.localStorage;
+      sesionStorage['USERLOGIN'] = usercredentials;
+      if (isUserAdmin()) {
+        urlReplace(AppConfig.adminBackOfficeURL);
+      } else if (isUserAutoridad()) {
+        urlReplace(AppConfig.autoridadBackOfficeURL);
+      }
+    }
+  } catch (err) {}
+  return Future<bool>.sync(() => true);
+}
+
+Future<bool> deleteUserCredentials() async {
+  try {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Storage sesionStorage = window.localStorage;
+    prefs.clear();
+    sesionStorage.clear();
+  } catch (err) {}
   return Future<bool>.sync(() => true);
 }
 

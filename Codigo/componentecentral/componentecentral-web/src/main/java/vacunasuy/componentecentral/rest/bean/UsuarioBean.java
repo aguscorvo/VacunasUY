@@ -113,7 +113,8 @@ public class UsuarioBean implements Serializable {
 		rolesID = new ArrayList<Long>();
 		rolesID.add(this.rolID);
 		
-		fechaNacimiento = fechaNacimiento.trim().equals("")?null:fechaNacimiento;
+		fechaNacimiento = "0001-01-01";
+		sectorLaboral = (long) -1;
 		
 		UsuarioCrearDTO usuarioCrearDTO = new UsuarioCrearDTO(documento, nombre, apellido, correo, fechaNacimiento,
 				password, rolesID, sectorLaboral);
@@ -124,49 +125,67 @@ public class UsuarioBean implements Serializable {
 			UsuarioDTO usuario = usuarioService.crear(usuarioCrearDTO);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario " + usuario.getCorreo() + " creado con éxito.", null));
+			
+			usuarios = usuarioService.listar();
+			
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage().trim(), null));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 		}
 	}
 
 	public void updUsuario() {
-		rolesID = new ArrayList<Long>();
-		rolesID.add(this.rolID);
+		//rolesID = new ArrayList<Long>();
+		//rolesID.add(this.rolID);
+		password = null;
+		logger.info(rolesID.size());
 		
-		UsuarioCrearDTO usuarioCrearDTO = new UsuarioCrearDTO(documento, nombre, apellido, correo, fechaNacimiento,
-				password, rolesID, sectorLaboral);
-
 		try {
-			UsuarioDTO usuario = usuarioService.editar(id, usuarioCrearDTO);
+			UsuarioDTO aux = usuarioService.listarPorId(id);
+		
+			UsuarioCrearDTO usuarioCrearDTO = new UsuarioCrearDTO(aux.getDocumento(), aux.getNombre(), 
+					aux.getApellido(), aux.getCorreo(), aux.getFechaNacimiento(),
+					password, rolesID, aux.getSectorLaboral().getId());
 
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Usuario " + usuario.getDocumento() + " creado con éxito.", null));
+			try {
+				UsuarioDTO usuario = usuarioService.editar(id, usuarioCrearDTO);
 
-		} catch (VacunasUyException e) {
-			logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Usuario " + usuario.getDocumento() + " modificado con éxito.", null));
+
+			} catch (VacunasUyException e) {
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+
+			} finally {
+				clearParam();
+			}
+
+		} catch (VacunasUyException e1) {
+			logger.info(e1.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage().trim(), null));
-
-		} finally {
-			clearParam();
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e1.getMessage().trim(), null));
 		}
-
+		
+		
 	}
 
 	public void delUsuario() {
 		try {
 			usuarioService.eliminar(id);
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario " + id + " eliminado con éxito.", null));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario id " + id + " eliminado con éxito.", null));
+			
+			usuarios = usuarioService.listar();
 
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage().trim(), null));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 
 		} finally {
 			clearParam();
@@ -191,7 +210,7 @@ public class UsuarioBean implements Serializable {
 		if (texto.trim().equalsIgnoreCase("")) {
 			((UIInput) comp).setValid(false);
 
-			throw new ValidatorException(new FacesMessage("En nombre no puede ser vacío"));
+			throw new ValidatorException(new FacesMessage("Error: En nombre no puede ser vacío"));
 //			context.addMessage(comp.getClientId(context), message);
 		}
 	}
@@ -202,7 +221,7 @@ public class UsuarioBean implements Serializable {
 		if (texto.trim().equalsIgnoreCase("")) {
 			((UIInput) comp).setValid(false);
 
-			throw new ValidatorException(new FacesMessage("El apellido no puede ser vacío"));
+			throw new ValidatorException(new FacesMessage("Error: El apellido no puede ser vacío"));
 		}
 	}
 
@@ -213,7 +232,7 @@ public class UsuarioBean implements Serializable {
 			InternetAddress emailAddr = new InternetAddress(texto);
 			emailAddr.validate();
 		} catch (AddressException ex) {
-			throw new ValidatorException(new FacesMessage("el formato de correo no es correcto"));
+			throw new ValidatorException(new FacesMessage("Error: El formato de correo no es correcto"));
 		}
 
 	}
@@ -323,5 +342,14 @@ public class UsuarioBean implements Serializable {
 		this.sectores = sectores;
 	}
 
+	public List<Long> getRolesID() {
+		return rolesID;
+	}
+
+	public void setRolesID(List<Long> rolesID) {
+		this.rolesID = rolesID;
+	}
+	
+	
 	
 }

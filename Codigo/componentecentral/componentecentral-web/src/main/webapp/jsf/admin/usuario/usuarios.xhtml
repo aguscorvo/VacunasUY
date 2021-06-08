@@ -67,6 +67,11 @@
 					<p:column headerText="Id">
 						<h:outputText value="#{dtUsuario.id}" />
 					</p:column>
+					<p:column headerText="Roles">
+						<ui:repeat var="rol" value="#{dtUsuario.roles}">
+							<h:outputText value="#{rol.nombre} " />
+						</ui:repeat>
+					</p:column>
 					<p:column headerText="Documento">
 						<h:outputText value="#{dtUsuario.documento}" />
 					</p:column>
@@ -83,6 +88,9 @@
 						<h:outputText value="#{dtUsuario.fechaNacimiento}">
 							<f:convertDateTime type="date" pattern="yyyy-MM-dd" />
 						</h:outputText>
+					</p:column>
+					<p:column headerText="Sector">
+						<h:outputText value="#{dtUsuario.sectorLaboral.nombre}" />
 					</p:column>
 				</p:dataTable>
 			</div>
@@ -122,12 +130,15 @@
 					<div class="row">
 						<div class="col-md-3" id="general_error_icon">
 							<h1>
-								<i class="fa fa-exclamation-triangle display-3"
-									style="color: #cc0000"></i>
+								<i class="fas fa-minus-circle display-3" style="color: #cc0000"></i>
 							</h1>
 						</div>
 						<div class="col-md-9 ml-auto" id="general_error_msj">
-							<h:messages globalOnly="true" />
+							<!--Displays only Error Messages-->
+							<h:messages globalOnly="true" styleClass="mystyle" layout="list"
+								id="general_error_msj_1" infoStyle="display:none"
+								warnStyle="display:none" />
+
 						</div>
 					</div>
 				</div>
@@ -138,6 +149,48 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Modal INFO -->
+	<div class="modal fade" id="info_usuario" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="errorModalLabel">Infomraci&oacute;n</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-3" id="general_error_icon">
+							<h1>
+								<i class="fas fa-info-circle display-3" style="color: #F1C40F"></i>
+							</h1>
+						</div>
+						<div class="col-md-9 ml-auto" id="general_error_msj">
+
+							<!--Displays only Warning Messages-->
+							<h:messages globalOnly="true" styleClass="messages" layout="list"
+								id="general_error_msj_2" errorStyle="display:none"
+								infoStyle="display:none" />
+
+							<!--Displays only Info Messages-->
+							<h:messages globalOnly="true" styleClass="messages" layout="list"
+								id="general_error_msj_3" errorStyle="display:none"
+								warnStyle="display:none" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- Modal ADD-->
 	<div class="modal" tabindex="-1" role="dialog" id="addUsuario">
@@ -198,20 +251,21 @@
 									</h:inputText>
 								</div>
 							</div>
-							<div class="col-12 d-flex flex-row">
+							<!--<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
 									<p:outputLabel for="addFechaNacimiento"
 										value="Fecha Nacimiento" />
 								</div>
-								<div class="col-9  d-flex flex-row mb-3 mr-0 pr-0">
+								 <div class="col-9  d-flex flex-row mb-3 mr-0 pr-0">
 									<h:inputText type="text" value="#{beanusuario.fechaNacimiento}"
 										id="addFechaNacimiento" name="addFechaNacimiento"
-										styleClass="form-control datepicker" >
+										styleClass="form-control datepicker">
 										<f:passThroughAttribute name="type" value="date" />
-										</h:inputText>
-										
+									</h:inputText>
+
 								</div>
-							</div>
+ 							</div>-->
+
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
 									<p:outputLabel for="addPassword" value="Contrase&ntilde;a" />
@@ -232,20 +286,6 @@
 										class="form-control">
 										<f:selectItems value="#{beanusuario.roles}" var="rol"
 											itemValue="#{rol.id}" itemLabel="#{rol.nombre}" />
-									</h:selectOneMenu>
-								</div>
-							</div>
-
-
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="addSectorLaboral" value="Sector Laboral" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectOneMenu id="addSectorLaboral"
-										value="#{beanusuario.sectorLaboral}" class="form-control">
-										<f:selectItems value="#{beanusuario.sectores}" var="sector"
-											itemValue="#{sector.id}" itemLabel="#{sector.nombre}" />
 									</h:selectOneMenu>
 								</div>
 							</div>
@@ -277,6 +317,177 @@
 		</div>
 	</div>
 
+	<!-- Modal DEL-->
+	<div class="modal" tabindex="-1" role="dialog" id="delUsuario">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Borrar Usuario</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h:form class="delUsuario-form">
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:inputHidden value="#{beanusuario.id}" id="delId" name="delId" />
+								<div class="col-6  mb-3">
+									<p:outputLabel for="delIdView" value="Id" />
+								</div>
+								<div class="col-6  mb-3">
+									<h:inputText id="delIdView" name="delIdView" readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="delDocumento" value="Documento" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="delDocumento"
+										readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="delCorreo" value="Correo" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="delCorreo"
+										readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="delName" value="Nombre" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="delName"
+										readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="delApellido" value="Apellido" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="delApellido"
+										readonly="true" />
+								</div>
+							</div>
+
+						</div>
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:commandButton class="btn btn-primary"
+									action="#{beanusuario.delUsuario()}" value="BORRAR" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal UPD-->
+	<div class="modal" tabindex="-1" role="dialog" id="updUsuario">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Actualizar Usuario</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h:form class="updUsuario-form">
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:inputHidden value="#{beanusuario.id}" id="updId" name="updId" />
+								<div class="col-6  mb-3">
+									<p:outputLabel for="updIdView" value="Id" />
+								</div>
+								<div class="col-6  mb-3">
+									<h:inputText id="updIdView" name="updIdView" readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updDocumento" value="Documento" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="updDocumento"
+										readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updCorreo" value="Correo" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="updCorreo"
+										readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updName" value="Nombre" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="updName"
+										readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updApellido" value="Apellido" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="updApellido"
+										readonly="true" />
+								</div>
+							</div>
+
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updFechaNacimiento"
+										value="Fecha Nacimiento" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control"
+										id="updFechaNacimiento" readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updRoles" value="Rol" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectManyListbox id="updRoles"
+										value="#{beanusuario.rolesID}">
+										<f:selectItems value="#{beanusuario.roles}" var="rol"
+											itemLabel="#{rol.nombre}" itemValue="#{rol.id}" />
+									</h:selectManyListbox>
+								</div>
+							</div>
+
+
+
+						</div>
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:commandButton class="btn btn-primary"
+									action="#{beanusuario.updUsuario()}" value="ACTUALIZAR" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 
 
@@ -287,15 +498,22 @@
 	var $ds = jQuery.noConflict();
 
 	$ds(document).ready(function() {
-		if($ds('#general_error_msj').html().trim()!= ""){
+		var err = $ds('#general_error_msj_1 li'); 
+		var info = $ds('#general_error_msj_2 li');
+		var info2 = $ds('#general_error_msj_3 li'); 	
+
+		if(err.length>0 &amp;&amp; $ds(err).css("display")!= "none"){
 			$ds('#error_usuario').modal('show');
+		}
+
+		if(info.length>0 &amp;&amp; $ds(info).css("display")!= "none"){
+			$ds('#info_usuario').modal('show');
 		}	
-		
+
+		if(info2.length>0 &amp;&amp; $ds(info2).css("display")!= "none"){
+			$ds('#info_usuario').modal('show');
+		}
 	});
-
-
-
-	
 	
 	function addUsuario(){
 		$ds('#addUsuario').modal('show');
@@ -312,8 +530,11 @@
 		}else{
 			$ds("input[id*='updId']").val(id);
 			$ds("input[id*='updIdView']").val(id);
-		    $ds("input[id*='updName']").val($ds('#listaUsuario_data tr.selected').find("td").eq(1).html());
-		    $ds("textarea[id*='updDescription']").text($ds('#listaUsuario_data tr.selected').find("td").eq(2).html());
+		    $ds("input[id*='updDocumento']").val($ds('#listaUsuario_data tr.selected').find("td").eq(2).html());
+		    $ds("input[id*='updCorreo']").val($ds('#listaUsuario_data tr.selected').find("td").eq(5).html());
+		    $ds("input[id*='updName']").val($ds('#listaUsuario_data tr.selected').find("td").eq(3).html());
+		    $ds("input[id*='updApellido']").val($ds('#listaUsuario_data tr.selected').find("td").eq(4).html());
+		    $ds("input[id*='updFechaNacimiento']").val($ds('#listaUsuario_data tr.selected').find("td").eq(6).html());
 		    $ds('#updUsuario').modal('show');
 		}
 		
@@ -330,8 +551,10 @@
 		}else{
 			$ds("input[id*='delId']").val(id);
 			$ds("input[id*='delIdView']").val(id);
-		    $ds("input[id*='delName']").val($ds('#listaUsuario_data tr.selected').find("td").eq(1).html());
-		    $ds("textarea[id*='delDescription']").text($ds('#listaUsuario_data tr.selected').find("td").eq(2).html());
+		    $ds("input[id*='delDocumento']").val($ds('#listaUsuario_data tr.selected').find("td").eq(2).html());
+		    $ds("input[id*='delCorreo']").val($ds('#listaUsuario_data tr.selected').find("td").eq(5).html());
+		    $ds("input[id*='delName']").val($ds('#listaUsuario_data tr.selected').find("td").eq(3).html());
+		    $ds("input[id*='delApellido']").val($ds('#listaUsuario_data tr.selected').find("td").eq(4).html());
 		    $ds('#delUsuario').modal('show');
 		}
 	}

@@ -65,13 +65,5 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
 		consulta.setParameter("departamento", departamento);
     	return consulta.getResultList();
     }
-
-	@Override
-	public Stock listarStockPorVacuna(Long idVacunatorio, Long idVacuna) {
-		Query consulta = em.createQuery("SELECT s FROM Stock s WHERE s.vacunatorio.id = :idVacunatorio AND s.vacuna.id = :idVacuna");
-		consulta.setParameter("idVacunatorio", idVacunatorio);
-		consulta.setParameter("idVacuna", idVacuna);
-		return (Stock) consulta.getResultList().stream().findFirst().orElse(null);
-	}
     
 }

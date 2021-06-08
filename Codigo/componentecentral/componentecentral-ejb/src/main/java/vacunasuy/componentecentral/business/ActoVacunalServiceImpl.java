@@ -2,22 +2,24 @@ package vacunasuy.componentecentral.business;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
 import vacunasuy.componentecentral.converter.ActoVacunalConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
 import vacunasuy.componentecentral.dao.IEnfermedadDAO;
 import vacunasuy.componentecentral.dao.IPlanVacunacionDAO;
+import vacunasuy.componentecentral.dao.IStockDAO;
 import vacunasuy.componentecentral.dao.IUsuarioDAO;
+import vacunasuy.componentecentral.dao.IVacunatorioDAO;
 import vacunasuy.componentecentral.dto.ActoVacunalCertificadoDTO;
 import vacunasuy.componentecentral.dto.ActoVacunalCrearDTO;
 import vacunasuy.componentecentral.dto.ActoVacunalDTO;
 import vacunasuy.componentecentral.entity.ActoVacunal;
 import vacunasuy.componentecentral.entity.Enfermedad;
 import vacunasuy.componentecentral.entity.PlanVacunacion;
+import vacunasuy.componentecentral.entity.Stock;
 import vacunasuy.componentecentral.entity.Usuario;
+import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
 
@@ -38,6 +40,12 @@ public class ActoVacunalServiceImpl implements IActoVacunalService {
     
     @EJB
     private IEnfermedadDAO enfermedadDAO;
+    
+    @EJB
+    private IVacunatorioDAO vacunatorioDAO;
+    
+    @EJB
+    private IStockService stockService;
     
     @EJB
     private ActoVacunalConverter actoVacunalConverter;
@@ -82,17 +90,23 @@ public class ActoVacunalServiceImpl implements IActoVacunalService {
 	public ActoVacunalDTO crear(ActoVacunalCrearDTO actoVacunalDTO) throws VacunasUyException{
 		//se valida que el ciudadano exista
 		Usuario ciudadano = usuarioDAO.listarPorId(actoVacunalDTO.getUsuario());
-		if(ciudadano==null) throw new VacunasUyException("El ciudadano indicado no existe.",
-				VacunasUyException.NO_EXISTE_REGISTRO);
+		if(ciudadano==null) throw new VacunasUyException("El ciudadano indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		// se valida que el plan de vacunacion exista
 		PlanVacunacion planVacunacion = planVacunacionDAO.listarPorId(actoVacunalDTO.getPlanVacunacion());
-		if(planVacunacion==null) throw new VacunasUyException("El plan de vacunación indicado no existe.",
-				VacunasUyException.NO_EXISTE_REGISTRO);
+		if(planVacunacion==null) throw new VacunasUyException("El plan de vacunación indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		/* Se valida que exista el vacunatorio */
+		Vacunatorio vacunatorio = vacunatorioDAO.listarPorId(actoVacunalDTO.getIdVacunatorio());
+		if(vacunatorio == null) throw new VacunasUyException("El vacunatorio indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+		/* Se valida que exista stock para la vacuna */
+		Stock stock = stockService.listarStockPorVacuna(vacunatorio.getId(), planVacunacion.getVacuna().getId());
+		if(stock == null) throw new VacunasUyException("No existe stock de vacunas para procesar la solicitud.", VacunasUyException.SIN_STOCK);
+		if(stock.getCantidad() == 0) throw new VacunasUyException("No existe stock de vacunas para procesar la solicitud.", VacunasUyException.SIN_STOCK); 
 		try {
 			ActoVacunal actoVacunal = actoVacunalConverter.fromCrearDTO(actoVacunalDTO);
 			actoVacunal.setPlanVacunacion(planVacunacion);
 			ActoVacunal actoVacunalCreado = actoVacunalDAO.crear(actoVacunal);
 			usuarioService.agregarActoVacunal(ciudadano.getId(), actoVacunalCreado.getId());
+			stockService.restarStock(vacunatorio, planVacunacion.getVacuna(), 1L);
 			return actoVacunalConverter.fromEntity(actoVacunalCreado);
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

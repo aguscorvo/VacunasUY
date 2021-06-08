@@ -91,7 +91,13 @@ public class ActoVacunalREST {
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<ActoVacunalDTO>(false, e.getLocalizedMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			if(e.getCodigo() == VacunasUyException.SIN_STOCK) {
+				return Response.status(Response.Status.NOT_MODIFIED).entity(respuesta).build();
+			} else if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
 		}
 	}
 	

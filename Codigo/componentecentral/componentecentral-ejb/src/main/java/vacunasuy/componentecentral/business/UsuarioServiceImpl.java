@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -288,15 +289,56 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		usuarioDAO.editar(usuarioAux);
 	}
 	
-//	//desde backend
-//	@Override
-//	public void agregarAgenda(Long usuario, Long agenda) throws VacunasUyException{
-//		Agenda agendaAux = agendaDAO.listarPorId(agenda);
-//		if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-//		Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
-//		usuarioAux.getAgendas().add(agendaAux);
-//		usuarioDAO.editar(usuarioAux);
-//	}
+	//desde backend
+	@Override
+	public void agregarAgenda(Usuario ciudadano, List<Agenda> agendasNuevas) throws VacunasUyException{
+		try {
+			List<Agenda> agendas = ciudadano.getAgendas();
+			agendasNuevas.forEach((a)-> agendas.add(a));
+			ciudadano.setAgendas(agendas);
+			usuarioDAO.editar(ciudadano);
+		}catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+	
+	//desde backend
+	@Override
+	public void cancelarAgenda(Long usuario, Long agenda) throws VacunasUyException{
+		try {
+			//se valida que el usuario exista
+			Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
+			if(usuarioAux==null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			//se valida si el usuario es un ciudadano
+			List<Rol> roles = usuarioAux.getRoles();
+			Rol rol = roles.stream().filter(r -> r.getNombre().equals("Ciudadano")).findFirst().orElse(null);
+			if(rol == null) throw new VacunasUyException("El usuario indicado no es un ciudadano.", VacunasUyException.DATOS_INCORRECTOS);
+			//se valida que la agenda exista
+			Agenda agendaAux = agendaDAO.listarPorId(agenda);
+			if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			//se valida si el usuario y la agenda están asociadoos
+			List<Agenda> agendas = usuarioAux.getAgendas();
+			Agenda asociada = agendas.stream()
+					.filter(a -> a.getId()==agenda).findFirst().orElse(null);
+			if(asociada==null) throw new VacunasUyException("El usuario y la agenda indicados no están asociados.",
+					VacunasUyException.NO_EXISTE_REGISTRO);
+			
+			// se obtienen las agendas posteriores del mismo plan
+			List<Agenda> agendasAEliminar = agendas.stream()
+					.filter(a -> a.getPlanVacunacion()==agendaAux.getPlanVacunacion() && 
+						(a.getFecha().compareTo(agendaAux.getFecha()) > 0))
+					.collect(Collectors.toList());	
+			
+			agendasAEliminar.add(agendaAux);
+		
+			agendasAEliminar.stream().forEach(a -> agendas.remove(a));
+			usuarioAux.setAgendas(agendas);
+			usuarioDAO.editar(usuarioAux);
+		}catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+
 		
 
 	@Override
@@ -342,6 +384,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			List<Rol> roles = usuario.getRoles();
 			Rol rol = roles.stream().filter(r -> r.getNombre().equals("Ciudadano")).findFirst().orElse(null);
 			if(rol == null) throw new VacunasUyException("El usuario indicado no es un ciudadano.", VacunasUyException.DATOS_INCORRECTOS);
+			List<Agenda> agendas = usuario.getAgendas();
+//			agendas.clear();
+//			usuario.setAgendas(agendas);
+//			usuarioDAO.editar(usuario);
 			return agendaConverter.fromEntity(usuario.getAgendas());
 		}catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

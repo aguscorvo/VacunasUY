@@ -32,7 +32,14 @@ public class ActoVacunalDAOImpl implements IActoVacunalDAO {
 	
 	@Override
 	public List<ActoVacunalCertificadoDTO> listarActosVacunalesPorUsuarioEnfermedad(Long idUsuario, Long idEnfermedad) {
-		TypedQuery<ActoVacunalCertificadoDTO> actosVacunales = (TypedQuery<ActoVacunalCertificadoDTO>) em.createNativeQuery("SELECT a.fecha, v.nombre FROM usuarios_actos_vacunales u INNER JOIN actos_vacunales a ON u.actosvacunales_id = a.id INNER JOIN planes_vacunacion p ON a.fk_plan_vacunacion = p.id INNER JOIN vacunas v ON p.fk_vacuna = v.id INNER JOIN enfermedades e ON v.fk_enfermedad = e.id WHERE u.usuario_id = :idUsuario AND e.id = :idEnfermedad ORDER BY fecha DESC", "ActoVacunalCertificadoDTOMapping");
+		TypedQuery<ActoVacunalCertificadoDTO> actosVacunales = (TypedQuery<ActoVacunalCertificadoDTO>) 
+				em.createNativeQuery("SELECT a.fecha, v.nombre FROM usuarios_actos_vacunales u "
+						+ "INNER JOIN actos_vacunales a ON u.actosvacunales_id = a.id "
+						+ "INNER JOIN planes_vacunacion p ON a.fk_plan_vacunacion = p.id "
+						+ "INNER JOIN vacunas v ON p.fk_vacuna = v.id "
+						+ "INNER JOIN enfermedades e ON v.fk_enfermedad = e.id "
+						+ "WHERE u.usuario_id = :idUsuario AND e.id = :idEnfermedad "
+						+ "ORDER BY fecha DESC", "ActoVacunalCertificadoDTOMapping");
 		actosVacunales.setParameter("idUsuario", idUsuario);
 		actosVacunales.setParameter("idEnfermedad", idEnfermedad);
 		return actosVacunales.getResultList();

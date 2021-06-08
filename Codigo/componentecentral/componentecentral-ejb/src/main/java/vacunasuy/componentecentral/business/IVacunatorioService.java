@@ -32,6 +32,5 @@ public interface IVacunatorioService {
 	public void crearGeometrias() throws VacunasUyException;
 	public List<AgendaVacunatorioDTO> listarAgendasPorVacunatorio(Long id, String fecha) throws VacunasUyException;
 	public boolean vacunatorioTienePlan (Long idVacunatorio, Long idPlan) throws VacunasUyException;
-	public void sumarStock(Vacunatorio vacunatorio, Vacuna vacuna, Long cantidad) throws VacunasUyException;
 	
 }

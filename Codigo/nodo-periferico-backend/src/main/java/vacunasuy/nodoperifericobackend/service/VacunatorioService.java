@@ -164,6 +164,7 @@ public class VacunatorioService {
 								.fecha(LocalDate.now().toString())
 								.planVacunacion(agenda.getIdPlanVacunacion())
 								.usuario(agenda.getIdUsuario())
+								.idVacunatorio(v.getId())
 								.build();
 						/* Se envía al componente central */
 						ObjectMapper mapper = new ObjectMapper();
@@ -171,8 +172,10 @@ public class VacunatorioService {
 						String URL = "/actosVacunales";
 						WebTarget target = cliente.target(baseURL+URL);
 						Response respuesta = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.json(actoVacunalJSON));
-						if(respuesta.getStatus() != 200) {
-							System.out.println("Error al procesar agenda. Intente más tarde.");
+						if(respuesta.getStatus() == 304) {
+							System.out.println("No se cuenta con stock para procesar el acto vacunal.");
+						} else if(respuesta.getStatus() != 200) {
+							System.out.println("Error al procesar la solicitud. Intente más tarde.");
 						} else {
 							/* Se actualiza la agenda como vacunada */
 							agenda.setVacunado(true);

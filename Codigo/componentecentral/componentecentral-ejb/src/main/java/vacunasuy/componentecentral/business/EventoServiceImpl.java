@@ -41,6 +41,10 @@ public class EventoServiceImpl implements IEventoService {
 	
 	@EJB
 	private IVacunatorioDAO vacunatorioDAO;
+	
+	@EJB
+	private IStockService stockService;
+	
 
 	@Override
 	public List<EventoDTO> listar() throws VacunasUyException {
@@ -117,7 +121,7 @@ public class EventoServiceImpl implements IEventoService {
 			eventoDAO.editar(evento);
 			/* Si se recibe, se aumenta el stock del vacunatorio */
 			if(eventoDTO.getEstado().equalsIgnoreCase("recibido")) {
-				vacunatorioService.sumarStock(vacunatorio, lote.getVacuna(), evento.getCantidad());
+				stockService.sumarStock(vacunatorio, lote.getVacuna(), evento.getCantidad());
 			}
 			return eventoConverter.fromEntity(evento);
 		} catch (Exception e) {

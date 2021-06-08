@@ -14,6 +14,7 @@ public class VacunasUyException extends Exception implements Serializable {
 	public static final int NO_EXISTE_REGISTRO = 2;
 	public static final int DATOS_INCORRECTOS = 3;
 	public static final int ERROR_GENERAL = 4;
+	public static final int SIN_STOCK = 5;
 
 	/* Codigo de la excepción */
 	private final int codigo;

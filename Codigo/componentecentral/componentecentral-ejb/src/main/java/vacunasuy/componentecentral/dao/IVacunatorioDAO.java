@@ -18,9 +18,7 @@ public interface IVacunatorioDAO {
 	public Vacunatorio crear(Vacunatorio vacunatorio);
 	public Vacunatorio editar(Vacunatorio vacunatorio);
 	public void eliminar(Vacunatorio vacunatorio);
-	
 	public List<Vacunatorio> listarPorUbicacion(Long localidad, Long departamento);
 	public List<Vacunatorio> listarPorDepartamento(Long departamento);
-	public Stock listarStockPorVacuna(Long idVacunatorio, Long idVacuna);
 	
 }

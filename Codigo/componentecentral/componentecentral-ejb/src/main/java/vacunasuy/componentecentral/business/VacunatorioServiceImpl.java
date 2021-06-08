@@ -13,12 +13,10 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Geometries;
 import org.geolatte.geom.Point;
 import org.geolatte.geom.crs.CoordinateReferenceSystems;
-
 import vacunasuy.componentecentral.converter.AgendaConverter;
 import vacunasuy.componentecentral.converter.UbicacionConverter;
 import vacunasuy.componentecentral.converter.UsuarioConverter;
@@ -28,6 +26,7 @@ import vacunasuy.componentecentral.dao.IDepartamentoDAO;
 import vacunasuy.componentecentral.dao.IEventoDAO;
 import vacunasuy.componentecentral.dao.ILocalidadDAO;
 import vacunasuy.componentecentral.dao.IPlanVacunacionDAO;
+import vacunasuy.componentecentral.dao.IStockDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
 import vacunasuy.componentecentral.dto.AgendaDTO;
 import vacunasuy.componentecentral.dto.AgendaMinDTO;
@@ -46,6 +45,7 @@ import vacunasuy.componentecentral.entity.Localidad;
 import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Stock;
+import vacunasuy.componentecentral.entity.StockID;
 import vacunasuy.componentecentral.entity.Vacuna;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -74,6 +74,9 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 	
 	@EJB 
 	private IActoVacunalDAO actoVacunalDAO;
+	
+	@EJB
+	private IStockService stockService;
 	
 	@EJB
 	private VacunatorioConverter vacunatorioConverter;
@@ -375,25 +378,6 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		}
 		
 		return false;
-	}
-	
-	public void sumarStock(Vacunatorio vacunatorio, Vacuna vacuna, Long cantidad) throws VacunasUyException {
-		try {
-			Stock stock = vacunatorioDAO.listarStockPorVacuna(vacunatorio.getId(), vacuna.getId());
-			if(stock == null) {
-				stock = Stock.builder()
-						.vacunatorio(vacunatorio)
-						.vacuna(vacuna)
-						.cantidad(cantidad)
-						.build();
-				vacunatorio.getStock().add(stock);
-			} else {
-				stock.setCantidad(stock.getCantidad() + cantidad);
-			}
-			vacunatorioDAO.editar(vacunatorio);
-		} catch (Exception e) {
-			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-		}
 	}
 	
 }

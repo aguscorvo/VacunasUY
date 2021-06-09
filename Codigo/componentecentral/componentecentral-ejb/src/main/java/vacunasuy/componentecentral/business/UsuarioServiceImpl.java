@@ -289,18 +289,19 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		usuarioDAO.editar(usuarioAux);
 	}
 	
-	//desde backend
-	@Override
-	public void agregarAgenda(Usuario ciudadano, List<Agenda> agendasNuevas) throws VacunasUyException{
-		try {
-			List<Agenda> agendas = ciudadano.getAgendas();
-			agendasNuevas.forEach((a)-> agendas.add(a));
-			ciudadano.setAgendas(agendas);
-			usuarioDAO.editar(ciudadano);
-		}catch (Exception e) {
-			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-		}
-	}
+//	//desde backend
+//	@Override
+//	public void agregarAgenda(Usuario ciudadano, List<Agenda> agendasNuevas) throws VacunasUyException{
+//		try {
+//			List<Agenda> agendasCiudadano = ciudadano.getAgendas();
+//			List<Agenda> agendas = new ArrayList<Agenda>(agendasCiudadano);
+//			agendasNuevas.stream().forEach(a -> agendas.add(a));			
+//			ciudadano.setAgendas(agendas);
+//			usuarioDAO.editar(ciudadano);
+//		}catch (Exception e) {
+//			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+//		}
+//	}
 	
 	//desde backend
 	@Override
@@ -331,7 +332,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			
 			agendasAEliminar.add(agendaAux);
 		
-			agendasAEliminar.stream().forEach(a -> agendas.remove(a));
+			agendasAEliminar.forEach(a -> agendas.remove(a));
 			usuarioAux.setAgendas(agendas);
 			usuarioDAO.editar(usuarioAux);
 		}catch (Exception e) {

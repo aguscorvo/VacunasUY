@@ -131,45 +131,27 @@ public class AgendaServiceImpl implements IAgendaService {
 		
 		agendaDTO.setFecha(fecha_hora);
 		Agenda agenda;
-		List<AgendaMinDTO> agendas = new ArrayList<AgendaMinDTO>();
-		List<Agenda> agendasNuevas = ciudadano.getAgendas();
-		
+		List<AgendaMinDTO> agendas = new ArrayList<AgendaMinDTO>();		
 		try {
 			for (int i=0;i<cantidad_de_agendas;i++) {
 				agenda = agendaConverter.fromCrearDTO(agendaDTO);
 				agenda.setPuesto(puesto);
 				agenda.setPlanVacunacion(planVacunacion);
 				agenda.setUsuario(ciudadano);
-				puesto.getAgendas().add(agenda);
-				
-				AgendaMinDTO a_agregar = agendaConverter.fromEntityToMin(agenda);
+				puesto.getAgendas().add(agenda);				
+				AgendaMinDTO a_agregar = agendaConverter.fromEntityToMin(agendaDAO.crear(agenda));
 				agendas.add(a_agregar);
-				
-				// Se agrega la agenda a la lista de agendas del usuario				
-				agendasNuevas.add(agenda);					
-	
 				fecha_hora = agendaDTO.getFecha();
 				String nueva_fecha_hora = sumarDias(fecha_hora, periodo);
 				agendaDTO.setFecha(nueva_fecha_hora);				
-			}	
-			
-			// se agregan agendas al ciudadano
-			usuarioService.agregarAgenda(ciudadano, agendasNuevas);
-			
+			}		
 			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 			DateTimeFormatter formato1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 			/* Si tiene un token de firebase definido, se le envía la notificación */
 			if(ciudadano.getTokenFirebase() != null) {
 				notificacionService.enviarNotificacionFirebase(ciudadano.getTokenFirebase(), "Agenda registrada con éxito.", "Documento: " + ciudadano.getDocumento() + " - Fecha/hora: " + LocalDateTime.parse(agendas.get(0).getFecha(), formato).format(formato1) + " - Vacunatorio: " + puesto.getVacunatorio().getNombre() + " - Dirección: " + puesto.getVacunatorio().getDireccion());
-//				notificacionService.enviarNotificacionFirebase(ciudadano.getTokenFirebase(), "Agenda registrada con éxito.", 
-//						"Documento: " + ciudadano.getDocumento() + " - Fecha/hora: " + agendasNuevas.get(0).getFecha() + 
-//						" - Vacunatorio: " + puesto.getVacunatorio().getNombre() + " - Dirección: " + 
-//								puesto.getVacunatorio().getDireccion());
-
-			}						
+			}
 			
-//			List<AgendaMinDTO> agendas = new ArrayList<AgendaMinDTO>();
-//			agendas = agendaConverter.fromEntityToMin(agendasNuevas);
 			return agendas;
 		}catch(Exception e){
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

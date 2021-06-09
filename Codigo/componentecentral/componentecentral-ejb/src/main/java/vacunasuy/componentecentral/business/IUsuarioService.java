@@ -32,7 +32,7 @@ public interface IUsuarioService {
 	public void agregarActoVacunal(Long usuario, Long actoVacunal) throws VacunasUyException;
 	
 	//desde backend
-	public void agregarAgenda(Usuario ciudadano, List<Agenda> agendasNuevas) throws VacunasUyException;
+//	public void agregarAgenda(Usuario ciudadano, List<Agenda> agendasNuevas) throws VacunasUyException;
 	public void cancelarAgenda(Long usuario, Long agenda) throws VacunasUyException;
 	
 	public void registrarTokenFirebase(UsuarioRegistrarTFDTO usuarioDTO) throws VacunasUyException;

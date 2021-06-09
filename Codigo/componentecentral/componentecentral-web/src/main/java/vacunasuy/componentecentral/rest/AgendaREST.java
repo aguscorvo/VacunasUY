@@ -72,7 +72,8 @@ public class AgendaREST {
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<List<AgendaMinDTO>>(false, e.getLocalizedMessage());
-			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO || e.getCodigo() == VacunasUyException.EXISTE_REGISTRO 
+					|| e.getCodigo() == VacunasUyException.DATOS_INCORRECTOS) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			} else {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();

@@ -2,6 +2,7 @@ package vacunasuy.componentecentral.business;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Rol;
+import vacunasuy.componentecentral.entity.SectorLaboral;
 import vacunasuy.componentecentral.entity.Usuario;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
@@ -97,6 +99,21 @@ public class AgendaServiceImpl implements IAgendaService {
 		boolean hay_agenda = usuarioService.existeAgenda(agendaDTO.getUsuario(), agendaDTO.getPlanVacunacion());
 		if(hay_agenda)throw new VacunasUyException("El usuario ya está agendado para este plan de vacunación.", VacunasUyException.EXISTE_REGISTRO);
 		
+		//se valida que el usuario esté habilitado al plan
+		//se valida la edad
+		LocalDate hoy = LocalDate.now();
+		Period diferencia= Period.between(ciudadano.getFechaNacimiento(), hoy);
+		int edad= diferencia.getYears();
+		if(edad>planVacunacion.getEdadMaxima() || edad<planVacunacion.getEdadMinima()) throw new 
+				VacunasUyException("El usuario indicado no se encuentra habilitado para este plan. No cumple el requerimiento de edad.", 
+				VacunasUyException.DATOS_INCORRECTOS);		
+		//se valida el sector laboral			
+		List<SectorLaboral> sectoresLaborales = planVacunacion.getSectores();
+		SectorLaboral sectorLaboral = sectoresLaborales.stream()
+				.filter(s -> s == ciudadano.getSectorLaboral()).findFirst().orElse(null);
+		if(sectorLaboral==null) throw new VacunasUyException("El usuario indicado no se encuentra habilitado para este plan. "
+				+ "No cumple el requerimiento de sector laboral.", VacunasUyException.DATOS_INCORRECTOS);
+				
 		int cantidad_de_agendas = planVacunacion.getVacuna().getCant_dosis();
 		int periodo = planVacunacion.getVacuna().getPeriodo();
 		

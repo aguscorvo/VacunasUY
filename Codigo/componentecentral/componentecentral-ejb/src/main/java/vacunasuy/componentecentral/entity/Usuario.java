@@ -48,7 +48,7 @@ public class Usuario implements Serializable {
 	private String correo;
 	@Column(name = "fechaNacimiento")
 	private LocalDate fechaNacimiento;
-	@Column(name = "password", nullable = false, length = 255)
+	@Column(name = "password", length = 255)
 	private String password;
 	@Column(name = "token_firebase", length = 255)
 	private String tokenFirebase;

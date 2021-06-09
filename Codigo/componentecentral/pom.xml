@@ -171,7 +171,7 @@
 	             <webModule>
 	               <groupId>vacunasuy</groupId>
 	               <artifactId>componentecentral-web</artifactId>
-	               <contextRoot>/</contextRoot>
+	               <contextRoot>backoffice</contextRoot>
 	             </webModule>
 	          </modules>
 	        </configuration>

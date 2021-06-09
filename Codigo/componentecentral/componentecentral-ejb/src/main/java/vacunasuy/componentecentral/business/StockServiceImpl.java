@@ -1,9 +1,10 @@
 package vacunasuy.componentecentral.business;
 
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
 import vacunasuy.componentecentral.dao.IStockDAO;
+import vacunasuy.componentecentral.dto.ReporteVacunaDTO;
 import vacunasuy.componentecentral.entity.Stock;
 import vacunasuy.componentecentral.entity.StockID;
 import vacunasuy.componentecentral.entity.Vacuna;
@@ -54,6 +55,36 @@ public class StockServiceImpl implements IStockService {
 			if(stock == null) throw new VacunasUyException("No existe stock para el vacunatorio/vacuna indicados.", VacunasUyException.DATOS_INCORRECTOS);
 			stock.setCantidad(stock.getCantidad() - cantidad);
 			stockDAO.actualizar(stock);
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+
+	/* 1 - Reporte de stock que lista las vacunas disponibles para enviar */
+	@Override
+	public List<ReporteVacunaDTO> listarStockVacunasDisponiblesParaEnviar() throws VacunasUyException {
+		try {
+			return stockDAO.listarStockVacunasDisponiblesParaEnviar();
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+
+	/* 2 - Reporte de stock que lista la disponibilidad de una vacuna en los distintos vacunatorios */
+	@Override
+	public List<ReporteVacunaDTO> listarStockVacunaPorVacunatorios(Long idVacuna) throws VacunasUyException {
+		try {
+			return stockDAO.listarStockVacunaPorVacunatorios(idVacuna);
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+
+	/* 3 - Reporte de stock que lista las vacunas disponibles en un vacunatorio */
+	@Override
+	public List<ReporteVacunaDTO> listarStockVacunasPorVacunatorio(Long idVacunatorio) throws VacunasUyException {
+		try {
+			return stockDAO.listarStockVacunasPorVacunatorio(idVacunatorio);
 		} catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}

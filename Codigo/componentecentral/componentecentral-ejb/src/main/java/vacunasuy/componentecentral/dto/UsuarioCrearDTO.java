@@ -23,4 +23,15 @@ public class UsuarioCrearDTO {
 	private List<Long> roles;
 	private Long sectorLaboral;
 	
+	public UsuarioCrearDTO(String nombre, String correo, String password, List<Long> roles) {
+		this.nombre = nombre;
+		this.correo = correo;
+		this.password = password;
+		this.roles = roles;
+		this.documento = null;
+		this.apellido = null;
+		this.fechaNacimiento = null;
+		this.sectorLaboral = null;
+	}
+	
 }

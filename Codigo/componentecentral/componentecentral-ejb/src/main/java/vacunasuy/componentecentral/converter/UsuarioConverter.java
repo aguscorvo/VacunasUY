@@ -32,19 +32,28 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 	@Override
 	public UsuarioDTO fromEntity(Usuario e) {
 		if(e == null) return null;
-		return UsuarioDTO.builder()
-				.id(e.getId())
-				.documento(e.getDocumento())
-				.nombre(e.getNombre())
-				.apellido(e.getApellido())
-				.correo(e.getCorreo())
-				.fechaNacimiento(e.getFechaNacimiento().toString())
-				.roles(rolConverter.fromEntity(e.getRoles()))
-				.sectorLaboral(sectorLaboralConverter.fromEntity(e.getSectorLaboral()))
-				.actosVacunales(actoVacunalConverter.fromEntity(e.getActosVacunales()))
-				.agendas(agendaConverter.fromEntity(e.getAgendas()))
-				.atiende(atiendeConverter.fromEntity(e.getAtiende()))
-				.build();
+		if(e.getFechaNacimiento() == null) {
+			return UsuarioDTO.builder()
+					.id(e.getId())
+					.nombre(e.getNombre())
+					.correo(e.getCorreo())
+					.roles(rolConverter.fromEntity(e.getRoles()))
+					.build();
+		} else {
+			return UsuarioDTO.builder()
+					.id(e.getId())
+					.documento(e.getDocumento())
+					.nombre(e.getNombre())
+					.apellido(e.getApellido())
+					.correo(e.getCorreo())
+					.fechaNacimiento(e.getFechaNacimiento().toString())
+					.roles(rolConverter.fromEntity(e.getRoles()))
+					.sectorLaboral(sectorLaboralConverter.fromEntity(e.getSectorLaboral()))
+					.actosVacunales(actoVacunalConverter.fromEntity(e.getActosVacunales()))
+					.agendas(agendaConverter.fromEntity(e.getAgendas()))
+					.atiende(atiendeConverter.fromEntity(e.getAtiende()))
+					.build();
+		}
 	}
 	
 	@Override
@@ -54,14 +63,26 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 	
 	public Usuario fromCrearDTO(UsuarioCrearDTO d) {
 		if(d == null) return null;
-		return Usuario.builder()
-			.documento(d.getDocumento())
-			.nombre(d.getNombre())
-			.apellido(d.getApellido())
-			.correo(d.getCorreo())
-			.password(d.getPassword())
-			.fechaNacimiento(LocalDate.parse(d.getFechaNacimiento()))
-			.build();
+		if(d.getFechaNacimiento() == null) {
+			return Usuario.builder()
+					.documento(d.getDocumento())
+					.nombre(d.getNombre())
+					.apellido(d.getApellido())
+					.correo(d.getCorreo())
+					.password(d.getPassword())
+					.fechaNacimiento(null)
+					.build();
+		} else {
+			return Usuario.builder()
+					.documento(d.getDocumento())
+					.nombre(d.getNombre())
+					.apellido(d.getApellido())
+					.correo(d.getCorreo())
+					.password(d.getPassword())
+					.fechaNacimiento(LocalDate.parse(d.getFechaNacimiento()))
+					.build();
+		}
+		
 	}
 	
 	public UsuarioLoginExitosoDTO fromLogin(Usuario e, String token) {

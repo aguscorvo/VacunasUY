@@ -118,7 +118,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		Usuario usuario = usuarioConverter.fromCrearDTO(usuarioDTO);
 		if(usuarioDAO.listarPorCorreo(usuario.getCorreo()) != null) {
 			throw new VacunasUyException("El correo electrónico ya se encuentra en uso.", VacunasUyException.EXISTE_REGISTRO);
-		}else {
+		} else {
 			try {
 				/* Se encripta la contraseña */
 				usuario.setPassword(BCrypt.withDefaults().hashToString(12, usuario.getPassword().toCharArray()));
@@ -131,9 +131,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
 					}
 				}
 				usuario.setRoles(roles);
-				/* Se agrega el sector laboral */
-				SectorLaboral sector = sectorLaboralDAO.listarPorId(usuarioDTO.getSectorLaboral());
-				usuario.setSectorLaboral(sector);
 				return usuarioConverter.fromEntity(usuarioDAO.crear(usuario));
 			} catch (Exception e) {
 				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
@@ -155,15 +152,25 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			}
 		}
 		try {
-			/* Se busca el sector laboral */
-			SectorLaboral sector = sectorLaboralDAO.listarPorId(usuarioDTO.getSectorLaboral());
-			if(sector == null) throw new VacunasUyException("El sector laboral indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			/* Se editan los roles */
+			List<Rol> roles = new ArrayList<>();
+			for (Long idRol : usuarioDTO.getRoles()) {
+				Rol rol = rolDAO.listarPorId(idRol);
+				if(rol != null) {
+					roles.add(rol);
+				}
+			}
+			usuario.setRoles(roles);
 			/* Se editar los atributos */
 			usuario.setNombre(usuarioDTO.getNombre());
-			usuario.setApellido(usuarioDTO.getApellido());
 			usuario.setCorreo(usuarioDTO.getCorreo());
-			usuario.setFechaNacimiento(LocalDate.parse(usuarioDTO.getFechaNacimiento()));
-			usuario.setSectorLaboral(sector);
+			if(usuarioDTO.getFechaNacimiento() != null) {
+				SectorLaboral sector = sectorLaboralDAO.listarPorId(usuarioDTO.getSectorLaboral());
+				if(sector == null) throw new VacunasUyException("El sector laboral indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+				usuario.setSectorLaboral(sector);
+				usuario.setApellido(usuarioDTO.getApellido());
+				usuario.setFechaNacimiento(LocalDate.parse(usuarioDTO.getFechaNacimiento()));
+			}
 			return usuarioConverter.fromEntity(usuarioDAO.editar(usuario));
 		} catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

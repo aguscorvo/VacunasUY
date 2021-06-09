@@ -63,16 +63,17 @@ public class AgendaREST {
 		}
 	}
 	
-	@POST
+	@PUT
 	public Response crear(AgendaCrearDTO request) {
 		RespuestaREST <List<AgendaMinDTO>> respuesta = null;
 		try {
 			List<AgendaMinDTO> agendas = agendaService.crear(request);
-			respuesta = new RespuestaREST<List<AgendaMinDTO>>(true, "Agenda creada con éxito.", agendas);
+			respuesta = new RespuestaREST<List<AgendaMinDTO>>(true, "Agenda/s creada/s con éxito.", agendas);
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<List<AgendaMinDTO>>(false, e.getLocalizedMessage());
-			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO || e.getCodigo() == VacunasUyException.EXISTE_REGISTRO 
+					|| e.getCodigo() == VacunasUyException.DATOS_INCORRECTOS) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			} else {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
@@ -118,13 +119,13 @@ public class AgendaREST {
 //		}
 //	}
 	
-	@DELETE
+	@PUT
 	@Path("/cancelarAgenda/{usuario}/{agenda}")
 	public Response cancelarAgenda(@PathParam("usuario") Long usuario, @PathParam("agenda")Long agenda) {
 		RespuestaREST<AgendaDTO> respuesta = null;
 		try {
 			agendaService.cancelarAgenda(usuario, agenda);
-			respuesta = new RespuestaREST<AgendaDTO>(true, "Agenda cancelada con éxito");
+			respuesta = new RespuestaREST<AgendaDTO>(true, "Agenda/s cancelada/s con éxito");
 			return Response.ok(respuesta).build();
 		}catch (VacunasUyException e) {
 			respuesta = new RespuestaREST<AgendaDTO>(false, e.getLocalizedMessage());

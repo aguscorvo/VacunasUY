@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:vacunas_uy/objects/Rol.dart';
+import 'package:vacunas_uy/objects/Sector.dart';
 import 'package:vacunas_uy/tools/PlatformSpecific.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:vacunas_uy/objects/Usuario.dart';
@@ -12,13 +15,13 @@ final encrypter = Encrypter(AES(userKey));
 UserCredentials storedUserCredentials;
 
 final UserCredentials emptyUser = UserCredentials(
-  userData: Usuario(),
-  token: "", //encrypter.encrypt("empty", iv: iv).base64,
+  userData: Usuario(correo: ""),
+  token: "",
 );
 
 final UserCredentials logedOffUser = UserCredentials(
   userData: Usuario(correo: ""),
-  token: "", //encrypter.encrypt("empty", iv: iv).base64,
+  token: "",
 );
 
 bool isUserLogedOn() {
@@ -102,59 +105,51 @@ class UserCredentials {
     this.token,
   });
 
-  setToken(String newToken) {
-    token = encrypter.encrypt(newToken, iv: iv).base64;
-    saveUserCredentials();
-  }
-
-  String getToken() {
-    return encrypter.decrypt64(token, iv: iv);
-  }
-
-  Usuario getUserData() {
-    return userData;
+  Map<String, dynamic> toJson() {
+    try {
+      Map<String, dynamic> toReturn = {
+        'token': token ?? "",
+        'userData': userData != null ? jsonEncode(userData) : Usuario(),
+      };
+      return toReturn;
+    } catch (err) {}
   }
 
   UserCredentials.fromJson(Map<String, dynamic> json) {
-    token = json['token'];
+    try {
+      token = json['token'];
 
-    Map<String, dynamic> jsonUserData = json['userData'];
+      Map<String, dynamic> jsonUserData = jsonDecode(json['userData']) != null ? jsonDecode(json['userData']) : null;
 
-    userData = Usuario();
+      if (jsonUserData != null) {
+        userData = Usuario();
 
-    userData.id = jsonUserData['id'];
-    userData.nombre = jsonUserData['nombre'];
-    userData.apellido = jsonUserData['apellido'];
-    userData.correo = jsonUserData['correo'];
-    userData.documento = jsonUserData['documento'];
-    userData.fechaNacimiento = DateTime.tryParse(jsonUserData['fechaNacimiento'].toString());
-    if (userData.fechaNacimiento.toString() == "null") {
-      int year = int.parse(jsonUserData['fechaNacimiento'].toString().split("-")[0]);
-      int month = int.parse(jsonUserData['fechaNacimiento'].toString().split("-")[1]);
-      int day = int.parse(jsonUserData['fechaNacimiento'].toString().split("-")[2]);
-      userData.fechaNacimiento = new DateTime(year, month, day);
-    }
-    userData.roles = [];
+        DateTime dt = DateTime.tryParse(jsonUserData['fechaNacimiento'].toString());
 
-    if (jsonUserData['roles'] != "null") {
-      String roles = jsonUserData['roles'].toString().replaceAll("]", ",]");
-      List<String> rolesParsed = roles.split("},");
-
-      for (int i = 0; i < rolesParsed.length; i++) {
-        rolesParsed[i] = rolesParsed[i].replaceAll("{", "").replaceAll("}", "").replaceAll("[", "").replaceAll("]", "");
-      }
-
-      for (int i = 0; i < rolesParsed.length; i++) {
-        if (rolesParsed[i] != "") {
-          int id = int.parse(rolesParsed[i].split(",")[0].split(":")[1]);
-          String nombre = rolesParsed[i].split(",")[1].split(":")[1].replaceAll("\"", "");
-          userData.roles.add(Rol(id: id, nombre: nombre));
+        userData.id = jsonUserData['id'];
+        userData.nombre = jsonUserData['nombre'];
+        userData.apellido = jsonUserData['apellido'];
+        userData.correo = jsonUserData['correo'];
+        userData.documento = jsonUserData['documento'];
+        userData.fechaNacimiento = dt;
+        if (userData.fechaNacimiento.toString() == "null") {
+          int year = int.parse(jsonUserData['fechaNacimiento'].toString().split("-")[0]);
+          int month = int.parse(jsonUserData['fechaNacimiento'].toString().split("-")[1]);
+          int day = int.parse(jsonUserData['fechaNacimiento'].toString().split("-")[2]);
+          userData.fechaNacimiento = new DateTime(year, month, day);
         }
-      }
-    } else {
-      userData.roles = [];
-    }
-  }
+        userData.roles = [];
 
-  Map<String, dynamic> toJson() => {'token': token, 'userData': userData.toJson()};
+        List<dynamic> roles = jsonDecode(jsonUserData['roles']);
+        roles.forEach((rol) {
+          userData.roles.add(Rol.fromJson(rol));
+        });
+        if (jsonUserData['sectorLaboral'] != null) {
+          userData.sectorLaboral = Sector.fromJson(jsonDecode(jsonUserData['sectorLaboral']));
+        }
+      } else {
+        userData = null;
+      }
+    } catch (err) {}
+  }
 }

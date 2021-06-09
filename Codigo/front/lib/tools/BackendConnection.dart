@@ -20,7 +20,7 @@ import 'package:vacunas_uy/tools/UserCredentials.dart';
 
 const String baseUrl = AppConfig.componenteCentalURL;
 
-var authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials.getToken()}", "Content-Type": "application/json"};
+var authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials.token}", "Content-Type": "application/json"};
 
 class BackendConnection {
   static final BackendConnection _singleton = BackendConnection._internal();
@@ -32,7 +32,7 @@ class BackendConnection {
   BackendConnection._internal();
 
   static setAuthHeader() {
-    authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials.getToken()}", "Content-Type": "application/json"};
+    authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials.token}", "Content-Type": "application/json"};
   }
 
   Future<bool> login({String correo, String password}) async {
@@ -51,15 +51,15 @@ class BackendConnection {
       Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
       if (json["mensaje"] == "Inicio de sesión correcto.") {
         storedUserCredentials = emptyUser;
+        storedUserCredentials.token = json["cuerpo"]["token"];
         storedUserCredentials.userData = Usuario.fromJson(json["cuerpo"] ?? "");
+        saveUserCredentials();
+        setAuthHeader();
         return true;
-      } else if (json["mensaje"] == "Usuario o contraseña incorrectos.") {
+      } else {
         return false;
       }
-      saveUserCredentials();
-      setAuthHeader();
     }
-    return false;
   }
 
   Future<bool> recoverPassword({String email}) async {
@@ -121,10 +121,7 @@ class BackendConnection {
           saveUserCredentials();
           setAuthHeader();
         }
-      } else {
-        print(response.statusCode);
-        print(response.body);
-      }
+      } else {}
       return response.statusCode == 200;
     }
   }
@@ -282,23 +279,6 @@ class BackendConnection {
     return [];
   }
 
-  Future<bool> exitoLoginGubUY(GubUY gubAuth) async {
-    String url = '$baseUrl/autenticaciongubuy/procesarTokens?code=' + gubAuth.code + '&state=' + gubAuth.state;
-    var response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
-      if (json["mensaje"] == "Usuario logueado con éxito.") {
-        storedUserCredentials = emptyUser;
-        storedUserCredentials.setToken(json["cuerpo"]["token"]);
-        storedUserCredentials.userData = Usuario.fromJson(json["cuerpo"] ?? "");
-      }
-      saveUserCredentials();
-      setAuthHeader();
-    }
-    return Future<bool>.sync(() => true);
-  }
-
   //AGENDAS
   Future<List<Agenda>> getAgendas() async {
     var response = await http.get(
@@ -364,7 +344,6 @@ class BackendConnection {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
-      print(json);
     }
 
     return response.statusCode == 200;
@@ -376,10 +355,8 @@ class BackendConnection {
       headers: authHeader,
     );
 
-    print('$baseUrl/agendas/cancelarAgenda/$usuarioId/$agendaId');
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
-      print(json);
     }
 
     return response.statusCode == 200;
@@ -407,5 +384,22 @@ class BackendConnection {
     } else {
       return 0;
     }
+  }
+
+  Future<bool> exitoLoginGubUY(GubUY gubAuth) async {
+    String url = '$baseUrl/autenticaciongubuy/procesarTokens?code=' + gubAuth.code + '&state=' + gubAuth.state;
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
+      if (json["mensaje"] == "Usuario logueado con éxito.") {
+        storedUserCredentials = emptyUser;
+        storedUserCredentials.token = json["cuerpo"]["token"];
+        storedUserCredentials.userData = Usuario.fromJson(json["cuerpo"] ?? "");
+      }
+      saveUserCredentials();
+      setAuthHeader();
+    }
+    return Future<bool>.sync(() => true);
   }
 }

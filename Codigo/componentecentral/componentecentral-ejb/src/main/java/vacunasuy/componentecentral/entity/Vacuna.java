@@ -25,7 +25,11 @@ import lombok.Setter;
 @Table(name = "vacunas")
 @NamedNativeQueries({
 	/* Vacunas para las cuales el usuario tiene algún acto vacunal */
-	@NamedNativeQuery(name="listarVacunasPorUsuario", query="SELECT DISTINCT v.* FROM usuarios_actos_vacunales u INNER JOIN actos_vacunales a ON u.actosvacunales_id = a.id INNER JOIN planes_vacunacion p ON a.fk_plan_vacunacion = p.id INNER JOIN vacunas v ON p.fk_vacuna = v.id WHERE u.usuario_id = :idUsuario", resultClass = Vacuna.class)
+	@NamedNativeQuery(name="listarVacunasPorUsuario", query="SELECT DISTINCT v.* FROM usuarios_actos_vacunales u "
+			+ "INNER JOIN actos_vacunales a ON u.actosvacunales_id = a.id "
+			+ "INNER JOIN planes_vacunacion p ON a.fk_plan_vacunacion = p.id "
+			+ "INNER JOIN vacunas v ON p.fk_vacuna = v.id "
+			+ "WHERE u.usuario_id = :idUsuario", resultClass = Vacuna.class)
 })
 public class Vacuna {
 	

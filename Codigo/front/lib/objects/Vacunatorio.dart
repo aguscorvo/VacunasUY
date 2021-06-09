@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'Localidad.dart';
 import 'Departamento.dart';
 import 'Puesto.dart';
@@ -28,4 +30,14 @@ class Vacunatorio {
       json['puestos'].forEach((puesto) => {puestos.add(Puesto.fromJson(puesto))});
     }
   }
+  Map<String, dynamic> toJson() => {
+        'id': id ?? "",
+        'nombre': nombre ?? "",
+        'latitud': latitud ?? "",
+        'longitud': longitud ?? "",
+        'direccion': direccion ?? "",
+        'localidad': localidad != null ? jsonEncode(localidad) : null,
+        'departamento': departamento != null ? jsonEncode(departamento) : null,
+        'puestos': puestos.length > 0 ? jsonEncode(puestos) : null,
+      };
 }

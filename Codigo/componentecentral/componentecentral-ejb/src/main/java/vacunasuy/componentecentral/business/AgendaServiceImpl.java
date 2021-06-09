@@ -2,6 +2,7 @@ package vacunasuy.componentecentral.business;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Rol;
+import vacunasuy.componentecentral.entity.SectorLaboral;
 import vacunasuy.componentecentral.entity.Usuario;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
@@ -76,8 +78,7 @@ public class AgendaServiceImpl implements IAgendaService {
 	}
 	
 	@Override
-	public List<AgendaMinDTO> crear(AgendaCrearDTO agendaDTO)  throws VacunasUyException{
-		
+	public List<AgendaMinDTO> crear(AgendaCrearDTO agendaDTO)  throws VacunasUyException{		
 		//se valida que ciudadano exista
 		Usuario ciudadano = usuarioDAO.listarPorId(agendaDTO.getUsuario());
 		if(ciudadano==null)throw new VacunasUyException("El ciudadano indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
@@ -98,6 +99,21 @@ public class AgendaServiceImpl implements IAgendaService {
 		boolean hay_agenda = usuarioService.existeAgenda(agendaDTO.getUsuario(), agendaDTO.getPlanVacunacion());
 		if(hay_agenda)throw new VacunasUyException("El usuario ya está agendado para este plan de vacunación.", VacunasUyException.EXISTE_REGISTRO);
 		
+		//se valida que el usuario esté habilitado al plan
+		//se valida la edad
+		LocalDate hoy = LocalDate.now();
+		Period diferencia= Period.between(ciudadano.getFechaNacimiento(), hoy);
+		int edad= diferencia.getYears();
+		if(edad>planVacunacion.getEdadMaxima() || edad<planVacunacion.getEdadMinima()) throw new 
+				VacunasUyException("El usuario indicado no se encuentra habilitado para este plan. No cumple el requerimiento de edad.", 
+				VacunasUyException.DATOS_INCORRECTOS);		
+		//se valida el sector laboral			
+		List<SectorLaboral> sectoresLaborales = planVacunacion.getSectores();
+		SectorLaboral sectorLaboral = sectoresLaborales.stream()
+				.filter(s -> s == ciudadano.getSectorLaboral()).findFirst().orElse(null);
+		if(sectorLaboral==null) throw new VacunasUyException("El usuario indicado no se encuentra habilitado para este plan. "
+				+ "No cumple el requerimiento de sector laboral.", VacunasUyException.DATOS_INCORRECTOS);
+				
 		int cantidad_de_agendas = planVacunacion.getVacuna().getCant_dosis();
 		int periodo = planVacunacion.getVacuna().getPeriodo();
 		
@@ -132,32 +148,33 @@ public class AgendaServiceImpl implements IAgendaService {
 		
 		agendaDTO.setFecha(fecha_hora);
 		Agenda agenda;
-		List<AgendaMinDTO> agendas = new ArrayList<AgendaMinDTO>();
-		
+		List<AgendaMinDTO> agendas = new ArrayList<AgendaMinDTO>();		
 		try {
 			for (int i=0;i<cantidad_de_agendas;i++) {
 				agenda = agendaConverter.fromCrearDTO(agendaDTO);
 				agenda.setPuesto(puesto);
 				agenda.setPlanVacunacion(planVacunacion);
 				agenda.setUsuario(ciudadano);
-				puesto.getAgendas().add(agenda);	
+				puesto.getAgendas().add(agenda);				
 				AgendaMinDTO a_agregar = agendaConverter.fromEntityToMin(agendaDAO.crear(agenda));
 				agendas.add(a_agregar);
 				fecha_hora = agendaDTO.getFecha();
 				String nueva_fecha_hora = sumarDias(fecha_hora, periodo);
 				agendaDTO.setFecha(nueva_fecha_hora);				
-			}
+			}		
 			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 			DateTimeFormatter formato1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 			/* Si tiene un token de firebase definido, se le envía la notificación */
 			if(ciudadano.getTokenFirebase() != null) {
 				notificacionService.enviarNotificacionFirebase(ciudadano.getTokenFirebase(), "Agenda registrada con éxito.", "Documento: " + ciudadano.getDocumento() + " - Fecha/hora: " + LocalDateTime.parse(agendas.get(0).getFecha(), formato).format(formato1) + " - Vacunatorio: " + puesto.getVacunatorio().getNombre() + " - Dirección: " + puesto.getVacunatorio().getDireccion());
-			}		
+			}
+			
 			return agendas;
 		}catch(Exception e){
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}		
 	}
+	
 	
 	@Override
 	public AgendaDTO editar(Long id, AgendaCrearDTO agendaDTO) throws VacunasUyException{
@@ -190,42 +207,7 @@ public class AgendaServiceImpl implements IAgendaService {
 	@Override
 	public void cancelarAgenda(Long usuario, Long agenda) throws VacunasUyException{
 		try {
-			//se valida que el usuario exista
-			Usuario usuarioAux = usuarioDAO.listarPorId(usuario);
-			if(usuarioAux==null) throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			//se valida si el usuario es un ciudadano
-			List<Rol> roles = usuarioAux.getRoles();
-			Rol rol = roles.stream().filter(r -> r.getNombre().equals("Ciudadano")).findFirst().orElse(null);
-			if(rol == null) throw new VacunasUyException("El usuario indicado no es un ciudadano.", VacunasUyException.DATOS_INCORRECTOS);
-			//se valida que la agenda exista
-			Agenda agendaAux = agendaDAO.listarPorId(agenda);
-			if(agendaAux==null) throw new VacunasUyException("La agenda indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
-			//validar si el usuario y la agenda están asociadoos
-			List<Agenda> agendas = usuarioAux.getAgendas();
-			Agenda asociada = agendas.stream()
-					.filter(a -> a.getId()==agenda).findFirst().orElse(null);
-			if(asociada==null) throw new VacunasUyException("El usuario y la agenda indicados no están asociados.",
-					VacunasUyException.NO_EXISTE_REGISTRO);			
-			// se obtienen las agendas posteriores del mismo plan
-//			List<Agenda> agendas = usuarioAux.getAgendas();
-//			List<Agenda> agendasAEliminar = agendas.stream()
-//					.filter(a -> a.getPlanVacunacion()==agendaAux.getPlanVacunacion() && 
-//						(a.getFecha().compareTo(agendaAux.getFecha()) > 0))
-//					.collect(Collectors.toList());	
-			
-//			List<Agenda> agendasAEliminar = new ArrayList<Agenda>();			segunda prueba
-//			agendasAEliminar.add(agendaAux);
-//			for(Agenda a: agendas) {
-//				if((a.getPlanVacunacion()==agendaAux.getPlanVacunacion() ) &&  (a.getFecha().compareTo(agendaAux.getFecha()) > 0)) {
-//					agendasAEliminar.add(a);
-//				}
-//			}
-			//se borran las agendas
-//			for(Agenda a: agendasAEliminar) {
-//				agendaService.eliminar(a.getId());
-//			}
-			System.out.println("Antes de operacion eliminar agenda, se envia agenda con id: " + agendaAux.getId());
-			agendaDAO.eliminar(agendaAux);
+			usuarioService.cancelarAgenda(usuario, agenda);
 		}catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}

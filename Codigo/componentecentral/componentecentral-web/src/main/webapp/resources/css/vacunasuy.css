@@ -35,3 +35,13 @@
 	width: 2rem !important;
 	height: 2rem !important;
 }
+
+.ui-datatable tbody td {
+white-space: nowrap !important;
+}
+
+#map_add, #map_upd{
+	width: 436px !important;
+	height: 320px !important;
+	
+}

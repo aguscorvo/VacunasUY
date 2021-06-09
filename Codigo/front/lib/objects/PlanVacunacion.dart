@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:vacunas_uy/objects/Sector.dart';
 import 'package:vacunas_uy/objects/Vacuna.dart';
 
@@ -28,6 +30,16 @@ class PlanVacunacion {
   PlanVacunacion.fromJsonShort(Map<String, dynamic> json) {
     id = json['id'];
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id ?? "",
+        'edadMinima': edadMinima ?? "",
+        'edadMaxima': edadMaxima ?? "",
+        'fechaInicio': fechaInicio.toString() ?? "",
+        'fechaFin': fechaFin.toString() ?? "",
+        'vacuna': vacuna != null ? jsonEncode(vacuna) : null,
+        'sectores': sectores.length > 0 ? jsonEncode(sectores) : null,
+      };
 
   DateTime calculateDate(String date) {
     DateTime toReturn = DateTime.parse(date);

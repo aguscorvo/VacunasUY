@@ -19,4 +19,8 @@ class Departamento {
     nombre = json['nombre'];
     localidades = null;
   }
+  Map<String, dynamic> toJson() => {
+        'id': id ?? "",
+        'nombre': nombre ?? "",
+      };
 }

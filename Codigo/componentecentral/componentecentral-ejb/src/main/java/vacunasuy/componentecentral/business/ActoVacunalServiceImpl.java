@@ -8,7 +8,6 @@ import vacunasuy.componentecentral.converter.ActoVacunalConverter;
 import vacunasuy.componentecentral.dao.IActoVacunalDAO;
 import vacunasuy.componentecentral.dao.IEnfermedadDAO;
 import vacunasuy.componentecentral.dao.IPlanVacunacionDAO;
-import vacunasuy.componentecentral.dao.IStockDAO;
 import vacunasuy.componentecentral.dao.IUsuarioDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
 import vacunasuy.componentecentral.dto.ActoVacunalCertificadoDTO;

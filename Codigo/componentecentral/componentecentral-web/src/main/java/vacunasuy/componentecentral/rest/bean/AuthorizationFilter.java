@@ -26,11 +26,14 @@ public class AuthorizationFilter implements Filter {
 		
 		HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = req.getSession(false);
+        //HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession(true);
         String loginURL = req.getContextPath() + "/index.html";
         
+        session.setAttribute("USERLOGIN", "USUARIO YO");
         
-        boolean loggedIn = true; //(session != null) && (session.getAttribute("user") != null);
+        
+        boolean loggedIn = (session != null) && (session.getAttribute("USERLOGIN") != null);
         boolean loginRequest = req.getRequestURI().equals(loginURL);
         boolean resourceRequest = req.getRequestURI().startsWith(req.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
         boolean ajaxRequest = "partial/ajax".equals(req.getHeader("Faces-Request"));

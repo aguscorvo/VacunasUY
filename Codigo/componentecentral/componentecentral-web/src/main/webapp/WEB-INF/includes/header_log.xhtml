@@ -13,7 +13,8 @@
 							data-toggle="dropdown">
 							<div class="navbar-profile">
 								<p class="mb-0 d-sm-block navbar-profile-name">
-									<i class="fas fa-user-circle h3"></i>USUARIO LOGUEADO
+									<i class="fas fa-user-circle h3"></i>
+									<h:outputText value="#{sessionScope['USERLOGIN']}"/>
 								</p>
 							</div>
 						</a>

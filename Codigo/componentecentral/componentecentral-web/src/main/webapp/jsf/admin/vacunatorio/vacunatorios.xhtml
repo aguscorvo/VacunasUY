@@ -12,6 +12,9 @@
 
 	<ui:include src="/WEB-INF/includes/header_lib.xhtml" />
 
+	<!-- LeaFlet -->
+	<h:outputStylesheet library="webjars" name="leaflet/1.3.1/leaflet.css" />
+
 	<style>
 .selected {
 	background-color: #B0BED9 !important;
@@ -38,17 +41,17 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a class="nav-link text-dark" href="#">Usuarios</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/jsf/admin/vacunatorio/vacunatorios.xhtml">Vacunatorios</a></li>
+						href="/jsf/admin/usuario/usuarios.xhtml">Usuarios</a></li>
+					<li class="nav-item"><a class="nav-link text-dark" href="#">Vacunatorios</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/jsf/admin/transportista/transportistas.xhtml">Transportistas</a></li>
 				</ul>
 				<h:form class="form-inline">
-					<p:inputText placeholder="Documento/correo" aria-label="Buscar"
-						minValue="0" emptyValue="empty" value="#{beanusuario.strbuscar}" />
+					<p:inputText placeholder="" aria-label="Buscar" minValue="0"
+						emptyValue="empty" value="#{beanvacunatorio.strbuscar}" />
 					<h:commandButton class="btn btn-outline-success my-2 my-sm-0"
-						action="#{beanusuario.srchUsuario()}" value="Buscar" />
+						action="#{beanvacunatorio.srchVacunatorio()}" value="Buscar" />
 				</h:form>
 			</div>
 			</nav>
@@ -58,51 +61,44 @@
 	<div class="main-panel">
 		<div class="container">
 			<div class="wrapper">
-				<h3>Lista de Usuarios</h3>
-				<p:dataTable id="listaUsuario" var="dtUsuario"
-					value="#{beanusuario.usuarios}" paginator="true" rows="10"
+				<h3>Lista de Vacunatorios</h3>
+				<p:dataTable id="listaVacunatorio" var="dtVacunatorio"
+					value="#{beanvacunatorio.vacunatorios}" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
 					rowsPerPageTemplate="10,25,50,100">
 					<p:column headerText="Id">
-						<h:outputText value="#{dtUsuario.id}" />
-					</p:column>
-					<p:column headerText="Roles">
-						<ui:repeat var="rol" value="#{dtUsuario.roles}">
-							<h:outputText value="#{rol.nombre} " />
-						</ui:repeat>
-					</p:column>
-					<p:column headerText="Documento">
-						<h:outputText value="#{dtUsuario.documento}" />
+						<h:outputText value="#{dtVacunatorio.id}" />
 					</p:column>
 					<p:column headerText="Nombre">
-						<h:outputText value="#{dtUsuario.nombre}" />
+						<h:outputText value="#{dtVacunatorio.nombre}" />
 					</p:column>
-					<p:column headerText="Apellido">
-						<h:outputText value="#{dtUsuario.apellido}" />
+					<p:column headerText="Departamento">
+						<h:outputText value="#{dtVacunatorio.departamento.nombre}" />
 					</p:column>
-					<p:column headerText="Correo">
-						<h:outputText value="#{dtUsuario.correo}" />
+					<p:column headerText="Localidad">
+						<h:outputText value="#{dtVacunatorio.localidad.nombre}" />
 					</p:column>
-					<p:column headerText="Fecha Nacimiento">
-						<h:outputText value="#{dtUsuario.fechaNacimiento}">
-							<f:convertDateTime type="date" pattern="yyyy-MM-dd" />
-						</h:outputText>
+					<p:column headerText="Direcci&oacute;n">
+						<h:outputText value="#{dtVacunatorio.direccion}" />
 					</p:column>
-					<p:column headerText="Sector">
-						<h:outputText value="#{dtUsuario.sectorLaboral.nombre}" />
+					<p:column headerText="Ubicaci&oacute;n">
+						<a
+							href="javascript:viewVacunatorio(this, #{dtVacunatorio.latitud}, #{dtVacunatorio.longitud})"
+							class="text-success"><i class="fas fa-map-marked-alt"></i></a>
 					</p:column>
+
 				</p:dataTable>
 			</div>
 			<div class="col-12 d-flex flex-row-reverse">
 				<div class="p-2">
 					<div class="btn-group" data-toggle="buttons">
-						<a class="btn btn-secondary" href="javascript:addUsuario();"
-							role="button"> <i class="fas fa-user-plus"></i>
-						</a> <a class="btn btn-secondary" href="javascript:delUsuario();"
-							role="button"> <i class="fas fa-user-minus"></i>
-						</a> <a class="btn btn-secondary" href="javascript:updUsuario();"
-							role="button"> <i class="fas fa-user-edit"></i>
+						<a class="btn btn-secondary" href="javascript:addVacunatorio();"
+							role="button"> <i class="fas fa-plus-square"></i>
+						</a> <a class="btn btn-secondary" href="javascript:delVacunatorio();"
+							role="button"> <i class="fas fa-minus-square"></i>
+						</a> <a class="btn btn-secondary" href="javascript:updVacunatorio();"
+							role="button"> <i class="fas fa-pen-square"></i>
 						</a>
 
 
@@ -115,8 +111,8 @@
 
 
 	<!-- Modal ERROR -->
-	<div class="modal fade" id="error_usuario" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="error_vacunatorio" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -151,8 +147,8 @@
 	</div>
 
 	<!-- Modal INFO -->
-	<div class="modal fade" id="info_usuario" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="info_vacunatorio" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -193,122 +189,126 @@
 
 
 	<!-- Modal ADD-->
-	<div class="modal" tabindex="-1" role="dialog" id="addUsuario">
+	<div class="modal" tabindex="-1" role="dialog" id="addVacunatorio">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Crear Usuario</h3>
+					<h3 class="modal-title">Crear Vacunatorio</h3>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true"> &times; </span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="addusuario-form">
+					<h:form class="addvacunatorio-form" id="form_addvacunatorio">
 						<div class="col-12">
-							<div class="col-12 d-flex flex-row">
-								<div class="col-6  mb-3">
-									<p:outputLabel for="addDocumento" value="Documento" />
-								</div>
-								<div class="col-6  mb-3">
-									<h:inputText type="text" class="form-control" id="addDocumento"
-										required="true" name="addDocumento"
-										value="#{beanusuario.documento}" emptyValue="empty" />
-								</div>
-							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
 									<p:outputLabel for="addName" value="Nombre" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
 									<h:inputText type="text" class="form-control" id="addName"
-										required="true" name="addName" value="#{beanusuario.nombre}"
-										validator="#{beanusuario.validateModelNombre}">
+										required="true" name="addName"
+										value="#{beanvacunatorio.nombre}"
+										validator="#{beanvacunatorio.validateModelNombre}">
 									</h:inputText>
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="addApellido" value="Apellido" />
+									<p:outputLabel for="addDepartamento" value="Departamento" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="addApellido"
-										name="addApellido" value="#{beanusuario.apellido}"
-										validator="#{beanusuario.validateModelApellido}">
-									</h:inputText>
-								</div>
-							</div>
-
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="addCorreo" value="Correo" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="addCorreo"
-										required="true" name="addCorreo" value="#{beanusuario.correo}"
-										validator="#{beanusuario.validateModelCorreo}">
-										<f:passThroughAttribute name="type" value="email" />
-									</h:inputText>
-								</div>
-							</div>
-							<!--<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="addFechaNacimiento"
-										value="Fecha Nacimiento" />
-								</div>
-								 <div class="col-9  d-flex flex-row mb-3 mr-0 pr-0">
-									<h:inputText type="text" value="#{beanusuario.fechaNacimiento}"
-										id="addFechaNacimiento" name="addFechaNacimiento"
-										styleClass="form-control datepicker">
-										<f:passThroughAttribute name="type" value="date" />
-									</h:inputText>
-
-								</div>
- 							</div>-->
-
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="addPassword" value="Contrase&ntilde;a" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputSecret type="text" class="form-control"
-										id="addPassword" required="true" name="addPassword"
-										value="#{beanusuario.password}">
-									</h:inputSecret>
-								</div>
-							</div>
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="addRol" value="Rol" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectOneMenu id="addRol" value="#{beanusuario.rolID}"
-										class="form-control">
-										<f:selectItems value="#{beanusuario.roles}" var="rol"
-											itemValue="#{rol.id}" itemLabel="#{rol.nombre}" />
+									<h:selectOneMenu id="addDepartamento"
+										value="#{beanvacunatorio.departamento}" class="form-control"
+										required="true">
+										<f:selectItem itemLabel="Seleccione Departamento" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{beanvacunatorio.departamentos}"
+											var="depto" itemValue="#{depto.id}"
+											itemLabel="#{depto.nombre}" />
+										<p:ajax update="addDepartamento addLocalidad" />
 									</h:selectOneMenu>
 								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addLocalidad" value="Localidad" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="addLocalidad"
+										value="#{beanvacunatorio.localidad}" class="form-control">
+										<f:selectItem itemLabel="Seleccione Localidad" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{beanvacunatorio.selectLocalidadOnDepartamento}"
+											var="loc" itemValue="#{loc.id}" itemLabel="#{loc.nombre}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addDireccion" value="Direcci&oacute;n" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="addDireccion"
+										required="true" name="addDireccion"
+										value="#{beanvacunatorio.direccion}"
+										validator="#{beanvacunatorio.validateModelDireccion}">
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addLatitud" value="Latitud" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="addLatitud"
+										required="true" name="addLatitud"
+										value="#{beanvacunatorio.lat}">
+
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addLongitud" value="Longitud" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="addLongitud"
+										required="true" name="addLongitud"
+										value="#{beanvacunatorio.lon}">
+
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="map_container">
+									<div id="map_add" class="border"></div>
+								</div>
+
 							</div>
 
 						</div>
 						<div class="col-12">
-							<p>
-								<h:message for="addApellido" style="color:red" />
-							</p>
 							<p>
 								<h:message for="addName" style="color:red" />
 							</p>
 							<p>
-								<h:message for="addCorreo" style="color:red" />
+								<h:message for="addDireccion" style="color:red" />
 							</p>
 							<p>
-								<h:message for="addRol" style="color:red" />
+								<h:message for="addLatitud" style="color:red" />
 							</p>
+							<p>
+								<h:message for="addLongitud" style="color:red" />
+							</p>
+
 						</div>
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<h:commandButton class="btn btn-primary"
-									action="#{beanusuario.addUsuario()}" value="CREAR" />
+									action="#{beanvacunatorio.addVacunatorio()}" value="CREAR" />
 							</div>
 						</div>
 					</h:form>
@@ -317,22 +317,25 @@
 		</div>
 	</div>
 
-	<!-- Modal DEL-->
-	<div class="modal" tabindex="-1" role="dialog" id="delUsuario">
+	<!-- Modal DEL -->
+	<div class="modal" tabindex="-1" role="dialog" id="delVacunatorio">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Borrar Usuario</h3>
+					<h3 class="modal-title">Borrar Vacunatorio</h3>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true"> &times; </span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="delUsuario-form">
+					<h:form class="delVacunatorio-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
-								<h:inputHidden value="#{beanusuario.id}" id="delId" name="delId" />
+								<h:inputHidden value="#{beanvacunatorio.vacunatorio.id}"
+									id="delId" name="delId">
+
+								</h:inputHidden>
 								<div class="col-6  mb-3">
 									<p:outputLabel for="delIdView" value="Id" />
 								</div>
@@ -340,24 +343,7 @@
 									<h:inputText id="delIdView" name="delIdView" readonly="true" />
 								</div>
 							</div>
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="delDocumento" value="Documento" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="delDocumento"
-										readonly="true" />
-								</div>
-							</div>
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="delCorreo" value="Correo" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="delCorreo"
-										readonly="true" />
-								</div>
-							</div>
+
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
 									<p:outputLabel for="delName" value="Nombre" />
@@ -369,10 +355,28 @@
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="delApellido" value="Apellido" />
+									<p:outputLabel for="delDepartamento" value="Departamento" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="delApellido"
+									<h:inputText type="text" class="form-control"
+										id="delDepartamento" readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="delLocalidad" value="Localidad" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="delLocalidad"
+										readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="delDireccion" value="Direccion" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="delDireccion"
 										readonly="true" />
 								</div>
 							</div>
@@ -381,7 +385,7 @@
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<h:commandButton class="btn btn-primary"
-									action="#{beanusuario.delUsuario()}" value="BORRAR" />
+									action="#{beanvacunatorio.delVacunatorio()}" value="BORRAR" />
 							</div>
 						</div>
 					</h:form>
@@ -390,22 +394,25 @@
 		</div>
 	</div>
 
-	<!-- Modal UPD-->
-	<div class="modal" tabindex="-1" role="dialog" id="updUsuario">
+	<!-- Modal UPD -->
+	<div class="modal" tabindex="-1" role="dialog" id="updVacunatorio">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Actualizar Usuario</h3>
+					<h3 class="modal-title">Actualizar Vacunatorio</h3>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true"> &times; </span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="updUsuario-form">
+					<h:form class="updVacunatorio-form" id="form_updvacunatorio">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
-								<h:inputHidden value="#{beanusuario.id}" id="updId" name="updId" />
+								<h:inputHidden value="#{beanvacunatorio.vacunatorio.id}"
+									id="updId" name="updId">
+
+								</h:inputHidden>
 								<div class="col-6  mb-3">
 									<p:outputLabel for="updIdView" value="Id" />
 								</div>
@@ -415,71 +422,95 @@
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="updDocumento" value="Documento" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="updDocumento"
-										readonly="true" />
-								</div>
-							</div>
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="updCorreo" value="Correo" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="updCorreo"
-										readonly="true" />
-								</div>
-							</div>
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
 									<p:outputLabel for="updName" value="Nombre" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
 									<h:inputText type="text" class="form-control" id="updName"
-										readonly="true" />
+										required="true" name="updName"
+										value="#{beanvacunatorio.nombre}"
+										validator="#{beanvacunatorio.validateModelNombre}">
+									</h:inputText>
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="updApellido" value="Apellido" />
+									<p:outputLabel for="updDepartamento" value="Departamento" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="updApellido"
-										readonly="true" />
+									<h:selectOneMenu id="updDepartamento"
+										value="#{beanvacunatorio.departamento}" class="form-control"
+										required="true">
+										<f:selectItem itemLabel="Seleccione departamento" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{beanvacunatorio.departamentos}"
+											var="depto" itemValue="#{depto.id}"
+											itemLabel="#{depto.nombre}" />
+										<p:ajax update="updDepartamento updLocalidad" />
+									</h:selectOneMenu>
 								</div>
 							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updLocalidad" value="Localidad" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="updLocalidad"
+										value="#{beanvacunatorio.localidad}" class="form-control"
+										required="true">
+										<f:selectItems
+											value="#{beanvacunatorio.selectLocalidadOnDepartamento}"
+											var="loc" itemValue="#{loc.id}" itemLabel="#{loc.nombre}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updDireccion" value="Direcci&oacute;n" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="updDireccion"
+										required="true" name="updDireccion"
+										value="#{beanvacunatorio.direccion}"
+										validator="#{beanvacunatorio.validateModelDireccion}">
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updLatitud" value="Latitud" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="updLatitud"
+										required="true" name="updLatitud"
+										value="#{beanvacunatorio.lat}"
+										validator="#{beanvacunatorio.validateModelLatitud}">
 
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="updFechaNacimiento"
-										value="Fecha Nacimiento" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control"
-										id="updFechaNacimiento" readonly="true" />
+									</h:inputText>
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="updRoles" value="Rol" />
+									<p:outputLabel for="updLongitud" value="Longitud" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectManyListbox id="updRoles"
-										value="#{beanusuario.rolesID}">
-										<f:selectItems value="#{beanusuario.roles}" var="rol"
-											itemLabel="#{rol.nombre}" itemValue="#{rol.id}" />
-									</h:selectManyListbox>
-								</div>
-							</div>
+									<h:inputText type="text" class="form-control" id="updLongitud"
+										required="true" name="updLongitud"
+										value="#{beanvacunatorio.lon}"
+										validator="#{beanvacunatorio.validateModelLongitud}">
 
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div id="map_upd"></div>
+							</div>
 
 
 						</div>
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<h:commandButton class="btn btn-primary"
-									action="#{beanusuario.updUsuario()}" value="ACTUALIZAR" />
+									action="#{beanvacunatorio.updVacunatorio()}" value="ACTUALIZAR" />
 							</div>
 						</div>
 					</h:form>
@@ -493,78 +524,105 @@
 
 	<ui:include src="/WEB-INF/includes/footer_lib.xhtml" />
 
+	<!-- Leaflet JS-->
+	<h:outputScript library="webjars" name="leaflet/1.3.1/leaflet.js" />
+
+	<!-- Vacunas JS-->
+	<h:outputScript library="js" name="vacunasuy.js" />
+
 	<script type="text/javascript">
 
 	var $ds = jQuery.noConflict();
 
+
+	$ds('#form_addvacunatorio').on('submit',function(){
+	    var check = true;
+	
+		$ds('#form_addvacunatorio input').each(function(){
+			console.log($ds(this).val());
+
+			});
+
+		$ds('#form_addvacunatorio select').each(function(){
+			console.log($ds(this).val());
+
+			});
+		
+		return true;    
+	});
+
+	
 	$ds(document).ready(function() {
 		var err = $ds('#general_error_msj_1 li'); 
 		var info = $ds('#general_error_msj_2 li');
 		var info2 = $ds('#general_error_msj_3 li'); 	
 
 		if(err.length>0 &amp;&amp; $ds(err).css("display")!= "none"){
-			$ds('#error_usuario').modal('show');
+			$ds('#error_vacunatorio').modal('show');
 		}
 
 		if(info.length>0 &amp;&amp; $ds(info).css("display")!= "none"){
-			$ds('#info_usuario').modal('show');
+			$ds('#info_vacunatorio').modal('show');
 		}	
 
 		if(info2.length>0 &amp;&amp; $ds(info2).css("display")!= "none"){
-			$ds('#info_usuario').modal('show');
+			$ds('#info_vacunatorio').modal('show');
 		}
 	});
-	
-	function addUsuario(){
-		$ds('#addUsuario').modal('show');
+
+		
+	function addVacunatorio(){
+		create_map('map_add', 'add');
+		$ds('#addVacunatorio').modal('show');
 	}
 
-	function updUsuario(){
-		var id = $ds('#listaUsuario_data tr.selected').find("td").eq(0).html();
+	function updVacunatorio(){
+		var id = $ds('#listaVacunatorio_data tr.selected').find("td").eq(0).html();
 
 		if(id==undefined){
 			$ds('#errorModalLabel').html('Error'),
 			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
-			$ds('#general_error_msj').html('Debe Seleccionar un Usuario');
-		    $ds('#error_usuario').modal('show');
+			$ds('#general_error_msj').html('Debe Seleccionar un Vacunatorio');
+		    $ds('#error_vacunatorio').modal('show');
 		}else{
 			$ds("input[id*='updId']").val(id);
 			$ds("input[id*='updIdView']").val(id);
-		    $ds("input[id*='updDocumento']").val($ds('#listaUsuario_data tr.selected').find("td").eq(2).html());
-		    $ds("input[id*='updCorreo']").val($ds('#listaUsuario_data tr.selected').find("td").eq(5).html());
-		    $ds("input[id*='updName']").val($ds('#listaUsuario_data tr.selected').find("td").eq(3).html());
-		    $ds("input[id*='updApellido']").val($ds('#listaUsuario_data tr.selected').find("td").eq(4).html());
-		    $ds("input[id*='updFechaNacimiento']").val($ds('#listaUsuario_data tr.selected').find("td").eq(6).html());
-		    $ds('#updUsuario').modal('show');
+		    $ds("input[id*='updName']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(1).html());
+		    $ds("input[id*='updDepartamento']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(2).html());
+		    $ds("input[id*='updLocalidad']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(3).html());
+		    $ds("input[id*='updDireccion']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(4).html());
+		    create_map('map_upd', 'upd');
+		    $ds('#updVacunatorio').modal('show');
+		    
 		}
 		
 	}
 
-	function delUsuario(){
-		var id = $ds('#listaUsuario_data tr.selected').find("td").eq(0).html();
+	function delVacunatorio(){
+		var id = $ds('#listaVacunatorio_data tr.selected').find("td").eq(0).html();
 
 		if(id==undefined){
 			$ds('#errorModalLabel').html('Error'),
 			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
-			$ds('#general_error_msj').html('Debe Seleccionar un Usuario');
-		    $ds('#error_usuario').modal('show');
+			$ds('#general_error_msj').html('Debe Seleccionar un Vacunatorio');
+		    $ds('#error_vacunatorio').modal('show');
 		}else{
 			$ds("input[id*='delId']").val(id);
 			$ds("input[id*='delIdView']").val(id);
-		    $ds("input[id*='delDocumento']").val($ds('#listaUsuario_data tr.selected').find("td").eq(2).html());
-		    $ds("input[id*='delCorreo']").val($ds('#listaUsuario_data tr.selected').find("td").eq(5).html());
-		    $ds("input[id*='delName']").val($ds('#listaUsuario_data tr.selected').find("td").eq(3).html());
-		    $ds("input[id*='delApellido']").val($ds('#listaUsuario_data tr.selected').find("td").eq(4).html());
-		    $ds('#delUsuario').modal('show');
+		    $ds("input[id*='delName']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(1).html());
+		    $ds("input[id*='delDepartamento']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(2).html());
+		    $ds("input[id*='delLocalidad']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(3).html());
+		    $ds("input[id*='delDireccion']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(4).html());
+		    $ds('#delVacunatorio').modal('show');
 		}
 	}
 
-	$ds('#listaUsuario_data').on( 'click', 'tr', function () {
+	$ds('#listaVacunatorio_data').on( 'click', 'tr', function () {
 		if ( $ds(this).hasClass('selected') ) {
 			$ds(this).removeClass('selected');
 		}
 		else {
-			$ds('#listaUsuario_data tr.selected').removeClass('selected');
+			$ds('#listaVacunatorio_data tr.selected').removeClass('selected');
 			$ds(this).addClass('selected');
 		}
 	});

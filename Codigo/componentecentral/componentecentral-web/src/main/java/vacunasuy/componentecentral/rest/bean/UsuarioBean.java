@@ -157,6 +157,8 @@ public class UsuarioBean implements Serializable {
 					aux.getApellido(), aux.getCorreo(), aux.getFechaNacimiento(), password, rolesID,
 					sectorLaboral);
 
+			usuarios = usuarioService.listar();
+			
 			try {
 				UsuarioDTO usuario = usuarioService.editar(id, usuarioCrearDTO);
 

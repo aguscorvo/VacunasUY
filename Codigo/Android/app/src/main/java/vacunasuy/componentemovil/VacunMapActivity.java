@@ -66,7 +66,7 @@ import vacunasuy.componentemovil.second.MapDepto;
 import vacunasuy.componentemovil.second.MapDeptoLoc;
 
 public class VacunMapActivity extends AppCompatActivity implements  LocationListener{
-    private static final String TAG = "VacunasUY";
+    private static final String TAG = "VacunMapActivity";
     private static final int DEPARTAMENTO = 1;
     private static final int LOCALIDAD = 2;
     private static final int DISTANCIA = 3;
@@ -97,6 +97,8 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
         //load/initialize the osmdroid configuration, this can be done
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_vacunatorio);
+        setTitle(title);
         setContentView(R.layout.activity_vacun_map);
 
         imlocation = findViewById(R.id.imageButtonLocation);

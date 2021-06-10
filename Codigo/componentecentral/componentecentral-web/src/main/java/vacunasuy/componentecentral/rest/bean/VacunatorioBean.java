@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -25,7 +26,7 @@ import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
 @Named("beanvacunatorio")
-@RequestScoped
+@SessionScoped
 public class VacunatorioBean implements Serializable {
 
 	static Logger logger = Logger.getLogger(VacunatorioBean.class);
@@ -127,13 +128,14 @@ public class VacunatorioBean implements Serializable {
 
 	public void addVacunatorio() {
 
-		logger.info("LLEGO");
-
 		try {
 
 			VacunatorioCrearDTO nVac = new VacunatorioCrearDTO(nombre, Double.valueOf(Lat), Double.valueOf(Lon),
 					direccion, localidad, departamento);
 			vacunatorioService.crear(nVac);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Vacunatorio " + nVac.getNombre() + " creado con éxito.", null));
+
 
 			vacunatorios = vacunatorioService.listar();
 
@@ -147,9 +149,26 @@ public class VacunatorioBean implements Serializable {
 	}
 
 	public void delVacunatorio() {
+		
+		try {
+			vacunatorioService.eliminar(id);
+			vacunatorios = vacunatorioService.listar();
+			
+		} catch (VacunasUyException e) {
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+		} catch (Exception e) {
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+		} finally {
+			clearParam();
+		}
 	}
 
 	public void updVacunatorio() {
+		
 	}
 
 	public void validateModelNombre(FacesContext context, UIComponent comp, Object value) throws ValidatorException {

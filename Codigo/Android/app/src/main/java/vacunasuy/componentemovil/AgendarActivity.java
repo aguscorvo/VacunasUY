@@ -97,6 +97,8 @@ public class AgendarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_agendarse);
+        setTitle(title);
         setContentView(R.layout.activity_agendar);
 
         bd = AccesoBD.getInstance(this);

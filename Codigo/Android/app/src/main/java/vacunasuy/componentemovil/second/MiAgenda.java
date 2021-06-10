@@ -59,6 +59,8 @@ public class MiAgenda extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buscarMiAgenda();
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_miagenda);
+        setTitle(title);
         setContentView(R.layout.activity_mi_agenda);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationMiAgenda);
@@ -142,11 +144,6 @@ public class MiAgenda extends AppCompatActivity {
                 public void onGroupCollapse(int groupPosition) {
                 }
             });
-
-
-
-        }else {
-            finish();
         }
 
     }

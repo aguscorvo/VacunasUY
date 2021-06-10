@@ -86,7 +86,8 @@ public class CertificadoVacuna extends AppCompatActivity {
         idPlan = bundle.getInt("IDPlan");
         nombrePlan = bundle.getString("nombrePlan");
         buscarCertificado();
-
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_certificado);
+        setTitle(title);
         setContentView(R.layout.activity_certificado_vacuna);
 
         cnombre = findViewById(R.id.certificado_iNombre);

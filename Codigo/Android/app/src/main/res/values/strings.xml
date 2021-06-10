@@ -4,6 +4,19 @@
     <string name="alert_btn_negative">No</string>
     <string name="alert_btn_neutral">OK</string>
 
+    <!-- VIEWS-->
+    <string name="title_agenda">Planes Agenda</string>
+    <string name="title_notifiacion">Notificaciones</string>
+    <string name="title_vacunatorio">Vacunatorios</string>
+    <string name="title_perfil">Perfil</string>
+    <string name="title_certificado">Certificado</string>
+    <string name="title_miagenda">Mi Agenda</string>
+    <string name="title_detalleplan">Plan</string>
+    <string name="title_agendarse">Agendar</string>
+    <string name="title_seleccionar">Sel.</string>
+    <string name="title_departamento">departamento</string>
+    <string name="title_localidad">localidad</string>
+
     <!-- ACCESS-->
     <string name="access_title_err">Error de Permisos</string>
     <string name="access_msg_err">¿Desea Asignar los permisos?</string>

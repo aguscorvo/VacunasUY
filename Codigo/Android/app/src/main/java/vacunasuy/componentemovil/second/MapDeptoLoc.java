@@ -45,6 +45,9 @@ public class MapDeptoLoc extends AppCompatActivity {
         result = new Intent();
 
         buscarDepartamentos();
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_seleccionar)+ " " + getString(R.string.title_localidad);
+        setTitle(title);
+
         setContentView(R.layout.activity_map_depto_loc);
 
     }

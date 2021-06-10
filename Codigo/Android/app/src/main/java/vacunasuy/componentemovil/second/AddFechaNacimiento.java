@@ -67,6 +67,9 @@ public class AddFechaNacimiento extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_perfil);
+        setTitle(title);
+
         setContentView(R.layout.activity_add_fecha_nacimiento);
 
         bd = AccesoBD.getInstance(this);

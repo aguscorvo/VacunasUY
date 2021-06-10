@@ -31,7 +31,7 @@
 		<div class="container">
 
 			<nav class="navbar navbar-expand-lg navbar-light bg-light"> <a
-				class="navbar-brand" href="/jsf/admin/home.xhtml">VacunasUy</a>
+				class="navbar-brand" href="/backoffice/jsf/admin/home.xhtml">VacunasUy</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -42,10 +42,10 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item"><a class="nav-link"
-						href="/jsf/admin/usuario/usuarios.xhtml">Usuarios</a></li>
+						href="/backoffice/jsf/admin/usuario/usuarios.xhtml">Usuarios</a></li>
 					<li class="nav-item"><a class="nav-link text-dark" href="#">Vacunatorios</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/jsf/admin/transportista/transportistas.xhtml">Transportistas</a></li>
+						href="/backoffice/jsf/admin/transportista/transportistas.xhtml">Transportistas</a></li>
 				</ul>
 				<h:form class="form-inline">
 					<p:inputText placeholder="" aria-label="Buscar" minValue="0"
@@ -227,7 +227,7 @@
 										<f:selectItems value="#{beanvacunatorio.departamentos}"
 											var="depto" itemValue="#{depto.id}"
 											itemLabel="#{depto.nombre}" />
-										<p:ajax update="addDepartamento addLocalidad" />
+										<p:ajax update="addLocalidad" />
 									</h:selectOneMenu>
 								</div>
 							</div>
@@ -332,7 +332,7 @@
 					<h:form class="delVacunatorio-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
-								<h:inputHidden value="#{beanvacunatorio.vacunatorio.id}"
+								<h:inputHidden value="#{beanvacunatorio.id}"
 									id="delId" name="delId">
 
 								</h:inputHidden>
@@ -572,8 +572,8 @@
 
 		
 	function addVacunatorio(){
-		create_map('map_add', 'add');
 		$ds('#addVacunatorio').modal('show');
+		create_map('map_add', 'add');
 	}
 
 	function updVacunatorio(){
@@ -591,9 +591,8 @@
 		    $ds("input[id*='updDepartamento']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(2).html());
 		    $ds("input[id*='updLocalidad']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(3).html());
 		    $ds("input[id*='updDireccion']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(4).html());
-		    create_map('map_upd', 'upd');
 		    $ds('#updVacunatorio').modal('show');
-		    
+		    create_map('map_upd', 'upd');		    
 		}
 		
 	}

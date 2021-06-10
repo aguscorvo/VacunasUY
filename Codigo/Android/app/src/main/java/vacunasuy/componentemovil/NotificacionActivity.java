@@ -46,6 +46,9 @@ public class NotificacionActivity extends AppCompatActivity {
         bd = bd = AccesoBD.getInstance(this);
 
         crearTitulos();
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_notifiacion);
+        setTitle(title);
+
         agregarDatos(bd.getMensajesByUsuarioID(dtUsuario.getId()));
 
         bottomNavigationView = findViewById(R.id.notificacionBottomNavigationView);

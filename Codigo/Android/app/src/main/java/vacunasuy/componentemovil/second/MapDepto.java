@@ -32,7 +32,7 @@ import vacunasuy.componentemovil.obj.DtDepartamento;
 import vacunasuy.componentemovil.obj.DtLocalidad;
 
 public class MapDepto extends AppCompatActivity {
-    private static final String TAG = "VacunasUY";
+    private static final String TAG = "MapDepto";
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
     ListView listView;
@@ -44,8 +44,10 @@ public class MapDepto extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         result = new Intent();
-
         buscarDepartamentos();
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_seleccionar)+ " " + getString(R.string.title_departamento);
+        setTitle(title);
+
         setContentView(R.layout.activity_map_depto);
     }
 

@@ -44,7 +44,7 @@ import vacunasuy.componentemovil.obj.DtUsuario;
 import vacunasuy.componentemovil.obj.DtVacuna;
 
 public class DetallePlan extends AppCompatActivity {
-    private static final String TAG = "VacunasUY";
+    private static final String TAG = "DetallePlan";
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
     DtPlan planvacunas = null;
@@ -75,6 +75,8 @@ public class DetallePlan extends AppCompatActivity {
         idPlan = bundle.getInt("IDPlan");
 
         buscarPlan();
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_detalleplan);
+        setTitle(title);
 
         setContentView(R.layout.activity_detalle_plan);
     }

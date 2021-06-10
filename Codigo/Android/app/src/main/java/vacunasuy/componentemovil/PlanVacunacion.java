@@ -65,6 +65,9 @@ public class PlanVacunacion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buscarPlanes();
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_agenda);
+        setTitle(title);
+
         setContentView(R.layout.activity_plan_vacunacion);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationPlan);

@@ -61,6 +61,8 @@ public class MapEnfermedadesVaccunas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buscarEnfermedadesVacunas();
+        String title = getString(R.string.app_name) + " - " + getString(R.string.title_certificado);
+        setTitle(title);
         setContentView(R.layout.activity_map_enfermedades_vaccunas);
 
         bottomNavigationView = findViewById(R.id.enfermedadBottomNavigationView);

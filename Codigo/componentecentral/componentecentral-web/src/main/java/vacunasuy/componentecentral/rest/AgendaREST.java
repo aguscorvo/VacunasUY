@@ -63,7 +63,7 @@ public class AgendaREST {
 		}
 	}
 	
-	@PUT
+	@POST
 	public Response crear(AgendaCrearDTO request) {
 		RespuestaREST <List<AgendaMinDTO>> respuesta = null;
 		try {

@@ -122,21 +122,7 @@ public class AgendaServiceImpl implements IAgendaService {
 		String hora = "";
 		
 		/* Si la fecha de la agenda es para hoy */
-		if(agendaDTO.getFecha().equalsIgnoreCase(LocalDate.now().toString())) {
-			/* Si la hora es de 0 a 8 se agenda normal */
-			if(horaTemp >= 0 && horaTemp <= 8) {
-				hora =  String.valueOf(((int) (Math.random() * 12) + 8));
-			/* Si la hora es de 9 a 19 se agenda a partir de esta hora */
-			} else if (horaTemp >= 9 && horaTemp <=19 ) {
-				hora =  String.valueOf(((int) (Math.random() * (20 - horaTemp)) + horaTemp + 1));
-			/* Si la hora es de 20 a 23, se agenda normal para el siguiente día */
-			}else if(horaTemp >= 20 && horaTemp <= 23) {
-				hora =  String.valueOf(((int) (Math.random() * 12) + 8));
-				agendaDTO.setFecha(sumarDias(agendaDTO.getFecha(), 1));
-			}
-		} else {
-			hora =  String.valueOf(((int) (Math.random() * 12) + 8));
-		}
+		hora =  String.valueOf(((int) (Math.random() * 12) + 8));
 		
 		if(Integer.parseInt(hora) < 10) {
 			hora = "0" + hora;
@@ -147,7 +133,7 @@ public class AgendaServiceImpl implements IAgendaService {
 		String fecha_hora = agendaDTO.getFecha() + " " + hora + ":" + minutos;
 		
 		agendaDTO.setFecha(fecha_hora);
-		Agenda agenda;
+		Agenda agenda = null;
 		List<AgendaMinDTO> agendas = new ArrayList<AgendaMinDTO>();		
 		try {
 			for (int i=0;i<cantidad_de_agendas;i++) {
@@ -215,7 +201,7 @@ public class AgendaServiceImpl implements IAgendaService {
     
 	public static String sumarDias(String fechaYHora, long dias) {
 	    // Crear un formateador como 2018-10-16 15:00
-	    DateTimeFormatter formateador = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm");
+	    DateTimeFormatter formateador = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	    // Lo convertimos a objeto para poder trabajar con él
 	    LocalDateTime fechaYHoraLocal = LocalDateTime.parse(fechaYHora, formateador);
 	    // Sumar los años indicados

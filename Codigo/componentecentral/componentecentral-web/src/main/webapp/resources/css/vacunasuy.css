@@ -40,7 +40,7 @@
 white-space: nowrap !important;
 }
 
-#map_add, #map_upd{
+#map_add, #map_upd, #map_view{
 	width: 436px !important;
 	height: 320px !important;
 	

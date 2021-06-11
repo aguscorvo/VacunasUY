@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -34,7 +33,6 @@ public class VacunatorioBean implements Serializable {
 	List<DepartamentoDTO> departamentos;
 	List<LocalidadDTO> SelectLocalidadOnDepartamento;
 	VacunatorioDTO vacunatorio;
-	// VacunatorioCrearDTO nVacunatorio;
 	String strbuscar;
 	String Lat;
 	String Lon;
@@ -42,7 +40,9 @@ public class VacunatorioBean implements Serializable {
 	Long localidad;
 	String nombre;
 	String direccion;
-	Long id;
+	Long id = null;
+	String updLat;
+	String updLon;
 	
 	
 	
@@ -133,6 +133,7 @@ public class VacunatorioBean implements Serializable {
 			VacunatorioCrearDTO nVac = new VacunatorioCrearDTO(nombre, Double.valueOf(Lat), Double.valueOf(Lon),
 					direccion, localidad, departamento);
 			vacunatorioService.crear(nVac);
+			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Vacunatorio " + nVac.getNombre() + " creado con éxito.", null));
 
@@ -169,6 +170,24 @@ public class VacunatorioBean implements Serializable {
 
 	public void updVacunatorio() {
 		
+		try {
+			VacunatorioCrearDTO updVac = new VacunatorioCrearDTO(nombre, Double.valueOf(updLat), Double.valueOf(updLon),
+					direccion, localidad, departamento);
+			
+			vacunatorioService.editar(id, updVac);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Vacunatorio " + updVac.getNombre() + " modificado con éxito.", null));
+
+			vacunatorios = vacunatorioService.listar();
+
+		} catch (VacunasUyException e) {
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+		} finally {
+			clearParam();
+		}
+
 	}
 
 	public void validateModelNombre(FacesContext context, UIComponent comp, Object value) throws ValidatorException {
@@ -213,6 +232,16 @@ public class VacunatorioBean implements Serializable {
 
 	private void clearParam() {
 		// this.vacunatorio = new VacunatorioDTO();
+		this.strbuscar = null;
+		this.Lat = null;
+		this.Lon = null;
+		this.departamento = null;
+		this.localidad = null;
+		this.nombre = null;
+		this.direccion = null;
+		this.id = null;
+		this.updLat = null;
+		this.updLon = null;
 	}
 
 	public List<VacunatorioDTO> getVacunatorios() {
@@ -305,6 +334,50 @@ public class VacunatorioBean implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getUpdLat() {
+		String Lat = "";
+		
+		try {
+			
+			if(id!=null) {
+				VacunatorioDTO vdto = vacunatorioService.listarPorId(id);
+				Lat = vdto.getLatitud().toString();	
+			}
+		} catch (VacunasUyException e) {
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+		} 
+		
+		return Lat;
+	}
+
+	public void setUpdLat(String updLat) {
+		this.updLat = updLat;
+	}
+
+	public String getUpdLon() {
+		String Lon = "";
+		
+		try {
+			if(id != null ) {
+				VacunatorioDTO vdto = vacunatorioService.listarPorId(id);
+				Lon = vdto.getLongitud().toString();	
+			}
+		} catch (VacunasUyException e) {
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+		}
+		
+		return Lon;
+
+	}
+
+	public void setUpdLon(String updLon) {
+		this.updLon = updLon;
 	}
 	
 	

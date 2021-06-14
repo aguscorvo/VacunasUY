@@ -17,9 +17,12 @@ import javax.inject.Named;
 import org.jboss.logging.Logger;
 
 import vacunasuy.componentecentral.business.IDepartamentoService;
+import vacunasuy.componentecentral.business.IPuestoService;
 import vacunasuy.componentecentral.business.IVacunatorioService;
 import vacunasuy.componentecentral.dto.DepartamentoDTO;
 import vacunasuy.componentecentral.dto.LocalidadDTO;
+import vacunasuy.componentecentral.dto.PuestoCrearDTO;
+import vacunasuy.componentecentral.dto.PuestoDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -43,6 +46,7 @@ public class VacunatorioBean implements Serializable {
 	Long id = null;
 	String updLat;
 	String updLon;
+	String puestos; 
 	
 	
 	
@@ -50,6 +54,9 @@ public class VacunatorioBean implements Serializable {
 	@EJB
 	IVacunatorioService vacunatorioService;
 
+	@EJB
+	IPuestoService puestoService;
+	
 	@EJB
 	IDepartamentoService departamentoService;
 
@@ -132,7 +139,12 @@ public class VacunatorioBean implements Serializable {
 
 			VacunatorioCrearDTO nVac = new VacunatorioCrearDTO(nombre, Double.valueOf(Lat), Double.valueOf(Lon),
 					direccion, localidad, departamento);
-			vacunatorioService.crear(nVac);
+			VacunatorioDTO vacunatorioDTO = vacunatorioService.crear(nVac);
+			
+			for(Integer v=0; v<Integer.valueOf(puestos); v++) {
+				PuestoCrearDTO puestoDTO = new PuestoCrearDTO(v+1, vacunatorioDTO.getId());  
+				puestoService.crear(puestoDTO);
+			}
 			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Vacunatorio " + nVac.getNombre() + " creado con éxito.", null));
@@ -378,6 +390,14 @@ public class VacunatorioBean implements Serializable {
 
 	public void setUpdLon(String updLon) {
 		this.updLon = updLon;
+	}
+
+	public String getPuestos() {
+		return puestos;
+	}
+
+	public void setPuestos(String puestos) {
+		this.puestos = puestos;
 	}
 	
 	

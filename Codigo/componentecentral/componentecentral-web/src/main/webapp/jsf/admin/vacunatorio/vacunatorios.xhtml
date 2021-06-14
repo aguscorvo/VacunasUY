@@ -299,6 +299,18 @@
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
+									<p:outputLabel for="addPuestos" value="Cantidad de Puestos" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+								<p:inputNumber id="addPuestos" minValue="1" name="addPuestos"
+										value="#{beanvacunatorio.puestos}" required="true"
+										emptyValue="empty" />
+								</div>
+							</div>
+							
+							
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
 									<p:outputLabel for="addLatitud" value="Latitud" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
@@ -631,9 +643,7 @@
 			$ds("input[id*='updIdView']").val(id);
 		    $ds("input[id*='updName']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(1).html());
 		    $ds("select[id*='updDepartamento']").prop('selectedIndex', 0);
-		    
 		    $ds("select[id*='updDepartamento']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(6).html());
-		    $ds("select[id*='updDepartamento']").click();
 		    $ds("select[id*='updLocalidad']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(7).html());
 		    $ds("input[id*='updDireccion']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(4).html());
 		    $ds("input[id*='updLatitud']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(8).html());

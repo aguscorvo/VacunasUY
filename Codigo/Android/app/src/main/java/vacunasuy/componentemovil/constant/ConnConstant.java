@@ -29,7 +29,7 @@ public class ConnConstant {
     final public static String API_VACUNATORIOSPLAN_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/vacunatorios/listarVacunatoriosDadoPlan/{id}";
 
     //PLANES DE VACUNACION
-    final public static String API_PLANESVACUNACION_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/planesVacunacion";
+    final public static String API_PLANESVACUNACION_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/planesVacunacion/listarVigentes";
 
     //AGENDA
     final public static String API_ADDAGENDA_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/agendas";

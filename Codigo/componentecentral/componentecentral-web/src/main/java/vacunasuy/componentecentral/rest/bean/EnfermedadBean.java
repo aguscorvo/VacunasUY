@@ -30,7 +30,7 @@ public class EnfermedadBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	static Logger logger = Logger.getLogger(StockBean.class);
+	static Logger logger = Logger.getLogger(EnfermedadBean.class);
 	
 	private Long id;
 	private String nombre;

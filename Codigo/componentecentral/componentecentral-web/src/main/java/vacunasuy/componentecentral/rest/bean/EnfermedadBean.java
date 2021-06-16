@@ -1,6 +1,7 @@
 package vacunasuy.componentecentral.rest.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,6 +36,8 @@ public class EnfermedadBean implements Serializable {
 	private Long id;
 	private String nombre;
 	private List<EnfermedadDTO> enfermedades;
+	String strbuscar;
+	
 	
 	@EJB
 	private IEnfermedadService enfermedadService;
@@ -48,6 +51,34 @@ public class EnfermedadBean implements Serializable {
 		}
 	}
 	
+	public void srchEnfermedad() {
+
+		logger.info("srchEnfermedad 'strbuscar': " + strbuscar);
+
+		try {
+			enfermedades = enfermedadService.listar();
+
+		} catch (VacunasUyException e) {
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			enfermedades = new ArrayList<EnfermedadDTO>();
+		}
+
+		if (!strbuscar.equals("")) {
+			List<EnfermedadDTO> auxvac = new ArrayList<EnfermedadDTO>();
+
+			strbuscar = strbuscar.toUpperCase();
+
+			for (EnfermedadDTO tdto : enfermedades) {
+				if (tdto.getNombre().toUpperCase().contains(strbuscar))
+					auxvac.add(tdto);
+			}
+			enfermedades = auxvac;
+		}
+
+	}
+
 	public void addEnfermedad() {
 		try {
 			EnfermedadCrearDTO enfermedad = EnfermedadCrearDTO.builder()
@@ -57,13 +88,17 @@ public class EnfermedadBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Enfermedad " + enfermedad.getNombre() + " creada con éxito.", null));
 		} catch (VacunasUyException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
 				enfermedades = enfermedadService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
 	}
@@ -77,13 +112,17 @@ public class EnfermedadBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Enfermedad " + enfermedad.getNombre() + " editada con éxito.", null));
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
 				enfermedades = enfermedadService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
 	}
@@ -94,13 +133,17 @@ public class EnfermedadBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Enfermedad eliminada con éxito.", null));
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
 				enfermedades = enfermedadService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
 	}

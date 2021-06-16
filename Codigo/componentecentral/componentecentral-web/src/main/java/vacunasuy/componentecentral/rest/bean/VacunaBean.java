@@ -42,7 +42,6 @@ public class VacunaBean implements Serializable {
 	private int periodo;
 	private int inmunidad;
 	private Long idEnfermedad;
-	private String enfermedad;
 	private List<VacunaDTO> vacunas;
 	private List<EnfermedadDTO> enfermedades;
 	String strbuscar;
@@ -134,6 +133,7 @@ public class VacunaBean implements Serializable {
 					.id_enfermedad(idEnfermedad)
 					.build();	
 			vacunaService.editar(id, vacuna);
+			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Vacuna " + vacuna.getNombre() + " editada con éxito.", null));
 		} catch (VacunasUyException e) {

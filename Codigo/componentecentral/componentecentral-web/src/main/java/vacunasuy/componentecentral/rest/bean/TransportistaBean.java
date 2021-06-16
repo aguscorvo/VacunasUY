@@ -1,6 +1,7 @@
 package vacunasuy.componentecentral.rest.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -34,6 +35,7 @@ public class TransportistaBean implements Serializable {
 	
 	private Long id;
 	private String nombre;
+	String strbuscar; 
 	private List<TransportistaDTO> transportistas;
 	
 	@EJB
@@ -45,8 +47,41 @@ public class TransportistaBean implements Serializable {
 			transportistas = transportistaService.listar();
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			transportistas = new ArrayList<TransportistaDTO>();
+
 		}
 	}
+	
+	public void srchTransportista() {
+
+		logger.info("srchTransportista 'strbuscar': " + strbuscar);
+
+		try {
+			transportistas = transportistaService.listar();;
+
+		} catch (VacunasUyException e) {
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			transportistas = new ArrayList<TransportistaDTO>();
+		}
+
+		if (!strbuscar.equals("")) {
+			List<TransportistaDTO> auxtra = new ArrayList<TransportistaDTO>();
+
+			strbuscar = strbuscar.toUpperCase();
+
+			for (TransportistaDTO tdto : transportistas) {
+				if (tdto.getNombre().toUpperCase().contains(strbuscar))
+					auxtra.add(tdto);
+			}
+			transportistas = auxtra;
+		}
+
+	}
+
 	
 	public void addTransportista() {
 		try {
@@ -54,16 +89,23 @@ public class TransportistaBean implements Serializable {
 					.nombre(nombre)
 					.build();
 			transportistaService.crear(transportista);
+			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Transportista " + transportista.getNombre() + " creado con éxito.", null));
 		} catch (VacunasUyException e) {
 			logger.error(e.getLocalizedMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+
 		} finally {
 			clearParam();
 			try {
 				transportistas = transportistaService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+				
 			}
 		}
 	}
@@ -77,13 +119,19 @@ public class TransportistaBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Transportista " + transportista.getNombre() + " editado con éxito.", null));
 		} catch (VacunasUyException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			
 		} finally {
 			clearParam();
 			try {
 				transportistas = transportistaService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+				
 			}
 		}
 	}
@@ -94,13 +142,19 @@ public class TransportistaBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Transportista eliminado con éxito.", null));
 		} catch (VacunasUyException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			
 		} finally {
 			clearParam();
 			try {
 				transportistas = transportistaService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+				
 			}
 		}
 	}

@@ -77,7 +77,6 @@ public class VacunatorioBean implements Serializable {
 
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
-			System.out.println(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			vacunatorios = new ArrayList<VacunatorioDTO>();
@@ -140,7 +139,7 @@ public class VacunatorioBean implements Serializable {
 			VacunatorioCrearDTO nVac = new VacunatorioCrearDTO(nombre, Double.valueOf(Lat), Double.valueOf(Lon),
 					direccion, localidad, departamento);
 			VacunatorioDTO vacunatorioDTO = vacunatorioService.crear(nVac);
-			
+						
 			for(Integer v=0; v<Integer.valueOf(puestos); v++) {
 				PuestoCrearDTO puestoDTO = new PuestoCrearDTO(v+1, vacunatorioDTO.getId());  
 				puestoService.crear(puestoDTO);

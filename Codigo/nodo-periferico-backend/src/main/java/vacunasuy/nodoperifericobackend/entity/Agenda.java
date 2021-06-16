@@ -26,5 +26,6 @@ public class Agenda {
     private Long idPlanVacunacion;
     private Long idVacunatorio;
     private Boolean vacunado;
+    private int nroDosis;
 	
 }

@@ -1,12 +1,11 @@
 package vacunasuy.componentecentral.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import vacunasuy.componentecentral.entity.PlanVacunacion;
 
 @Singleton
@@ -18,6 +17,13 @@ public class PlanVacunacionDAOImpl implements IPlanVacunacionDAO {
 	@Override
 	public List<PlanVacunacion> listar() {
 		Query consulta = em.createQuery("SELECT p FROM PlanVacunacion p");
+		return consulta.getResultList();
+	}
+	
+	@Override
+	public List<PlanVacunacion> listarPlanesVigentes() {
+		Query consulta = em.createQuery("SELECT p FROM PlanVacunacion p WHERE p.fechaFin >= :fecha");
+		consulta.setParameter("fecha", LocalDateTime.now());
 		return consulta.getResultList();
 	}
 

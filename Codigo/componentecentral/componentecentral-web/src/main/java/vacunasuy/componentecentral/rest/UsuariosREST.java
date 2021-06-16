@@ -47,6 +47,42 @@ public class UsuariosREST {
 		}
 	}
 	
+	@GET
+	@Path("/listar/{id}")
+	public Response listarPorId(@PathParam("id") Long id) {
+		RespuestaREST<UsuarioDTO> respuesta = null;
+		try {
+			UsuarioDTO usuario = usuarioService.listarPorId(id);
+			respuesta = new RespuestaREST<UsuarioDTO>(true, "Usuario Listado con exito.", usuario);
+			return Response.ok(respuesta).build();
+		} catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<UsuarioDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.DATOS_INCORRECTOS) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
+	
+	@GET
+	@Path("/token/{token}")
+	public Response listarPorToken(@PathParam("token") String token) {
+		RespuestaREST<UsuarioDTO> respuesta = null;
+		try {
+			UsuarioDTO usuario = usuarioService.listarPorToken(token);
+			respuesta = new RespuestaREST<UsuarioDTO>(true, "Usuario Listado con exito.", usuario);
+			return Response.ok(respuesta).build();
+		} catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<UsuarioDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.DATOS_INCORRECTOS) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
+	
 	@POST
 	public Response crear(UsuarioCrearDTO request) {
 		RespuestaREST<UsuarioDTO> respuesta = null;

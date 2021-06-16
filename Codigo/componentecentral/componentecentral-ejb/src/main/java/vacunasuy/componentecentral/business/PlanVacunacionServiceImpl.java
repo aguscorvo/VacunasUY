@@ -40,6 +40,15 @@ public class PlanVacunacionServiceImpl implements IPlanVacunacionService {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
 	}
+	
+	@Override
+	public List<PlanVacunacionDTO> listarPlanesVigentes() throws VacunasUyException {
+		try {
+			return planVacunacionConverter.fromEntity(planVacunacionDAO.listarPlanesVigentes());
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
 
 	@Override
 	public PlanVacunacionDTO listarPorId(Long id) throws VacunasUyException {

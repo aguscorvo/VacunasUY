@@ -15,6 +15,7 @@ public class AgendaConverter extends AbstractConverter<Agenda, AgendaDTO>{
 				.fecha(e.getFecha().toString())
 				.idPuesto(e.getIdPuesto())
 				.idPlanVacunacion(e.getIdPlanVacunacion())
+				.nroDosis(e.getNroDosis())
 				.build();
 	}
 
@@ -29,6 +30,7 @@ public class AgendaConverter extends AbstractConverter<Agenda, AgendaDTO>{
 				.documento(d.getDocumento())
 				.idPuesto(d.getIdPuesto())
 				.idPlanVacunacion(d.getIdPlanVacunacion())
+				.nroDosis(d.getNroDosis())
 				.build();
 	}
 	

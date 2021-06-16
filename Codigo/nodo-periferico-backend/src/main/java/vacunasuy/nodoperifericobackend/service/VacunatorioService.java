@@ -165,6 +165,7 @@ public class VacunatorioService {
 								.planVacunacion(agenda.getIdPlanVacunacion())
 								.usuario(agenda.getIdUsuario())
 								.idVacunatorio(v.getId())
+								.nroDosis(agenda.getNroDosis())
 								.build();
 						/* Se envía al componente central */
 						ObjectMapper mapper = new ObjectMapper();

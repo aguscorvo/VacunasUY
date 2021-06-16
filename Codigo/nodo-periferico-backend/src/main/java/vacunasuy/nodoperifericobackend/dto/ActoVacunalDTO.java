@@ -17,5 +17,6 @@ public class ActoVacunalDTO {
 	private Long planVacunacion;
 	private Long usuario;
 	private Long idVacunatorio;
+	private int nroDosis;
 	
 }

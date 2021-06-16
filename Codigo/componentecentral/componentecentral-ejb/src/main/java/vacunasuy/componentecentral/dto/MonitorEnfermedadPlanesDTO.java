@@ -11,14 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AgendaVacunatorioDTO {
+public class MonitorEnfermedadPlanesDTO {
 
-	private Long id;
-	private String fecha;
-	private Long idUsuario;
-	private String documento;
-	private Long idPuesto;
-	private Long idPlanVacunacion;
-	private int nroDosis;
+	Long id;
+	String periodo;
+	String vacuna;
 	
 }

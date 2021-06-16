@@ -415,7 +415,27 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		}catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
-	}	
+	}
 	
+	@Override
+	public UsuarioDTO listarPorToken(String token) throws VacunasUyException {
+		try {
+			Usuario usuario = obtenerUsuarioDeJsonWebToken(token);
+			if(usuario == null)	throw new VacunasUyException("El usuario indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);			
+			return usuarioConverter.fromEntity(usuario);
+		} catch (Exception e) {
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+		}
+	}
+
+	/* Función auxiliar para obtener usuario de Token */
+	private Usuario obtenerUsuarioDeJsonWebToken(String token) {
+		Long userID = Long.parseLong(Jwts.parser()
+				  .setSigningKey(Constantes.JWT_KEY)
+				  .parseClaimsJws(token)
+				  .getBody()
+				  .getSubject());
+		return usuarioDAO.listarPorId(userID);
+	}
 
 }

@@ -19,5 +19,6 @@ public class AgendaDTO {
     private String documento;
     private Long idPuesto;
     private Long idPlanVacunacion;
+    private int nroDosis;
 
 }

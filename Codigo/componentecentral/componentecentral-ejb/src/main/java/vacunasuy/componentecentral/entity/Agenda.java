@@ -37,6 +37,9 @@ public class Agenda implements Serializable{
 	@Column(name = "fecha")
 	private LocalDateTime fecha; 
 	
+	@Column(name = "nro_dosis")
+	private int nroDosis;
+	
 	@ManyToOne
     @JoinColumn(name = "fk_puesto")
 	private Puesto puesto;	

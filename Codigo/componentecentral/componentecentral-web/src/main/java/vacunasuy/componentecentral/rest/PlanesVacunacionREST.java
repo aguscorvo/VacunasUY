@@ -40,6 +40,20 @@ public class PlanesVacunacionREST {
 		}
 	}
 	
+	@GET
+	@Path("/listarVigentes")
+	public Response listarPlanesVigentes() {
+		RespuestaREST<List<PlanVacunacionDTO>> respuesta = null;
+		try {
+			List<PlanVacunacionDTO> usuarios = planVacunacionService.listarPlanesVigentes();
+			respuesta = new RespuestaREST<List<PlanVacunacionDTO>>(true, "Planes de vacunación listados con éxito.", usuarios);
+			return Response.ok(respuesta).build();
+		} catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<>(false, e.getLocalizedMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}
+	}
+	
 	@POST
 	public Response crear(PlanVacunacionCrearDTO request) {
 		RespuestaREST<PlanVacunacionDTO> respuesta = null;

@@ -51,6 +51,9 @@ public class ActoVacunal implements Serializable {
 	@Column(name = "fecha")
 	LocalDate fecha;
 	
+	@Column(name = "nro_dosis")
+	private int nroDosis;
+	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_plan_vacunacion", referencedColumnName = "id")
 	private PlanVacunacion planVacunacion;

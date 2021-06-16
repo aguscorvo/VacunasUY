@@ -141,6 +141,7 @@ public class AgendaServiceImpl implements IAgendaService {
 				agenda.setPuesto(puesto);
 				agenda.setPlanVacunacion(planVacunacion);
 				agenda.setUsuario(ciudadano);
+				agenda.setNroDosis(i+1);
 				puesto.getAgendas().add(agenda);				
 				AgendaMinDTO a_agregar = agendaConverter.fromEntityToMin(agendaDAO.crear(agenda));
 				agendas.add(a_agregar);

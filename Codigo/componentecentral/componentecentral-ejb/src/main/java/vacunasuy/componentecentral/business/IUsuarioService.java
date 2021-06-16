@@ -38,5 +38,6 @@ public interface IUsuarioService {
 	public void registrarTokenFirebase(UsuarioRegistrarTFDTO usuarioDTO) throws VacunasUyException;
 	public List<AgendaDTO> listarAgendasCiudadano(Long id) throws VacunasUyException;
 	public List<AtiendeDTO> listarAtiendeVacunador(Long id) throws VacunasUyException;
+	public UsuarioDTO listarPorToken(String token) throws VacunasUyException;
 	
 }

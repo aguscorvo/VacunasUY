@@ -8,6 +8,7 @@ import vacunasuy.componentecentral.entity.PlanVacunacion;
 public interface IPlanVacunacionDAO {
 
 	public List<PlanVacunacion> listar();
+	public List<PlanVacunacion> listarPlanesVigentes();
 	public PlanVacunacion listarPorId(Long id);
 	public PlanVacunacion crear(PlanVacunacion plan);
 	public PlanVacunacion editar(PlanVacunacion plan);

@@ -136,11 +136,17 @@ public class VacunatorioBean implements Serializable {
 
 		try {
 
+			//String[] aux = puestos.split(".");
+			//logger.info(aux[0]);	
+			
+			Integer auxp =Integer.valueOf(puestos);
+			
 			VacunatorioCrearDTO nVac = new VacunatorioCrearDTO(nombre, Double.valueOf(Lat), Double.valueOf(Lon),
 					direccion, localidad, departamento);
 			VacunatorioDTO vacunatorioDTO = vacunatorioService.crear(nVac);
-						
-			for(Integer v=0; v<Integer.valueOf(puestos); v++) {
+
+			
+			for(Integer v=0; v<auxp; v++) {
 				PuestoCrearDTO puestoDTO = new PuestoCrearDTO(v+1, vacunatorioDTO.getId());  
 				puestoService.crear(puestoDTO);
 			}

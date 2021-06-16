@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<meta charset="ISO-8859-1"></meta>
+	<title>VacunasUy-Autoridad</title>
+
+	<ui:include src="/WEB-INF/includes/header_lib.xhtml" />
+
+	<style>
+.selected {
+	background-color: #B0BED9 !important;
+}
+</style>
+
+</h:head>
+
+<h:body>
+
+	<header class="fixed-top header"> <ui:include
+		src="/WEB-INF/includes/header_log.xhtml" /> <!-- top header -->
+	<div class="navigation w-100">
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg navbar-light bg-light"> <a
+				class="navbar-brand" href="/backoffice/jsf/autoridad/home.xhtml">VacunasUy</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link"
+						href="/backoffice/jsf/autoridad/enfermedades.xhtml">Enfermedades</a></li>
+					<li class="nav-item"><a class="nav-link  text-dark"
+						href="/backoffice/jsf/autoridad/vacunas.xhtml">Vacunas</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/backoffice/jsf/autoridad/proveedores.xhtml">Proveedores</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/backoffice/jsf/autoridad/planes.xhtml">Planes</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/backoffice/jsf/autoridad/lotes.xhtml">lotes</a></li>
+
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarGestion"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Gesti&oacute;n </a>
+						<div class="dropdown-menu" aria-labelledby="navbarGestion">
+							<a class="dropdown-item"
+								href="/backoffice/jsf/autoridad/enviovacunas.xhtml">Env&iacute;o
+								de Vacunas</a> <a class="dropdown-item"
+								href="/backoffice/jsf/autoridad/asignacion.xhtml">Asignar
+								Vacunadores</a>
+						</div></li>
+				</ul>
+				<h:form class="form-inline">
+					<p:inputText placeholder="Nombre/Enfermedad" aria-label="Buscar"
+						minValue="0" emptyValue="empty" value="#{VacunaBean.strbuscar}" />
+					<h:commandButton class="btn btn-outline-success my-2 my-sm-0"
+						action="#{VacunaBean.srchVacuna()}" value="Buscar" />
+				</h:form>
+			</div>
+
+			</nav>
+		</div>
+	</div>
+	</header>
+	<div class="main-panel">
+		<div class="container">
+			<div class="wrapper">
+				<h3>Lista de Vacunas</h3>
+				<p:dataTable id="listaVacuna" var="dtVacuna"
+					value="#{VacunaBean.vacunas}" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+					rowsPerPageTemplate="10,25,50,100">
+					<p:column headerText="Id">
+						<h:outputText value="#{dtVacuna.id}" />
+					</p:column>
+					<p:column headerText="Nombre">
+						<h:outputText value="#{dtVacuna.nombre}" />
+					</p:column>
+					<p:column headerText="D&oacute;sis">
+						<h:outputText value="#{dtVacuna.cant_dosis}" />
+					</p:column>
+					<p:column headerText="Per&iacute;odo entre d&oacute;sis">
+						<h:outputText value="#{dtVacuna.periodo}" />
+					</p:column>
+					<p:column headerText="Inmunidad">
+						<h:outputText value="#{dtVacuna.inmunidad}" />
+					</p:column>
+					<p:column headerText="Enfermedad">
+						<h:outputText value="#{dtVacuna.enfermedad.nombre}" />
+					</p:column>
+					<p:column headerText="idEnf" style="display: none">
+						<h:outputText value="#{dtVacuna.enfermedad.id}" />
+					</p:column>
+				</p:dataTable>
+			</div>
+			<div class="col-12 d-flex flex-row-reverse">
+				<div class="p-2">
+					<div class="btn-group" data-toggle="buttons">
+						<a class="btn btn-secondary" href="javascript:addVacuna();"
+							role="button"> <i class="fas fa-plus"></i>
+						</a> <a class="btn btn-secondary" href="javascript:delVacuna();"
+							role="button"> <i class="fas fa-minus"></i>
+						</a> <a class="btn btn-secondary" href="javascript:updVacuna();"
+							role="button"> <i class="fas fa-edit"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- Modal ERROR -->
+	<div class="modal fade" id="error_vacuna" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="errorModalLabel">Error</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-3" id="general_error_icon">
+							<h1>
+								<i class="fas fa-minus-circle display-3" style="color: #cc0000"></i>
+							</h1>
+						</div>
+						<div class="col-md-9 ml-auto" id="general_error_msj">
+							<!--Displays only Error Messages-->
+							<h:messages globalOnly="true" styleClass="mystyle" layout="list"
+								id="general_error_msj_1" infoStyle="display:none"
+								warnStyle="display:none" />
+
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal INFO -->
+	<div class="modal fade" id="info_vacuna" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="errorModalLabel">Infomraci&oacute;n</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-3" id="general_error_icon">
+							<h1>
+								<i class="fas fa-info-circle display-3" style="color: #F1C40F"></i>
+							</h1>
+						</div>
+						<div class="col-md-9 ml-auto" id="general_error_msj">
+
+							<!--Displays only Warning Messages-->
+							<h:messages globalOnly="true" styleClass="messages" layout="list"
+								id="general_error_msj_2" errorStyle="display:none"
+								infoStyle="display:none" />
+
+							<!--Displays only Info Messages-->
+							<h:messages globalOnly="true" styleClass="messages" layout="list"
+								id="general_error_msj_3" errorStyle="display:none"
+								warnStyle="display:none" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modal ADD-->
+	<div class="modal" tabindex="-1" role="dialog" id="addVacuna">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Crear Vacuna</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h:form class="addvacuna-form">
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addName" value="Nombre" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="addName"
+										required="true" name="addName" value="#{VacunaBean.nombre}">
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addCantDosis" value="D&oacute;sis" />
+								</div>
+								<p:inputNumber id="addCantDosis" minValue="1"
+									name="addCantDosis" value="#{VacunaBean.cant_dosis}"
+									required="true" emptyValue="1" />
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addPeriodo" value="Per&iacute;odo" />
+								</div>
+								<p:inputNumber id="addPeriodo" minValue="1" name="addPeriodo"
+									value="#{VacunaBean.periodo}" required="true" emptyValue="1" />
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addInumidad" value="Inmunidad" />
+								</div>
+								<p:inputNumber id="addInumidad" minValue="1" name="addInumidad"
+									value="#{VacunaBean.inmunidad}" required="true" emptyValue="1" />
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addEnfermedad" value="Enfermedad" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="addEnfermedad"
+										value="#{VacunaBean.idEnfermedad}" class="form-control">
+										<f:selectItems value="#{VacunaBean.enfermedades}"
+											var="enfermedad" itemValue="#{enfermedad.id}"
+											itemLabel="#{enfermedad.nombre}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:commandButton class="btn btn-primary"
+									action="#{VacunaBean.addVacuna()}" value="CREAR" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal DEL-->
+	<div class="modal" tabindex="-1" role="dialog" id="delVacuna">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Borrar Vacuna</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h:form class="delVacuna-form">
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:inputHidden value="#{VacunaBean.id}" id="delId" name="delId" />
+								<div class="col-6  mb-3">
+									<p:outputLabel for="delIdView" value="Id" />
+								</div>
+								<div class="col-6  mb-3">
+									<h:inputText id="delIdView" name="delIdView" readonly="true" />
+								</div>
+							</div>
+
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="delName" value="Nombre" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="delName"
+										readonly="true" />
+								</div>
+							</div>
+
+						</div>
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:commandButton class="btn btn-primary"
+									action="#{VacunaBean.delVacuna()}" value="BORRAR" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal UPD-->
+	<div class="modal" tabindex="-1" role="dialog" id="updVacuna">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Actualizar Vacuna</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h:form class="updVacuna-form">
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:inputHidden value="#{VacunaBean.id}" id="updId" name="updId" />
+								<div class="col-6  mb-3">
+									<p:outputLabel for="updIdView" value="Id" />
+								</div>
+								<div class="col-6  mb-3">
+									<h:inputText id="updIdView" name="updIdView" readonly="true" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updName" value="Nombre" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" class="form-control" id="updName"
+										required="true" name="updName" value="#{VacunaBean.nombre}">
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updCantDosis" value="D&oacute;sis" />
+								</div>
+								<p:inputNumber id="updCantDosis" minValue="1"
+									name="updCantDosis" value="#{VacunaBean.cant_dosis}"
+									required="true" emptyValue="1" />
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updPeriodo" value="Per&iacute;odo" />
+								</div>
+								<p:inputNumber id="updPeriodo" minValue="1" name="updPeriodo"
+									value="#{VacunaBean.periodo}" required="true" emptyValue="1" />
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updInumidad" value="Inmunidad" />
+								</div>
+								<p:inputNumber id="updInumidad" minValue="1" name="updInumidad"
+									value="#{VacunaBean.inmunidad}" required="true" emptyValue="1" />
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updEnfermedad" value="Enfermedad" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="updEnfermedad"
+										value="#{VacunaBean.idEnfermedad}" class="form-control">
+										<f:selectItems value="#{VacunaBean.enfermedades}"
+											var="enfermedad" itemValue="#{enfermedad.id}"
+											itemLabel="#{enfermedad.nombre}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:commandButton class="btn btn-primary"
+									action="#{VacunaBean.updVacuna()}" value="ACTUALIZAR" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<ui:include src="/WEB-INF/includes/footer_lib.xhtml" />
+
+	<script type="text/javascript">
+
+	var $ds = jQuery.noConflict();
+
+	$ds(document).ready(function() {
+		var err = $ds('#general_error_msj_1 li'); 
+		var info = $ds('#general_error_msj_2 li');
+		var info2 = $ds('#general_error_msj_3 li'); 	
+
+		if(err.length>0 &amp;&amp; $ds(err).css("display")!= "none"){
+			$ds('#error_vacuna').modal('show');
+		}
+
+		if(info.length>0 &amp;&amp; $ds(info).css("display")!= "none"){
+			$ds('#info_vacuna').modal('show');
+		}	
+
+		if(info2.length>0 &amp;&amp; $ds(info2).css("display")!= "none"){
+			$ds('#info_vacuna').modal('show');
+		}
+	});
+	
+	function addVacuna(){
+		$ds('#addVacuna').modal('show');
+	}
+
+	function updVacuna(){
+		var id = $ds('#listaVacuna_data tr.selected').find("td").eq(0).html();
+
+		if(id==undefined){
+			$ds('#errorModalLabel').html('Error'),
+			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
+			$ds('#general_error_msj').html('Debe Seleccionar un Vacuna');
+		    $ds('#error_vacuna').modal('show');
+		}else{
+			$ds("input[id*='updId']").val(id);
+			$ds("input[id*='updIdView']").val(id);
+		    $ds("input[id*='updName']").val($ds('#listaVacuna_data tr.selected').find("td").eq(1).html());
+		    $ds("input[id*='updCantDosis']").val($ds('#listaVacuna_data tr.selected').find("td").eq(2).html());
+		    $ds("input[id*='updPeriodo']").val($ds('#listaVacuna_data tr.selected').find("td").eq(3).html());
+		    $ds("input[id*='updInumidad']").val($ds('#listaVacuna_data tr.selected').find("td").eq(4).html());
+		    $ds("select[id*='updEnfermedad']").val($ds('#listaVacuna_data tr.selected').find("td").eq(6).html());
+		    $ds('#updVacuna').modal('show');
+		}
+		
+	}
+
+	function delVacuna(){
+		var id = $ds('#listaVacuna_data tr.selected').find("td").eq(0).html();
+
+		if(id==undefined){
+			$ds('#errorModalLabel').html('Error'),
+			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
+			$ds('#general_error_msj').html('Debe Seleccionar un Vacuna');
+		    $ds('#error_vacuna').modal('show');
+		}else{
+			$ds("input[id*='delId']").val(id);
+			$ds("input[id*='delIdView']").val(id);
+		    $ds("input[id*='delName']").val($ds('#listaVacuna_data tr.selected').find("td").eq(1).html());
+		    $ds('#delVacuna').modal('show');
+		}
+	}
+
+	$ds('#listaVacuna_data').on( 'click', 'tr', function () {
+		if ( $ds(this).hasClass('selected') ) {
+			$ds(this).removeClass('selected');
+		}
+		else {
+			$ds('#listaVacuna_data tr.selected').removeClass('selected');
+			$ds(this).addClass('selected');
+		}
+	});
+
+</script>
+
+</h:body>
+</html>

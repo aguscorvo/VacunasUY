@@ -8,7 +8,7 @@
 
 <h:head>
 	<meta charset="ISO-8859-1"></meta>
-	<title>VacunasUy</title>
+	<title>VacunasUy-Autoridad</title>
 
 	<ui:include src="/WEB-INF/includes/header_lib.xhtml" />
 
@@ -21,6 +21,60 @@
 </h:head>
 
 <h:body>
-	<ui:include src="/WEB-INF/includes/header_notlogged.xhtml" />
+
+
+	<header class="fixed-top header"> <ui:include
+		src="/WEB-INF/includes/header_log.xhtml" /> <!-- top header -->
+	<div class="navigation w-100">
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg navbar-light bg-light"> <a
+				class="navbar-brand" href="/backoffice/jsf/autoridad/home.xhtml">VacunasUy</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link"
+						href="/backoffice/jsf/autoridad/enfermedades.xhtml">Enfermedades</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/backoffice/jsf/autoridad/vacunas.xhtml">Vacunas</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/backoffice/jsf/autoridad/proveedores.xhtml">Proveedores</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/backoffice/jsf/autoridad/planes.xhtml">Planes</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/backoffice/jsf/autoridad/lotes.xhtml">lotes</a></li>
+
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarGestion"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Gesti&oacute;n </a>
+						<div class="dropdown-menu" aria-labelledby="navbarGestion">
+							<a class="dropdown-item"
+								href="/backoffice/jsf/autoridad/enviovacunas.xhtml">Env&iacute;o
+								de Vacunas</a> <a class="dropdown-item"
+								href="/backoffice/jsf/autoridad/asignacion.xhtml">Asignar
+								Vacunadores</a>
+						</div>
+					</li>
+				</ul>
+
+			</div>
+			</nav>
+		</div>
+	</div>
+	</header>
+
+	<section class="section" id="main_section">
+	<div></div>
+
+	</section>
+
+	<ui:include src="/WEB-INF/includes/footer_lib.xhtml" />
 </h:body>
 </html>

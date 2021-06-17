@@ -14,10 +14,10 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class EnfermedadServiceImpl implements IEnfermedadService{
 	
 	@EJB
-	private IEnfermedadDAO enfermedadDAO;
+	public IEnfermedadDAO enfermedadDAO;
 	
 	@EJB
-	private EnfermedadConverter eConverter;
+	public EnfermedadConverter eConverter;
 	
 	
 	@Override
@@ -61,7 +61,18 @@ public class EnfermedadServiceImpl implements IEnfermedadService{
 
 	@Override
 	public EnfermedadDTO editar(Long id, EnfermedadCrearDTO enfermedadCrearDTO) throws VacunasUyException {
-		return null;
+		
+		if(existeNombreEnfermedadExcluirId (id, enfermedadCrearDTO.getNombre())) {
+			throw new VacunasUyException ("Ya existe una enfermedad con ese nombre.", VacunasUyException.EXISTE_REGISTRO);
+		}else {	
+			try {
+				Enfermedad enfermedad = enfermedadDAO.listarPorId(id);
+				enfermedad.setNombre(enfermedadCrearDTO.getNombre());
+				return eConverter.fromEntity(enfermedadDAO.editar(enfermedad));
+			} catch (Exception e) {
+				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+			}
+		}
 	}
 
 	@Override
@@ -86,6 +97,19 @@ public class EnfermedadServiceImpl implements IEnfermedadService{
 		for (EnfermedadDTO e: enfermedades) {
 			if (e.getNombre().equals(nombre)) {
 				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean existeNombreEnfermedadExcluirId (Long id, String nombre) {
+		enfermedadDAO.listar();
+		List<EnfermedadDTO> enfermedades = eConverter.fromEntity(enfermedadDAO.listar());
+		for (EnfermedadDTO e: enfermedades) {
+			if (e.getId() != id) {
+				if (e.getNombre().equals(nombre)) {
+					return true;
+				}
 			}
 		}
 		return false;

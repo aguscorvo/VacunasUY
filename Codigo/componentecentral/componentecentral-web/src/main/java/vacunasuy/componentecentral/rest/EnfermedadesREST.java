@@ -17,8 +17,6 @@ import javax.ws.rs.core.Response;
 import vacunasuy.componentecentral.business.IEnfermedadService;
 import vacunasuy.componentecentral.dto.EnfermedadCrearDTO;
 import vacunasuy.componentecentral.dto.EnfermedadDTO;
-import vacunasuy.componentecentral.dto.TransportistaCrearDTO;
-import vacunasuy.componentecentral.dto.TransportistaDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
 @RequestScoped

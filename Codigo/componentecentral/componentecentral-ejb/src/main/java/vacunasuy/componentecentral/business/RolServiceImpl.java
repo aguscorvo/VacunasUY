@@ -15,15 +15,15 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class RolServiceImpl implements IRolService {
 	
 	@EJB
-	private IRolDAO rolDAO;
+	public IRolDAO rolDAO;
+	
 	@EJB
-	private RolConverter rolConverter;
+	public RolConverter rolConverter;
 
 	@Override
 	public List<RolDTO> listar() throws VacunasUyException {
 		try {
 			return rolConverter.fromEntity(rolDAO.listar());
-			
 		} catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
@@ -39,6 +39,5 @@ public class RolServiceImpl implements IRolService {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
 	}
-		
 
 }

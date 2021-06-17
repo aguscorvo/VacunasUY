@@ -82,10 +82,6 @@ public class EnfermedadServiceImpl implements IEnfermedadService{
 	
 	public boolean existeNombreEnfermedad (String nombre) {
 		enfermedadDAO.listar();
-<<<<<<< HEAD
-=======
-		//return true;
->>>>>>> 2df40aec086ef7d12876aba36223d4190cc756fe
 		List<EnfermedadDTO> enfermedades = eConverter.fromEntity(enfermedadDAO.listar());
 		for (EnfermedadDTO e: enfermedades) {
 			if (e.getNombre().equals(nombre)) {

@@ -34,6 +34,7 @@ public class ActoVacunalConverter extends AbstractConverter<ActoVacunal, ActoVac
 		if(a==null) return null;
 		return ActoVacunal.builder()
 				.fecha(LocalDate.parse(a.getFecha()))
+				.nroDosis(a.getNroDosis())
 				.build();
 	}
 	

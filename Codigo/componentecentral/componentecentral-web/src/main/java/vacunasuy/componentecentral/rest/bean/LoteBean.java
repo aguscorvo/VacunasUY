@@ -1,6 +1,7 @@
 package vacunasuy.componentecentral.rest.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -44,6 +45,7 @@ public class LoteBean implements Serializable {
 	private List<LoteDTO> lotes;
 	private List<ProveedorDTO> proveedores;
 	private List<VacunaDTO> vacunas;
+	String strbuscar;
 	
 	@EJB
 	private ILoteService loteService;
@@ -65,6 +67,36 @@ public class LoteBean implements Serializable {
 		}
 	}
 	
+	public void srchLote() {
+
+		logger.info("srchLote 'strbuscar': " + strbuscar);
+
+		try {
+			lotes = loteService.listar();
+
+		} catch (VacunasUyException e) {
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			lotes = new ArrayList<LoteDTO>();
+		}
+
+		if (!strbuscar.equals("")) {
+			List<LoteDTO> auxvac = new ArrayList<LoteDTO>();
+
+			strbuscar = strbuscar.toUpperCase();
+
+			for (LoteDTO vdto : lotes) {
+				if (vdto.getId().toString().toUpperCase().contains(strbuscar)
+						|| vdto.getProveedor().getNombre().toUpperCase().contains(strbuscar)
+						|| vdto.getVacuna().getNombre().toUpperCase().contains(strbuscar))
+					auxvac.add(vdto);
+			}
+			lotes = auxvac;
+		}
+
+	}
+	
 	public void addLote() {
 		try {
 			LoteCrearDTO lote = LoteCrearDTO.builder()
@@ -76,7 +108,9 @@ public class LoteBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Lote creado con éxito.", null));
 		} catch (VacunasUyException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
@@ -84,7 +118,9 @@ public class LoteBean implements Serializable {
 				proveedores = proveedorService.listar();
 				vacunas = vacunaService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
 	}
@@ -100,7 +136,9 @@ public class LoteBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Lote editado con éxito.", null));
 		} catch (VacunasUyException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
@@ -108,7 +146,9 @@ public class LoteBean implements Serializable {
 				proveedores = proveedorService.listar();
 				vacunas = vacunaService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
 	}
@@ -119,7 +159,9 @@ public class LoteBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Lote eliminado con éxito.", null));
 		} catch (VacunasUyException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
@@ -127,7 +169,9 @@ public class LoteBean implements Serializable {
 				proveedores = proveedorService.listar();
 				vacunas = vacunaService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
 	}

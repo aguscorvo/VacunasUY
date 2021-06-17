@@ -522,19 +522,21 @@ INSERT INTO proveedores (nombre, fk_pais) VALUES ('Pfizer', 3); /* En caso de CO
 INSERT INTO enfermedades (nombre) VALUES ('COVID-19');
 INSERT INTO enfermedades (nombre) VALUES ('GRIPE');
 
-/* Vacunas - Total: 3 */
+/* Vacunas - Total: 4 */
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'CoronaVac', 28, 1);
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'Pfizer-BioNTech', 28, 1);
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (3, 1, 'Antigripal', 20, 2);
+INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'Vaxzevria', 90, 1);
 
-/* Planes de Vacunacion - Total: 4*/
+/* Planes de Vacunacion - Total: 6*/
 INSERT INTO planes_vacunacion (edadminima, edadmaxima, fechainicio, fechafin, fk_vacuna) VALUES (30, 70, '2021-01-01', '2021-12-31', 1);
 INSERT INTO planes_vacunacion (edadminima, edadmaxima, fechainicio, fechafin, fk_vacuna) VALUES (71, 99, '2021-07-01', '2021-12-31', 2);
 INSERT INTO planes_vacunacion (edadminima, edadmaxima, fechainicio, fechafin, fk_vacuna) VALUES (18, 99, '2021-09-01', '2021-12-31', 1);
 INSERT INTO planes_vacunacion (edadminima, edadmaxima, fechainicio, fechafin, fk_vacuna) VALUES (18, 99, '2021-06-01', '2021-12-31', 3);
+INSERT INTO planes_vacunacion (edadminima, edadmaxima, fechainicio, fechafin, fk_vacuna) VALUES (18, 70, '2021-08-01', '2021-12-31', 2);
+INSERT INTO planes_vacunacion (edadminima, edadmaxima, fechainicio, fechafin, fk_vacuna) VALUES (18, 99, '2021-06-01', '2021-10-31', 4);
 
-
-/* Planes de Vacunacion - Sectores - Total: 10*/
+/* Planes de Vacunacion - Sectores - Total: 28*/
 INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (1, 1);
 INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (1, 2);
 INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (1, 5);
@@ -545,15 +547,38 @@ INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (4
 INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (4, 2);
 INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (4, 3);
 INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (4, 4);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (4, 5);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (4, 6);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (4, 7);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (4, 8);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (5, 1);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (5, 2);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (5, 3);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (5, 4);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (5, 5);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (5, 6);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (5, 7);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (6, 1);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (6, 2);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (6, 3);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (6, 4);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (6, 5);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (6, 6);
+INSERT INTO planes_vacunacion_sectores (fk_plan_vacunacion, fk_sector) VALUES (6, 8);
 
-/* Lotes - Total: 3*/
+/* Lotes - Total: 4*/
 INSERT INTO lotes (cantidad, cantidaddisponible, fk_proveedor, fk_vacuna) VALUES (50000, 50000, 1, 1);
 INSERT INTO lotes (cantidad, cantidaddisponible, fk_proveedor, fk_vacuna) VALUES (30000, 30000, 3, 2);
 INSERT INTO lotes (cantidad, cantidaddisponible, fk_proveedor, fk_vacuna) VALUES (50000, 50000, 3, 3);
+INSERT INTO lotes (cantidad, cantidaddisponible, fk_proveedor, fk_vacuna) VALUES (80000, 80000, 2, 4);
 
-/*Eventos - Total: 4*/
+/*Eventos - Total: 8*/
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento1', '2021-06-02', 1, 1, 14);
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento2', '2021-06-02', 2, 1, 26);
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento3', '2021-06-02', 3, 1, 35);
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento4', '2021-06-02', 1, 1, 41);
+INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento5', '2021-06-02', 4, 1, 1);
+INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento5', '2021-06-02', 4, 1, 2);
+INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento5', '2021-06-02', 4, 1, 3);
+INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento6', '2021-06-02', 1, 1, 4);
 

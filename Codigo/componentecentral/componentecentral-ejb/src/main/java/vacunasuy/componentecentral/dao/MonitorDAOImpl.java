@@ -144,7 +144,7 @@ public class MonitorDAOImpl implements IMonitorDAO {
 		Query consulta = em.createNativeQuery("SELECT COUNT(*) "
 				+ "FROM planes_vacunacion p "
 				+ "INNER JOIN actos_vacunales a ON a.fk_plan_vacunacion = p.id "
-				+ "WHERE p.id = :idPlan;");
+				+ "WHERE p.id = :idPlan");
 		consulta.setParameter("idPlan", idPlan);
 		BigInteger res = (BigInteger) consulta.getSingleResult();
 		return res.longValue();

@@ -108,11 +108,11 @@
 				<div class="p-2">
 					<div class="btn-group" data-toggle="buttons">
 						<a class="btn btn-secondary" href="javascript:addVacunatorio();"
-							role="button"><i class="fas fa-syringe"></i> <i class="fas fa-plus"></i>
+							role="button"><i class="fas fa-plus"></i>
 						</a> <a class="btn btn-secondary" href="javascript:delVacunatorio();"
-							role="button"><i class="fas fa-syringe"></i> <i class="fas fa-minus"></i>
+							role="button"><i class="fas fa-minus"></i>
 						</a> <a class="btn btn-secondary" href="javascript:updVacunatorio();"
-							role="button"><i class="fas fa-syringe"></i> <i class="fas fa-pen"></i>
+							role="button"><i class="fas fa-pen"></i>
 						</a>
 
 
@@ -305,9 +305,8 @@
 									<p:outputLabel for="addPuestos" value="Cantidad de Puestos" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-								<p:inputNumber id="addPuestos" minValue="1" name="addPuestos"
-										value="#{beanvacunatorio.puestos}" required="true"
-										emptyValue="1" decimalPlaces="0" />
+									<p:inputText id="addPuestos" value="#{beanvacunatorio.puestos}"
+										required="true" p:type="number" p:min="1" />
 								</div>
 							</div>
 							
@@ -532,6 +531,15 @@
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
+									<p:outputLabel for="updPuestos" value="Cantidad de Puestos" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<p:inputText id="updPuestos" value="#{beanvacunatorio.puestos}"
+										required="true" p:type="number" p:min="1" />
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
 									<p:outputLabel for="updLatitud" value="Latitud" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
@@ -645,12 +653,12 @@
 			$ds("input[id*='updId']").val(id);
 			$ds("input[id*='updIdView']").val(id);
 		    $ds("input[id*='updName']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(1).html());
-		    $ds("select[id*='updDepartamento']").prop('selectedIndex', 0);
-		    $ds("select[id*='updDepartamento']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(6).html());
-		    $ds("select[id*='updLocalidad']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(7).html());
-		    $ds("input[id*='updDireccion']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(4).html());
-		    $ds("input[id*='updLatitud']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(8).html());
-		    $ds("input[id*='updLongitud']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(9).html());
+		    $ds("select[id*='updDepartamento']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(7).html()).change();
+		    $ds("input[id*='updDireccion']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(5).html());
+		    $ds("input[id*='updLatitud']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(9).html());
+		    $ds("input[id*='updLongitud']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(10).html());
+		    $ds("input[id*='updPuestos']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(4).html());
+		    $ds("select[id*='updLocalidad']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(8).html()).change();
 		    
 		    $ds('#updVacunatorio').modal('show');
 		    create_map('map_upd', 'upd');	
@@ -675,10 +683,9 @@
 			$ds("input[id*='delId']").val(id);
 			$ds("input[id*='delIdView']").val(id);
 		    $ds("input[id*='delName']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(1).html());
-		    $ds("select[id*='delDepartamento']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(6).html());
-		    $ds("select[id*='delDepartamento']").click();
-		    $ds("select[id*='delLocalidad']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(7).html());
-		    $ds("input[id*='delDireccion']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(4).html());
+		    $ds("input[id*='delDepartamento']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(2).html());
+		    $ds("input[id*='delLocalidad']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(3).html());
+		    $ds("input[id*='delDireccion']").val($ds('#listaVacunatorio_data tr.selected').find("td").eq(5).html());
 		    
 		    $ds('#delVacunatorio').modal('show');
 		}

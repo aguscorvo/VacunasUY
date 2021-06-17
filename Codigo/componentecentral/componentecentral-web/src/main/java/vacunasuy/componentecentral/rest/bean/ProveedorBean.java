@@ -1,6 +1,7 @@
 package vacunasuy.componentecentral.rest.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -39,6 +40,7 @@ public class ProveedorBean implements Serializable {
 	private Long idPais;
 	private List<ProveedorDTO> proveedores;
 	private List<PaisDTO> paises;
+	String strbuscar;
 	
 	@EJB
 	private IProveedorService proveedorService;
@@ -56,6 +58,36 @@ public class ProveedorBean implements Serializable {
 		}
 	}
 	
+	public void srchProveedor() {
+
+		logger.info("srchProveedor 'strbuscar': " + strbuscar);
+
+		try {
+			proveedores = proveedorService.listar();
+
+		} catch (VacunasUyException e) {
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			proveedores = new ArrayList<ProveedorDTO>();
+		}
+
+		if (!strbuscar.equals("")) {
+			List<ProveedorDTO> auxvac = new ArrayList<ProveedorDTO>();
+
+			strbuscar = strbuscar.toUpperCase();
+
+			for (ProveedorDTO vdto : proveedores) {
+				if (vdto.getNombre().toUpperCase().contains(strbuscar)
+						|| vdto.getPais().getNombre().toUpperCase().contains(strbuscar))
+					auxvac.add(vdto);
+			}
+			proveedores = auxvac;
+		}
+
+	}
+
+	
 	public void addProveedor() {
 		try {
 			ProveedorCrearDTO proveedor = ProveedorCrearDTO.builder()
@@ -66,14 +98,18 @@ public class ProveedorBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Proveedor " + proveedor.getNombre() + " creado con éxito.", null));
 		} catch (VacunasUyException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null)); 
 		} finally {
 			clearParam();
 			try {
 				proveedores = proveedorService.listar();
 				paises = paisService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
 	}
@@ -88,14 +124,18 @@ public class ProveedorBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Proveedor " + proveedor.getNombre() + " editado con éxito.", null));
 		} catch (VacunasUyException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
 				proveedores = proveedorService.listar();
 				paises = paisService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
 	}
@@ -106,14 +146,18 @@ public class ProveedorBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Proveedor eliminado con éxito.", null));
 		} catch (VacunasUyException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
 				proveedores = proveedorService.listar();
 				paises = paisService.listar();
 			} catch (VacunasUyException e) {
-				logger.error(e.getLocalizedMessage());
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
 	}

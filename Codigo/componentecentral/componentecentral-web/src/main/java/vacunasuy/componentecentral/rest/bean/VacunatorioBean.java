@@ -136,9 +136,6 @@ public class VacunatorioBean implements Serializable {
 
 		try {
 
-			//String[] aux = puestos.split(".");
-			//logger.info(aux[0]);	
-			
 			Integer auxp =Integer.valueOf(puestos);
 			
 			VacunatorioCrearDTO nVac = new VacunatorioCrearDTO(nombre, Double.valueOf(Lat), Double.valueOf(Lon),

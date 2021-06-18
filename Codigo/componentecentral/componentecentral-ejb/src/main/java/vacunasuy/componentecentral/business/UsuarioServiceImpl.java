@@ -327,7 +327,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			//se valida si el usuario y la agenda están asociadoos
 			List<Agenda> agendas = usuarioAux.getAgendas();
 			Agenda asociada = agendas.stream()
-					.filter(a -> a.getId()==agenda).findFirst().orElse(null);
+					.filter(a -> a.getId().equals(agenda)).findFirst().orElse(null);
 			if(asociada==null) throw new VacunasUyException("El usuario y la agenda indicados no están asociados.",
 					VacunasUyException.NO_EXISTE_REGISTRO);
 			
@@ -354,7 +354,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		Usuario u = usuarioDAO.listarPorId(id_usuario);
 		List<Agenda> agendas = u.getAgendas();
 		for (Agenda a: agendas) {
-			if (a.getPlanVacunacion().getId()==id_plan) {
+			if (a.getPlanVacunacion().getId().equals(id_plan)) {
 				return true;
 			}
 		}

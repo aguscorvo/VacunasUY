@@ -1,5 +1,6 @@
 package vacunasuy.componentecentral.business;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -120,16 +121,23 @@ public class AgendaServiceImpl implements IAgendaService {
 		int horaTemp = LocalDateTime.now().getHour();
 		
 		String hora = "";
+	
+		SecureRandom random = new SecureRandom();
 		
 		/* Si la fecha de la agenda es para hoy */
-		hora =  String.valueOf(((int) (Math.random() * 12) + 8));
+		hora =  String.valueOf(((int) (random.nextInt(12)) + 8));
 		
 		if(Integer.parseInt(hora) < 10) {
 			hora = "0" + hora;
 		}
 		
 		//Minutos random
-		String minutos = String.valueOf(((int) (Math.random() * 4.99) + 1) * 10);		
+		String minutos = String.valueOf((int) (random.nextInt(5) * 10));
+		
+		if(Integer.parseInt(minutos) < 10) {
+			minutos = "0" + minutos;
+		}
+		
 		String fecha_hora = agendaDTO.getFecha() + " " + hora + ":" + minutos;
 		
 		agendaDTO.setFecha(fecha_hora);

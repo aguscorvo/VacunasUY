@@ -196,7 +196,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			if(eventoAux==null) throw new VacunasUyException("El evento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 			//se valida que el evento no esté asociado a vacunatorio
 			for(Evento e: vacunatorioAux.getEventos()) {
-				if(e.getId()==eventoAux.getId()) throw new VacunasUyException("El evento indicado ya se "
+				if(e.getId().equals(eventoAux.getId())) throw new VacunasUyException("El evento indicado ya se "
 						+ "encuentra asociado al vacunatorio.", VacunasUyException.EXISTE_REGISTRO);
 			}
 			vacunatorioAux.getEventos().add(eventoAux);
@@ -216,7 +216,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 			if(actoVacunalAux==null) throw new VacunasUyException("El acto vacunal indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 			//se valida que el acto vacunal no esté asociado a vacunatorio
 			for(ActoVacunal a: vacunatorioAux.getActosVacunales()) {
-				if(a.getId()==actoVacunalAux.getId()) throw new VacunasUyException("El acto vacunal indicado ya se "
+				if(a.getId().equals(actoVacunalAux.getId())) throw new VacunasUyException("El acto vacunal indicado ya se "
 						+ "encuentra asociado al vacunatorio.", VacunasUyException.EXISTE_REGISTRO); 
 			}
 			vacunatorioAux.getActosVacunales().add(actoVacunalAux);
@@ -293,7 +293,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 					boolean hay_vacuna = false;
 					List<Evento> eventos = v.getEventos();
 					for (Evento e: eventos) {
-						if (e.getLote().getVacuna().getId() == id_vacuna) {
+						if (e.getLote().getVacuna().getId().equals(id_vacuna)) {
 							hay_vacuna = true;
 							break;
 						}
@@ -372,7 +372,7 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 		List<Evento> eventos = vacunatorio.getEventos();
 		
 		for (Evento e: eventos) {
-			if(e.getLote().getVacuna().getId() == plan.getVacuna().getId()) {
+			if(e.getLote().getVacuna().getId().equals(plan.getVacuna().getId())) {
 				return true;
 			}
 		}

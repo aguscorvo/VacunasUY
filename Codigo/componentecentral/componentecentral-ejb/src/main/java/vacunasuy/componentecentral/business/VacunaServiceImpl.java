@@ -117,7 +117,7 @@ public class VacunaServiceImpl implements IVacunaService{
 		
 		List<VacunaDTO> vacunas = vacunaConverter.fromEntity(vacunaDAO.listar());
 		for (VacunaDTO e: vacunas) {
-			if (e.getId() != id) {
+			if (!e.getId().equals(id)) {
 				if (e.getNombre().equals(nombre)) {
 					return true;
 				}

@@ -1,4 +1,4 @@
-package vacunasuy.componentecentral.rest.bean;
+package vacunasuy.componentecentral.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,97 +15,86 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vacunasuy.componentecentral.business.IPaisService;
-import vacunasuy.componentecentral.business.IProveedorService;
-import vacunasuy.componentecentral.dto.PaisDTO;
-import vacunasuy.componentecentral.dto.ProveedorCrearDTO;
-import vacunasuy.componentecentral.dto.ProveedorDTO;
+import vacunasuy.componentecentral.business.IEnfermedadService;
+import vacunasuy.componentecentral.dto.EnfermedadCrearDTO;
+import vacunasuy.componentecentral.dto.EnfermedadDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
-@Named("ProveedorBean")
+@Named("EnfermedadBean")
 @RequestScoped
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProveedorBean implements Serializable {
-	
+public class EnfermedadBean implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-
-	static Logger logger = Logger.getLogger(StockBean.class);
-
+	
+	static Logger logger = Logger.getLogger(EnfermedadBean.class);
+	
 	private Long id;
 	private String nombre;
-	private Long idPais;
-	private List<ProveedorDTO> proveedores;
-	private List<PaisDTO> paises;
+	private List<EnfermedadDTO> enfermedades;
 	String strbuscar;
 	
-	@EJB
-	private IProveedorService proveedorService;
 	
 	@EJB
-	private IPaisService paisService;
+	private IEnfermedadService enfermedadService;
 	
 	@PostConstruct
 	public void init() {
 		try {
-			proveedores = proveedorService.listar();
-			paises = paisService.listar();
+			enfermedades = enfermedadService.listar();
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 		}
 	}
 	
-	public void srchProveedor() {
+	public void srchEnfermedad() {
 
-		logger.info("srchProveedor 'strbuscar': " + strbuscar);
+		logger.info("srchEnfermedad 'strbuscar': " + strbuscar);
 
 		try {
-			proveedores = proveedorService.listar();
+			enfermedades = enfermedadService.listar();
 
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
-			proveedores = new ArrayList<ProveedorDTO>();
+			enfermedades = new ArrayList<EnfermedadDTO>();
 		}
 
 		if (!strbuscar.equals("")) {
-			List<ProveedorDTO> auxvac = new ArrayList<ProveedorDTO>();
+			List<EnfermedadDTO> auxvac = new ArrayList<EnfermedadDTO>();
 
 			strbuscar = strbuscar.toUpperCase();
 
-			for (ProveedorDTO vdto : proveedores) {
-				if (vdto.getNombre().toUpperCase().contains(strbuscar)
-						|| vdto.getPais().getNombre().toUpperCase().contains(strbuscar))
-					auxvac.add(vdto);
+			for (EnfermedadDTO tdto : enfermedades) {
+				if (tdto.getNombre().toUpperCase().contains(strbuscar))
+					auxvac.add(tdto);
 			}
-			proveedores = auxvac;
+			enfermedades = auxvac;
 		}
 
 	}
 
-	
-	public void addProveedor() {
+	public void addEnfermedad() {
 		try {
-			ProveedorCrearDTO proveedor = ProveedorCrearDTO.builder()
+			EnfermedadCrearDTO enfermedad = EnfermedadCrearDTO.builder()
 					.nombre(nombre)
-					.pais(idPais)
 					.build();
-			proveedorService.crear(proveedor);
+			enfermedadService.crear(enfermedad);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Proveedor " + proveedor.getNombre() + " creado con éxito.", null));
+					"Enfermedad " + enfermedad.getNombre() + " creada con éxito.", null));
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null)); 
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
-				proveedores = proveedorService.listar();
-				paises = paisService.listar();
+				enfermedades = enfermedadService.listar();
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -114,24 +103,22 @@ public class ProveedorBean implements Serializable {
 		}
 	}
 	
-	public void updProveedor() {
+	public void updEnfermedad() {
 		try {
-			ProveedorCrearDTO proveedor = ProveedorCrearDTO.builder()
+			EnfermedadCrearDTO enfermedad = EnfermedadCrearDTO.builder()
 					.nombre(nombre)
-					.pais(idPais)
 					.build();
-			proveedorService.editar(id, proveedor);
+			enfermedadService.editar(id, enfermedad);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Proveedor " + proveedor.getNombre() + " editado con éxito.", null));
-		} catch (VacunasUyException e) {
+					"Enfermedad " + enfermedad.getNombre() + " editada con éxito.", null));
+		} catch (Exception e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
-				proveedores = proveedorService.listar();
-				paises = paisService.listar();
+				enfermedades = enfermedadService.listar();
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -140,20 +127,19 @@ public class ProveedorBean implements Serializable {
 		}
 	}
 	
-	public void delProveedor() {
+	public void delEnfermedad() {
 		try {
-			proveedorService.eliminar(id);
+			enfermedadService.eliminar(id);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Proveedor eliminado con éxito.", null));
-		} catch (VacunasUyException e) {
+					"Enfermedad eliminada con éxito.", null));
+		} catch (Exception e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 		} finally {
 			clearParam();
 			try {
-				proveedores = proveedorService.listar();
-				paises = paisService.listar();
+				enfermedades = enfermedadService.listar();
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -165,9 +151,7 @@ public class ProveedorBean implements Serializable {
 	private void clearParam() {
 		this.id = null;
 		this.nombre = null;
-		this.idPais = null;
-		this.proveedores = null;
-		this.paises = null;
+		this.enfermedades = null;
 	}
 	
 }

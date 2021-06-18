@@ -1,4 +1,4 @@
-package vacunasuy.componentecentral.rest.bean;
+package vacunasuy.componentecentral.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class LoteBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	static Logger logger = Logger.getLogger(StockBean.class);
+	static Logger logger = Logger.getLogger(LoteBean.class);
 	
 	private Long id;
 	private Long cantidad;

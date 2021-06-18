@@ -1,4 +1,4 @@
-package vacunasuy.componentecentral.rest.bean;
+package vacunasuy.componentecentral.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,135 +15,146 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vacunasuy.componentecentral.business.IEnfermedadService;
-import vacunasuy.componentecentral.dto.EnfermedadCrearDTO;
-import vacunasuy.componentecentral.dto.EnfermedadDTO;
+import vacunasuy.componentecentral.business.ITransportistaService;
+import vacunasuy.componentecentral.dto.TransportistaCrearDTO;
+import vacunasuy.componentecentral.dto.TransportistaDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
-@Named("EnfermedadBean")
+@Named("TransportistaBean")
 @RequestScoped
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EnfermedadBean implements Serializable {
+public class TransportistaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	static Logger logger = Logger.getLogger(EnfermedadBean.class);
+
+	static Logger logger = Logger.getLogger(TransportistaBean.class);
 	
 	private Long id;
 	private String nombre;
-	private List<EnfermedadDTO> enfermedades;
-	String strbuscar;
-	
+	String strbuscar; 
+	private List<TransportistaDTO> transportistas;
 	
 	@EJB
-	private IEnfermedadService enfermedadService;
+	private ITransportistaService transportistaService;
 	
 	@PostConstruct
 	public void init() {
 		try {
-			enfermedades = enfermedadService.listar();
+			transportistas = transportistaService.listar();
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			transportistas = new ArrayList<TransportistaDTO>();
+
 		}
 	}
 	
-	public void srchEnfermedad() {
+	public void srchTransportista() {
 
-		logger.info("srchEnfermedad 'strbuscar': " + strbuscar);
+		logger.info("srchTransportista 'strbuscar': " + strbuscar);
 
 		try {
-			enfermedades = enfermedadService.listar();
+			transportistas = transportistaService.listar();;
 
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
-			enfermedades = new ArrayList<EnfermedadDTO>();
+			transportistas = new ArrayList<TransportistaDTO>();
 		}
 
 		if (!strbuscar.equals("")) {
-			List<EnfermedadDTO> auxvac = new ArrayList<EnfermedadDTO>();
+			List<TransportistaDTO> auxtra = new ArrayList<TransportistaDTO>();
 
 			strbuscar = strbuscar.toUpperCase();
 
-			for (EnfermedadDTO tdto : enfermedades) {
+			for (TransportistaDTO tdto : transportistas) {
 				if (tdto.getNombre().toUpperCase().contains(strbuscar))
-					auxvac.add(tdto);
+					auxtra.add(tdto);
 			}
-			enfermedades = auxvac;
+			transportistas = auxtra;
 		}
 
 	}
 
-	public void addEnfermedad() {
+	
+	public void addTransportista() {
 		try {
-			EnfermedadCrearDTO enfermedad = EnfermedadCrearDTO.builder()
+			TransportistaCrearDTO transportista = TransportistaCrearDTO.builder()
 					.nombre(nombre)
 					.build();
-			enfermedadService.crear(enfermedad);
+			transportistaService.crear(transportista);
+			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Enfermedad " + enfermedad.getNombre() + " creada con éxito.", null));
+					"Transportista " + transportista.getNombre() + " creado con éxito.", null));
+		} catch (VacunasUyException e) {
+			logger.error(e.getLocalizedMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+
+		} finally {
+			clearParam();
+			try {
+				transportistas = transportistaService.listar();
+			} catch (VacunasUyException e) {
+				logger.info(e.getMessage().trim());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+				
+			}
+		}
+	}
+	
+	public void updTransportista() {
+		try {
+			TransportistaCrearDTO transportista = TransportistaCrearDTO.builder()
+					.nombre(nombre)
+					.build();
+			transportistaService.editar(id, transportista);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Transportista " + transportista.getNombre() + " editado con éxito.", null));
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			
 		} finally {
 			clearParam();
 			try {
-				enfermedades = enfermedadService.listar();
+				transportistas = transportistaService.listar();
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+				
 			}
 		}
 	}
 	
-	public void updEnfermedad() {
+	public void delTransportista() {
 		try {
-			EnfermedadCrearDTO enfermedad = EnfermedadCrearDTO.builder()
-					.nombre(nombre)
-					.build();
-			enfermedadService.editar(id, enfermedad);
+			transportistaService.eliminar(id);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Enfermedad " + enfermedad.getNombre() + " editada con éxito.", null));
-		} catch (Exception e) {
+					"Transportista eliminado con éxito.", null));
+		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			
 		} finally {
 			clearParam();
 			try {
-				enfermedades = enfermedadService.listar();
+				transportistas = transportistaService.listar();
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
-			}
-		}
-	}
-	
-	public void delEnfermedad() {
-		try {
-			enfermedadService.eliminar(id);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Enfermedad eliminada con éxito.", null));
-		} catch (Exception e) {
-			logger.info(e.getMessage().trim());
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
-		} finally {
-			clearParam();
-			try {
-				enfermedades = enfermedadService.listar();
-			} catch (VacunasUyException e) {
-				logger.info(e.getMessage().trim());
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+				
 			}
 		}
 	}
@@ -151,7 +162,7 @@ public class EnfermedadBean implements Serializable {
 	private void clearParam() {
 		this.id = null;
 		this.nombre = null;
-		this.enfermedades = null;
+		this.transportistas = null;
 	}
 	
 }

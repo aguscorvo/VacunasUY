@@ -92,7 +92,7 @@ public class EnfermedadServiceImpl implements IEnfermedadService{
 	}
 	
 	public boolean existeNombreEnfermedad (String nombre) {
-		enfermedadDAO.listar();
+		
 		List<EnfermedadDTO> enfermedades = eConverter.fromEntity(enfermedadDAO.listar());
 		for (EnfermedadDTO e: enfermedades) {
 			if (e.getNombre().equals(nombre)) {
@@ -103,7 +103,7 @@ public class EnfermedadServiceImpl implements IEnfermedadService{
 	}
 	
 	public boolean existeNombreEnfermedadExcluirId (Long id, String nombre) {
-		enfermedadDAO.listar();
+		
 		List<EnfermedadDTO> enfermedades = eConverter.fromEntity(enfermedadDAO.listar());
 		for (EnfermedadDTO e: enfermedades) {
 			if (!e.getId().equals(id)) {

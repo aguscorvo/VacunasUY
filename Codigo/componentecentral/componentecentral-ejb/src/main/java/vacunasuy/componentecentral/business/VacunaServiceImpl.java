@@ -19,13 +19,13 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class VacunaServiceImpl implements IVacunaService{
 
 	@EJB
-	private IVacunaDAO vacunaDAO;
+	public IVacunaDAO vacunaDAO;
 	
 	@EJB
-	private IEnfermedadDAO enfermedadDAO;
+	public IEnfermedadDAO enfermedadDAO;
 	
 	@EJB
-	private VacunaConverter vacunaConverter;
+	public VacunaConverter vacunaConverter;
 	
 	@Override
 	public List<VacunaDTO> listar() throws VacunasUyException {

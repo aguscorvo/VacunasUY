@@ -112,6 +112,17 @@ public class EnfermedadServiceTest {
 		
 	}
 	
+	@Test
+	public void eliminar() {
+		Enfermedad enf = new Enfermedad (1L, "Prueba");
+		Mockito.when(enfermedadService.enfermedadDAO.listarPorId(1L)).thenReturn(enf);
+		try {
+			enfermedadService.eliminar(1L);
+		} catch (VacunasUyException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Test(expected = VacunasUyException.class)
 	public void eliminar_null() throws VacunasUyException {
 		Mockito.when(enfermedadService.enfermedadDAO.listarPorId(1L)).thenReturn(null);

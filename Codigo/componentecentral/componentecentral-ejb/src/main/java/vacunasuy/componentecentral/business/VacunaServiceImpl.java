@@ -68,7 +68,22 @@ public class VacunaServiceImpl implements IVacunaService{
 	
 	@Override
 	public VacunaDTO editar(Long id, VacunaCrearDTO vacunaCrearDTO) throws VacunasUyException {
-		return null;
+		if(existeNombreVacunaExcluirId(id, vacunaCrearDTO.getNombre())) {
+			throw new VacunasUyException("Ya existe una vacuna con ese nombre.", VacunasUyException.EXISTE_REGISTRO);
+		}else {	
+			try {
+				Vacuna vacuna = vacunaDAO.listarPorId(id);
+				Enfermedad e = enfermedadDAO.listarPorId(vacunaCrearDTO.getId_enfermedad());
+				vacuna.setEnfermedad(e);
+				vacuna.setNombre(vacunaCrearDTO.getNombre());
+				vacuna.setPeriodo(vacunaCrearDTO.getPeriodo());
+				vacuna.setCant_dosis(vacunaCrearDTO.getCant_dosis());
+				vacuna.setInmunidad(vacunaCrearDTO.getInmunidad());
+				return vacunaConverter.fromEntity(vacunaDAO.editar(vacuna));
+			} catch (Exception e) {
+				throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
+			}
+		}
 	}
 
 	@Override
@@ -93,6 +108,19 @@ public class VacunaServiceImpl implements IVacunaService{
 		for (VacunaDTO e: vacunas) {
 			if (e.getNombre().equals(nombre)) {
 				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean existeNombreVacunaExcluirId (Long id, String nombre) {
+		
+		List<VacunaDTO> vacunas = vacunaConverter.fromEntity(vacunaDAO.listar());
+		for (VacunaDTO e: vacunas) {
+			if (e.getId() != id) {
+				if (e.getNombre().equals(nombre)) {
+					return true;
+				}
 			}
 		}
 		return false;

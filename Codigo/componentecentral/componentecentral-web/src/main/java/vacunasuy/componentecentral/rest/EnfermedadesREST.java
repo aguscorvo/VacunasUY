@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -73,6 +74,25 @@ public class EnfermedadesREST {
 		}
 	}
 
+	@PUT
+	@Path("/editar/{id}")
+//	@RecursoProtegidoJWT
+	public Response editar(@PathParam("id") Long id, EnfermedadCrearDTO request) {
+		RespuestaREST<EnfermedadDTO> respuesta = null;
+		try{
+			EnfermedadDTO enfermedad = eService.editar(id, request);
+			respuesta = new RespuestaREST<EnfermedadDTO>(true, "Enfermedad editada con éxito.", enfermedad);
+			return Response.ok(respuesta).build();
+		}catch (VacunasUyException e) {
+			respuesta = new RespuestaREST<EnfermedadDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO || e.getCodigo() == VacunasUyException.EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
+	
 	@DELETE
 	@Path("/eliminar/{id}")
 	//@RecursoProtegidoJWT

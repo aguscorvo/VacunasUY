@@ -9,6 +9,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.notification.Notificacion;
 import vacunasuy.componentecentral.notification.NotificacionFirebase;
 import vacunasuy.componentecentral.util.Constantes;
@@ -18,7 +20,7 @@ public class NotificacionServiceImpl implements INotificacionService {
 	
 	@Override
 	@Asynchronous
-	public void enviarNotificacionFirebase(String destinatario, String titulo, String mensaje) {
+	public void enviarNotificacionFirebase(String destinatario, String titulo, String mensaje) throws VacunasUyException {
 		try {
 			Client cliente = ClientBuilder.newClient();
 			WebTarget target = cliente.target(Constantes.FIREBASE_FCM_URL);
@@ -38,7 +40,7 @@ public class NotificacionServiceImpl implements INotificacionService {
 				System.out.println("Error al enviar notificación por Firebase.");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
 	}
 

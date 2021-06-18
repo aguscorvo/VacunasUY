@@ -47,7 +47,7 @@
 					<li class="nav-item"><a class="nav-link"
 						href="/backoffice/jsf/autoridad/planes.xhtml">Planes</a></li>
 					<li class="nav-item"><a class="nav-link  text-dark"
-						href="/backoffice/jsf/autoridad/lotes.xhtml">lotes</a></li>
+						href="/backoffice/jsf/autoridad/lotes.xhtml">Lotes</a></li>
 
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarGestion"
@@ -365,7 +365,7 @@
 									<p:outputLabel for="updVacuna" value="Vacuna" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectOneMenu id="updVacuna" class="form-control"
+									<h:selectOneMenu id="updVacuna" class="form-control"  value="#{LoteBean.idVacuna}"
 										readonly="true">
 										<f:selectItems value="#{LoteBean.vacunas}" var="vacuna"
 											itemValue="#{vacuna.id}" itemLabel="#{vacuna.nombre}" />
@@ -397,7 +397,7 @@
 									<p:outputLabel for="updProveedor" value="Proveedor" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectOneMenu id="updProveedor" class="form-control"
+									<h:selectOneMenu id="updProveedor" class="form-control"  value="#{LoteBean.idProveedor}"
 										readonly="true">
 										<f:selectItems value="#{LoteBean.proveedores}" var="proveedor"
 											itemValue="#{proveedor.id}" itemLabel="#{proveedor.nombre}" />

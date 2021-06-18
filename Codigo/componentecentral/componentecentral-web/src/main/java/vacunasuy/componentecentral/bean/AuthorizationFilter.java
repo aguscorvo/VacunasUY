@@ -1,4 +1,4 @@
-package vacunasuy.componentecentral.rest.bean;
+package vacunasuy.componentecentral.bean;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

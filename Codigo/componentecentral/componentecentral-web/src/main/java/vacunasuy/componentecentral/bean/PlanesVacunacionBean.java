@@ -1,62 +1,73 @@
-package vacunasuy.componentecentral.rest.bean;
+package vacunasuy.componentecentral.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+
 import org.jboss.logging.Logger;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vacunasuy.componentecentral.business.IEnfermedadService;
+import vacunasuy.componentecentral.business.IPlanVacunacionService;
+import vacunasuy.componentecentral.business.ISectorLaboralService;
 import vacunasuy.componentecentral.business.IVacunaService;
-import vacunasuy.componentecentral.dto.EnfermedadDTO;
-import vacunasuy.componentecentral.dto.TransportistaDTO;
-import vacunasuy.componentecentral.dto.VacunaCrearDTO;
+import vacunasuy.componentecentral.dto.PlanVacunacionCrearDTO;
+import vacunasuy.componentecentral.dto.PlanVacunacionDTO;
+import vacunasuy.componentecentral.dto.SectorLaboralDTO;
 import vacunasuy.componentecentral.dto.VacunaDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
-
-
-@Named("VacunaBean")
+@Named("PlanesVacunacionBean")
 @RequestScoped
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VacunaBean implements Serializable {
-	
+@Builder
+public class PlanesVacunacionBean implements Serializable {
+
+	static Logger logger = Logger.getLogger(PlanesVacunacionBean.class);
 	private static final long serialVersionUID = 1L;
 
-	static Logger logger = Logger.getLogger(StockBean.class);
-	
 	private Long id;
-	private String nombre;
-	private int cant_dosis;
-	private int periodo;
-	private int inmunidad;
-	private Long idEnfermedad;
+	private int edadMinima;
+	private int edadMaxima;
+	private String fechaInicio;
+	private String fechaFin;
+	private Long idsector;
+	private Long idvacuna;
+	private List<Long> sectoresID;
+	private List<SectorLaboralDTO> sectores;
 	private List<VacunaDTO> vacunas;
-	private List<EnfermedadDTO> enfermedades;
-	String strbuscar;
+	List<PlanVacunacionDTO> planes;
+	private String strbuscar;
 	
 	@EJB
 	private IVacunaService vacunaService;
 	
 	@EJB
-	private IEnfermedadService enfermedadService;
+	private ISectorLaboralService sectorLaboralService;
 	
+	@EJB
+	private IPlanVacunacionService planVacunacionService;
+	
+
 	@PostConstruct
 	public void init() {
 		try {
+			planes = planVacunacionService.listar();
 			vacunas = vacunaService.listar();
-			enfermedades = enfermedadService.listar();
+			sectores = sectorLaboralService.listar();
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -64,48 +75,61 @@ public class VacunaBean implements Serializable {
 		}
 	}
 	
-	public void srchVacuna() {
+	public void srchPlan() {
 
 		logger.info("srchVacuna 'strbuscar': " + strbuscar);
 
 		try {
-			vacunas = vacunaService.listar();
+			planes = planVacunacionService.listar();
 
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
-			vacunas = new ArrayList<VacunaDTO>();
+			planes = new ArrayList<PlanVacunacionDTO>();
 		}
 
 		if (!strbuscar.equals("")) {
-			List<VacunaDTO> auxvac = new ArrayList<VacunaDTO>();
+			List<PlanVacunacionDTO> auxvac = new ArrayList<PlanVacunacionDTO>();
 
 			strbuscar = strbuscar.toUpperCase();
 
-			for (VacunaDTO tdto : vacunas) {
-				if (tdto.getNombre().toUpperCase().contains(strbuscar) ||
-						tdto.getEnfermedad().getNombre().toUpperCase().contains(strbuscar))
+			for (PlanVacunacionDTO tdto : planes) {
+				if (tdto.getVacuna().getNombre().toUpperCase().contains(strbuscar)) {
 					auxvac.add(tdto);
+				} else {
+					for (SectorLaboralDTO sec : tdto.getSectores()) {
+						if (sec.getNombre().toUpperCase().contains(strbuscar))
+							auxvac.add(tdto);
+					}	
+				}
+					
+				
 			}
-			vacunas = auxvac;
+			planes = auxvac;
 		}
 
 	}
 
 	
-	public void addVacuna() {
+	public void addPlan() {
 		try {
-			VacunaCrearDTO vacuna = VacunaCrearDTO.builder()
-					.nombre(nombre)
-					.cant_dosis(cant_dosis)
-					.periodo(periodo)
-					.inmunidad(inmunidad)
-					.id_enfermedad(idEnfermedad)
+			
+			fechaInicio = fechaInicio.trim().equals("")?null:fechaInicio + " 00:00";
+			fechaFin = fechaFin.trim().equals("")?null:fechaFin + " 00:00";
+			
+			PlanVacunacionCrearDTO plan =  PlanVacunacionCrearDTO.builder()
+					.edadMaxima(edadMaxima)
+					.edadMinima(edadMinima)
+					.fechaInicio(fechaInicio)
+					.fechaFin(fechaFin)
+					.sectores(sectoresID)
+					.idVacuna(idvacuna)
 					.build();		
-			vacunaService.crear(vacuna);
+			
+			planVacunacionService.crear(plan);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Vacuna " + vacuna.getNombre() + " creada con éxito.", null));
+					"Plan  creada con éxito.", null));
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -113,8 +137,10 @@ public class VacunaBean implements Serializable {
 		} finally {
 			clearParam();
 			try {
+				planes = planVacunacionService.listar();
 				vacunas = vacunaService.listar();
-				enfermedades = enfermedadService.listar();
+				sectores = sectorLaboralService.listar();
+				
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -123,19 +149,25 @@ public class VacunaBean implements Serializable {
 		}
 	}
 	
-	public void updVacuna() {
+	public void updPlan() {
 		try {
-			VacunaCrearDTO vacuna = VacunaCrearDTO.builder()
-					.nombre(nombre)
-					.cant_dosis(cant_dosis)
-					.periodo(periodo)
-					.inmunidad(inmunidad)
-					.id_enfermedad(idEnfermedad)
-					.build();	
-			vacunaService.editar(id, vacuna);
+			fechaInicio = fechaInicio.trim().equals("")?null:fechaInicio + " 00:00";
+			fechaFin = fechaFin.trim().equals("")?null:fechaFin + " 00:00";
+			
+			PlanVacunacionCrearDTO plan =  PlanVacunacionCrearDTO.builder()
+					.edadMaxima(edadMaxima)
+					.edadMinima(edadMinima)
+					.fechaInicio(fechaInicio)
+					.fechaFin(fechaFin)
+					.sectores(sectoresID)
+					.idVacuna(idvacuna)
+					.build();		
+			
+			
+			planVacunacionService.editar(id, plan);
 			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Vacuna " + vacuna.getNombre() + " editada con éxito.", null));
+					"Plan " + id.toString() + " editado con éxito.", null));
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -143,8 +175,10 @@ public class VacunaBean implements Serializable {
 		} finally {
 			clearParam();
 			try {
+				planes = planVacunacionService.listar();
 				vacunas = vacunaService.listar();
-				enfermedades = enfermedadService.listar();
+				sectores = sectorLaboralService.listar();
+				
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -153,11 +187,12 @@ public class VacunaBean implements Serializable {
 		}
 	}
 	
-	public void delVacuna() {
+	public void delPlan() {
 		try {
-			vacunaService.eliminar(id);
+			planVacunacionService.eliminar(id);
+			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Vacuna eliminada con éxito.", null));
+					"Plan eliminado con éxito.", null));
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -165,8 +200,10 @@ public class VacunaBean implements Serializable {
 		} finally {
 			clearParam();
 			try {
+				planes = planVacunacionService.listar();
 				vacunas = vacunaService.listar();
-				enfermedades = enfermedadService.listar();
+				sectores = sectorLaboralService.listar();
+				
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -175,27 +212,21 @@ public class VacunaBean implements Serializable {
 		}
 	}
 	
-	public String getEnfermedad() {
-		String ret = "";
-		if(idEnfermedad!=null) {
-			for(EnfermedadDTO enf : enfermedades) {
-				if(enf.getId().equals(idEnfermedad))
-					ret = enf.getNombre();
-			}
-			
-		}
-		
-		return ret;
-	}
 	
 	private void clearParam() {
 		this.id = null;
-		this.nombre = null;
-		this.cant_dosis = 0;
-		this.periodo = 0;
-		this.inmunidad = 0;
+		this.edadMinima = -1;
+		this.edadMaxima = -1;
+		this.fechaInicio = null;
+		this.fechaFin = null;
+		this.idsector = null;
+		this.idvacuna = null;
+		this.sectoresID = null;
+		this.sectores = null;
 		this.vacunas = null;
-		this.enfermedades = null;
+		this.planes = null;
+		this.strbuscar = null;
 	}
-	
+
+
 }

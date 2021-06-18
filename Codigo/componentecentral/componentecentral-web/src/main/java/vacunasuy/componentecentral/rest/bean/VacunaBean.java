@@ -179,7 +179,7 @@ public class VacunaBean implements Serializable {
 		String ret = "";
 		if(idEnfermedad!=null) {
 			for(EnfermedadDTO enf : enfermedades) {
-				if(enf.getId() == idEnfermedad)
+				if(enf.getId().equals(idEnfermedad))
 					ret = enf.getNombre();
 			}
 			

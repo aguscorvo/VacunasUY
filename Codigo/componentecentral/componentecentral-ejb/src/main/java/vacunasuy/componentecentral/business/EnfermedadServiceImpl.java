@@ -106,7 +106,7 @@ public class EnfermedadServiceImpl implements IEnfermedadService{
 		enfermedadDAO.listar();
 		List<EnfermedadDTO> enfermedades = eConverter.fromEntity(enfermedadDAO.listar());
 		for (EnfermedadDTO e: enfermedades) {
-			if (e.getId() != id) {
+			if (!e.getId().equals(id)) {
 				if (e.getNombre().equals(nombre)) {
 					return true;
 				}

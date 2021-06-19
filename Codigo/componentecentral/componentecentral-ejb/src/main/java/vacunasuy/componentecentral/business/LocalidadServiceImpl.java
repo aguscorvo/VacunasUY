@@ -16,11 +16,11 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 @Stateless
 public class LocalidadServiceImpl implements ILocalidadService {
 
-	@EJB 
-	private ILocalidadDAO localidadDAO;
+	@EJB
+	public ILocalidadDAO localidadDAO;
 			
 	@EJB
-	private LocalidadConverter localidadConverter;
+	public LocalidadConverter localidadConverter;
 	
 	@Override
 	public List<LocalidadDTO> listar() throws VacunasUyException{

@@ -95,11 +95,11 @@
 				<div class="p-2">
 					<div class="btn-group" data-toggle="buttons">
 						<a class="btn btn-secondary" href="javascript:addEnfermedad();"
-							role="button"><i class="fas fa-plus"></i> </a> <a
+							role="button" title="Agregar Enfermedad"><i class="fas fa-plus"></i> </a> <a
 							class="btn btn-secondary" href="javascript:delEnfermedad();"
-							role="button"><i class="fas fa-minus"></i> </a> <a
+							role="button" title="Eliminar Enfermedad"><i class="fas fa-minus"></i> </a> <a
 							class="btn btn-secondary" href="javascript:updEnfermedad();"
-							role="button"><i class="fas fa-pen"></i> </a>
+							role="button" title="Editar Enfermedad"><i class="fas fa-pen"></i> </a>
 
 
 					</div>
@@ -111,7 +111,7 @@
 
 
 	<!-- Modal ERROR -->
-	<div class="modal fade" id="error_transportista" tabindex="-1"
+	<div class="modal fade" id="error_enfermedad" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -147,7 +147,7 @@
 	</div>
 
 	<!-- Modal INFO -->
-	<div class="modal fade" id="info_transportista" tabindex="-1"
+	<div class="modal fade" id="info_enfermedad" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -200,7 +200,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="addtransportista-form">
+					<h:form class="addenfermedad-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
@@ -333,15 +333,15 @@
 		var info2 = $ds('#general_error_msj_3 li'); 	
 
 		if(err.length>0 &amp;&amp; $ds(err).css("display")!= "none"){
-			$ds('#error_transportista').modal('show');
+			$ds('#error_enfermedad').modal('show');
 		}
 
 		if(info.length>0 &amp;&amp; $ds(info).css("display")!= "none"){
-			$ds('#info_transportista').modal('show');
+			$ds('#info_enfermedad').modal('show');
 		}	
 
 		if(info2.length>0 &amp;&amp; $ds(info2).css("display")!= "none"){
-			$ds('#info_transportista').modal('show');
+			$ds('#info_enfermedad').modal('show');
 		}
 	});
 	
@@ -356,7 +356,7 @@
 			$ds('#errorModalLabel').html('Error'),
 			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
 			$ds('#general_error_msj').html('Debe Seleccionar un Enfermedad');
-		    $ds('#error_transportista').modal('show');
+		    $ds('#error_enfermedad').modal('show');
 		}else{
 			$ds("input[id*='updId']").val(id);
 			$ds("input[id*='updIdView']").val(id);
@@ -373,7 +373,7 @@
 			$ds('#errorModalLabel').html('Error'),
 			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
 			$ds('#general_error_msj').html('Debe Seleccionar un Enfermedad');
-		    $ds('#error_transportista').modal('show');
+		    $ds('#error_enfermedad').modal('show');
 		}else{
 			$ds("input[id*='delId']").val(id);
 			$ds("input[id*='delIdView']").val(id);

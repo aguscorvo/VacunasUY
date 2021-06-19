@@ -156,6 +156,18 @@ public class DepartamentoServiceTest {
 		DepartamentoDTO dep = departamentoService.editar(1L, deptoCDTO);
 	}
 	
+	@Test(expected = VacunasUyException.class)
+	public void editar_locNull () throws VacunasUyException {
+		Departamento departamento = new Departamento (1L, "Departamento", null);
+		List<Long> longs= new ArrayList<Long>();
+		longs.add(1L);
+		DepartamentoCrearDTO deptoCDTO = new DepartamentoCrearDTO ("DeptoDTO", longs);
+		Mockito.when(departamentoService.departamentoDAO.listarPorId(1L)).thenReturn(departamento);
+		Mockito.when(departamentoService.localidadDAO.listarPorId(1L)).thenReturn(null);
+		@SuppressWarnings("unused")
+		DepartamentoDTO dep = departamentoService.editar(1L, deptoCDTO);
+	}
+	
 	@Test
 	public void eliminar () {
 		Departamento depto= new Departamento (1L, "Prueba", null);

@@ -12,7 +12,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import vacunasuy.componentecentral.business.RolServiceImpl;
 import vacunasuy.componentecentral.converter.RolConverter;
 import vacunasuy.componentecentral.dao.RolDAOImpl;
+import vacunasuy.componentecentral.dto.LocalidadDTO;
 import vacunasuy.componentecentral.dto.RolDTO;
+import vacunasuy.componentecentral.entity.Localidad;
 import vacunasuy.componentecentral.entity.Rol;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
@@ -72,4 +74,11 @@ public class RolServiceTest {
 		}
 	}
 	
+	@Test(expected = VacunasUyException.class)
+	public void listarPorId_null () throws VacunasUyException {
+		Rol rol = null;
+		Mockito.when(rolService.rolDAO.listarPorId(1L)).thenReturn(rol);
+		@SuppressWarnings("unused")
+		RolDTO rolDTO = rolService.listarPorId(1L);	
+	}
 }

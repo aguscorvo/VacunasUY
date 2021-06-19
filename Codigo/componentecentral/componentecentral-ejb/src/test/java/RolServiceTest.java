@@ -12,9 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import vacunasuy.componentecentral.business.RolServiceImpl;
 import vacunasuy.componentecentral.converter.RolConverter;
 import vacunasuy.componentecentral.dao.RolDAOImpl;
-import vacunasuy.componentecentral.dto.LocalidadDTO;
 import vacunasuy.componentecentral.dto.RolDTO;
-import vacunasuy.componentecentral.entity.Localidad;
 import vacunasuy.componentecentral.entity.Rol;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 

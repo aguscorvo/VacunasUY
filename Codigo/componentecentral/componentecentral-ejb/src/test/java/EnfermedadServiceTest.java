@@ -93,6 +93,17 @@ public class EnfermedadServiceTest {
 		}
 	}
 	
+	@Test(expected = VacunasUyException.class)
+	public void crear_repetida() throws VacunasUyException {
+		List<Enfermedad> enfermedades = new ArrayList<Enfermedad>();
+		enfermedades.add(new Enfermedad(1L, "Prueba"));
+		List<EnfermedadDTO> enfermedadesDTO = new ArrayList<EnfermedadDTO>();
+		enfermedadesDTO.add(new EnfermedadDTO(1L, "Prueba"));
+		Mockito.when(enfermedadService.enfermedadDAO.listar()).thenReturn(enfermedades);
+		Mockito.when(enfermedadService.eConverter.fromEntity(enfermedades)).thenReturn(enfermedadesDTO);
+		@SuppressWarnings("unused")
+		EnfermedadDTO enfermedad = enfermedadService.crear(new EnfermedadCrearDTO("Prueba"));
+	}
 	
 	@Test
 	public void editar() {
@@ -110,6 +121,20 @@ public class EnfermedadServiceTest {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@Test(expected = VacunasUyException.class)
+	public void editar_repetida() throws VacunasUyException {
+		List<Enfermedad> enfermedades = new ArrayList<Enfermedad>();
+		enfermedades.add(new Enfermedad(1L, "Prueba"));
+		enfermedades.add(new Enfermedad(2L, "Prueba2"));
+		List<EnfermedadDTO> enfermedadesDTO = new ArrayList<EnfermedadDTO>();
+		enfermedadesDTO.add(new EnfermedadDTO(1L, "Prueba"));
+		enfermedadesDTO.add(new EnfermedadDTO(2L, "Prueba2"));
+		Mockito.when(enfermedadService.enfermedadDAO.listar()).thenReturn(enfermedades);
+		Mockito.when(enfermedadService.eConverter.fromEntity(enfermedades)).thenReturn(enfermedadesDTO);
+		@SuppressWarnings("unused")
+		EnfermedadDTO enfermedad = enfermedadService.editar(1L, new EnfermedadCrearDTO("Prueba2"));
 	}
 	
 	@Test

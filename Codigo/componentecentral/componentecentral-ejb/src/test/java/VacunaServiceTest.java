@@ -108,6 +108,18 @@ public class VacunaServiceTest {
 		}
 	}
 	
+	@Test(expected = VacunasUyException.class)
+	public void crear_repetida() throws VacunasUyException {
+		List<Vacuna> vacunas = new ArrayList<Vacuna>();
+		vacunas.add(new Vacuna(1L, "Prueba", 1, 1, 1, null));
+		List<VacunaDTO> vacunasDTO = new ArrayList<VacunaDTO>();
+		vacunasDTO.add(new VacunaDTO(1L, "Prueba", 1, 1, 1, null));
+		Mockito.when(vacunaService.vacunaDAO.listar()).thenReturn(vacunas);
+		Mockito.when(vacunaService.vacunaConverter.fromEntity(vacunas)).thenReturn(vacunasDTO);
+		@SuppressWarnings("unused")
+		VacunaDTO vacuna = vacunaService.crear(new VacunaCrearDTO("Prueba", 1, 1, 1, null));
+	}
+	
 	@Test
 	public void editar () {
 		VacunaCrearDTO vCDTO = new VacunaCrearDTO("Editada", 1, 1, 1, 1L);
@@ -124,6 +136,20 @@ public class VacunaServiceTest {
 		} catch (VacunasUyException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test(expected = VacunasUyException.class)
+	public void editar_repetida() throws VacunasUyException {
+		List<Vacuna> vacunas = new ArrayList<Vacuna>();
+		vacunas.add(new Vacuna(1L, "Prueba", 0, 0, 0, null));
+		vacunas.add(new Vacuna(2L, "Prueba2", 0, 0, 0, null));
+		List<VacunaDTO> vacunasDTO = new ArrayList<VacunaDTO>();
+		vacunasDTO.add(new VacunaDTO(1L, "Prueba", 0, 0, 0, null));
+		vacunasDTO.add(new VacunaDTO(2L, "Prueba2", 0, 0, 0, null));
+		Mockito.when(vacunaService.vacunaDAO.listar()).thenReturn(vacunas);
+		Mockito.when(vacunaService.vacunaConverter.fromEntity(vacunas)).thenReturn(vacunasDTO);
+		@SuppressWarnings("unused")
+		VacunaDTO vacuna = vacunaService.editar(1L, new VacunaCrearDTO("Prueba2", 0, 0, 0, null));
 	}
 	
 	@Test

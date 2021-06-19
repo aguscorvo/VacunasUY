@@ -13,10 +13,10 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class SectorLaboralServiceImpl implements ISectorLaboralService {
 
 	@EJB
-	private ISectorLaboralDAO sectorLaboralDAO;
+	public ISectorLaboralDAO sectorLaboralDAO;
 	
 	@EJB
-	private SectorLaboralConverter sectorLaboralConverter;
+	public SectorLaboralConverter sectorLaboralConverter;
 	
 	@Override
 	public List<SectorLaboralDTO> listar() throws VacunasUyException {

@@ -15,10 +15,10 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class PaisServiceImpl implements IPaisService {
     
    @EJB
-   private IPaisDAO paisDAO;
+public IPaisDAO paisDAO;
    
    @EJB
-   private PaisConverter paisConverter;
+public PaisConverter paisConverter;
    
    @Override
    public List<PaisDTO> listar() throws VacunasUyException{

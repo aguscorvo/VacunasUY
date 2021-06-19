@@ -76,152 +76,38 @@
 	</header>
 	<div class="main-panel">
 		<div class="container">
-			<div class="col-12 d-flex flex-row">
-				<div class="col-8  mb-3">
-					<div class="wrapper">
-						<h3>Lista de Usuarios</h3>
-						<p:dataTable id="listaVacunador" var="dtVacunador"
-							value="#{AsignarVacunatorioBean.usuarios}" paginator="true"
-							rows="10"
-							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-							rowsPerPageTemplate="10,25,50,100">
-							<p:column headerText="Nombre">
-								<h:outputText
-									value="#{dtVacunador.nombre + ' ' + dtVacunador.apellido}" />
-							</p:column>
-							<p:column headerText="Documento">
-								<h:outputText value="#{dtVacunador.documento}" />
-							</p:column>
-							<p:column headerText="Correo">
-								<h:outputText value="#{dtVacunador.correo}" />
-							</p:column>
-							<p:column headerText="Id" style="display: none">
-								<h:outputText value="#{dtVacunador.id}" />
-							</p:column>
+			<div class="wrapper">
+				<h3>Lista de Usuarios</h3>
+				<p:dataTable id="listaVacunador" var="dtVacunador"
+					value="#{AsignarVacunatorioBean.usuarios}" paginator="true"
+					rows="10"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+					rowsPerPageTemplate="10,25,50,100">
+					<p:column headerText="Nombre">
+						<h:outputText
+							value="#{dtVacunador.nombre} #{dtVacunador.apellido}" />
+					</p:column>
+					<p:column headerText="Documento">
+						<h:outputText value="#{dtVacunador.documento}" />
+					</p:column>
+					<p:column headerText="Correo">
+						<h:outputText value="#{dtVacunador.correo}" />
+					</p:column>
+					<p:column headerText="Id" style="display: none">
+						<h:outputText value="#{dtVacunador.id}" />
+					</p:column>
 
-						</p:dataTable>
-					</div>
-				</div>
-				<div class="col-4  mb-3  border">
-					<div class="wrapper">
-						<h3>Asignaciones</h3>
-						<div class="col-12">
-							<div class="col-12  mb-3">
-								<h:inputHidden value="#{AsignarVacunatorioBean.idUsuario}"
-									id="addId" name="addId">
-
-								</h:inputHidden>
-								<p:outputLabel for="viewDocumento" value="Documento" />
-							</div>
-							<div class="col-12 d-flex flex-row">
-								<h:inputText type="text" class="" id="viewDocumento"
-									readonly="true" />
-							</div>
-						</div>
-						<div id="accordion">
-
-							<ui:repeat value="#{AsignarVacunatorioBean.atiende}" var="item">
-								<div class="card">
-									<div class="card-header" id="#{'heading'+ item.id}">
-										<h5 class="mb-0">
-											<button class="btn btn-link" data-toggle="collapse"
-												data-target="#{'#collapse'+ item.id}" aria-expanded="true"
-												aria-controls="#{'collapse'+ item.id}">"#{item.nombre}"</button>
-										</h5>
-									</div>
-									<div id="collapseOne" class="collapse"
-									aria-labelledby="headingOne" data-parent="#accordion">
-									<div class="card-body">Anim pariatur cliche</div>
-								</div>
-								</div>
-							</ui:repeat>
-
-							<div class="card">
-								<div class="card-header" id="headingOne">
-									<h5 class="mb-0">
-										<button class="btn btn-link" data-toggle="collapse"
-											data-target="#collapseOne" aria-expanded="true"
-											aria-controls="collapseOne">Collapsible Group Item
-											#1</button>
-									</h5>
-								</div>
-
-								<div id="collapseOne" class="collapse"
-									aria-labelledby="headingOne" data-parent="#accordion">
-									<div class="card-body">Anim pariatur cliche
-										reprehenderit, enim eiusmod high life accusamus terry
-										richardson ad squid. 3 wolf moon officia aute, non cupidatat
-										skateboard dolor brunch. Food truck quinoa nesciunt laborum
-										eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on
-										it squid single-origin coffee nulla assumenda shoreditch et.
-										Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-										cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-										vice lomo. Leggings occaecat craft beer farm-to-table, raw
-										denim aesthetic synth nesciunt you probably haven't heard of
-										them accusamus labore sustainable VHS.</div>
-								</div>
-							</div>
-							<div class="card">
-								<div class="card-header" id="headingTwo">
-									<h5 class="mb-0">
-										<button class="btn btn-link collapsed" data-toggle="collapse"
-											data-target="#collapseTwo" aria-expanded="false"
-											aria-controls="collapseTwo">Collapsible Group Item
-											#2</button>
-									</h5>
-								</div>
-								<div id="collapseTwo" class="collapse"
-									aria-labelledby="headingTwo" data-parent="#accordion">
-									<div class="card-body">Anim pariatur cliche
-										reprehenderit, enim eiusmod high life accusamus terry
-										richardson ad squid. 3 wolf moon officia aute, non cupidatat
-										skateboard dolor brunch. Food truck quinoa nesciunt laborum
-										eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on
-										it squid single-origin coffee nulla assumenda shoreditch et.
-										Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-										cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-										vice lomo. Leggings occaecat craft beer farm-to-table, raw
-										denim aesthetic synth nesciunt you probably haven't heard of
-										them accusamus labore sustainable VHS.</div>
-								</div>
-							</div>
-							<div class="card">
-								<div class="card-header" id="headingThree">
-									<h5 class="mb-0">
-										<button class="btn btn-link collapsed" data-toggle="collapse"
-											data-target="#collapseThree" aria-expanded="false"
-											aria-controls="collapseThree">Collapsible Group Item
-											#3</button>
-									</h5>
-								</div>
-								<div id="collapseThree" class="collapse"
-									aria-labelledby="headingThree" data-parent="#accordion">
-									<div class="card-body">Anim pariatur cliche
-										reprehenderit, enim eiusmod high life accusamus terry
-										richardson ad squid. 3 wolf moon officia aute, non cupidatat
-										skateboard dolor brunch. Food truck quinoa nesciunt laborum
-										eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on
-										it squid single-origin coffee nulla assumenda shoreditch et.
-										Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-										cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-										vice lomo. Leggings occaecat craft beer farm-to-table, raw
-										denim aesthetic synth nesciunt you probably haven't heard of
-										them accusamus labore sustainable VHS.</div>
-								</div>
-							</div>
-						</div>
-
-
-					</div>
-				</div>
+				</p:dataTable>
 			</div>
 			<div class="col-12 d-flex flex-row-reverse">
 				<div class="p-2">
 					<div class="btn-group" data-toggle="buttons">
 						<a class="btn btn-secondary" href="javascript:addAsignacion();"
 							role="button" title="Agregar Asignaci&oacute;n"><i
-							class="fas fa-plus"></i> </a>
+							class="fas fa-plus"></i> </a> <a class="btn btn-secondary"
+							href="javascript:viewAsignacion();" role="button"
+							title="Ver Asignaciones"><i class="fas fa-eye"></i> </a>
 
 					</div>
 				</div>
@@ -309,6 +195,7 @@
 	</div>
 
 
+
 	<!-- Modal ADD-->
 	<div class="modal" tabindex="-1" role="dialog" id="addAsignacion">
 		<div class="modal-dialog" role="document">
@@ -365,9 +252,11 @@
 									<p:outputLabel for="addFecha" value="Fecha" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control"
+									<h:inputText type="text"
 										value="#{AsignarVacunatorioBean.fecha}" id="addFecha"
-										readonly="true" />
+										name="addFecha" styleClass="form-control datepicker">
+										<f:passThroughAttribute name="type" value="date" />
+									</h:inputText>
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
@@ -375,13 +264,16 @@
 									<p:outputLabel for="addVacunatorio" value="Vacunatorio" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectManyListbox id="addVacunatorio"
-										value="#{AsignarVacunatorioBean.idVacunatorio}">
+									<h:selectOneMenu id="addVacunatorio"
+										value="#{AsignarVacunatorioBean.idVacunatorio}"
+										class="form-control">
+										<f:selectItem itemLabel="Seleccione Vacunatorio" itemValue=""
+											noSelectionOption="true" />
 										<f:selectItems value="#{AsignarVacunatorioBean.vacunatorios}"
-											var="vac" itemLabel="#{vac.id}"
-											itemValue="#{vac.nombre + vac.departamento.nombre}" />
+											var="vac" itemValue="#{vac.id}"
+											itemLabel="#{vac.departamento.nombre} - #{vac.nombre}" />
 										<p:ajax update="addPuesto" />
-									</h:selectManyListbox>
+									</h:selectOneMenu>
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
@@ -389,13 +281,15 @@
 									<p:outputLabel for="addPuesto" value="Puesto" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectManyListbox id="addPuesto"
-										value="#{AsignarVacunatorioBean.idPuesto}">
+									<h:selectOneMenu id="addPuesto"
+										value="#{AsignarVacunatorioBean.idPuesto}" name="addPuesto"
+										class="form-control">
+										<f:selectItem itemLabel="Seleccione Puesto" itemValue=""
+											noSelectionOption="true" />
 										<f:selectItems
 											value="#{AsignarVacunatorioBean.selectPuestoOnVacunatorio}"
-											var="puesto" itemLabel="#{puesto.id}"
-											itemValue="#{puesto.numero}" />
-									</h:selectManyListbox>
+											var="vac" itemValue="#{vac.id}" itemLabel="#{vac.numero}" />
+									</h:selectOneMenu>
 								</div>
 							</div>
 						</div>
@@ -407,6 +301,64 @@
 							</div>
 						</div>
 					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal VIEW-->
+	<div class="modal" tabindex="-1" role="dialog" id="viewAsignacion">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">ver Asignaciones</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<div class="col-12  mb-3  border">
+						<h:form class="viewAsignacion-form">
+							<div class="wrapper">
+								<div class="col-12">
+									<div class="col-12  mb-3">
+										<h:inputHidden value="#{AsignarVacunatorioBean.idUsuario}"
+											id="viewId" name="viewId">
+											
+										</h:inputHidden>
+										<p:outputLabel for="viewDocumento" value="Documento" />
+									</div>
+									<div class="col-12 d-flex flex-row">
+										<h:inputText type="text" class="" id="viewDocumento"
+											readonly="true">
+											
+										</h:inputText>
+									</div>
+								</div>
+								<div id="accordion">
+									<ui:repeat value="#{AsignarVacunatorioBean.atiende}" var="item"
+										id="accordionUser">
+										<div class="card">
+											<div class="card-header" id="#{'heading'+ item.id}">
+												<h5 class="mb-0">
+													<button class="btn btn-link" data-toggle="collapse"
+														data-target="#{'#collapse'+ item.id}" aria-expanded="true"
+														aria-controls="#{'collapse'+ item.id}">"#{item.nombre}"</button>
+												</h5>
+											</div>
+											<div id="#{'collapse'+ item.id}" class="collapse"
+												aria-labelledby="#{'heading'+ item.id}"
+												data-parent="#accordion">
+												<div class="card-body">Anim pariatur cliche</div>
+											</div>
+										</div>
+									</ui:repeat>
+								</div>
+							</div>
+						</h:form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -449,15 +401,19 @@
 		}else{
 			$ds("input[id*='addId']").val(id);
 			$ds("input[id*='addIdView']").val(id);
-			$ds("input[id*='addDocumento']").val($ds('#listaLote_data tr.selected').find("td").eq(1).html());
-		    $ds("input[id*='addCorreo']").val($ds('#listaLote_data tr.selected').find("td").eq(2).html());
-		    $ds("input[id*='addName']").val($ds('#listaLote_data tr.selected').find("td").eq(0).html());
+			$ds("input[id*='addDocumento']").val($ds('#listaVacunador_data tr.selected').find("td").eq(1).html());
+		    $ds("input[id*='addCorreo']").val($ds('#listaVacunador_data tr.selected').find("td").eq(2).html());
+		    $ds("input[id*='addName']").val($ds('#listaVacunador_data tr.selected').find("td").eq(0).html());
 			$ds('#addAsignacion').modal('show');
 		}
 
 
 	}
 
+	function viewAsignacion(){
+		$ds('#viewAsignacion').modal('show');
+	}
+		
 	
 	
 	$ds('#listaVacunador_data').on( 'click', 'tr', function () {
@@ -467,6 +423,10 @@
 		else {
 			$ds('#listaVacunador_data tr.selected').removeClass('selected');
 			$ds(this).addClass('selected');
+
+			$ds("input[id*='viewId']").val($ds('#listaVacunador_data tr.selected').find("td").eq(3).html());
+			$ds("input[id*='viewDocumento']").val($ds('#listaVacunador_data tr.selected').find("td").eq(1).html());
+			
 		}
 	});
 

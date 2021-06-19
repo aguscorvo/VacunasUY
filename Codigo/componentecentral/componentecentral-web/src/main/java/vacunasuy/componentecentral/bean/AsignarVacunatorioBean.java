@@ -72,7 +72,11 @@ public class AsignarVacunatorioBean implements Serializable {
 
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
-			System.out.println(e.getMessage().trim());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			usuarios = new ArrayList<UsuarioDTO>();
+		} catch (Exception e) {
+			logger.info(e.getMessage().trim());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			usuarios = new ArrayList<UsuarioDTO>();
@@ -109,14 +113,14 @@ public class AsignarVacunatorioBean implements Serializable {
 	}
 
 	public void addAsignacion() {
-
+		logger.info("addAsignacion 'id': " + idUsuario);
 		try {
 			AtiendeCrearDTO atiendeCrearDTO = AtiendeCrearDTO.builder().idUsuario(idUsuario).idPuesto(idPuesto)
 					.fecha(fecha).build();
 
 			usuarioService.asignarVacunadorAPuesto(atiendeCrearDTO);
 
-			logger.info("addAsignacion 'id': " + idUsuario);
+			
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario asignado con éxito.", null));
@@ -140,10 +144,11 @@ public class AsignarVacunatorioBean implements Serializable {
 	private List<UsuarioDTO> allVacunadores() throws VacunasUyException {
 		List<UsuarioDTO> res = new ArrayList<UsuarioDTO>();
 		List<UsuarioDTO> auxvac = usuarioService.listar();
+
 		for (UsuarioDTO vdto : auxvac) {
 			for (RolDTO rdto : vdto.getRoles()) {
 				if (rdto.getNombre().toUpperCase().contains("VACUNADOR")) {
-					usuarios.add(vdto);
+					res.add(vdto);
 				}
 			}
 		}
@@ -189,27 +194,20 @@ public class AsignarVacunatorioBean implements Serializable {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
-			} catch (Exception e) {
-				logger.info(e.getMessage().trim());
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
 			}
 		}
+
 		return ret;
 	}
 
 	public List<PuestoMinDTO> getSelectPuestoOnVacunatorio() {
 		List<PuestoMinDTO> puestos = new ArrayList<PuestoMinDTO>();
-		
+		logger.info("Vacunatorio: " + idVacunatorio);
 		if (idVacunatorio != null) {
 			try {
 				VacunatorioDTO vac = vacunatorioService.listarPorId(idVacunatorio);
 				puestos = vac.getPuestos();
 			} catch (VacunasUyException e) {
-				logger.info(e.getMessage().trim());
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
-			} catch (Exception e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));

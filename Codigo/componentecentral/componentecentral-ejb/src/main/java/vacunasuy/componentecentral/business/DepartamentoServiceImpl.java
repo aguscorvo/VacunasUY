@@ -20,13 +20,13 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class DepartamentoServiceImpl implements IDepartamentoService {
 
 	@EJB
-	private IDepartamentoDAO departamentoDAO;
+	public IDepartamentoDAO departamentoDAO;
 	
 	@EJB
-	private ILocalidadDAO localidadDAO;
+	public ILocalidadDAO localidadDAO;
 	
 	@EJB
-	private DepartamentoConverter departamentoConverter;
+	public DepartamentoConverter departamentoConverter;
 	
 	@Override
 	public List<DepartamentoDTO> listar() throws VacunasUyException{
@@ -73,8 +73,7 @@ public class DepartamentoServiceImpl implements IDepartamentoService {
 		if (departamento==null) throw new VacunasUyException("El departamento indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		List<Localidad>  localidades = new ArrayList<Localidad>();
 		for (Long idLocalidad: departamentoDTO.getLocalidades()) {
-				if(localidadDAO.listarPorId(idLocalidad)==null) throw new VacunasUyException("La localidad indicada "
-						+ "no existe.", VacunasUyException.NO_EXISTE_REGISTRO);				
+				if(localidadDAO.listarPorId(idLocalidad)==null) throw new VacunasUyException("La localidad indicada no existe.", VacunasUyException.NO_EXISTE_REGISTRO);				
 				localidades.add(localidadDAO.listarPorId(id));		
 		}
 		try {

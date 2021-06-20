@@ -18,13 +18,13 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class ProveedorServiceImpl implements IProveedorService {
 
 	@EJB
-	private IProveedorDAO proveedorDAO;
+	public IProveedorDAO proveedorDAO;
 	
 	@EJB
-	private IPaisDAO paisDAO;
+	public IPaisDAO paisDAO;
 	
 	@EJB
-	private ProveedorConverter proveedorConverter;
+	public ProveedorConverter proveedorConverter;
 	
 	@Override
 	public List<ProveedorDTO> listar() throws VacunasUyException{

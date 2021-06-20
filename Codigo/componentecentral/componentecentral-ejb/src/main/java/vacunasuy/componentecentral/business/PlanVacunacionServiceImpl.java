@@ -21,16 +21,16 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class PlanVacunacionServiceImpl implements IPlanVacunacionService {
 
 	@EJB
-	private IPlanVacunacionDAO planVacunacionDAO;
+	public IPlanVacunacionDAO planVacunacionDAO;
 	
 	@EJB
-	private ISectorLaboralDAO sectorLaboralDAO;
+	public ISectorLaboralDAO sectorLaboralDAO;
 	
 	@EJB
-	private IVacunaDAO vacunaDAO;
+	public IVacunaDAO vacunaDAO;
 	
 	@EJB
-	private PlanVacunacionConverter planVacunacionConverter;
+	public PlanVacunacionConverter planVacunacionConverter;
 	
 	@Override
 	public List<PlanVacunacionDTO> listar() throws VacunasUyException {

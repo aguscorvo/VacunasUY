@@ -3,7 +3,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" xml:lang="es">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xml:lang="es">
+
 
 
 <h:head>
@@ -77,7 +79,7 @@
 	<div class="main-panel">
 		<div class="container">
 			<div class="wrapper">
-				<h3>Lista de Usuarios</h3>
+				<h3>Lista de Vacunadores</h3>
 				<p:dataTable id="listaVacunador" var="dtVacunador"
 					value="#{AsignarVacunatorioBean.usuarios}" paginator="true"
 					rows="10"
@@ -213,6 +215,11 @@
 							<div class="col-12 d-flex flex-row">
 								<h:inputHidden value="#{AsignarVacunatorioBean.idUsuario}"
 									id="addId" name="addId" />
+								<h:inputHidden value="#{AsignarVacunatorioBean.idVacunatorio}"
+									id="addIdVacunatorio" name="addIdVacunatorio" />
+								<h:inputHidden value="#{AsignarVacunatorioBean.idPuesto}"
+									id="addIdPuesto" name="addIdPuesto" />
+
 								<div class="col-6  mb-3">
 									<p:outputLabel for="addIdView" value="Id" />
 								</div>
@@ -261,35 +268,18 @@
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="addVacunatorio" value="Vacunatorio" />
+									<label for="addVacunatorio" value="Vacunatorio" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectOneMenu id="addVacunatorio"
-										value="#{AsignarVacunatorioBean.idVacunatorio}"
-										class="form-control">
-										<f:selectItem itemLabel="Seleccione Vacunatorio" itemValue=""
-											noSelectionOption="true" />
-										<f:selectItems value="#{AsignarVacunatorioBean.vacunatorios}"
-											var="vac" itemValue="#{vac.id}"
-											itemLabel="#{vac.departamento.nombre} - #{vac.nombre}" />
-										<p:ajax update="addPuesto" />
-									</h:selectOneMenu>
+									<select id="addVacunatorio" class="form-control" />
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="addPuesto" value="Puesto" />
+									<label for="addPuesto" value="Puesto" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectOneMenu id="addPuesto"
-										value="#{AsignarVacunatorioBean.idPuesto}" name="addPuesto"
-										class="form-control">
-										<f:selectItem itemLabel="Seleccione Puesto" itemValue=""
-											noSelectionOption="true" />
-										<f:selectItems
-											value="#{AsignarVacunatorioBean.selectPuestoOnVacunatorio}"
-											var="vac" itemValue="#{vac.id}" itemLabel="#{vac.numero}" />
-									</h:selectOneMenu>
+									<select id="addPuesto" name="addPuesto" class="form-control" />
 								</div>
 							</div>
 						</div>
@@ -318,47 +308,24 @@
 					</button>
 				</div>
 				<div class="modal-body">
-
-					<div class="col-12  mb-3  border">
-						<h:form class="viewAsignacion-form">
-							<div class="wrapper">
-								<div class="col-12">
-									<div class="col-12  mb-3">
-										<h:inputHidden value="#{AsignarVacunatorioBean.idUsuario}"
-											id="viewId" name="viewId">
-											
-										</h:inputHidden>
-										<p:outputLabel for="viewDocumento" value="Documento" />
-									</div>
-									<div class="col-12 d-flex flex-row">
-										<h:inputText type="text" class="" id="viewDocumento"
-											readonly="true">
-											
-										</h:inputText>
-									</div>
-								</div>
-								<div id="accordion">
-									<ui:repeat value="#{AsignarVacunatorioBean.atiende}" var="item"
-										id="accordionUser">
-										<div class="card">
-											<div class="card-header" id="#{'heading'+ item.id}">
-												<h5 class="mb-0">
-													<button class="btn btn-link" data-toggle="collapse"
-														data-target="#{'#collapse'+ item.id}" aria-expanded="true"
-														aria-controls="#{'collapse'+ item.id}">"#{item.nombre}"</button>
-												</h5>
-											</div>
-											<div id="#{'collapse'+ item.id}" class="collapse"
-												aria-labelledby="#{'heading'+ item.id}"
-												data-parent="#accordion">
-												<div class="card-body">Anim pariatur cliche</div>
-											</div>
+					<h:form class="viewAsignacion-form" id="form_ViewAsignacion">
+						<div class="col-12">
+							<div class="col-12  mb-3  border">
+								<div class="wrapper">
+									<div class="col-12">
+										<div class="col-12  mb-3">
+											<h5 id="viewNameLabel"></h5>
 										</div>
-									</ui:repeat>
+
+									</div>
+									<div class="card">
+										<h5>Vacunatorios</h5>
+										<div id="accordionAsiste"></div>
+									</div>
 								</div>
 							</div>
-						</h:form>
-					</div>
+						</div>
+					</h:form>
 				</div>
 			</div>
 		</div>
@@ -371,6 +338,12 @@
 
 	var $ds = jQuery.noConflict();
 
+	var objvac = <h:outputText
+	value="#{AsignarVacunatorioBean.jsonVac}" />;
+
+	
+
+		
 	$ds(document).ready(function() {
 		var err = $ds('#general_error_msj_1 li'); 
 		var info = $ds('#general_error_msj_2 li');
@@ -387,6 +360,38 @@
 		if(info2.length>0 &amp;&amp; $ds(info2).css("display")!= "none"){
 			$ds('#info_asignacion').modal('show');
 		}
+
+		var opt = '<option>Seleccione un Vacunatorio</option>';
+		
+		for (var vac in objvac){
+			if(objvac[vac]['id']!= undefined)
+				opt += '<option value="' + objvac[vac]['id'] + '">' + objvac[vac]['nombre'] + '</option>';
+		}
+		
+		$ds("select[id*='addVacunatorio']").html(opt);
+
+		//Listar Cambio de Vacunatorio
+		$ds("select[id*='addVacunatorio']").change(function(){
+		    if($ds(this).val()!='empty'){
+			    $ds("input[id*='addIdVacunatorio']").val($ds(this).val());
+
+		    	var puestos = objvac[$ds(this).val()]['puestos'];
+			    var puesto = '<option>Seleccione un Puesto</option>';
+
+				for(var p in puestos){
+					if(puestos[p]['id']!= undefined)
+						puesto += '<option value="' + puestos[p]['id'] + '">' + puestos[p]['numero'] + '</option>';
+				}
+
+				$ds("select[id*='addPuesto']").html(puesto);
+			}
+		});
+
+		$ds("select[id*='addPuesto']").change(function(){
+		    if($ds(this).val()!='empty')
+		    	$ds("input[id*='addIdPuesto']").val($ds(this).val());
+		});
+		
 	});
 	
 	function addAsignacion(){
@@ -404,14 +409,27 @@
 			$ds("input[id*='addDocumento']").val($ds('#listaVacunador_data tr.selected').find("td").eq(1).html());
 		    $ds("input[id*='addCorreo']").val($ds('#listaVacunador_data tr.selected').find("td").eq(2).html());
 		    $ds("input[id*='addName']").val($ds('#listaVacunador_data tr.selected').find("td").eq(0).html());
-			$ds('#addAsignacion').modal('show');
+		   $ds('#addAsignacion').modal('show');
 		}
 
 
 	}
 
 	function viewAsignacion(){
-		$ds('#viewAsignacion').modal('show');
+		var id = $ds('#listaVacunador_data tr.selected').find("td").eq(3).html();
+
+		if(id==undefined){
+			$ds('#errorModalLabel').html('Error'),
+			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
+			$ds('#general_error_msj').html('Debe Seleccionar un Usuario');
+		    $ds('#error_asignacion').modal('show');
+		}else{
+			$ds("input[id*='viewId']").val(id);
+			$ds("[id*='viewNameLabel']").html($ds('#listaVacunador_data tr.selected').find("td").eq(0).html());
+			getviewAtiende(id);
+		    $ds('#viewAsignacion').modal('show');
+		}
+		
 	}
 		
 	
@@ -430,6 +448,132 @@
 		}
 	});
 
+	function getviewAtiende(idusuario){
+		var url = "/backoffice/rest/usuarios/listarAtiendeVacunador/" +  idusuario;
+		var vacunatorios = [];
+
+
+	    
+	    
+		$ds.ajaxSetup({
+			scriptCharset: "utf-8",
+			contentType: "application/json; charset=utf-8",
+			mimeType: "text/plain",
+			headers: { 'Access-Control-Allow-Origin': '*' }
+		});
+
+		$ds.getJSON(url)
+		.done(function(data){
+			var cuerpo = data['cuerpo'];
+
+			if(cuerpo != null){
+				for (var cur in cuerpo){
+					
+					var vacunatorio = {};
+					var puesto = cuerpo[cur]['puesto'];
+					var horario = cuerpo[cur]['fecha'] + ': Puesto: ' + puesto['numero']; 
+
+					if (vacunatorios[puesto['vacunatorio']['id']] == undefined) {
+						vacunatorio['id'] = puesto['vacunatorio']['id'];
+						vacunatorio['nombre'] = puesto['vacunatorio']['departamento']['nombre'] +
+						' - ' + puesto['vacunatorio']['nombre']
+						vacunatorio['puestos'] = []; 	
+					} else{
+						vacunatorio = vacunatorios[puesto['vacunatorio']['id']];
+					}
+
+					vacunatorio['puestos'].push(horario);
+					//vacunatorio['puestos'] = vacunatorio['puestos'].sort();
+
+					vacunatorios[puesto['vacunatorio']['id']] = vacunatorio;
+				}
+
+				var str = htmlAsignacionHorario(vacunatorios);
+				
+				if(str != ''){
+					
+					$ds('#accordionAsiste').html(str);
+
+				    $ds( "#accordionAsiste" ).accordion({
+				        collapsible: true
+				    });
+				    $ds( "#accordionAsiste" ).accordion( "refresh" );
+				}
+					
+			}
+		})
+		.fail(function( jqxhr, textStatus, error ) {
+				var err = textStatus + ", " + error;
+				console.log( "Request Failed: " + err + "file: " + url);
+		});
+		
+	}
+
+	function htmlAsignacionHorarioOLD(objVacunatorio) {
+		var str = '';
+		var hr = '';
+		var cont = 0;
+		var arrVac = Object.keys(objVacunatorio); 
+
+		
+		for (id in arrVac) {
+			var lin = arrVac[id];
+			
+			str += '<div class="card">';
+			str += '<div class="card-header" id="heading' + objVacunatorio[lin]['id'] + '">';
+			str += '<h5 class="mb-0">';
+			str += '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse' +
+			objVacunatorio[lin]['id'] + '" aria-expanded="true" aria-controls="collapse' + objVacunatorio[lin]['id'] + '">';
+			str += objVacunatorio[lin]['nombre'];
+			str += '</button>';
+			str += '</h5>';
+			str += '</div>';
+
+			str += '<div id="collapse' + objVacunatorio[lin]['id'] + '" class="collapse' +
+				'" aria-labelledby="heading' + objVacunatorio[lin]['id'] + '" data-parent="#accordionAsiste">';
+			str += '<div class="card-body">';
+			
+			for (h in (objVacunatorio[lin]['puestos'].sort())) {
+				str += '<br>' + objVacunatorio[lin]['puestos'][h] + '</br>';
+			}
+			str += '</div>';
+			str += '</div>';
+
+			cont += 1;
+
+		}
+
+		str += '</div>';
+
+		return str;
+	}
+
+	function htmlAsignacionHorario(objVacunatorio) {
+		var str = '';
+		var arrVac = Object.keys(objVacunatorio); 
+
+		
+		for (id in arrVac) {
+			var lin = arrVac[id];
+			
+			str += '<h5 class="mb-0">';
+			str += objVacunatorio[lin]['nombre'];
+			str += '</h5>';
+			str += '<div>';
+			str += '<p>';
+			
+			for (h in (objVacunatorio[lin]['puestos'].sort())) {
+				str += '<br>' + objVacunatorio[lin]['puestos'][h] + '</br>';
+			}
+			str += '</p>';
+			str += '</div>';
+
+		}
+
+		return str;
+	}
+
+	
 </script>
 
 </h:body>

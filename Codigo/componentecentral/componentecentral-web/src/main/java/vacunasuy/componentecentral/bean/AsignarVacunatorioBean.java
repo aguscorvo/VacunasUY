@@ -2,13 +2,11 @@ package vacunasuy.componentecentral.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -32,7 +30,7 @@ import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
 @Named("AsignarVacunatorioBean")
-@RequestScoped
+@SessionScoped
 @Getter
 @Setter
 @AllArgsConstructor
@@ -50,9 +48,7 @@ public class AsignarVacunatorioBean implements Serializable {
 	private String fecha;
 	List<VacunatorioDTO> vacunatorios;
 	List<UsuarioDTO> usuarios;
-	List<VacunatorioDTO> atiende;
-	List<PuestoMinDTO> selectPuestoOnVacunatorio;
-
+	String jsonVac;
 	String strbuscar;
 
 	@EJB
@@ -113,14 +109,12 @@ public class AsignarVacunatorioBean implements Serializable {
 	}
 
 	public void addAsignacion() {
-		logger.info("addAsignacion 'id': " + idUsuario);
+		logger.info("addAsignacion 'id': " + idUsuario + " - " + idPuesto + " - " + fecha);
 		try {
 			AtiendeCrearDTO atiendeCrearDTO = AtiendeCrearDTO.builder().idUsuario(idUsuario).idPuesto(idPuesto)
 					.fecha(fecha).build();
 
 			usuarioService.asignarVacunadorAPuesto(atiendeCrearDTO);
-
-			
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario asignado con éxito.", null));
@@ -156,65 +150,23 @@ public class AsignarVacunatorioBean implements Serializable {
 		return res;
 	}
 
-	public List<VacunatorioDTO> getAtiende() {
-		List<AtiendeDTO> auxatiende = new ArrayList<AtiendeDTO>();
-		List<VacunatorioDTO> ret = new ArrayList<VacunatorioDTO>();
+	public String getJsonVac() {
+		String ret = "{\"0\":{}";
 
-		if (idUsuario != null) {
-			try {
-				Map<Long, VacunatorioDTO> mapaux = new HashMap<Long, VacunatorioDTO>();
+		for (VacunatorioDTO vac : vacunatorios) {
+			ret += ",\"" + vac.getId() + "\":{\"id\": " + vac.getId() + ", \"nombre\":\""
+					+ vac.getDepartamento().getNombre() + " - " + vac.getNombre() + "\", \"puestos\": [{}";
 
-				auxatiende = usuarioService.listarAtiendeVacunador(idUsuario);
-
-				for (AtiendeDTO adto : auxatiende) {
-					VacunatorioDTO vac;
-					PuestoMinDTO pmdto = PuestoMinDTO.builder().agendas(adto.getPuesto().getAgendas())
-							.numero(adto.getPuesto().getNumero()).build();
-
-					Long vacid = adto.getPuesto().getVacunatorio().getId();
-					if (mapaux.containsKey(vacid)) {
-						vac = mapaux.get(vacid);
-					} else {
-						vac = VacunatorioDTO.builder().id(adto.getPuesto().getVacunatorio().getId())
-								.nombre(adto.getPuesto().getVacunatorio().getNombre())
-								.departamento(adto.getPuesto().getVacunatorio().getDepartamento())
-								.localidad(adto.getPuesto().getVacunatorio().getLocalidad())
-								.direccion(adto.getPuesto().getVacunatorio().getDireccion())
-								.puestos(new ArrayList<PuestoMinDTO>()).build();
-					}
-
-					vac.getPuestos().add(pmdto);
-
-					mapaux.put(vacid, vac);
-
-				}
-
-				ret = new ArrayList<VacunatorioDTO>(mapaux.values());
-			} catch (VacunasUyException e) {
-				logger.info(e.getMessage().trim());
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
+			for (PuestoMinDTO p : vac.getPuestos()) {
+				ret += ",{\"id\":" + p.getId() + ",\"numero\":" + p.getNumero() + "}";
 			}
+			ret += "]}";
+
 		}
 
+		ret += "}";
 		return ret;
-	}
 
-	public List<PuestoMinDTO> getSelectPuestoOnVacunatorio() {
-		List<PuestoMinDTO> puestos = new ArrayList<PuestoMinDTO>();
-		logger.info("Vacunatorio: " + idVacunatorio);
-		if (idVacunatorio != null) {
-			try {
-				VacunatorioDTO vac = vacunatorioService.listarPorId(idVacunatorio);
-				puestos = vac.getPuestos();
-			} catch (VacunasUyException e) {
-				logger.info(e.getMessage().trim());
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage().trim(), null));
-			}
-		}
-
-		return puestos;
 	}
 
 	private void clearParam() {

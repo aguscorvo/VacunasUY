@@ -6,14 +6,12 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import vacunasuy.componentecentral.converter.PuestoConverter;
-import vacunasuy.componentecentral.converter.VacunatorioConverter;
 import vacunasuy.componentecentral.dao.IAgendaDAO;
 import vacunasuy.componentecentral.dao.IPuestoDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
 import vacunasuy.componentecentral.dto.PuestoCrearDTO;
 import vacunasuy.componentecentral.dto.PuestoDTO;
 import vacunasuy.componentecentral.dto.PuestoMinDTO;
-import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.Puesto;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -23,16 +21,16 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class PuestoServiceImpl implements IPuestoService {
 	
 	@EJB
-	private IPuestoDAO puestoDAO;
+	public IPuestoDAO puestoDAO;
 	
 	@EJB
-	private IAgendaDAO agendaDAO;
+	public IAgendaDAO agendaDAO;
 	
 	@EJB
-	private PuestoConverter puestoConverter;
+	public PuestoConverter puestoConverter;
 	
 	@EJB
-	private IVacunatorioDAO vacunatorioDAO;
+	public IVacunatorioDAO vacunatorioDAO;
 	
 	@Override
 	public List<PuestoDTO> listar() throws VacunasUyException{

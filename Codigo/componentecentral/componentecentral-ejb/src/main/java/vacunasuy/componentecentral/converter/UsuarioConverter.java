@@ -31,7 +31,11 @@ public class UsuarioConverter extends AbstractConverter<Usuario, UsuarioDTO>{
 	
 	@Override
 	public UsuarioDTO fromEntity(Usuario e) {
+		System.out.println("PASE EL NULL USUARIOO ANDTES NULL");
 		if(e == null) return null;
+		
+		System.out.println("PASE EL NULL USUARIOO");
+		
 		if(e.getFechaNacimiento() == null) {
 			return UsuarioDTO.builder()
 					.id(e.getId())

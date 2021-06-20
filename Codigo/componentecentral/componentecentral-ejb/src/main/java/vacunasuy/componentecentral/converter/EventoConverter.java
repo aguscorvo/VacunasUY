@@ -31,11 +31,14 @@ public class EventoConverter extends AbstractConverter<Evento, EventoDTO>{
 	public EventoDTO fromEntity(Evento e) {
 		if(e == null) return null;
 		String estado = "Iniciado";
-		if(e.getEstado().equals(EstadoEvento.TRANSITO)) {
-			estado = "Transito";
-		}else if(e.getEstado().equals(EstadoEvento.RECIBIDO)) {
-			estado = "Recibido";
+		if(e.getEstado() != null) {
+			if(e.getEstado().equals(EstadoEvento.TRANSITO)) {
+				estado = "Transito";
+			}else if(e.getEstado().equals(EstadoEvento.RECIBIDO)) {
+				estado = "Recibido";
+			}
 		}
+		
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		return EventoDTO.builder()
 				.id(e.getId())

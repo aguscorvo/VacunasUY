@@ -36,6 +36,14 @@
 	height: 2rem !important;
 }
 
+.ui-datatable, ui-widget{
+	font-size: 0.9rem !important;
+}
+
+.ui-datatable .ui-datatable-data > tr > td {
+ padding: 0.5rem 0.5rem !important;
+}
+
 .ui-datatable tbody td {
 white-space: nowrap !important;
 }
@@ -45,3 +53,4 @@ white-space: nowrap !important;
 	height: 320px !important;
 	
 }
+

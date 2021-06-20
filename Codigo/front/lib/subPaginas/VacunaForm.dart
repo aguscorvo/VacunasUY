@@ -2,15 +2,14 @@ import 'package:vacunas_uy/objects/Vacuna.dart';
 import 'package:flutter/material.dart';
 
 class VacunaForm extends StatelessWidget {
-  final Vacuna vacuna;
-  final Color color;
-  final String tipoForm; //Si es Editar o si es Alta
+  final Vacuna? vacuna;
+  final Color? color;
+  final String? tipoForm; //Si es Editar o si es Alta
   const VacunaForm({
-    Key key,
     this.vacuna,
     this.color = Colors.blue,
     this.tipoForm = "",
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

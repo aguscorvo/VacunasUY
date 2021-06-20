@@ -4,15 +4,18 @@ import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
 
 class PlanVacCard extends StatelessWidget {
-  final PlanVacunacion planvacun;
-  final Row body;
-  final Color color;
+  final PlanVacunacion? planvacun;
+  final Row? body;
+  final Color? color;
+  final Color? cardStateColor;
+  final bool? habilitados;
   const PlanVacCard({
-    Key key,
     this.planvacun,
     this.body,
+    this.habilitados,
     this.color = Colors.blue,
-  }) : super(key: key);
+    this.cardStateColor = Colors.blue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +74,7 @@ class PlanVacCard extends StatelessWidget {
         const SizedBox(width: 8),
       ]);
     }
-    if (isUserCiudadano()) {
+    if (isUserCiudadano() && habilitados!) {
       buttons.addAll([
         TextButton(
           child: Row(children: [
@@ -84,7 +87,7 @@ class PlanVacCard extends StatelessWidget {
               builder: (BuildContext context) {
                 return PlanVacunacionForm(
                   planvacunacion: planvacun,
-                  usuario: storedUserCredentials.userData,
+                  usuario: storedUserCredentials!.userData,
                   color: color,
                   tipoForm: "Agendar",
                 );
@@ -101,39 +104,50 @@ class PlanVacCard extends StatelessWidget {
       ),
       elevation: 5,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-            height: 30,
-            decoration: BoxDecoration(
-              color: Colors.blueAccent,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8.0),
-                topRight: Radius.circular(8.0),
+          Expanded(
+            flex: 1875,
+            child: Container(
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                ),
               ),
+              child: Center(child: Text("Nombre: " + planvacun!.vacuna.nombre)),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.list_alt),
-            title: Text("Nombre: " + planvacun.vacuna.nombre),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Período: "),
-                Text("Del: " + formatDate(planvacun.fechaInicio) + " al " + formatDate(planvacun.fechaFin)),
-                //Text("Coordenadas: " + vacunatorio.latitud.toString() + ", " + vacunatorio.longitud.toString()),
+          Expanded(
+            flex: 8125,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.list_alt),
+                  title: Text("Período del: " + formatDate(planvacun!.fechaInicio) + " al " + formatDate(planvacun!.fechaFin)),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      //Text("Coordenadas: " + vacunatorio.latitud.toString() + ", " + vacunatorio.longitud.toString()),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: buttons.length > 1 ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: buttons,
+                  ),
+                )
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-            child: Row(
-              mainAxisAlignment: buttons.length > 1 ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: buttons,
-            ),
-          )
         ],
       ),
     );

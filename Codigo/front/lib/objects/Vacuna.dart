@@ -1,14 +1,14 @@
 import 'Enfermedad.dart';
 
 class Vacuna {
-  int id;
-  String nombre;
-  int cantDosis;
-  int periodo;
-  int inmunidad;
-  Enfermedad enfermedad;
+  int id = -1;
+  String nombre = "";
+  int cantDosis = -1;
+  int periodo = -1;
+  int inmunidad = -1;
+  Enfermedad enfermedad = Enfermedad();
 
-  Vacuna({this.id, this.nombre, this.cantDosis, this.enfermedad, this.inmunidad, this.periodo});
+  Vacuna();
 
   Vacuna.fromJson(Map<String, dynamic> json) {
     id = json['id'];

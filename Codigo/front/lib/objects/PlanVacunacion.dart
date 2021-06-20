@@ -4,15 +4,15 @@ import 'package:vacunas_uy/objects/Sector.dart';
 import 'package:vacunas_uy/objects/Vacuna.dart';
 
 class PlanVacunacion {
-  int id;
-  int edadMinima;
-  int edadMaxima;
-  DateTime fechaInicio;
-  DateTime fechaFin;
-  Vacuna vacuna;
-  List<Sector> sectores;
+  int id = -1;
+  int edadMinima = -1;
+  int edadMaxima = -1;
+  DateTime fechaInicio = DateTime.now();
+  DateTime fechaFin = DateTime.now();
+  Vacuna vacuna = Vacuna();
+  List<Sector> sectores = [];
 
-  PlanVacunacion({this.id});
+  PlanVacunacion();
 
   PlanVacunacion.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -32,13 +32,13 @@ class PlanVacunacion {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id ?? "",
-        'edadMinima': edadMinima ?? "",
-        'edadMaxima': edadMaxima ?? "",
-        'fechaInicio': fechaInicio.toString() ?? "",
-        'fechaFin': fechaFin.toString() ?? "",
-        'vacuna': vacuna != null ? jsonEncode(vacuna) : null,
-        'sectores': sectores.length > 0 ? jsonEncode(sectores) : null,
+        'id': id,
+        'edadMinima': edadMinima,
+        'edadMaxima': edadMaxima,
+        'fechaInicio': fechaInicio.toString(),
+        'fechaFin': fechaFin.toString(),
+        'vacuna': jsonEncode(vacuna),
+        'sectores': sectores.length > 0 ? jsonEncode(sectores) : [],
       };
 
   DateTime calculateDate(String date) {

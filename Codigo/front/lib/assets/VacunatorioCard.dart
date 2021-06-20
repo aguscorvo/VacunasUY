@@ -4,15 +4,14 @@ import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
 
 class VacunatorioCard extends StatelessWidget {
-  final Vacunatorio vacunatorio;
-  final Row body;
+  final Vacunatorio? vacunatorio;
+  final Row? body;
   final Color color;
   const VacunatorioCard({
-    Key key,
     this.vacunatorio,
     this.body,
     this.color = Colors.blue,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class VacunatorioCard extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return VacunatorioForm(
-                  vacunatorio: vacunatorio,
+                  vacunatorio: vacunatorio!,
                   color: color,
                   tipoForm: "Editar",
                 );
@@ -72,13 +71,13 @@ class VacunatorioCard extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.apartment_sharp),
-            title: Text("Nombre: " + vacunatorio.nombre),
+            title: Text("Nombre: " + vacunatorio!.nombre),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Direccion: " + vacunatorio.direccion),
-                Text("Localidad: " + vacunatorio.localidad.nombre),
-                Text("Departamento: " + vacunatorio.departamento.nombre),
+                Text("Direccion: " + vacunatorio!.direccion),
+                Text("Localidad: " + vacunatorio!.localidad.nombre),
+                Text("Departamento: " + vacunatorio!.departamento.nombre),
                 //Text("Coordenadas: " + vacunatorio.latitud.toString() + ", " + vacunatorio.longitud.toString()),
               ],
             ),

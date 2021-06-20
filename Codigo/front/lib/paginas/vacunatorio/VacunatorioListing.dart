@@ -8,11 +8,11 @@ import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
 
 class VacunatorioListing extends StatefulWidget {
-  final VacunatorioSelected vacunSelected;
-  const VacunatorioListing({Key key, this.vacunSelected}) : super(key: key);
+  final VacunatorioSelected? vacunSelected;
+  const VacunatorioListing({this.vacunSelected});
 
   @override
-  _VacunatorioListingState createState() => _VacunatorioListingState(vacunSelected);
+  _VacunatorioListingState createState() => _VacunatorioListingState(vacunSelected!);
 }
 
 class _VacunatorioListingState extends State<VacunatorioListing> {
@@ -26,8 +26,8 @@ class _VacunatorioListingState extends State<VacunatorioListing> {
   @override
   Widget build(BuildContext context) {
     var client = BackendConnection();
-    Departamento todosLosDepartamentos = new Departamento(id: -1, nombre: "Todos");
-    Localidad todasLasLocalidades = new Localidad(id: -1, nombre: "Todas");
+    Departamento todosLosDepartamentos = new Departamento.all(-1, "Todos", []);
+    Localidad todasLasLocalidades = new Localidad.all(-1, "Todas");
 
     if (_selectedDepartamento == "") {
       _selectedDepartamento = todosLosDepartamentos.nombre;
@@ -85,7 +85,7 @@ class _VacunatorioListingState extends State<VacunatorioListing> {
                       return CircularProgressIndicator();
                     } else {
                       List<Vacunatorio> vacunatorios = [];
-                      List<Vacunatorio> vacunatoriosTemp = snapshot.data;
+                      List<Vacunatorio> vacunatoriosTemp = snapshot.data as List<Vacunatorio>;
                       vacunatoriosTemp.forEach((Vacunatorio element) {
                         if ((element.departamento.nombre == _selectedDepartamento || _selectedDepartamento == "Todos") &&
                             (element.localidad.nombre == _selectedLocalidad || _selectedLocalidad == "Todas")) {
@@ -170,8 +170,8 @@ class _VacunatorioListingState extends State<VacunatorioListing> {
                 if (snapshot.data == null) {
                   return CircularProgressIndicator();
                 } else {
-                  List<Departamento> departamentos = snapshot.data;
-                  _depGuardados = snapshot.data;
+                  List<Departamento> departamentos = snapshot.data as List<Departamento>;
+                  _depGuardados = snapshot.data as List<Departamento>;
                   departamentos.add(todosLosDepartamentos);
 
                   DropdownButton toReturn = DropdownButton<String>(
@@ -181,9 +181,9 @@ class _VacunatorioListingState extends State<VacunatorioListing> {
                         child: Text(dep.nombre),
                       );
                     }).toList(),
-                    onChanged: (String dep) {
+                    onChanged: (String? dep) {
                       setState(() {
-                        this._selectedDepartamento = dep;
+                        this._selectedDepartamento = dep!;
                         this._selectedLocalidad = "Todas";
                       });
                     },
@@ -224,7 +224,7 @@ class _VacunatorioListingState extends State<VacunatorioListing> {
                 } else {
                   List<Localidad> localidades;
                   if (_selectedDepartamento == "Todos") {
-                    localidades = snapshot.data;
+                    localidades = snapshot.data as List<Localidad>;
                   } else {
                     localidades = [];
                     _depGuardados.forEach((dep) {
@@ -242,9 +242,9 @@ class _VacunatorioListingState extends State<VacunatorioListing> {
                         child: Text(loc.nombre),
                       );
                     }).toList(),
-                    onChanged: (String loc) {
+                    onChanged: (String? loc) {
                       setState(() {
-                        this._selectedLocalidad = loc;
+                        this._selectedLocalidad = loc!;
                       });
                     },
                     value: _selectedLocalidad,

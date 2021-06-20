@@ -5,16 +5,16 @@ import 'Departamento.dart';
 import 'Puesto.dart';
 
 class Vacunatorio {
-  int id;
-  String nombre;
-  double latitud;
-  double longitud;
-  String direccion;
-  Localidad localidad;
-  Departamento departamento;
-  List<Puesto> puestos;
+  int id = -1;
+  String nombre = "";
+  double latitud = 0.0;
+  double longitud = 0.0;
+  String direccion = "";
+  Localidad localidad = Localidad();
+  Departamento departamento = Departamento();
+  List<Puesto> puestos = [];
 
-  Vacunatorio({this.id, this.nombre, this.latitud, this.longitud, this.direccion, this.localidad, this.departamento, this.puestos});
+  Vacunatorio();
 
   Vacunatorio.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -31,13 +31,13 @@ class Vacunatorio {
     }
   }
   Map<String, dynamic> toJson() => {
-        'id': id ?? "",
-        'nombre': nombre ?? "",
-        'latitud': latitud ?? "",
-        'longitud': longitud ?? "",
-        'direccion': direccion ?? "",
-        'localidad': localidad != null ? jsonEncode(localidad) : null,
-        'departamento': departamento != null ? jsonEncode(departamento) : null,
-        'puestos': puestos.length > 0 ? jsonEncode(puestos) : null,
+        'id': id,
+        'nombre': nombre,
+        'latitud': latitud,
+        'longitud': longitud,
+        'direccion': direccion,
+        'localidad': jsonEncode(localidad),
+        'departamento': jsonEncode(departamento),
+        'puestos': puestos.length > 0 ? jsonEncode(puestos) : [],
       };
 }

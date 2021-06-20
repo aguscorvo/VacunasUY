@@ -1,17 +1,17 @@
 import 'Puesto.dart';
 
 class Atiende {
-  DateTime fecha;
-  Puesto puesto;
+  DateTime fecha = DateTime.now();
+  Puesto puesto = Puesto();
 
-  Atiende({this.fecha, this.puesto});
+  Atiende();
 
   Atiende.fromJson(Map<String, dynamic> json) {
     fecha = calculateDate(json['fecha']);
     if (json['puesto'] != null) {
       puesto = Puesto.fromJson(json['puesto']);
     } else {
-      puesto = null;
+      puesto = Puesto();
     }
   }
 

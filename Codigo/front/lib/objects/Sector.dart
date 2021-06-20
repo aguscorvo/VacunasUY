@@ -1,8 +1,12 @@
 class Sector {
-  int id;
-  String nombre;
+  int id = -1;
+  String nombre = "";
 
-  Sector({this.id, this.nombre});
+  Sector();
+  Sector.all(this.id, this.nombre) {
+    this.id = id;
+    this.nombre = nombre;
+  }
 
   Sector.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -10,7 +14,7 @@ class Sector {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id ?? "",
-        'nombre': nombre ?? "",
+        'id': id,
+        'nombre': nombre,
       };
 }

@@ -1,8 +1,8 @@
 class GubUY {
-  String code;
-  String state;
+  String code = "";
+  String state = "";
 
-  GubUY({this.code, this.state});
+  GubUY();
 
   GubUY.fromJson(Map<String, dynamic> json) {
     code = json['code'];
@@ -10,7 +10,7 @@ class GubUY {
   }
 
   Map<String, dynamic> toJson() => {
-        'code': code ?? "",
-        'state': state ?? "",
+        'code': code,
+        'state': state,
       };
 }

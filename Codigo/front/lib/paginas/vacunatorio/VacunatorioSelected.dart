@@ -1,32 +1,33 @@
-import 'dart:convert';
 import 'package:vacunas_uy/objects/Vacunatorio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import "package:latlong/latlong.dart" as LatLng;
 
 class VacunatorioSelected extends StatefulWidget {
-  final Vacunatorio vacun;
-  final String mode;
-  VacunatorioSelected({@required this.vacun, @required this.mode});
+  final Vacunatorio? vacun;
+  final String? mode;
+  VacunatorioSelected({this.vacun, this.mode});
 
-  static _VacunatorioSelectedState state;
+  static late _VacunatorioSelectedState state;
   @override
-  _VacunatorioSelectedState createState() => state = _VacunatorioSelectedState(vacun, mode);
+  _VacunatorioSelectedState createState() => state = _VacunatorioSelectedState(vacun!, mode!);
 }
 
 class _VacunatorioSelectedState extends State<VacunatorioSelected> {
   _VacunatorioSelectedState(this.vacun, this.mode);
 
-  Vacunatorio vacun;
-  String mode;
-  FlutterMap map;
+  Vacunatorio? vacun;
+  String? mode;
+  FlutterMap? map;
   MapController controller = MapController();
 
   void changeVacunatorio(Vacunatorio newVacun) {
     setState(() {
       vacun = newVacun;
       if (map != null) {
-        controller.move(LatLng.LatLng(vacun.latitud, vacun.longitud), map.options.zoom);
+        /*controller.move(
+          LatLng(vacun!.latitud, vacun!.longitud),
+          map!.options.zoom,
+        );*/
       }
     });
   }
@@ -36,7 +37,7 @@ class _VacunatorioSelectedState extends State<VacunatorioSelected> {
     String nombre = "Seleccione un Vacunatorio";
 
     if (this.vacun != null) {
-      nombre = this.vacun.nombre;
+      nombre = this.vacun!.nombre;
     }
 
     return Expanded(
@@ -68,8 +69,8 @@ class _VacunatorioSelectedState extends State<VacunatorioSelected> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(vacun.departamento.nombre),
-                            Text(vacun.localidad.nombre),
+                            Text(vacun!.departamento.nombre),
+                            Text(vacun!.localidad.nombre),
                           ],
                         ),
                         Row(
@@ -81,7 +82,7 @@ class _VacunatorioSelectedState extends State<VacunatorioSelected> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(vacun.direccion),
+                            Text(vacun!.direccion),
                           ],
                         ),
                         Row(
@@ -94,18 +95,18 @@ class _VacunatorioSelectedState extends State<VacunatorioSelected> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(vacun.latitud.toString()),
-                            Text(vacun.longitud.toString()),
+                            Text(vacun!.latitud.toString()),
+                            Text(vacun!.longitud.toString()),
                           ],
                         ),
-                        Container(
+                        /*Container(
                           width: 250,
                           height: 250,
                           padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                           child: map = new FlutterMap(
                             mapController: controller,
                             options: new MapOptions(
-                              center: new LatLng.LatLng(vacun.latitud, vacun.longitud),
+                              center: LatLng(vacun!.latitud, vacun!.longitud),
                               zoom: 13.0,
                             ),
                             layers: [
@@ -115,7 +116,7 @@ class _VacunatorioSelectedState extends State<VacunatorioSelected> {
                                   new Marker(
                                     width: 25.0,
                                     height: 25.0,
-                                    point: new LatLng.LatLng(vacun.latitud, vacun.longitud),
+                                    point: new LatLng.LatLng(vacun!.latitud, vacun!.longitud),
                                     builder: (ctx) => new Container(
                                       child: new FlutterLogo(),
                                     ),
@@ -124,7 +125,7 @@ class _VacunatorioSelectedState extends State<VacunatorioSelected> {
                               ),
                             ],
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   )

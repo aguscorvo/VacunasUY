@@ -1,11 +1,16 @@
 import 'Localidad.dart';
 
 class Departamento {
-  int id;
-  String nombre;
-  List<Localidad> localidades;
+  int id = -1;
+  String nombre = "";
+  List<Localidad> localidades = [];
 
-  Departamento({this.id, this.nombre, this.localidades});
+  Departamento();
+  Departamento.all(int id, String nombre, List<Localidad> localidades) {
+    this.id = id;
+    this.nombre = nombre;
+    this.localidades = localidades;
+  }
 
   Departamento.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -17,10 +22,10 @@ class Departamento {
   Departamento.fromJsonShort(Map<String, dynamic> json) {
     id = json['id'];
     nombre = json['nombre'];
-    localidades = null;
+    localidades = [];
   }
   Map<String, dynamic> toJson() => {
-        'id': id ?? "",
-        'nombre': nombre ?? "",
+        'id': id,
+        'nombre': nombre,
       };
 }

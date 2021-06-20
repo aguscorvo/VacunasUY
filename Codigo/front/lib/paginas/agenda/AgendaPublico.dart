@@ -10,7 +10,7 @@ class AgendaPublico extends StatefulWidget {
 
 class _AgendaPublicoState extends State<AgendaPublico> {
   BackendConnection client = BackendConnection();
-  Widget agendaToLoad;
+  late Widget agendaToLoad;
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +73,13 @@ class _AgendaPublicoState extends State<AgendaPublico> {
     DateTime date = new DateTime(now.year, now.month, now.day);
 
     return FutureBuilder(
-      future: client.getPlanesVacunacion(),
+      future: client.getPlanesVacunacionVigentes(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         } else {
           if (snapshot.data == null) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else {
             List<PlanVacunacion> agenda = [];
             List<PlanVacunacion> agendasTemp = snapshot.data;
@@ -100,8 +100,8 @@ class _AgendaPublicoState extends State<AgendaPublico> {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 4),
-                maxCrossAxisExtent: 600,
-                mainAxisExtent: 176,
+                maxCrossAxisExtent: 400,
+                mainAxisExtent: 160,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
@@ -128,13 +128,13 @@ class _AgendaPublicoState extends State<AgendaPublico> {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     return FutureBuilder(
-      future: client.getPlanesVacunacion(),
+      future: client.getPlanesVacunacionVigentes(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         } else {
           if (snapshot.data == null) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else {
             List<PlanVacunacion> agenda = [];
             List<PlanVacunacion> agendasTemp = snapshot.data;
@@ -155,8 +155,8 @@ class _AgendaPublicoState extends State<AgendaPublico> {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 4),
-                maxCrossAxisExtent: 600,
-                mainAxisExtent: 176,
+                maxCrossAxisExtent: 400,
+                mainAxisExtent: 160,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),

@@ -10,24 +10,30 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final Function(Widget) onElementSelected;
 
-  CustomAppBar({Key key, this.title, @required this.onElementSelected})
-      : preferredSize = Size.fromHeight(kToolbarHeight),
+  CustomAppBar({
+    required Key key,
+    required this.title,
+    required this.onElementSelected,
+  })   : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
-  static _CustomAppBarState appbarstate;
+  static _CustomAppBarState? appbarstate;
 
   @override
   final Size preferredSize; // default is 56.0
 
   @override
-  _CustomAppBarState createState() => appbarstate = _CustomAppBarState(onElementSelected);
+  _CustomAppBarState createState() {
+    appbarstate = _CustomAppBarState(onElementSelected);
+    return appbarstate!;
+  }
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
   final Function(Widget) onElementSelected;
   _CustomAppBarState(this.onElementSelected);
 
-  Text usernamewidget;
+  Text usernamewidget = Text("");
 
   void userNameChange(String username) {
     setState(() {
@@ -38,7 +44,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     if (storedUserCredentials != null) {
-      if (storedUserCredentials.token != '') {
+      if (storedUserCredentials!.token! != '') {
         return getLogedAppBar(context, widget);
       } else {
         return getNoLogedAppBar(context, widget);
@@ -104,7 +110,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(0.0),
-                  child: usernamewidget = Text(storedUserCredentials.userData.nombre + ' ' + storedUserCredentials.userData.apellido),
+                  child: usernamewidget = Text(storedUserCredentials!.userData!.nombre + ' ' + storedUserCredentials!.userData!.apellido),
                 ),
                 RawMaterialButton(
                   onPressed: () {

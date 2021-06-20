@@ -1,7 +1,7 @@
 class Evento {
-  int id;
+  int id = -1;
 
-  Evento({this.id});
+  Evento();
 
   Evento.fromJson(Map<String, dynamic> json) {
     id = json['id'];

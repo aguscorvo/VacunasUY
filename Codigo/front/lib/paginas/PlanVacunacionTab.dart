@@ -52,7 +52,7 @@ class _PlanVacunacionTabState extends State<PlanVacunacionTab> {
               padding: const EdgeInsets.fromLTRB(50.0, 0, 50.0, 50.0),
               alignment: Alignment.center,
               child: FutureBuilder(
-                future: client.getPlanesVacunacion(),
+                future: client.getPlanesVacunacionVigentes(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
                     return CircularProgressIndicator();
@@ -61,7 +61,7 @@ class _PlanVacunacionTabState extends State<PlanVacunacionTab> {
                       return CircularProgressIndicator();
                     } else {
                       List<PlanVacunacion> planvacunas = [];
-                      List<PlanVacunacion> planvacunasTemp = snapshot.data;
+                      List<PlanVacunacion> planvacunasTemp = snapshot.data as List<PlanVacunacion>;
                       planvacunasTemp.forEach((PlanVacunacion element) {
                         planvacunas.add(element);
                       });

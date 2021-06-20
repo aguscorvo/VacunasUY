@@ -61,7 +61,7 @@ class _VacunasTabState extends State<VacunasTab> {
                       return CircularProgressIndicator();
                     } else {
                       List<Vacuna> vacunas = [];
-                      List<Vacuna> vacunasTemp = snapshot.data;
+                      List<Vacuna> vacunasTemp = snapshot.data as List<Vacuna>;
                       vacunasTemp.forEach((Vacuna element) {
                         vacunas.add(element);
                       });

@@ -23,7 +23,7 @@ class AgendaTab extends StatefulWidget {
 }
 
 class _AgendaTabState extends State<AgendaTab> {
-  Widget agendaToLoad;
+  late Widget agendaToLoad;
 
   TabBar get _tabsVacunador => TabBar(
         tabs: [

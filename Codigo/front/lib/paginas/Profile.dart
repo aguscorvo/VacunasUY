@@ -26,9 +26,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   final format = DateFormat("yyyy-MM-dd");
 
-  DateTime fechaNacimiento = storedUserCredentials.userData.fechaNacimiento;
-  DateTime fechaNacimientoOld = storedUserCredentials.userData.fechaNacimiento;
-  DateTimeFormField datetimeform;
+  DateTime? fechaNacimiento;
+  DateTime? fechaNacimientoOld;
+  DateTimeFormField? datetimeform;
 
   @override
   void initState() {
@@ -37,230 +37,264 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    nombreController..text = storedUserCredentials.userData.nombre;
-    apellidoController..text = storedUserCredentials.userData.apellido;
-    correoController..text = storedUserCredentials.userData.correo;
-    documentoController..text = storedUserCredentials.userData.documento;
-
     return new Scaffold(
-        body: new Container(
-      color: Colors.white,
-      child: new ListView(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              new Container(
-                color: Color(0xffFFFFFF),
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 25.0),
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
-                          child: new Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.max,
+      body: Material(
+          elevation: 10,
+          child: Center(
+            child: new Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              color: Colors.white,
+              child: FutureBuilder(
+                future: client.getUsuarioToken(storedUserCredentials!.token!),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    if (snapshot.data == null) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      Usuario usu = snapshot.data as Usuario;
+                      storedUserCredentials!.userData = usu;
+                      saveUserCredentials();
+                      nombreController..text = usu.nombre;
+                      apellidoController..text = usu.apellido;
+                      correoController..text = usu.correo;
+                      documentoController..text = usu.documento;
+                      if (fechaNacimiento == null) {
+                        fechaNacimientoOld = usu.fechaNacimiento;
+                      }
+                      fechaNacimiento = usu.fechaNacimiento;
+                      return new ListView(
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              new Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  new Text(
-                                    'Informacion Personal',
-                                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              new Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  _status ? _getEditIcon() : new Container(),
-                                ],
-                              )
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  child: new Text(
-                                    'Nombre/s',
-                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                                  ),
+                              Container(
+                                padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: getBanners(),
                                 ),
-                                flex: 2,
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: new Text(
-                                    'Apellidos',
-                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                flex: 2,
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Flexible(
+                              new Container(
+                                color: Color(0xffFFFFFF),
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 10.0),
-                                  child: new TextField(
-                                    controller: nombreController,
-                                    decoration: const InputDecoration(hintText: "Nombres"),
-                                    enabled: !_status,
+                                  padding: EdgeInsets.only(bottom: 25.0),
+                                  child: new Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
+                                          child: new Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              new Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  new Text(
+                                                    'Informacion Personal',
+                                                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                              new Column(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  _status ? _getEditIcon() : new Container(),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
+                                          child: new Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              Expanded(
+                                                child: Container(
+                                                  child: new Text(
+                                                    'Nombre/s',
+                                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ),
+                                                flex: 2,
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  child: new Text(
+                                                    'Apellidos',
+                                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ),
+                                                flex: 2,
+                                              ),
+                                            ],
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
+                                          child: new Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              Flexible(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(right: 10.0),
+                                                  child: new TextField(
+                                                    controller: nombreController,
+                                                    decoration: const InputDecoration(hintText: "Nombres"),
+                                                    enabled: !_status,
+                                                  ),
+                                                ),
+                                                flex: 2,
+                                              ),
+                                              Flexible(
+                                                child: new TextField(
+                                                  controller: apellidoController,
+                                                  decoration: const InputDecoration(hintText: "Apellidos"),
+                                                  enabled: !_status,
+                                                ),
+                                                flex: 2,
+                                              ),
+                                            ],
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
+                                          child: new Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              new Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  new Text(
+                                                    'Correo',
+                                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
+                                          child: new Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              new Flexible(
+                                                child: new TextField(
+                                                  controller: correoController,
+                                                  decoration: const InputDecoration(hintText: "Correo"),
+                                                  enabled: !_status,
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
+                                          child: new Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              new Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  new Text(
+                                                    'Documento',
+                                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
+                                          child: new Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              new Flexible(
+                                                child: new TextField(
+                                                  controller: documentoController,
+                                                  decoration: const InputDecoration(hintText: "Documento"),
+                                                  enabled: !_status,
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
+                                          child: new Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              new Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  new Text(
+                                                    'Fecha de Nacimiento',
+                                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
+                                          child: new Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              new Flexible(
+                                                child: datetimeform = DateTimeFormField(
+                                                  mode: DateTimeFieldPickerMode.date,
+                                                  autovalidateMode: AutovalidateMode.always,
+                                                  decoration: const InputDecoration(hintText: "Fecha de Nacimiento"),
+                                                  enabled: !_status,
+                                                  initialValue: fechaNacimiento,
+                                                  onDateSelected: (value) => {fechaNacimiento = value},
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                      !_status ? _getActionButtons() : new Container(),
+                                    ],
                                   ),
                                 ),
-                                flex: 2,
                               ),
-                              Flexible(
-                                child: new TextField(
-                                  controller: apellidoController,
-                                  decoration: const InputDecoration(hintText: "Apellidos"),
-                                  enabled: !_status,
-                                ),
-                                flex: 2,
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  new Text(
-                                    'Correo',
-                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                  Container(
+                                    height: 50,
+                                    width: 250,
+                                    decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
+                                    child: TextButton(
+                                      onPressed: () async {
+                                        storedUserCredentials = logedOffUser;
+                                        await deleteUserCredentials();
+                                        await appReload();
+                                      },
+                                      child: Text(
+                                        'Cerrar Sesion',
+                                        style: TextStyle(color: Colors.white, fontSize: 25),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
                             ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Flexible(
-                                child: new TextField(
-                                  controller: correoController,
-                                  decoration: const InputDecoration(hintText: "Correo"),
-                                  enabled: !_status,
-                                ),
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  new Text(
-                                    'Documento',
-                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Flexible(
-                                child: new TextField(
-                                  controller: documentoController,
-                                  decoration: const InputDecoration(hintText: "Documento"),
-                                  enabled: !_status,
-                                ),
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  new Text(
-                                    'Fecha de Nacimietno',
-                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Flexible(
-                                child: datetimeform = DateTimeFormField(
-                                  mode: DateTimeFieldPickerMode.date,
-                                  autovalidateMode: AutovalidateMode.always,
-                                  decoration: const InputDecoration(hintText: "Fecha de Nacimiento"),
-                                  enabled: !_status,
-                                  initialValue: fechaNacimiento,
-                                  onDateSelected: (value) => {fechaNacimiento = value},
-                                ),
-                              ),
-                            ],
-                          )),
-                      !_status ? _getActionButtons() : new Container(),
-                    ],
-                  ),
-                ),
+                          ),
+                        ],
+                      );
+                    }
+                  }
+                },
               ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    width: 250,
-                    decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-                    child: TextButton(
-                      onPressed: () async {
-                        storedUserCredentials = logedOffUser;
-                        await deleteUserCredentials();
-                        await appReload();
-                      },
-                      child: Text(
-                        'Cerrar Sesion',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    ));
+            ),
+          )),
+    );
   }
 
   @override
@@ -289,17 +323,18 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   onPrimary: Colors.white, // foreground
                 ),
                 onPressed: () async {
-                  Usuario cambios = new Usuario(
-                    id: storedUserCredentials.userData.id,
-                    nombre: nombreController.text,
-                    apellido: apellidoController.text,
-                    correo: correoController.text,
-                    documento: documentoController.text,
-                    fechaNacimiento: fechaNacimiento,
-                    roles: storedUserCredentials.userData.roles,
+                  // ignore: await_only_futures
+                  Usuario cambios = new Usuario.partial(
+                    storedUserCredentials!.userData!.id,
+                    nombreController.text,
+                    apellidoController.text,
+                    correoController.text,
+                    documentoController.text,
+                    fechaNacimiento!,
+                    storedUserCredentials!.userData!.roles,
                   );
                   if (await client.actualizarDatosUsuario(cambios)) {
-                    CustomAppBar.appbarstate.userNameChange(cambios.nombre + " " + cambios.apellido);
+                    CustomAppBar.appbarstate!.userNameChange(cambios.nombre + " " + cambios.apellido);
                   }
                   setState(() {
                     _status = true;
@@ -321,7 +356,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   primary: Colors.red, // background
                   onPrimary: Colors.white, // foreground
                 ),
-                onPressed: () {
+                onPressed: () async {
                   datetimeform = DateTimeFormField(
                     mode: DateTimeFieldPickerMode.date,
                     autovalidateMode: AutovalidateMode.always,
@@ -330,10 +365,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     initialValue: fechaNacimientoOld,
                     onDateSelected: (value) => {fechaNacimiento = value},
                   );
-                  nombreController..text = storedUserCredentials.userData.nombre;
-                  apellidoController..text = storedUserCredentials.userData.apellido;
-                  correoController..text = storedUserCredentials.userData.correo;
-                  documentoController..text = storedUserCredentials.userData.documento;
+                  // ignore: await_only_futures
+                  nombreController..text = storedUserCredentials!.userData!.nombre;
+                  apellidoController..text = storedUserCredentials!.userData!.apellido;
+                  correoController..text = storedUserCredentials!.userData!.correo;
+                  documentoController..text = storedUserCredentials!.userData!.documento;
                   setState(() {
                     _status = true;
                     FocusScope.of(context).requestFocus(new FocusNode());
@@ -365,5 +401,60 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         });
       },
     );
+  }
+
+  List<Widget> getBanners() {
+    List<Widget> toReturn = [];
+
+    if (isUserAdmin()) {
+      toReturn.add(Container(
+        height: 30,
+        width: 150,
+        decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(15)),
+        child: Center(
+            child: Text(
+          'Administrador',
+          style: TextStyle(color: Colors.white, fontSize: 15),
+        )),
+      ));
+    }
+    if (isUserAutoridad()) {
+      toReturn.add(Container(
+        height: 30,
+        width: 150,
+        decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(15)),
+        child: Center(
+            child: Text(
+          'Autoridad',
+          style: TextStyle(color: Colors.white, fontSize: 15),
+        )),
+      ));
+    }
+    if (isUserVacunador()) {
+      toReturn.add(Container(
+        height: 30,
+        width: 150,
+        decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(15)),
+        child: Center(
+            child: Text(
+          'Vacunador',
+          style: TextStyle(color: Colors.white, fontSize: 15),
+        )),
+      ));
+    }
+    if (isUserCiudadano()) {
+      toReturn.add(Container(
+        height: 30,
+        width: 150,
+        decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(15)),
+        child: Center(
+            child: Text(
+          'Ciudadano',
+          style: TextStyle(color: Colors.white, fontSize: 15),
+        )),
+      ));
+    }
+
+    return toReturn;
   }
 }

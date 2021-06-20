@@ -7,17 +7,16 @@ import 'package:vacunas_uy/objects/Vacunatorio.dart';
 import 'package:vacunas_uy/tools/BackendConnection.dart';
 
 class PlanVacunacionForm extends StatelessWidget {
-  final PlanVacunacion planvacunacion;
-  final Usuario usuario;
-  final Color color;
-  final String tipoForm; //Si es Editar o si es Alta
+  final PlanVacunacion? planvacunacion;
+  final Usuario? usuario;
+  final Color? color;
+  final String? tipoForm; //Si es Editar o si es Alta
   const PlanVacunacionForm({
-    Key key,
     this.planvacunacion,
     this.usuario,
     this.color = Colors.blue,
     this.tipoForm = "",
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,11 @@ class PlanVacunacionForm extends StatelessWidget {
     } else if (tipoForm == "Informacion") {
       return informacion(context);
     } else {
-      return null;
+      return Container(
+        child: Center(
+          child: Text("Hubo un error"),
+        ),
+      );
     }
   }
 
@@ -83,7 +86,7 @@ class PlanVacunacionForm extends StatelessWidget {
     List<Widget> sectores = [];
     List<Widget> enfermedades = [];
 
-    planvacunacion.sectores.forEach((sector) {
+    planvacunacion!.sectores.forEach((sector) {
       sectores.add(
         Container(
           padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
@@ -94,18 +97,18 @@ class PlanVacunacionForm extends StatelessWidget {
     enfermedades.add(
       Container(
         padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-        child: Text(planvacunacion.vacuna.enfermedad.nombre),
+        child: Text(planvacunacion!.vacuna.enfermedad.nombre),
       ),
     );
 
     return AlertDialog(
-      title: Text("Informacion"),
+      title: Center(child: Text("Informacion")),
       content: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
           Positioned(
-            right: -60.0,
-            top: -100.0,
+            right: -15.0,
+            top: -60.0,
             child: InkResponse(
               onTap: () {
                 Navigator.of(context).pop();
@@ -119,212 +122,379 @@ class PlanVacunacionForm extends StatelessWidget {
           Positioned(
             right: 300.0,
             top: 10.0,
-            child: Text("Informacion"),
+            child: Center(child: Text("Informacion")),
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.5,
-            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width < 1900 ? MediaQuery.of(context).size.width * 0.7 : MediaQuery.of(context).size.width * 0.5,
+            height: MediaQuery.of(context).size.height < 900 ? MediaQuery.of(context).size.height * 0.7 : MediaQuery.of(context).size.height * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Colors.grey[350],
             ),
             padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  child: Text(planvacunacion.vacuna.nombre),
+                Expanded(
+                  flex: 5,
+                  child: Container(
+                    child: Text(planvacunacion!.vacuna.nombre),
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        child: Column(
+                Expanded(
+                  flex: 95,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("Edad Minima"),
-                            Text(planvacunacion.edadMinima.toString()),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        child: Column(
-                          children: [
-                            Text("Edad Maxima"),
-                            Text(planvacunacion.edadMaxima.toString()),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        child: Column(
-                          children: [
-                            Text("Fecha Inicio"),
-                            Text(formatDate(planvacunacion.fechaInicio)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        child: Column(
-                          children: [
-                            Text("Fecha Fin"),
-                            Text(formatDate(planvacunacion.fechaFin)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4275,
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                              child: Text("Sectores Cubiertos"),
-                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: sectores,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Material(
+                                  elevation: 10,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.2,
+                                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                          color: Colors.blueAccent,
+                                          child: Center(
+                                            child: Text(
+                                              "Edad Minima",
+                                              style: TextStyle(fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.2,
+                                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                          child: Center(
+                                            child: Text(planvacunacion!.edadMinima.toString()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Material(
+                                  elevation: 10,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.2,
+                                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                          color: Colors.blueAccent,
+                                          child: Center(
+                                            child: Text(
+                                              "Edad Maxima",
+                                              style: TextStyle(fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.2,
+                                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                          child: Center(
+                                            child: Text(planvacunacion!.edadMaxima.toString()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Material(
+                                  elevation: 10,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.2,
+                                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                          color: Colors.blueAccent,
+                                          child: Center(
+                                            child: Text(
+                                              "Fecha Inicio",
+                                              style: TextStyle(fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.2,
+                                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                          child: Center(
+                                            child: Text(formatDate(planvacunacion!.fechaInicio)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Material(
+                                  elevation: 10,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.2,
+                                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                          color: Colors.blueAccent,
+                                          child: Center(
+                                            child: Text(
+                                              "Fecha Fin",
+                                              style: TextStyle(fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.2,
+                                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                          child: Center(
+                                            child: Text(formatDate(planvacunacion!.fechaFin)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             )
                           ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4275,
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              child: Text("Vacuna"),
+                            Material(
+                              elevation: 10,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.45,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      color: Colors.blueAccent,
+                                      child: Center(
+                                        child: Text(
+                                          "Sectores Cubiertos",
+                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      //width: MediaQuery.of(context).size.width * 0.2,
+                                      height: 30,
+                                      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                      child: Center(
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          children: sectores,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        child: Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Nombre"),
-                            Text(planvacunacion.vacuna.nombre),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        child: Column(
-                          children: [
-                            Text("Cantidad de Dosis"),
-                            Text(planvacunacion.vacuna.cantDosis.toString()),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        child: Column(
-                          children: [
-                            Text("Periodo"),
-                            Text(planvacunacion.vacuna.periodo.toString()),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        child: Column(
-                          children: [
-                            Text("Inmunidad"),
-                            Text(planvacunacion.vacuna.inmunidad.toString()),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Material(
-                      elevation: 10,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4275,
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                              child: Text("Afeccion"),
+                            Material(
+                              elevation: 10,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                color: Colors.blueAccent,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        "Vacuna",
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: enfermedades,
-                            )
                           ],
                         ),
-                      ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Material(
+                              elevation: 10,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      color: Colors.blueAccent,
+                                      child: Center(
+                                        child: Text(
+                                          "Nombre",
+                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child: Center(
+                                        child: Text(planvacunacion!.vacuna.nombre),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Material(
+                              elevation: 10,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      color: Colors.blueAccent,
+                                      child: Center(
+                                        child: Text(
+                                          "Cantidad de Dosis",
+                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child: Center(
+                                        child: Text(planvacunacion!.vacuna.cantDosis.toString()),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Material(
+                              elevation: 10,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      color: Colors.blueAccent,
+                                      child: Center(
+                                        child: Text(
+                                          "Periodo",
+                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child: Center(
+                                        child: Text(planvacunacion!.vacuna.periodo.toString()),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Material(
+                              elevation: 10,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      color: Colors.blueAccent,
+                                      child: Center(
+                                        child: Text(
+                                          "Inmunidad",
+                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child: Center(
+                                        child: Text(planvacunacion!.vacuna.inmunidad.toString()),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Material(
+                              elevation: 10,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                      width: MediaQuery.of(context).size.width * 0.45,
+                                      color: Colors.blueAccent,
+                                      child: Center(
+                                          child: Text(
+                                        "Afeccion",
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      )),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: enfermedades,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
@@ -339,7 +509,7 @@ class PlanVacunacionForm extends StatelessWidget {
 
     List<InkWell> vacunatoriosInkWell = [];
 
-    Vacunatorio selectedVacunatorio;
+    Vacunatorio? selectedVacunatorio;
 
     return AlertDialog(
       title: Text("Agendarme"),
@@ -365,24 +535,24 @@ class PlanVacunacionForm extends StatelessWidget {
             child: Text("Agendarme"),
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.5,
-            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width > 1400 ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.7,
+            height: MediaQuery.of(context).size.height > 900 ? MediaQuery.of(context).size.height * 0.5 : MediaQuery.of(context).size.height * 0.7,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Colors.grey[350],
             ),
             padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
             child: FutureBuilder(
-              future: client.getVacunatoriosDadoPlan(planvacunacion.id),
+              future: client.getVacunatoriosDadoPlan(planvacunacion!.id),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 } else {
                   if (snapshot.data == null) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   } else {
                     List<Vacunatorio> vacunatorios = [];
-                    List<Vacunatorio> vacunatoriosTemp = snapshot.data;
+                    List<Vacunatorio> vacunatoriosTemp = snapshot.data as List<Vacunatorio>;
                     vacunatoriosTemp.forEach((Vacunatorio element) {
                       vacunatorios.add(element);
                     });
@@ -412,7 +582,7 @@ class PlanVacunacionForm extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          child: Text(planvacunacion.vacuna.nombre),
+                          child: Text(planvacunacion!.vacuna.nombre),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -420,8 +590,8 @@ class PlanVacunacionForm extends StatelessWidget {
                             Material(
                               elevation: 10,
                               child: Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
-                                height: MediaQuery.of(context).size.height * 0.4,
+                                width: MediaQuery.of(context).size.width > 1400 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.3,
+                                height: MediaQuery.of(context).size.height > 900 ? MediaQuery.of(context).size.height * 0.4 : MediaQuery.of(context).size.height * 0.6,
                                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 child: SingleChildScrollView(
                                   child: Column(
@@ -434,8 +604,8 @@ class PlanVacunacionForm extends StatelessWidget {
                               elevation: 10,
                               child: PuestosList(
                                 selectedVacunatorio: selectedVacunatorio,
-                                planvacunacion: planvacunacion,
-                                usuario: usuario,
+                                planvacunacion: planvacunacion!,
+                                usuario: usuario!,
                               ),
                             ),
                           ],
@@ -474,24 +644,28 @@ class PlanVacunacionForm extends StatelessWidget {
 }
 
 class PuestosList extends StatefulWidget {
-  final Vacunatorio selectedVacunatorio;
-  final PlanVacunacion planvacunacion;
-  final Usuario usuario;
-  const PuestosList({Key key, this.selectedVacunatorio, this.planvacunacion, this.usuario}) : super(key: key);
-  static _PuestosListState state;
+  final Vacunatorio? selectedVacunatorio;
+  final PlanVacunacion? planvacunacion;
+  final Usuario? usuario;
+  const PuestosList({
+    this.selectedVacunatorio,
+    this.planvacunacion,
+    this.usuario,
+  });
+  static late _PuestosListState state;
   @override
   _PuestosListState createState() => state = _PuestosListState(selectedVacunatorio, planvacunacion, usuario);
 }
 
 class _PuestosListState extends State<PuestosList> {
-  Vacunatorio selectedVacunatorio;
-  PlanVacunacion planvacunacion;
-  Usuario usuario;
+  late Vacunatorio? selectedVacunatorio;
+  late PlanVacunacion? planvacunacion;
+  late Usuario? usuario;
   BackendConnection client = BackendConnection();
 
-  Puesto selectedPuesto;
-  DateTimeFormField datetimeform;
-  DateTime fechaPreferencial;
+  late Puesto? selectedPuesto;
+  late DateTimeFormField datetimeform;
+  late DateTime fechaPreferencial;
 
   bool selectedDate = false;
 
@@ -499,7 +673,11 @@ class _PuestosListState extends State<PuestosList> {
 
   List<InkWell> puestosInkWell = [];
 
-  _PuestosListState(this.selectedVacunatorio, this.planvacunacion, this.usuario);
+  _PuestosListState(Vacunatorio? selectedVacunatorio, PlanVacunacion? planvacunacion, Usuario? usuario) {
+    this.selectedVacunatorio = selectedVacunatorio;
+    this.planvacunacion = planvacunacion;
+    this.usuario = usuario;
+  }
 
   void vacunatorioSelected(Vacunatorio vacunatorio) {
     setState(() {
@@ -532,7 +710,7 @@ class _PuestosListState extends State<PuestosList> {
   @override
   Widget build(BuildContext context) {
     if (selectedVacunatorio != null) {
-      selectedVacunatorio.puestos.forEach((puesto) {
+      selectedVacunatorio!.puestos.forEach((puesto) {
         puestosInkWell.add(
           InkWell(
             child: ListTile(
@@ -555,15 +733,15 @@ class _PuestosListState extends State<PuestosList> {
     }
 
     return Container(
-      width: MediaQuery.of(context).size.width * 0.2,
-      height: MediaQuery.of(context).size.height * 0.4,
+      width: MediaQuery.of(context).size.width > 1400 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.3,
+      height: MediaQuery.of(context).size.height > 900 ? MediaQuery.of(context).size.height * 0.4 : MediaQuery.of(context).size.height * 0.6,
       child: Column(
         children: [
           Material(
             elevation: 10,
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.2,
-              height: MediaQuery.of(context).size.height * 0.325,
+              width: MediaQuery.of(context).size.width > 1400 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.3,
+              height: MediaQuery.of(context).size.height > 900 ? MediaQuery.of(context).size.height * 0.325 : MediaQuery.of(context).size.height * 0.4875,
               child: SingleChildScrollView(
                 child: Column(
                   children: puestosInkWell,
@@ -574,8 +752,8 @@ class _PuestosListState extends State<PuestosList> {
           Material(
             elevation: 10,
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.2,
-              height: MediaQuery.of(context).size.height * 0.075,
+              width: MediaQuery.of(context).size.width > 1400 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.3,
+              height: MediaQuery.of(context).size.height > 900 ? MediaQuery.of(context).size.height * 0.075 : MediaQuery.of(context).size.height * 0.1125,
               child: Padding(
                   padding: EdgeInsets.only(left: 25.0, right: 10.0, top: 2.0),
                   child: new Row(
@@ -585,9 +763,22 @@ class _PuestosListState extends State<PuestosList> {
                         child: datetimeform = DateTimeFormField(
                           mode: DateTimeFieldPickerMode.date,
                           autovalidateMode: AutovalidateMode.always,
-                          //validator: (date),
+                          validator: (DateTime? dateTime) {
+                            if (dateTime == null) {
+                              return "Fecha Requerida";
+                            } else if (dateTime.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1))) {
+                              return "No puede agendarse para antes del dia de mañana";
+                            } else if (dateTime.isAfter(planvacunacion!.fechaFin)) {
+                              return "No puede agendarse para despues del cierre del plan";
+                            }
+                            return null;
+                          },
                           decoration: const InputDecoration(hintText: "Fecha Preferencial"),
-                          onDateSelected: (value) => {fechaPreferencial = value, selectedDate = true, dateSelected()},
+                          onDateSelected: (value) => {
+                            fechaPreferencial = value,
+                            selectedDate = true,
+                            dateSelected(),
+                          },
                         ),
                       ),
                       Container(
@@ -611,10 +802,10 @@ class _PuestosListState extends State<PuestosList> {
     );
   }
 
-  Function agendar() {
+  void Function()? agendar() {
     if (enableButton) {
       return () {
-        client.agendarUsuario(fechaPreferencial, selectedPuesto.id, usuario.id, planvacunacion.id);
+        client.agendarUsuario(fechaPreferencial, selectedPuesto!.id, usuario!.id, planvacunacion!.id);
         Navigator.of(context).pop();
       };
     } else {

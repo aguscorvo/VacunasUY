@@ -1,15 +1,14 @@
-import 'package:vacunas_uy/objects/Agenda.dart';
 import 'package:flutter/material.dart';
+import 'package:vacunas_uy/objects/Atiende.dart';
 import 'package:vacunas_uy/objects/Usuario.dart';
-import 'package:vacunas_uy/subPaginas/AgendaForm.dart';
 
-class AgendaCard extends StatelessWidget {
-  final Agenda? agenda;
+class AtiendeCard extends StatelessWidget {
+  final Atiende? atiende;
   final Usuario? usuario;
   final Row? body;
   final Color? color;
-  const AgendaCard({
-    this.agenda,
+  AtiendeCard({
+    this.atiende,
     this.usuario,
     this.body,
     this.color = Colors.blue,
@@ -17,37 +16,16 @@ class AgendaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> buttons = [];
+    //List<Widget> buttons = [];
 
     MaterialAccentColor mac;
-    if (agenda!.fecha.isAfter(DateTime.now())) {
+    if (atiende!.fecha.isAfter(DateTime.now())) {
       mac = Colors.blueAccent;
     } else {
       mac = Colors.greenAccent;
-      /*buttons.add(
-        TextButton(
-          child: Row(children: [
-            Icon(Icons.list),
-            Text('Certificado'),
-          ]),
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AgendaForm(
-                  agenda: agenda!,
-                  usuario: usuario!,
-                  color: color!,
-                  tipoForm: "Certificado",
-                );
-              },
-            );
-          },
-        ),
-      );*/
     }
 
-    buttons.add(
+    /*buttons.add(
       TextButton(
         child: Row(children: [
           Icon(Icons.info),
@@ -58,8 +36,8 @@ class AgendaCard extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return AgendaForm(
-                agenda: agenda!,
-                color: color!,
+                agenda: atiende,
+                color: color,
                 tipoForm: "Informacion",
               );
             },
@@ -78,63 +56,68 @@ class AgendaCard extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return AgendaForm(
-                agenda: agenda!,
-                usuario: usuario!,
-                color: color!,
+                agenda: agenda,
+                usuario: usuario,
+                color: color,
                 tipoForm: "Eliminar",
               );
             },
           );
         },
       ),
-    );
+    );*/
 
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
       elevation: 5,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Row(
+        //mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
-            height: 30,
+            height: 130,
+            width: 30,
             decoration: BoxDecoration(
               color: mac,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(8.0),
-                topRight: Radius.circular(8.0),
+                bottomLeft: Radius.circular(8.0),
+                //topRight: Radius.circular(8.0),
               ),
             ),
-            child: Center(child: Text("Vacuna: " + agenda!.planVacunacion.vacuna.nombre)),
+            child: Icon(Icons.list_alt),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ListTile(
-                leading: Icon(Icons.list_alt),
-                title: Text("Fecha y Hora: " + formatDate(agenda!.fecha) + " - " + formatTime(agenda!.fecha)),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("Vacunatorio: " + agenda!.puesto.vacunatorio.nombre),
-                    Text("   Departamento: " + agenda!.puesto.vacunatorio.departamento.nombre),
-                    Text("   Direccion: " + agenda!.puesto.vacunatorio.direccion),
-                    Text("Puesto: " + agenda!.puesto.numero.toString()),
-                  ],
-                ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(10.0, 5, 5.0, 5.0),
+            height: 130,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Fecha y Hora: " + formatDate(atiende!.fecha)),
+                Text("Vacunatorio: " + atiende!.puesto.vacunatorio.nombre),
+                Text("   Departamento: " + atiende!.puesto.vacunatorio.departamento.nombre),
+                Text("   Direccion: " + atiende!.puesto.vacunatorio.direccion),
+                Text("Puesto: " + atiende!.puesto.numero.toString()),
+              ],
+            ),
+          ),
+          /*ListTile(
+              leading: Icon(Icons.list_alt),
+              title: Center(child: Text("Fecha y Hora: " + formatDate(atiende.fecha))),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Vacunatorio: " + atiende.puesto.vacunatorio.nombre),
+                  Text("   Departamento: " + atiende.puesto.vacunatorio.departamento.nombre),
+                  Text("   Direccion: " + atiende.puesto.vacunatorio.direccion),
+                  Text("Puesto: " + atiende.puesto.numero.toString()),
+                ],
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: Row(
-                  mainAxisAlignment: buttons.length > 1 ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: buttons,
-                ),
-              )
-            ],
-          )
+            ),
+          ),*/
         ],
       ),
     );

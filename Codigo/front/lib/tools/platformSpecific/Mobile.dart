@@ -11,15 +11,17 @@ Future<bool> autoLogIn() async {
 
 Future<bool> cookiesLoad() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String savedPreferencesString = prefs.getString("vacunasUY");
+  final String savedPreferencesString = prefs.getString("vacunasUY")!;
   if (savedPreferencesString.toString() == "null" || savedPreferencesString == '') {
     storedUserCredentials = emptyUser;
   } else {
     Map savedPreferences = jsonDecode(savedPreferencesString);
-    storedUserCredentials = UserCredentials.fromJson(savedPreferences);
-    if (storedUserCredentials.userData == null) {
+    storedUserCredentials = UserCredentials.fromJson(savedPreferences as Map<String, dynamic>);
+    if (storedUserCredentials!.userData == null) {
       storedUserCredentials = emptyUser;
-    } else if (storedUserCredentials.userData.correo == '') {
+    } else if (storedUserCredentials!.userData!.correo == '') {
+      storedUserCredentials = emptyUser;
+    } else if (isSesionExpired()) {
       storedUserCredentials = emptyUser;
     }
   }
@@ -31,7 +33,7 @@ Future<bool> checkToken() async {
   var valid;
 
   if (storedUserCredentials != null) {
-    if (storedUserCredentials.token != null && storedUserCredentials.token != "") {
+    if (storedUserCredentials!.token != null && storedUserCredentials!.token != "") {
       valid = await client.getUsuarios();
       if (valid.length == 0) {
         valid = false;
@@ -75,3 +77,7 @@ Future<bool> appReload() async {
 void urlReplace(String url) {
   // TODO: Reload Mobile
 }
+
+void shareTweeter(String text) {}
+
+void shareFacebook(String text) {}

@@ -1,8 +1,8 @@
 class Pais {
-  int id;
-  String nombre;
+  int id = -1;
+  String nombre = "";
 
-  Pais({this.id, this.nombre});
+  Pais();
 
   Pais.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -43,6 +43,7 @@ class _LoginState extends State<Login> {
                             onPressed: () async {
                               String url = baseUrl + '/autenticaciongubuy';
                               urlReplace(url);
+                              //openLogin(url);
                             },
                             child: Text(
                               'Iniciar Sesion',

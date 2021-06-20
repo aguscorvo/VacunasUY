@@ -13,7 +13,7 @@ class AgendaCiudadano extends StatefulWidget {
 
 class _AgendaCiudadanoState extends State<AgendaCiudadano> {
   BackendConnection client = BackendConnection();
-  Widget agendaToLoad;
+  late Widget agendaToLoad;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
             child: Column(
               children: [
                 Expanded(
+                  flex: 6,
                   child: Material(
                     elevation: 20,
                     child: Container(
@@ -35,13 +36,13 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
                         children: [
                           Center(
                             child: Text(
-                              "Angedas Abiertas",
+                              "Agendas Habilitadas para mi",
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
                           Container(
                             child: Expanded(
-                              child: agendasAbiertas(),
+                              child: agendasHabilitadasParaMi(),
                             ),
                           ),
                         ],
@@ -50,6 +51,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
                   ),
                 ),
                 Expanded(
+                  flex: 4,
                   child: Material(
                     elevation: 20,
                     child: Container(
@@ -59,13 +61,13 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
                         children: [
                           Center(
                             child: Text(
-                              "Agendas a Abrir",
+                              "Todas las Agendas",
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
                           Container(
                             child: Expanded(
-                              child: agendasAAbrir(),
+                              child: todasLasAgendas(),
                             ),
                           ),
                         ],
@@ -79,25 +81,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
           Expanded(
             child: Material(
               elevation: 20,
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    Center(
-                      child: Text(
-                        "Mis Agendas",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                    Container(
-                      child: Expanded(
-                        child: misAgendas(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              child: MisAgendasCiudadano(),
             ),
           ),
         ]),
@@ -105,35 +89,43 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
     );
   }
 
-  FutureBuilder agendasAbiertas() {
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
+  FutureBuilder agendasHabilitadasParaMi() {
+    //DateTime now = new DateTime.now();
+    //DateTime date = new DateTime(now.year, now.month, now.day);
 
     return FutureBuilder(
-      future: client.getPlanesVacunacion(),
+      future: client.getPlanesVacunacionVigentes(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         } else {
           if (snapshot.data == null) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else {
             List<PlanVacunacion> agenda = [];
             List<PlanVacunacion> agendasTemp = snapshot.data;
-            agendasTemp.forEach((PlanVacunacion element) {
-              if (element.fechaInicio.isBefore(date)) {
-                agenda.add(element);
-              }
+            agendasTemp.forEach((PlanVacunacion plan) {
+              plan.sectores.forEach((sector) {
+                if (sector.id == storedUserCredentials!.userData!.sectorLaboral.id && edadEntreRangos(plan)) {
+                  agenda.add(plan);
+                }
+              });
+              //if (element.fechaInicio.isBefore(date)) {}
             });
 
             if (agenda.length == 0) {
-              return Text("No se encuentran agendas abiertas, reintente!");
+              return Center(
+                child: Text(
+                  "No se han encontrado agendas para las cuales este habilitado.",
+                  style: TextStyle(fontSize: 18),
+                ),
+              );
             }
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 4),
-                maxCrossAxisExtent: 600,
-                mainAxisExtent: 176,
+                maxCrossAxisExtent: 400,
+                mainAxisExtent: 160,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
@@ -145,6 +137,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
                   child: new Container(
                     child: new PlanVacCard(
                       planvacun: agenda[index],
+                      habilitados: true,
                     ),
                   ),
                 );
@@ -156,34 +149,39 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
     );
   }
 
-  FutureBuilder agendasAAbrir() {
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
+  FutureBuilder todasLasAgendas() {
+    //DateTime now = new DateTime.now();
+    //DateTime date = new DateTime(now.year, now.month, now.day);
     return FutureBuilder(
-      future: client.getPlanesVacunacion(),
+      future: client.getPlanesVacunacionVigentes(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         } else {
           if (snapshot.data == null) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else {
             List<PlanVacunacion> agenda = [];
             List<PlanVacunacion> agendasTemp = snapshot.data;
             agendasTemp.forEach((PlanVacunacion element) {
-              if (element.fechaInicio.isAfter(date)) {
+              if (true) {
                 agenda.add(element);
               }
             });
 
             if (agenda.length == 0) {
-              return Text("No se encuentran agendas abiertas, reintente!");
+              return Center(
+                child: Text(
+                  "No se han encontrado agendas, intente nuevamente mas tarde.",
+                  style: TextStyle(fontSize: 18),
+                ),
+              );
             }
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 4),
-                maxCrossAxisExtent: 600,
-                mainAxisExtent: 176,
+                maxCrossAxisExtent: 400,
+                mainAxisExtent: 160,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
@@ -195,6 +193,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
                   child: new Container(
                     child: new PlanVacCard(
                       planvacun: agenda[index],
+                      habilitados: false,
                     ),
                   ),
                 );
@@ -203,18 +202,84 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
           }
         }
       },
+    );
+  }
+
+  bool edadEntreRangos(PlanVacunacion plan) {
+    bool toReturn = false;
+
+    DateTime date = storedUserCredentials!.userData!.fechaNacimiento;
+    int days = date.difference(DateTime.now()).inDays;
+    int years = (days ~/ 365.2422) * (-1); // el simbolo ~ hace que redonde a int
+
+    if (plan.edadMaxima >= years && plan.edadMinima <= years) {
+      toReturn = true;
+    }
+
+    return toReturn;
+  }
+}
+
+class MisAgendasCiudadano extends StatefulWidget {
+  static late _MisAgendasCiudadanoState state;
+  @override
+  _MisAgendasCiudadanoState createState() => state = _MisAgendasCiudadanoState();
+}
+
+class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
+  BackendConnection client = BackendConnection();
+  bool listAll = false;
+
+  void cambiarListarTodo() {
+    setState(() {
+      listAll = !listAll;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+      alignment: Alignment.center,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              //Text("                                          "),
+              Text(
+                "Mis Agendas",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              /*TextButton(
+                child: Text(listAll
+                    ? "Listar Solo Nuevas Agendas"
+                    : "Listar Todas Mis Agendas"),
+                onPressed: () {
+                  cambiarListarTodo();
+                },
+              ),*/
+            ],
+          ),
+          Container(
+            child: Expanded(
+              child: misAgendas(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   FutureBuilder misAgendas() {
     return FutureBuilder(
-      future: client.getAgendasCiudadano(storedUserCredentials.userData.id),
+      future: /*listAll ? client.getAgendasCiudadanoTodas(storedUserCredentials.userData.id) : */ client.getAgendasCiudadanoNuevas(storedUserCredentials!.userData!.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         } else {
           if (snapshot.data == null) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else {
             List<Agenda> agenda = [];
             List<Agenda> agendasTemp = snapshot.data;
@@ -226,7 +291,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
               return Center(
                 child: Text(
                   "No se encuentra agendado en ningun plan!",
-                  style: TextStyle(fontSize: 25),
+                  style: TextStyle(fontSize: 18),
                 ),
               );
             }
@@ -234,7 +299,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 4),
                 maxCrossAxisExtent: 600,
-                mainAxisExtent: 176,
+                mainAxisExtent: 180,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
@@ -246,7 +311,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
                   child: new Container(
                     child: new AgendaCard(
                       agenda: agenda[index],
-                      usuario: storedUserCredentials.userData,
+                      usuario: storedUserCredentials!.userData,
                     ),
                   ),
                 );

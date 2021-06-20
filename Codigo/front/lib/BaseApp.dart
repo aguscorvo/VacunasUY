@@ -5,8 +5,8 @@ import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
 
 class BaseApp extends StatefulWidget {
-  final String title;
-  BaseApp({Key key, this.title}) : super(key: key);
+  final String? title;
+  BaseApp({this.title});
 
   @override
   _BaseAppState createState() => _BaseAppState();
@@ -27,7 +27,7 @@ class _BaseAppState extends State<BaseApp> {
           );
         } else {
           return LandingPageLayoutBuilder(
-            title: widget.title,
+            title: widget.title!,
           );
         }
       },
@@ -36,18 +36,18 @@ class _BaseAppState extends State<BaseApp> {
 }
 
 class LandingPageLayoutBuilder extends StatelessWidget {
-  final String title;
-  const LandingPageLayoutBuilder({Key key, this.title}) : super(key: key);
+  final String? title;
+  const LandingPageLayoutBuilder({this.title});
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       if (constraints.maxWidth >= 900.0) {
         return DesktopLandingPage(
-          title: this.title,
+          title: this.title!,
         );
       } else {
         return MobileLandingPage(
-          title: this.title,
+          title: this.title!,
         );
       }
     });

@@ -4,12 +4,12 @@ import 'Vacunatorio.dart';
 import 'Agenda.dart';
 
 class Puesto {
-  int id;
-  int numero;
-  Vacunatorio vacunatorio;
-  List<Agenda> agendas;
+  int id = -1;
+  int numero = -1;
+  Vacunatorio vacunatorio = Vacunatorio();
+  List<Agenda> agendas = [];
 
-  Puesto({this.id, this.numero, this.vacunatorio, this.agendas});
+  Puesto();
 
   Puesto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -18,7 +18,7 @@ class Puesto {
     if (json['vacunatorio'] != null) {
       vacunatorio = Vacunatorio.fromJson(json['vacunatorio']);
     } else {
-      vacunatorio = null;
+      vacunatorio = Vacunatorio();
     }
 
     agendas = [];
@@ -28,9 +28,9 @@ class Puesto {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id ?? "",
-        'numero': numero ?? "",
-        'vacunatorio': vacunatorio != null ? jsonEncode(vacunatorio) : null,
+        'id': id,
+        'numero': numero,
+        'vacunatorio': jsonEncode(vacunatorio),
         'agendas': agendas.length > 0 ? jsonEncode(agendas) : null,
       };
 }

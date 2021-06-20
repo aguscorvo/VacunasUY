@@ -1,6 +1,7 @@
 import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vacunas_uy/AppConfig.dart';
 import 'package:vacunas_uy/tools/BackendConnection.dart';
 import 'package:vacunas_uy/tools/UserCredentials.dart';
@@ -17,15 +18,17 @@ Future<bool> autoLogIn() async {
 Future<bool> cookiesLoad() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.getString("vacunasUY") != null) {
-    final String savedPreferencesString = prefs.getString("vacunasUY");
+    final String savedPreferencesString = prefs.getString("vacunasUY")!;
     if (savedPreferencesString.toString() == "null" || savedPreferencesString == '') {
       storedUserCredentials = emptyUser;
     } else {
       Map savedPreferences = jsonDecode(savedPreferencesString);
-      storedUserCredentials = UserCredentials.fromJson(savedPreferences);
-      if (storedUserCredentials.userData == null) {
+      storedUserCredentials = UserCredentials.fromJson(savedPreferences as Map<String, dynamic>);
+      if (storedUserCredentials!.userData == null) {
         storedUserCredentials = emptyUser;
-      } else if (storedUserCredentials.userData.correo == '') {
+      } else if (storedUserCredentials!.userData!.correo == '') {
+        storedUserCredentials = emptyUser;
+      } else if (isSesionExpired()) {
         storedUserCredentials = emptyUser;
       }
     }
@@ -61,16 +64,34 @@ Future<bool> specialURL() async {
 
     BackendConnection bc = new BackendConnection();
     await bc.exitoLoginGubUY(gubAuth);
+    appReload();
   }
   return Future<bool>.sync(() => true);
 }
 
 Future<bool> checkToken() async {
   var client = BackendConnection();
-  var valid = await client.getUsuarios();
-  if (valid.length == 0) {
+  var valid;
+
+  if (storedUserCredentials != null) {
+    if (storedUserCredentials!.token != null && storedUserCredentials!.token != "") {
+      valid = await client.getUsuarios();
+      if (valid.length == 0) {
+        valid = false;
+      } else {
+        valid = true;
+      }
+    } else {
+      valid = true;
+    }
+  } else {
+    valid = true;
+  }
+
+  if (!valid) {
     storedUserCredentials = emptyUser;
   }
+
   return Future<bool>.sync(() => true);
 }
 
@@ -79,6 +100,7 @@ Future<bool> saveUserCredentials() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var usercredentials = jsonEncode(storedUserCredentials);
     prefs.setString("vacunasUY", usercredentials);
+
     if (!AppConfig.flutterBackOffice) {
       final Storage sesionStorage = window.localStorage;
       sesionStorage['USERLOGIN'] = usercredentials;
@@ -113,4 +135,14 @@ Future<bool> appReload() async {
 
 void urlReplace(String url) {
   window.location.replace(url);
+}
+
+void shareTweeter(String text) {
+  String url = "https://twitter.com/intent/tweet?text=" + text.replaceAll(" ", "+");
+  launch(url);
+}
+
+void shareFacebook(String text) {
+  String url = "http://www.facebook.com/sharer.php?s=100&p[title]=Me+Vacune&p[url]=https://vacunasuy.web.elasticloud.uy&p[summary]=" + text.replaceAll(" ", "+");
+  launch(url);
 }

@@ -2,15 +2,14 @@ import 'package:vacunas_uy/objects/Vacunatorio.dart';
 import 'package:flutter/material.dart';
 
 class VacunatorioForm extends StatelessWidget {
-  final Vacunatorio vacunatorio;
+  final Vacunatorio? vacunatorio;
   final Color color;
   final String tipoForm; //Si es Editar o si es Alta
   const VacunatorioForm({
-    Key key,
     this.vacunatorio,
     this.color = Colors.blue,
     this.tipoForm = "",
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

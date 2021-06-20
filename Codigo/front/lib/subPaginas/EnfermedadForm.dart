@@ -2,15 +2,14 @@ import 'package:vacunas_uy/objects/Enfermedad.dart';
 import 'package:flutter/material.dart';
 
 class EnfermedadForm extends StatelessWidget {
-  final Enfermedad enfermedad;
-  final Color color;
-  final String tipoForm; //Si es Editar o si es Alta
+  final Enfermedad? enfermedad;
+  final Color? color;
+  final String? tipoForm; //Si es Editar o si es Alta
   const EnfermedadForm({
-    Key key,
     this.enfermedad,
     this.color = Colors.blue,
     this.tipoForm = "",
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

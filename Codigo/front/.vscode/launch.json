@@ -12,11 +12,19 @@
             "deviceId": "emulator-5554"
         },
         {
-            "name": "Vacunas UY Web",
+            "name": "Vacunas UY Web Edge",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
             "deviceId": "web-server",
+            
+        },
+        {
+            "name": "Vacunas UY Web",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "deviceId": "chrome",
             
         }
     ]

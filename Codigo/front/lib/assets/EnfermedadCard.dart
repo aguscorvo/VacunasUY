@@ -4,15 +4,14 @@ import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
 
 class EnfermedadCard extends StatelessWidget {
-  final Enfermedad enfermedad;
-  final Row body;
-  final Color color;
+  final Enfermedad? enfermedad;
+  final Row? body;
+  final Color? color;
   const EnfermedadCard({
-    Key key,
     this.enfermedad,
     this.body,
     this.color = Colors.blue,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +71,7 @@ class EnfermedadCard extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.list_alt),
-            title: Text("Nombre: " + enfermedad.nombre),
+            title: Text("Nombre: " + enfermedad!.nombre),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

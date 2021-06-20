@@ -4,6 +4,8 @@ import 'package:vacunas_uy/paginas/ErrorTab.dart';
 import 'package:vacunas_uy/paginas/PlanVacunacionTab.dart';
 import 'package:vacunas_uy/paginas/ProveedoresTab.dart';
 import 'package:vacunas_uy/paginas/VacunasTab.dart';
+import 'package:vacunas_uy/paginas/chat/ChatTab.dart';
+import 'package:vacunas_uy/paginas/misVacunas/MisVacunasTab.dart';
 import 'package:vacunas_uy/paginas/monitorVacunacion/MonitorVacunacionTab.dart';
 import 'package:vacunas_uy/paginas/vacunatorio/VacunatorioTab.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +30,11 @@ class CustomNavBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final Function(Widget) onElementSelected;
 
-  CustomNavBar({Key key, this.title, @required this.onElementSelected})
-      : preferredSize = Size.fromHeight(kToolbarHeight),
+  CustomNavBar({
+    required Key key,
+    required this.title,
+    required this.onElementSelected,
+  })   : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
   @override
@@ -41,19 +46,49 @@ class CustomNavBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _CustomNavBarState extends State<CustomNavBar> {
   final Function(Widget) onElementSelected;
-  int _selectedIndex = 0;
-  List<BottomNavigationBarItem> nabBarItems;
+  int _selectedIndex = -1;
+  List<BottomNavigationBarItem> nabBarItems = [];
 
   _CustomNavBarState(this.onElementSelected);
 
   String getIndexLabel(int index) {
     BottomNavigationBarItem item = nabBarItems[index];
-    return item.label;
+    return item.label!;
+  }
+
+  int getLabelIndex(String label) {
+    int toReturn = -1;
+
+    int i = 0;
+    nabBarItems.forEach((item) {
+      if (item.label == label) {
+        toReturn = i;
+      }
+      i++;
+    });
+
+    return toReturn;
   }
 
   @override
   Widget build(BuildContext context) {
     nabBarItems = [];
+
+    if (isUserAdmin()) {
+      nabBarItems.add(BottomNavigationBarItem(
+        icon: Icon(Icons.coronavirus),
+        label: 'Enfermedades',
+        backgroundColor: colorCustom,
+      ));
+    }
+
+    if (isUserLogedOn()) {
+      nabBarItems.add(BottomNavigationBarItem(
+        icon: Icon(TablerIcons.vaccine),
+        label: 'Mis Vacunas',
+        backgroundColor: colorCustom,
+      ));
+    }
 
     nabBarItems.add(BottomNavigationBarItem(
       icon: Icon(Icons.info),
@@ -61,30 +96,26 @@ class _CustomNavBarState extends State<CustomNavBar> {
       backgroundColor: colorCustom,
     ));
 
-    nabBarItems.add(BottomNavigationBarItem(
-      icon: Icon(Icons.apartment_sharp),
-      label: 'Vacunatorios',
-      backgroundColor: colorCustom,
-    ));
-
-    nabBarItems.add(BottomNavigationBarItem(
-      icon: Icon(TablerIcons.vaccine),
-      label: 'Vacunas',
-      backgroundColor: colorCustom,
-    ));
-
-    if (isUserVacunador()) {
+    if (isUserAdmin()) {
       nabBarItems.add(BottomNavigationBarItem(
-        icon: Icon(Icons.list_alt),
-        label: 'Planes de Vacunacion',
+        icon: Icon(Icons.apartment_sharp),
+        label: 'Vacunatorios',
         backgroundColor: colorCustom,
       ));
     }
 
-    if (isUserVacunador()) {
+    if (isUserAdmin()) {
       nabBarItems.add(BottomNavigationBarItem(
-        icon: Icon(Icons.coronavirus),
-        label: 'Enfermedades',
+        icon: Icon(TablerIcons.vaccine),
+        label: 'Vacunas',
+        backgroundColor: colorCustom,
+      ));
+    }
+
+    if (isUserAdmin()) {
+      nabBarItems.add(BottomNavigationBarItem(
+        icon: Icon(Icons.list_alt),
+        label: 'Planes de Vacunacion',
         backgroundColor: colorCustom,
       ));
     }
@@ -97,16 +128,33 @@ class _CustomNavBarState extends State<CustomNavBar> {
       ));
     }
 
-    nabBarItems.add(BottomNavigationBarItem(
-      icon: Icon(Icons.menu_book),
-      label: 'Agendas',
-      backgroundColor: colorCustom,
-    ));
+    if (!(isUserAdmin() || isUserAutoridad())) {
+      nabBarItems.add(BottomNavigationBarItem(
+        icon: Icon(Icons.menu_book),
+        label: 'Agendas',
+        backgroundColor: colorCustom,
+      ));
+    }
+
+    if (isUserVacunador()) {
+      nabBarItems.add(BottomNavigationBarItem(
+        icon: Icon(Icons.chat),
+        label: 'Chat',
+        backgroundColor: colorCustom,
+      ));
+    }
+
+    if (_selectedIndex == -1) {
+      _selectedIndex = getLabelIndex("Monitor Vacunacion");
+    }
 
     return BottomNavigationBar(
       items: nabBarItems,
       currentIndex: _selectedIndex,
       selectedItemColor: Colors.amber[800],
+      unselectedItemColor: Colors.white,
+      backgroundColor: colorCustom,
+      type: BottomNavigationBarType.fixed,
       onTap: _onItemTapped,
       showUnselectedLabels: true,
       selectedFontSize: 16,
@@ -141,6 +189,10 @@ class _CustomNavBarState extends State<CustomNavBar> {
       return new AgendaTab();
     } else if (label == 'Enfermedades') {
       return new EnfermedadesTab();
+    } else if (label == 'Mis Vacunas') {
+      return new MisVacunasTab();
+    } else if (label == 'Chat') {
+      return new ChatTab();
     } else {
       return new ErrorTab();
     }

@@ -55,19 +55,19 @@ class _EnfermedadesTabState extends State<EnfermedadesTab> {
                 future: client.getEnfermedades(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   } else {
                     if (snapshot.data == null) {
-                      return CircularProgressIndicator();
+                      return Center(child: CircularProgressIndicator());
                     } else {
                       List<Enfermedad> enfermedades = [];
-                      List<Enfermedad> enfermedadesTemp = snapshot.data;
+                      List<Enfermedad> enfermedadesTemp = snapshot.data as List<Enfermedad>;
                       enfermedadesTemp.forEach((Enfermedad element) {
                         enfermedades.add(element);
                       });
 
                       if (enfermedades.length == 0) {
-                        return Text("No se encuentran planes de vacunacion, reintente!");
+                        return Text("No se encuentran Enfermedades, reintente!");
                       }
 
                       return GridView.builder(
@@ -82,7 +82,7 @@ class _EnfermedadesTabState extends State<EnfermedadesTab> {
                         itemBuilder: (context, index) {
                           return new InkWell(
                             hoverColor: Colors.transparent,
-                            onTap: () => Navigator.of(context).pushNamed('', arguments: ''),
+                            //onTap: () => Navigator.of(context).pushNamed('', arguments: ''),
                             child: new Container(
                               child: new EnfermedadCard(
                                 enfermedad: enfermedades[index],

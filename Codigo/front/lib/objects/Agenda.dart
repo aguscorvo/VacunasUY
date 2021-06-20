@@ -1,15 +1,14 @@
 import 'dart:convert';
-
 import 'PlanVacunacion.dart';
 import 'Puesto.dart';
 
 class Agenda {
-  int id;
-  DateTime fecha;
-  Puesto puesto;
-  PlanVacunacion planVacunacion;
+  int id = -1;
+  DateTime fecha = DateTime.now();
+  Puesto puesto = Puesto();
+  PlanVacunacion planVacunacion = PlanVacunacion();
 
-  Agenda({this.id, this.fecha, this.planVacunacion, this.puesto});
+  Agenda();
 
   Agenda.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -17,20 +16,20 @@ class Agenda {
     if (json['puesto'] != null) {
       puesto = Puesto.fromJson(json['puesto']);
     } else {
-      puesto = null;
+      puesto = Puesto();
     }
     if (json['planVacunacion'] != null) {
       planVacunacion = PlanVacunacion.fromJson(json['planVacunacion']);
     } else {
-      planVacunacion = null;
+      planVacunacion = PlanVacunacion();
     }
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id ?? "",
-        'fecha': fecha.toString() ?? "",
-        'puesto': puesto != null ? jsonEncode(puesto) : null,
-        'planVacunacion': planVacunacion != null ? jsonEncode(planVacunacion) : null,
+        'id': id,
+        'fecha': fecha.toString(),
+        'puesto': jsonEncode(puesto),
+        'planVacunacion': jsonEncode(planVacunacion),
       };
 
   DateTime calculateDate(String date) {

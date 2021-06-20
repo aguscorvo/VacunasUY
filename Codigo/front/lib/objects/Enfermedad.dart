@@ -1,8 +1,8 @@
 class Enfermedad {
-  int id;
-  String nombre;
+  int id = -1;
+  String nombre = "";
 
-  Enfermedad({this.id, this.nombre});
+  Enfermedad();
 
   Enfermedad.fromJson(Map<String, dynamic> json) {
     id = json['id'];

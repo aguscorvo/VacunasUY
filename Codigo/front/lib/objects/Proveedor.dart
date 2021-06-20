@@ -1,11 +1,11 @@
 import 'Pais.dart';
 
 class Proveedor {
-  int id;
-  String nombre;
-  Pais pais;
+  int id = -1;
+  String nombre = "";
+  Pais pais = Pais();
 
-  Proveedor({this.id, this.nombre, this.pais});
+  Proveedor();
 
   Proveedor.fromJson(Map<String, dynamic> json) {
     id = json['id'];

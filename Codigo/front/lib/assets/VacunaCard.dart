@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 class VacunaCard extends StatelessWidget {
-  final Vacuna vacuna;
-  final Row body;
-  final Color color;
+  final Vacuna? vacuna;
+  final Row? body;
+  final Color? color;
   const VacunaCard({
-    Key key,
     this.vacuna,
     this.body,
     this.color = Colors.blue,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +30,8 @@ class VacunaCard extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return VacunaForm(
-                  vacuna: vacuna,
-                  color: color,
+                  vacuna: vacuna!,
+                  color: color!,
                   tipoForm: "Editar",
                 );
               },
@@ -73,14 +72,14 @@ class VacunaCard extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(TablerIcons.vaccine),
-            title: Text("Nombre: " + vacuna.nombre),
+            title: Text("Nombre: " + vacuna!.nombre),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Enfermedad: " + vacuna.enfermedad.nombre),
-                Text("Cantidad Dosis: " + vacuna.cantDosis.toString()),
-                Text("Inmunidad: " + vacuna.inmunidad.toString()),
-                Text("Periodo: " + vacuna.periodo.toString()),
+                Text("Enfermedad: " + vacuna!.enfermedad.nombre),
+                Text("Cantidad Dosis: " + vacuna!.cantDosis.toString()),
+                Text("Inmunidad: " + vacuna!.inmunidad.toString()),
+                Text("Periodo: " + vacuna!.periodo.toString()),
               ],
             ),
           ),

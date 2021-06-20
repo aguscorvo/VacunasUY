@@ -7,6 +7,9 @@ import 'package:vacunas_uy/objects/Atiende.dart';
 import 'package:vacunas_uy/objects/Enfermedad.dart';
 import 'package:vacunas_uy/objects/GubUY.dart';
 import 'package:vacunas_uy/objects/Localidad.dart';
+import 'package:vacunas_uy/objects/Monitor/MonitorEnfermedad.dart';
+import 'package:vacunas_uy/objects/Monitor/MonitorPlan.dart';
+import 'package:vacunas_uy/objects/Monitor/MonitorVacuna.dart';
 import 'package:vacunas_uy/objects/PlanVacunacion.dart';
 import 'package:vacunas_uy/objects/Proveedor.dart';
 import 'package:vacunas_uy/objects/Puesto.dart';
@@ -14,13 +17,14 @@ import 'package:vacunas_uy/objects/Usuario.dart';
 import 'package:vacunas_uy/objects/Vacuna.dart';
 import 'package:vacunas_uy/objects/Vacunatorio.dart';
 import 'package:vacunas_uy/objects/Departamento.dart';
+import 'package:vacunas_uy/objects/ActoVacunal.dart';
 import 'package:vacunas_uy/tools/PlatformSpecific.dart';
 import 'package:http/http.dart' as http;
 import 'package:vacunas_uy/tools/UserCredentials.dart';
 
 const String baseUrl = AppConfig.componenteCentalURL;
 
-var authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials.token}", "Content-Type": "application/json"};
+var authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials!.token}", "Content-Type": "application/json"};
 
 class BackendConnection {
   static final BackendConnection _singleton = BackendConnection._internal();
@@ -32,12 +36,20 @@ class BackendConnection {
   BackendConnection._internal();
 
   static setAuthHeader() {
-    authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials.token}", "Content-Type": "application/json"};
+    authHeader = {HttpHeaders.authorizationHeader: "Bearer ${storedUserCredentials!.token}", "Content-Type": "application/json"};
   }
 
-  Future<bool> login({String correo, String password}) async {
+  bool theSameDay(DateTime date1, DateTime date2) {
+    if (date1.year == date2.year && date1.month == date2.month && date1.day == date2.day) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> login({required String correo, required String password}) async {
     var response = await http.post(
-      '$baseUrl/usuarios/loginbackoffice',
+      Uri.parse('$baseUrl/usuarios/loginbackoffice'),
       body: jsonEncode(<String, String>{
         "correo": correo,
         "password": password,
@@ -51,20 +63,24 @@ class BackendConnection {
       Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
       if (json["mensaje"] == "Inicio de sesión correcto.") {
         storedUserCredentials = emptyUser;
-        storedUserCredentials.token = json["cuerpo"]["token"];
-        storedUserCredentials.userData = Usuario.fromJson(json["cuerpo"] ?? "");
+        storedUserCredentials!.token = json["cuerpo"]["token"];
+        storedUserCredentials!.persistirLogin = false;
+        storedUserCredentials!.loginDateTime = DateTime.now();
+        storedUserCredentials!.userData = Usuario.fromJson(json["cuerpo"] ?? "");
         saveUserCredentials();
         setAuthHeader();
         return true;
       } else {
         return false;
       }
+    } else {
+      return false;
     }
   }
 
-  Future<bool> recoverPassword({String email}) async {
+  Future<bool> recoverPassword({required String email}) async {
     var response = await http.post(
-      '$baseUrl/usuarios/recuperarContra/$email',
+      Uri.parse('$baseUrl/usuarios/recuperarContra/$email'),
       headers: {"Content-Type": "application/json"},
     );
     return response.statusCode == 200;
@@ -73,7 +89,7 @@ class BackendConnection {
   //USUARIOS
   Future<List<Usuario>> getUsuarios() async {
     var response = await http.get(
-      '$baseUrl/usuarios',
+      Uri.parse('$baseUrl/usuarios'),
       headers: authHeader,
     );
 
@@ -92,8 +108,23 @@ class BackendConnection {
     return [];
   }
 
+  Future<Usuario> getUsuarioToken(String token) async {
+    var response = await http.get(Uri.parse('$baseUrl/usuarios/token/$token'));
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+      if (jsonResponse.length > 0) {
+        Usuario usuario;
+        usuario = Usuario.fromJson(jsonResponse);
+        return usuario;
+      }
+    }
+
+    return Usuario();
+  }
+
   Future<bool> actualizarDatosUsuario(Usuario u) async {
-    if (u == null) {
+    if (u.id == -1) {
       return false;
     } else {
       var editBody = jsonEncode(<String, dynamic>{
@@ -104,19 +135,19 @@ class BackendConnection {
         "fechaNacimiento": u.fechaNacimiento.toString().split(" ")[0],
         "password": "",
         "roles": u.rolesLongArray(),
-        "sectorLaboral": u.sectorLaboral != null ? u.sectorLaboral.id : 6,
+        "sectorLaboral": u.sectorLaboral.id,
       });
 
       var response = await http.put(
-        '$baseUrl/usuarios/editar/${u.id}',
+        Uri.parse('$baseUrl/usuarios/editar/${u.id}'),
         headers: authHeader,
         body: editBody,
       );
 
       if (response.statusCode == 200) {
         Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
-        if (json["mensaje"] == "Usuario editado con éxito." && storedUserCredentials.userData.id == u.id) {
-          storedUserCredentials.userData = Usuario.fromJson(json["cuerpo"] ?? "");
+        if (json["mensaje"] == "Usuario editado con éxito." && storedUserCredentials!.userData!.id == u.id) {
+          storedUserCredentials!.userData = Usuario.fromJson(json["cuerpo"] ?? "");
 
           saveUserCredentials();
           setAuthHeader();
@@ -129,7 +160,7 @@ class BackendConnection {
   //VACUNATORIOS
   Future<List<Vacunatorio>> getVacunatorios() async {
     var response = await http.get(
-      '$baseUrl/vacunatorios',
+      Uri.parse('$baseUrl/vacunatorios'),
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -146,7 +177,7 @@ class BackendConnection {
 
   Future<List<Vacunatorio>> getVacunatoriosDadoPlan(int id) async {
     var response = await http.get(
-      '$baseUrl/vacunatorios/listarVacunatoriosDadoPlan/$id',
+      Uri.parse('$baseUrl/vacunatorios/listarVacunatoriosDadoPlan/$id'),
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -161,9 +192,9 @@ class BackendConnection {
     }
   }
 
-  Future<List<Puesto>> getPuestosDeVacunatorio({int idVacunatorio}) async {
+  Future<List<Puesto>> getPuestosDeVacunatorio({required int idVacunatorio}) async {
     var response = await http.get(
-      '$baseUrl/vacunatorios/$idVacunatorio',
+      Uri.parse('$baseUrl/vacunatorios/$idVacunatorio'),
       headers: authHeader,
     );
     if (response.statusCode == 200) {
@@ -180,7 +211,7 @@ class BackendConnection {
 
   //DEPARTAMENTOS
   Future<List<Departamento>> getDepartamentos() async {
-    var response = await http.get('$baseUrl/departamentos');
+    var response = await http.get(Uri.parse('$baseUrl/departamentos'));
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
 
@@ -196,7 +227,7 @@ class BackendConnection {
   //LOCALIDADES
   Future<List<Localidad>> getLocalidades() async {
     var response = await http.get(
-      '$baseUrl/localidades',
+      Uri.parse('$baseUrl/localidades'),
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -213,7 +244,7 @@ class BackendConnection {
   //ENFERMEDADES
   Future<List<Enfermedad>> getEnfermedades() async {
     var response = await http.get(
-      '$baseUrl/enfermedades',
+      Uri.parse('$baseUrl/enfermedades'),
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -230,7 +261,7 @@ class BackendConnection {
   //PROVEEDIORES
   Future<List<Proveedor>> getProveedores() async {
     var response = await http.get(
-      '$baseUrl/proveedores',
+      Uri.parse('$baseUrl/proveedores'),
       headers: authHeader,
     );
     if (response.statusCode == 200) {
@@ -248,7 +279,7 @@ class BackendConnection {
   //VACUNAS
   Future<List<Vacuna>> getVacunas() async {
     var response = await http.get(
-      '$baseUrl/vacunas',
+      Uri.parse('$baseUrl/vacunas'),
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -262,11 +293,46 @@ class BackendConnection {
     return [];
   }
 
-  //PLANES DE VACUNACION
-  Future<List<PlanVacunacion>> getPlanesVacunacion() async {
+  Future<List<ActoVacunal>> getActosVacunalesPorEnfermedadLogged(int idEnf) async {
+    return getActosVacunalesUsuarioPorEnfermedad(storedUserCredentials!.userData!.id, idEnf);
+  }
+
+  Future<List<ActoVacunal>> getActosVacunalesUsuarioPorEnfermedad(int idUsu, int idEnf) async {
     var response = await http.get(
-      '$baseUrl/planesVacunacion',
+      Uri.parse('$baseUrl/actosVacunales/listarActosVacunalesPorUsuarioEnfermedad/$idUsu/$idEnf'),
     );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+
+      List<ActoVacunal> contentList = [];
+      for (var i = 0; i < jsonResponse.length; i++) {
+        contentList.add(ActoVacunal.fromJson(jsonResponse[i]));
+      }
+      return contentList;
+    }
+    return [];
+  }
+
+  //PLANES DE VACUNACION
+  Future<List<PlanVacunacion>> getPlanesVacunacions() async {
+    var response = await http.get(
+      Uri.parse('$baseUrl/planesVacunacion'),
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+
+      List<PlanVacunacion> contentList = [];
+      for (var i = 0; i < jsonResponse.length; i++) {
+        contentList.add(PlanVacunacion.fromJson(jsonResponse[i]));
+      }
+      return contentList;
+    }
+    return [];
+  }
+
+  Future<List<PlanVacunacion>> getPlanesVacunacionVigentes() async {
+    var response = await http.get(Uri.parse('$baseUrl/planesVacunacion/listarVigentes'));
+
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
 
@@ -282,7 +348,7 @@ class BackendConnection {
   //AGENDAS
   Future<List<Agenda>> getAgendas() async {
     var response = await http.get(
-      '$baseUrl/agendas',
+      Uri.parse('$baseUrl/agendas'),
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -296,29 +362,47 @@ class BackendConnection {
     return [];
   }
 
-  Future<List<Agenda>> getAgendasCiudadano(int id) async {
+  Future<List<Agenda>> getAgendasCiudadanoTodas(int id) async {
+    return getAgendasCiudadano(id, true);
+  }
+
+  Future<List<Agenda>> getAgendasCiudadanoNuevas(int id) async {
+    return getAgendasCiudadano(id, false);
+  }
+
+  Future<List<Agenda>> getAgendasCiudadano(int id, bool todas) async {
     var response = await http.get(
-      '$baseUrl/usuarios/listarAgendasCiudadano/$id',
+      Uri.parse('$baseUrl/usuarios/listarAgendasCiudadano/$id'),
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
 
       List<Agenda> contentList = [];
       for (var i = 0; i < jsonResponse.length; i++) {
-        contentList.add(Agenda.fromJson(jsonResponse[i]));
+        Agenda a = Agenda.fromJson(jsonResponse[i]);
+        if (todas) {
+          contentList.add(a);
+        } else {
+          if (a.fecha.isAfter(DateTime.now()) || theSameDay(a.fecha, DateTime.now())) {
+            contentList.add(a);
+          }
+        }
       }
       return contentList;
     }
     return [];
+  }
+
+  Future<List<Atiende>> getAgendasVacunadorLogged() async {
+    return getAgendasVacunador(storedUserCredentials!.userData!.id);
   }
 
   Future<List<Atiende>> getAgendasVacunador(int id) async {
     var response = await http.get(
-      '$baseUrl/usuarios/listarAtiendeVacunador/$id',
+      Uri.parse('$baseUrl/usuarios/listarAtiendeVacunador/$id'),
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
-
       List<Atiende> contentList = [];
       for (var i = 0; i < jsonResponse.length; i++) {
         contentList.add(Atiende.fromJson(jsonResponse[i]));
@@ -337,35 +421,81 @@ class BackendConnection {
     });
 
     var response = await http.post(
-      '$baseUrl/agendas',
+      Uri.parse('$baseUrl/agendas'),
       headers: authHeader,
       body: editBody,
     );
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
+      //Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
     }
 
     return response.statusCode == 200;
   }
 
   Future<bool> borrarAgenda(int usuarioId, int agendaId) async {
-    var response = await http.delete(
-      '$baseUrl/agendas/cancelarAgenda/$usuarioId/$agendaId',
+    var response = await http.put(
+      Uri.parse('$baseUrl/agendas/cancelarAgenda/$usuarioId/$agendaId'),
       headers: authHeader,
     );
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
+      //Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
     }
 
     return response.statusCode == 200;
   }
 
+  //MONITOR
+  Future<MonitorEnfermedad> getMonitorEnfermedad(int id) async {
+    var response = await http.get(
+      Uri.parse('$baseUrl/monitor/enfermedad/$id'),
+    );
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+      return MonitorEnfermedad.fromJson(jsonResponse);
+    } else {
+      return MonitorEnfermedad();
+    }
+  }
+
+  Future<MonitorVacuna> getMonitorVacuna(int id) async {
+    var response = await http.get(
+      Uri.parse('$baseUrl/monitor/vacuna/$id'),
+    );
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+      print(jsonResponse);
+      return MonitorVacuna.fromJson(jsonResponse);
+    } else {
+      return MonitorVacuna();
+    }
+  }
+
+  Future<MonitorPlan> getMonitorPlan(int id) async {
+    var response = await http.get(
+      Uri.parse('$baseUrl/monitor/plan/$id'),
+    );
+
+    if (response.statusCode == 200) {
+      try {
+        var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+        return MonitorPlan.fromJson(jsonResponse);
+      } catch (err) {
+        print(err);
+        return MonitorPlan();
+      }
+    } else {
+      return MonitorPlan();
+    }
+  }
+
   //OTROS
   Future<int> getPoblacionTotal() async {
     var response = await http.post(
-      'https://monitor.uruguaysevacuna.gub.uy/plugin/cda/api/doQuery?',
+      Uri.parse('https://monitor.uruguaysevacuna.gub.uy/plugin/cda/api/doQuery?'),
       body:
           "path=%2Fpublic%2FEpidemiologia%2FVacunas+Covid%2FPaneles%2FVacunas+Covid%2FVacunasCovid.cda&dataAccessId=sql_indicadores_Poblacion_total_objetivo&outputIndexId=1&pageSize=0&pageStart=0&sortBy=&paramsearchBox=",
       headers: {
@@ -387,19 +517,24 @@ class BackendConnection {
   }
 
   Future<bool> exitoLoginGubUY(GubUY gubAuth) async {
-    String url = '$baseUrl/autenticaciongubuy/procesarTokens?code=' + gubAuth.code + '&state=' + gubAuth.state;
-    var response = await http.get(url);
+    try {
+      String url = '$baseUrl/autenticaciongubuy/procesarTokens?code=' + gubAuth.code + '&state=' + gubAuth.state;
+      var response = await http.get(Uri.parse(url));
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
-      if (json["mensaje"] == "Usuario logueado con éxito.") {
-        storedUserCredentials = emptyUser;
-        storedUserCredentials.token = json["cuerpo"]["token"];
-        storedUserCredentials.userData = Usuario.fromJson(json["cuerpo"] ?? "");
+      if (response.statusCode == 200) {
+        Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
+        if (json["mensaje"] == "Usuario logueado con éxito.") {
+          storedUserCredentials = emptyUser;
+          storedUserCredentials!.token = json["cuerpo"]["token"];
+          getUsuarioToken(storedUserCredentials!.token!);
+          storedUserCredentials!.persistirLogin = false;
+          storedUserCredentials!.loginDateTime = DateTime.now();
+          storedUserCredentials!.userData = Usuario.fromJson(json["cuerpo"] ?? "");
+        }
+        saveUserCredentials();
+        setAuthHeader();
       }
-      saveUserCredentials();
-      setAuthHeader();
-    }
+    } catch (err) {}
     return Future<bool>.sync(() => true);
   }
 }

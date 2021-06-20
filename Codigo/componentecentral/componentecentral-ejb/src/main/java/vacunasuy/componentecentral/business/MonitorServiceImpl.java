@@ -14,20 +14,19 @@ import vacunasuy.componentecentral.dto.MonitorPlanDTO;
 import vacunasuy.componentecentral.dto.MonitorVacunaDTO;
 import vacunasuy.componentecentral.dto.MonitorVacunaDosisDTO;
 import vacunasuy.componentecentral.dto.PlanVacunacionDTO;
-import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 
 @Stateless
 public class MonitorServiceImpl implements IMonitorService {
 
 	@EJB
-	private IMonitorDAO monitorDAO;
+	public IMonitorDAO monitorDAO;
 	
 	@EJB
-	private IPlanVacunacionDAO planVacunacionDAO;
+	public IPlanVacunacionDAO planVacunacionDAO;
 	
 	@EJB
-	private PlanVacunacionConverter planVacunacionConverter;
+	public PlanVacunacionConverter planVacunacionConverter;
 	
 	/* Filtro por enfermedad */
 	@Override

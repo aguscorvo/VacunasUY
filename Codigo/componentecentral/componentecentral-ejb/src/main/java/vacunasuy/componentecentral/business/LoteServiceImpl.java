@@ -18,16 +18,16 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class LoteServiceImpl implements ILoteService {
 
 	@EJB
-	private ILoteDAO loteDAO;
+	public ILoteDAO loteDAO;
 	
 	@EJB
-	private IProveedorDAO proveedorDAO;
+	public IProveedorDAO proveedorDAO;
 	
 	@EJB
-	private IVacunaDAO vacunaDAO;
+	public IVacunaDAO vacunaDAO;
 	
 	@EJB
-	private LoteConverter loteConverter;
+	public LoteConverter loteConverter;
 	
 	@Override
 	public List<LoteDTO> listar() throws VacunasUyException {

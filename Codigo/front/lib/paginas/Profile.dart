@@ -277,7 +277,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                         await appReload();
                                       },
                                       child: Text(
-                                        'Cerrar Sesion',
+                                        'Cerrar Sesión',
                                         style: TextStyle(color: Colors.white, fontSize: 25),
                                       ),
                                     ),

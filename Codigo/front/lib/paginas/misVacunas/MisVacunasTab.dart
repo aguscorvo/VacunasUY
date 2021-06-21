@@ -3,6 +3,7 @@ import 'package:vacunas_uy/objects/ActoVacunal.dart';
 import 'package:vacunas_uy/objects/Enfermedad.dart';
 import 'package:vacunas_uy/tools/BackendConnection.dart';
 import 'package:vacunas_uy/tools/PlatformSpecific.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MisVacunasTab extends StatefulWidget {
   @override
@@ -159,7 +160,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                     childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height,
                     maxCrossAxisExtent: 2560,
-                    mainAxisExtent: 50,
+                    mainAxisExtent: 70,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                   ),
@@ -172,41 +173,85 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(actosVacunales[index].nombre),
+                            Text(
+                              actosVacunales[index].nombre,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  decoration: BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(10)),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      shareTweeter(
-                                          "El " + actosVacunales[index].fecha.toString() + " me vacune contra la enfermedad " + enf!.nombre + " con la vacuna " + actosVacunales[index].nombre + "!!!");
-                                    },
-                                    child: Text(
-                                      "Compartir en Tweeter",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
+                                  decoration: BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(25)),
+                                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(width: 25),
+                                      Text(
+                                        "Compartir",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(width: 50),
+                                      Container(
+                                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(32)),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            shareTwitter("%23YoMeVacuno ¡El " +
+                                                actosVacunales[index].fecha.toString() +
+                                                " me vacune contra la enfermedad " +
+                                                enf!.nombre +
+                                                " con la vacuna " +
+                                                actosVacunales[index].nombre +
+                                                "!");
+                                          },
+                                          icon: Center(
+                                              child: FaIcon(
+                                            FontAwesomeIcons.twitter,
+                                            color: Colors.blue,
+                                          )),
+                                          //child: Text("Compartir en Twitter",style: TextStyle(color: Colors.black),),
+                                        ),
+                                      ),
+                                      SizedBox(width: 25),
+                                      Container(
+                                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(32)),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            shareFacebook("%23YoMeVacuno ¡El " +
+                                                actosVacunales[index].fecha.toString() +
+                                                " me vacune contra la enfermedad " +
+                                                enf!.nombre +
+                                                " con la vacuna " +
+                                                actosVacunales[index].nombre +
+                                                "!");
+                                          },
+                                          icon: Center(
+                                              child: Icon(
+                                            Icons.facebook,
+                                            color: Colors.blue,
+                                          )),
+                                          //child: Text( "Compartir en Facebook", style: TextStyle(color: Colors.black)),
+                                        ),
+                                      ),
+                                      SizedBox(width: 25),
+                                    ],
                                   ),
                                 ),
                                 SizedBox(width: 50),
-                                Container(
-                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  decoration: BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(10)),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      shareFacebook(
-                                          "El " + actosVacunales[index].fecha.toString() + " me vacune contra la enfermedad " + enf!.nombre + " con la vacuna " + actosVacunales[index].nombre + "!!!");
-                                    },
-                                    child: Text(
-                                      "Compartir en Facebook",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
+                                Text(
+                                  actosVacunales[index].fecha,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
                                   ),
                                 ),
-                                SizedBox(width: 50),
-                                Text(actosVacunales[index].fecha),
                               ],
                             ),
                           ],

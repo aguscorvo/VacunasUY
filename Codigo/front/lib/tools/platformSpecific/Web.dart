@@ -137,7 +137,7 @@ void urlReplace(String url) {
   window.location.replace(url);
 }
 
-void shareTweeter(String text) {
+void shareTwitter(String text) {
   String url = "https://twitter.com/intent/tweet?text=" + text.replaceAll(" ", "+");
   launch(url);
 }

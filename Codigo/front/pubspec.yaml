@@ -50,6 +50,7 @@ dependencies:
   path_provider: ^2.0.2
   flutter_share_me: ^0.10.1
   intl: ^0.17.0
+  font_awesome_flutter: ^9.1.0
 
   plugin_platform_interface: ^2.0.0
   firebase_core_platform_interface: ^4.0.1

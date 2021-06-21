@@ -17,8 +17,8 @@ class AgendaForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tipoForm == "Eliminar") {
-      return eliminar(context);
+    if (tipoForm == "Cancelar") {
+      return cancelar(context);
     } else if (tipoForm == "Información") {
       return informacion(context);
     } else {
@@ -30,21 +30,22 @@ class AgendaForm extends StatelessWidget {
     }
   }
 
-  AlertDialog eliminar(BuildContext context) {
+  AlertDialog cancelar(BuildContext context) {
     BackendConnection client = BackendConnection();
     return AlertDialog(
       title: Container(
         color: Colors.blueAccent,
         child: Center(
-          child: Text('Alerta!!!'),
+          child: Text('¡Alerta!'),
         ),
       ),
-      content: Text("Esta seguro que desea eleminar esta Agenda? (Irreversible)"),
+      content: Text("¿Desea cancelar esta agenda? Esta acción es irreversible."),
       actions: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
@@ -56,7 +57,10 @@ class AgendaForm extends StatelessWidget {
                 ),
               ),
               child: TextButton(
-                child: Text("Si, estoy seguro!"),
+                child: Text(
+                  "Si, cancelar",
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
                   client.borrarAgenda(usuario!.id, agenda!.id);
                   Navigator.of(context).pop();
@@ -65,6 +69,7 @@ class AgendaForm extends StatelessWidget {
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
                 borderRadius: BorderRadius.only(
@@ -75,7 +80,10 @@ class AgendaForm extends StatelessWidget {
                 ),
               ),
               child: TextButton(
-                child: Text("Cancelar"),
+                child: Text(
+                  "Cancelar",
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

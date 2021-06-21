@@ -78,6 +78,6 @@ void urlReplace(String url) {
   // TODO: Reload Mobile
 }
 
-void shareTweeter(String text) {}
+void shareTwitter(String text) {}
 
 void shareFacebook(String text) {}

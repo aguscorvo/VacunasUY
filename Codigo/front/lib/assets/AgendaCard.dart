@@ -71,7 +71,7 @@ class AgendaCard extends StatelessWidget {
       TextButton(
         child: Row(children: [
           Icon(Icons.delete),
-          Text('Eliminar'),
+          Text('Cancelar'),
         ]),
         onPressed: () {
           showDialog(
@@ -81,7 +81,7 @@ class AgendaCard extends StatelessWidget {
                 agenda: agenda!,
                 usuario: usuario!,
                 color: color!,
-                tipoForm: "Eliminar",
+                tipoForm: "Cancelar",
               );
             },
           );
@@ -131,6 +131,7 @@ class AgendaCard extends StatelessWidget {
                 ),
               ),
               Container(
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                 padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                 child: Row(
                   mainAxisAlignment: buttons.length > 1 ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.end,

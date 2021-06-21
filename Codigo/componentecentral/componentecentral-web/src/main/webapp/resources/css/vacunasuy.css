@@ -54,3 +54,7 @@ white-space: nowrap !important;
 	
 }
 
+.justify-content-between {
+    -ms-flex-pack: justify!important;
+    justify-content: space-between!important;
+}

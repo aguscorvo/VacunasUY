@@ -103,8 +103,6 @@ public class PlanesVacunacionBean implements Serializable {
 							auxvac.add(tdto);
 					}	
 				}
-					
-				
 			}
 			planes = auxvac;
 		}

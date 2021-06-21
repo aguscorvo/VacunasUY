@@ -3,8 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xml:lang="es">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" xml:lang="es">
 
 
 <h:head>
@@ -61,8 +61,7 @@
 								de Vacunas</a> <a class="dropdown-item"
 								href="/backoffice/jsf/autoridad/asignacion.xhtml">Asignar
 								Vacunadores</a>
-						</div>
-					</li>
+						</div></li>
 				</ul>
 
 			</div>
@@ -70,12 +69,266 @@
 		</div>
 	</div>
 	</header>
+	<div class="main-panel">
+		<div class="container">
 
-	<section class="section" id="main_section">
-	<div></div>
+			<div class="content-wrapper">
+				<div class="row mb-3">
+					<div class="col-xl-4 col-sm-6 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title mb-3">Vacunatorios</h5>
+								<div id="vacunatoriosGraficaA" class="graficas">
+									<div id="canvas-holder">
+										<canvas id="chart_CardA" width="300" height="300" />
+									</div>
 
-	</section>
+								</div>
+								<div class="col-12">
+									<div class="d-flex justify-content-between">
+										<div class="p-2">Montevideo</div>
+										<div id="vacunatoriosMontevideoA" class="p-2">
+											<h:outputText value="#{HomeBean.vacunatoriosMVD}" />
+										</div>
+									</div>
+
+								</div>
+								<div class="col-12">
+									<div class="d-flex justify-content-between">
+										<div class="p-2">Interior</div>
+										<div id="vacunatoriosInteriorA" class="p-2">
+											<h:outputText value="#{HomeBean.vacunatoriosINT}" />
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-4 col-sm-6 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title mb-3">Usuarios</h5>
+								<div id="canvas-holder">
+									<canvas id="chart_CardB" width="300" height="300" />
+								</div>
+								<div class="col-12">
+									<div class="d-flex justify-content-between">
+										<div class="p-2">Ciudadanos</div>
+										<div id="usuariosCiudadanoA" class="p-2">
+											<h:outputText value="#{HomeBean.usuariosCIU}" />
+										</div>
+									</div>
+
+								</div>
+								<div class="col-12">
+									<div class="d-flex justify-content-between">
+										<div class="p-2">Vacunadores</div>
+										<div id="usuariosVacunadoresA" class="p-2">
+											<h:outputText value="#{HomeBean.usuariosVAC}" />
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-4 col-sm-6 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title mb-3">Planes</h5>
+								<div id="canvas-holder">
+									<canvas id="chart_CardC" width="300" height="300" />
+								</div>
+								<div class="col-12">
+									<div class="d-flex justify-content-between">
+										<div class="p-2">Vigentes</div>
+										<div id="planesVigentesA" class="p-2">
+											<h:outputText value="#{HomeBean.planesVigentes}" />
+										</div>
+									</div>
+
+								</div>
+								<div class="col-12">
+									<div class="d-flex justify-content-between">
+										<div class="p-2">Pr&oacute;ximos</div>
+										<div id="planesProximosA" class="p-2">
+											<h:outputText value="#{HomeBean.planesProximos}" />
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="row mb-3">
+
+					<div class="col-xl-12 col-sm-6 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title mb-3">Stock de Vacunas</h5>
+								<div id="stockVacunasA" class="">
+									<table class="table">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col">Vacuna</th>
+												<th scope="col">Stock</th>
+											</tr>
+										</thead>
+										<tbody>
+											<ui:repeat var="vac" value="#{HomeBean.stockVacunas}">
+												<tr>
+													<td><h:outputText value="#{vac[0]}" /></td>
+													<td><h:outputText value="#{vac[1]}" /></td>
+												</tr>
+
+											</ui:repeat>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="col-xl-6 col-sm-6 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title mb-3">Stock por Vacunatorio</h5>
+								<c:forEach items="#{HomeBean.stockVacunasVacunatorios}"
+									var="entry">
+									<table class="table">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col" colspan="2"><h:outputText value="#{entry.key}" /></th>
+											</tr>
+										</thead>
+										<tbody>
+											<ui:repeat var="vac" value="#{entry.value}">
+												<tr>
+													<td><h:outputText value="#{vac[0]}" /></td>
+													<td><h:outputText value="#{vac[1]}" /></td>
+												</tr>
+
+											</ui:repeat>
+										</tbody>
+									</table>
+								</c:forEach>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<ui:include src="/WEB-INF/includes/footer_lib.xhtml" />
+
+	<script type="text/javascript">
+
+		var bg = [
+        	'#ffBF00',
+        	'#2D572C',
+        ];
+
+        var op = {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutoutPercentage: 80, 
+                legend: {
+                	display: false,
+                    position: 'right',
+                },
+                title: {
+                    display: false,
+                    text: 'Titulo'
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            };
+	
+
+	    var configCardA = {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [
+                	<h:outputText value="#{HomeBean.vacunatoriosMVD}" />,
+                		<h:outputText value="#{HomeBean.vacunatoriosINT}" />,
+                ],
+                backgroundColor: bg,
+                label: 'Dataset 1'
+            }],
+            labels: [
+                "Montevideo",
+                "Interior",
+            ]
+        },
+        options: op
+    };
+
+	    var configCardB = {
+	            type: 'doughnut',
+	            data: {
+	                datasets: [{
+	                    data: [
+	                    	<h:outputText value="#{HomeBean.usuariosCIU}" />,
+	                    		<h:outputText value="#{HomeBean.usuariosVAC}" />,
+	                    ],
+	                    backgroundColor: bg,
+	                    label: 'Dataset 1'
+	                }],
+	                labels: [
+	                    "Ciudadanos",
+	                    "Vacunadores",
+	                ]
+	            },
+	            options: op
+	        };
+
+	    var configCardC = {
+	            type: 'doughnut',
+	            data: {
+	                datasets: [{
+	                    data: [
+	                    	<h:outputText value="#{HomeBean.planesVigentes}" />,
+	                    		<h:outputText value="#{HomeBean.planesProximos}" />,
+	                    ],
+	                    backgroundColor: bg,
+	                    label: 'Dataset 1'
+	                }],
+	                labels: [
+	                    "Vigentes",
+	                    "Pr\u00F3ximos",
+	                ]
+	            },
+	            options: op
+	        };
+	    
+
+	    
+    window.onload = function() {
+        var ctxCardA = document.getElementById("chart_CardA").getContext("2d");
+        window.myDoughnut = new Chart(ctxCardA, configCardA);
+
+        var ctxCardB = document.getElementById("chart_CardB").getContext("2d");
+        window.myDoughnut = new Chart(ctxCardB, configCardB);
+
+        var ctxCardC = document.getElementById("chart_CardC").getContext("2d");
+        window.myDoughnut = new Chart(ctxCardC, configCardC);
+    };
+	
+
+	
+
+
+
+
+	
+
+	</script>
+
 </h:body>
 </html>

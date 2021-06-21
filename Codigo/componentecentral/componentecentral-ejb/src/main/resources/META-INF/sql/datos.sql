@@ -4,6 +4,12 @@ INSERT INTO roles (nombre) VALUES ('Autoridad');
 INSERT INTO roles (nombre) VALUES ('Vacunador');
 INSERT INTO roles (nombre) VALUES ('Ciudadano');
 
+/* Usuarios */
+INSERT INTO usuarios (nombre, correo, password) VALUES ('Administrador', 'admin@admin.com', '$2a$12$z4dj/MDu1T.tiJSJT.11te3iz9VVHawqjxvDIiGShnIg/E8WIcgUO');
+INSERT INTO usuarios_roles VALUES (2, 1);
+INSERT INTO usuarios (nombre, correo, password) VALUES ('M.S.P.', 'msp@gub.uy', '$2a$12$z4dj/MDu1T.tiJSJT.11te3iz9VVHawqjxvDIiGShnIg/E8WIcgUO');
+INSERT INTO usuarios_roles VALUES (3,2);
+
 /* Sectores */
 INSERT INTO sectores_laborales (nombre) VALUES ('Bombero');
 INSERT INTO sectores_laborales (nombre) VALUES ('Militar');
@@ -13,9 +19,6 @@ INSERT INTO sectores_laborales (nombre) VALUES ('Docente');
 INSERT INTO sectores_laborales (nombre) VALUES ('Otra ocupación');
 INSERT INTO sectores_laborales (nombre) VALUES ('No tiene');
 INSERT INTO sectores_laborales (nombre) VALUES ('Jubilado');
-
-
-
 
 /* Departamentos */
 INSERT INTO departamentos (nombre) VALUES ('Montevideo');

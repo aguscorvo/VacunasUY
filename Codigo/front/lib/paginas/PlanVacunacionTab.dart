@@ -55,10 +55,10 @@ class _PlanVacunacionTabState extends State<PlanVacunacionTab> {
                 future: client.getPlanesVacunacionVigentes(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   } else {
                     if (snapshot.data == null) {
-                      return CircularProgressIndicator();
+                      return Center(child: CircularProgressIndicator());
                     } else {
                       List<PlanVacunacion> planvacunas = [];
                       List<PlanVacunacion> planvacunasTemp = snapshot.data as List<PlanVacunacion>;

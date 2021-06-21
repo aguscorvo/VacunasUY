@@ -77,9 +77,7 @@ class _UserListState extends State<UserList> {
               },
             );
           } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Center(child: CircularProgressIndicator());
           }
         },
       );
@@ -202,12 +200,9 @@ class ChatRoomListTile extends StatefulWidget {
 }
 
 class _ChatRoomListTileState extends State<ChatRoomListTile> {
-  late String name = "";
-
-  getThisUserInfo() async {
+  Future<String> getThisUserInfo() async {
     QuerySnapshot qs = await FirebaseApi().getUserInfo(widget.correo);
-    name = qs.docs[0]["nombre"];
-    setState(() {});
+    return qs.docs[0]["nombre"];
   }
 
   void initState() {
@@ -217,45 +212,59 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        widget.onUserSelected(
-          ChatBox(
-            correoUsuario: widget.correo,
-            nombre: name,
-          ),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.blueAccent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              name,
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(
-              height: 3,
-            ),
-            Text(
-              widget.lastMessage,
-              style: TextStyle(
-                fontSize: 10,
-                color: Colors.grey.shade900,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    String name = "";
+    return FutureBuilder(
+        future: getThisUserInfo(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            if (snapshot.data == null) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              name = snapshot.data as String;
+              return GestureDetector(
+                onTap: () {
+                  widget.onUserSelected(
+                    ChatBox(
+                      correoUsuario: widget.correo,
+                      nombre: name,
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        widget.lastMessage,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey.shade900,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          }
+        });
   }
 }

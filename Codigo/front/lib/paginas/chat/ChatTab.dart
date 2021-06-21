@@ -8,23 +8,28 @@ class ChatTab extends StatefulWidget {
 }
 
 class _ChatTabState extends State<ChatTab> {
-  UserList? userList;
-  ChatBox chatBox = ChatBox(
-    correoUsuario: "",
-    nombre: "",
-  );
+  late String correoUsuario = "";
+  late String nombre = "";
 
   _setChatBox(ChatBox val) {
-    setState(() {
-      chatBox = val;
-    });
+    this.correoUsuario = val.correoUsuario!;
+    this.nombre = val.nombre!;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    UserList? userList;
+    ChatBox? chatBox;
     if (userList == null) {
       userList = UserList(
         onUserSelected: (ChatBox val) => _setChatBox(val),
+      );
+    }
+    if (chatBox == null) {
+      chatBox = ChatBox(
+        correoUsuario: correoUsuario,
+        nombre: nombre,
       );
     }
     return Container(

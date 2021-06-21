@@ -4,16 +4,123 @@ import 'package:vacunas_uy/tools/FirebaseApi.dart';
 import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'dart:math';
 
-// ignore: must_be_immutable
-class ChatBox extends StatelessWidget {
-  final String correoUsuario, nombre;
-  ChatBox({required this.correoUsuario, required this.nombre});
+class ChatBox extends StatefulWidget {
+  final String? correoUsuario, nombre;
+  ChatBox({this.correoUsuario, this.nombre});
 
-  String chatRoomId = "";
-  String messageId = "";
-  Stream? messageStream;
+  static _ChatBoxState? state;
+
+  @override
+  _ChatBoxState createState() => state = new _ChatBoxState();
+}
+
+class _ChatBoxState extends State<ChatBox> {
   TextEditingController toChat = TextEditingController();
+
   ChatMessagesBox? chatBox;
+  Stream? messageStream;
+
+  @override
+  Widget build(BuildContext context) {
+    final String correoUsuario = widget.correoUsuario!;
+    final String nombre = widget.nombre!;
+    //String messageId = "";
+    String chatRoomId = "";
+
+    if (correoUsuario == "") {
+      return Container(
+        child: Center(
+          child: Text(
+            "Seleccione un chat.",
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
+      );
+    } else {
+      return FutureBuilder(
+        future: toDoOnLaunch(correoUsuario),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            if (snapshot.data == null) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              chatRoomId = snapshot.data as String;
+              return Container(
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      width: MediaQuery.of(context).size.width - 400,
+                      height: 50,
+                      color: Colors.blueAccent,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            nombre,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: chatBox,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      width: MediaQuery.of(context).size.width - 400,
+                      height: 50,
+                      color: Colors.black.withOpacity(0.8),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              child: TextField(
+                                controller: toChat,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                onChanged: (value) {
+                                  //addMessage(false);
+                                },
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Escribe un Mensaje",
+                                  hintStyle: TextStyle(
+                                    color: Colors.white.withOpacity(0.6),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              addMessage(true, "", chatRoomId);
+                            },
+                            child: Icon(
+                              Icons.send,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          }
+        },
+      );
+    }
+  }
+
   String _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
@@ -23,7 +130,9 @@ class ChatBox extends StatelessWidget {
     return users[0] + "_" + users[1];
   }
 
-  addMessage(bool sendClicked) async {
+  Future<String> addMessage(bool sendClicked, String lastMId, String chatRoomId) async {
+    String messageId = lastMId;
+
     if (toChat.text != "") {
       String message = toChat.text;
 
@@ -39,7 +148,7 @@ class ChatBox extends StatelessWidget {
         messageId = getRandomString(32);
       }
 
-      FirebaseApi().sendMessage(chatRoomId, messageId, messageMap).then((value) async {
+      await FirebaseApi().sendMessage(chatRoomId, messageId, messageMap).then((value) async {
         Map<String, dynamic> lastMessageInfoMap = {
           "lastMessage": message,
           "timeStamp": messageTimeStamp,
@@ -52,11 +161,12 @@ class ChatBox extends StatelessWidget {
         }
       });
     }
+    return messageId;
   }
 
-  toDoOnLaunch() async {
+  Future<String> toDoOnLaunch(String correoUsuario) async {
     String miCorreo = storedUserCredentials!.userData!.correo;
-    chatRoomId = getChatRoomIdByCorreos(miCorreo, correoUsuario);
+    String chatRoomId = getChatRoomIdByCorreos(miCorreo, correoUsuario);
 
     Map<String, dynamic> chatRoomInfoMap = {
       "usuarios": [miCorreo, correoUsuario]
@@ -67,88 +177,7 @@ class ChatBox extends StatelessWidget {
       chatRoomId: chatRoomId,
       myUserName: miCorreo,
     );
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    if (correoUsuario == "") {
-      return Container(
-        child: Center(
-          child: Text(
-            "Seleccione un chat.",
-            style: TextStyle(fontSize: 25),
-          ),
-        ),
-      );
-    } else {
-      toDoOnLaunch();
-      return Container(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              width: MediaQuery.of(context).size.width - 400,
-              height: 50,
-              color: Colors.blueAccent,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    nombre,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                child: chatBox,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              width: MediaQuery.of(context).size.width - 400,
-              height: 50,
-              color: Colors.black.withOpacity(0.8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: TextField(
-                        controller: toChat,
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                        onChanged: (value) {
-                          //addMessage(false);
-                        },
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Escribe un Mensaje",
-                          hintStyle: TextStyle(
-                            color: Colors.white.withOpacity(0.6),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      addMessage(true);
-                    },
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+    return chatRoomId;
   }
 }

@@ -22,9 +22,7 @@ class _BaseAppState extends State<BaseApp> {
         if (storedUserCredentials == null) {
           return Container(
             color: Colors.blueGrey,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: Center(child: CircularProgressIndicator()),
           );
         } else {
           FirebaseApi().signIn();

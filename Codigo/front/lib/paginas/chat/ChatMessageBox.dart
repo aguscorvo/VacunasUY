@@ -42,7 +42,7 @@ class _ChatMessagesBoxState extends State<ChatMessagesBox> {
         Container(
           decoration: BoxDecoration(
             borderRadius: border,
-            color: Colors.blue,
+            color: sentByMe ? Colors.blue : Colors.grey,
           ),
           margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           padding: EdgeInsets.all(10),
@@ -78,7 +78,7 @@ class _ChatMessagesBoxState extends State<ChatMessagesBox> {
           );
         } else {
           return Center(
-            child: CircularProgressIndicator(),
+            child: Center(child: CircularProgressIndicator()),
           );
         }
       },

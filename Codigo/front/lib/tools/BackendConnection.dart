@@ -13,6 +13,8 @@ import 'package:vacunas_uy/objects/Monitor/MonitorVacuna.dart';
 import 'package:vacunas_uy/objects/PlanVacunacion.dart';
 import 'package:vacunas_uy/objects/Proveedor.dart';
 import 'package:vacunas_uy/objects/Puesto.dart';
+import 'package:vacunas_uy/objects/Rol.dart';
+import 'package:vacunas_uy/objects/Sector.dart';
 import 'package:vacunas_uy/objects/Usuario.dart';
 import 'package:vacunas_uy/objects/Vacuna.dart';
 import 'package:vacunas_uy/objects/Vacunatorio.dart';
@@ -60,18 +62,41 @@ class BackendConnection {
     );
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
-      if (json["mensaje"] == "Inicio de sesión correcto.") {
+      try {
+        Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits));
+        if (json["mensaje"] == "Inicio de sesión correcto.") {
+          storedUserCredentials = emptyUser;
+          storedUserCredentials!.token = json["cuerpo"]["token"];
+          storedUserCredentials!.persistirLogin = false;
+          storedUserCredentials!.loginDateTime = DateTime.now();
+          storedUserCredentials!.userData = Usuario.fromJson(json["cuerpo"] ?? "");
+          saveUserCredentials();
+          setAuthHeader();
+          return true;
+        } else {
+          return false;
+        }
+      } catch (err) {
+        Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+
         storedUserCredentials = emptyUser;
-        storedUserCredentials!.token = json["cuerpo"]["token"];
+        storedUserCredentials!.token = json["token"];
         storedUserCredentials!.persistirLogin = false;
         storedUserCredentials!.loginDateTime = DateTime.now();
-        storedUserCredentials!.userData = Usuario.fromJson(json["cuerpo"] ?? "");
-        saveUserCredentials();
-        setAuthHeader();
+        storedUserCredentials!.userData!.apellido = json["apellido"] != null ? json["apellido"] : "";
+        storedUserCredentials!.userData!.nombre = json["nombre"];
+        storedUserCredentials!.userData!.correo = json["correo"];
+        storedUserCredentials!.userData!.documento = json["documento"] != null ? json["documento"] : "";
+        storedUserCredentials!.userData!.fechaNacimiento = json["fechaNacimiento"] == "" ? DateTime.now() : DateTime.tryParse(json["fechaNacimiento"].toString())!;
+        storedUserCredentials!.userData!.id = json["id"];
+        List<Rol> roles = [];
+        if (json['roles'] != null) {
+          json['roles'].forEach((rol) => {roles.add(Rol.fromJson(rol))});
+        }
+        storedUserCredentials!.userData!.roles = roles;
+        storedUserCredentials!.userData!.sectorLaboral = json["sectorLaboral"] != null ? json["sectorLaboral"] : Sector();
+
         return true;
-      } else {
-        return false;
       }
     } else {
       return false;

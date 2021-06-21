@@ -3,13 +3,12 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xml:lang="es">
+	xmlns:p="http://primefaces.org/ui" xml:lang="es">
 
 
 <h:head>
 	<meta charset="ISO-8859-1"></meta>
-	<title>VacunasUy-Administrador</title>
+	<title>ProveedorsUy-Administrador</title>
 
 	<ui:include src="/WEB-INF/includes/header_lib.xhtml" />
 
@@ -39,7 +38,7 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a class="nav-link text-dark"
+					<li class="nav-item"><a class="nav-link"
 						href="/backoffice/jsf/autoridad/enfermedades.xhtml">Enfermedades</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/backoffice/jsf/autoridad/vacunas.xhtml">Vacunas</a></li>
@@ -61,15 +60,10 @@
 								href="/backoffice/jsf/autoridad/asignacion.xhtml">Asignar
 								Vacunadores</a>
 						</div></li>
-						<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link text-dark"
 						href="/backoffice/jsf/autoridad/informes.xhtml">Informes</a></li>
 				</ul>
-				<h:form class="form-inline">
-					<p:inputText placeholder="Nombre" aria-label="Buscar" minValue="0"
-						emptyValue="empty" value="#{EnfermedadBean.strbuscar}" />
-					<h:commandButton class="btn btn-outline-success my-2 my-sm-0"
-						action="#{EnfermedadBean.srchEnfermedad()}" value="Buscar" />
-				</h:form>
+				
 			</div>
 
 			</nav>
@@ -79,41 +73,24 @@
 	<div class="main-panel">
 		<div class="container">
 			<div class="wrapper">
-				<h3>Lista de Enfermedad</h3>
-				<p:dataTable id="listaEnfermedad" var="dtEnfermedad"
-					value="#{EnfermedadBean.enfermedades}" paginator="true" rows="10"
-					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-					rowsPerPageTemplate="10,25,50,100">
-					<p:column headerText="Id">
-						<h:outputText value="#{dtEnfermedad.id}" />
-					</p:column>
-					<p:column headerText="Nombre">
-						<h:outputText value="#{dtEnfermedad.nombre}" />
-					</p:column>
-				</p:dataTable>
-			</div>
-			<div class="col-12 d-flex flex-row-reverse">
-				<div class="p-2">
-					<div class="btn-group" data-toggle="buttons">
-						<a class="btn btn-secondary" href="javascript:addEnfermedad();"
-							role="button" title="Agregar Enfermedad"><i class="fas fa-plus"></i> </a> <a
-							class="btn btn-secondary" href="javascript:delEnfermedad();"
-							role="button" title="Eliminar Enfermedad"><i class="fas fa-minus"></i> </a> <a
-							class="btn btn-secondary" href="javascript:updEnfermedad();"
-							role="button" title="Editar Enfermedad"><i class="fas fa-pen"></i> </a>
+				<h3>Informes</h3>
 
-
-					</div>
+				<div class="list-group">
+					<a href="javascript:viewListado1();" class="list-group-item list-group-item-action">
+						Stock de Vacunas </a> 
+					<a href="javascript:viewListado2();"
+						class="list-group-item list-group-item-action">Stock por Vacunatorio por Vacuna</a> 
+					<a href="javascript:viewListado3();"
+						class="list-group-item list-group-item-action">Stock por Vacunatorio</a>
+					
 				</div>
 			</div>
 
 		</div>
 	</div>
 
-
 	<!-- Modal ERROR -->
-	<div class="modal fade" id="error_enfermedad" tabindex="-1"
+	<div class="modal fade" id="error_proveedor" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -131,6 +108,7 @@
 								<i class="fas fa-minus-circle display-3" style="color: #cc0000"></i>
 							</h1>
 						</div>
+						
 						<div class="col-md-9 ml-auto" id="general_error_msj">
 							<!--Displays only Error Messages-->
 							<h:messages globalOnly="true" styleClass="mystyle" layout="list"
@@ -149,8 +127,8 @@
 	</div>
 
 	<!-- Modal INFO -->
-	<div class="modal fade" id="info_enfermedad" tabindex="-1"
-		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="info_proveedor" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -190,36 +168,38 @@
 	</div>
 
 
-	<!-- Modal ADD-->
-	<div class="modal" tabindex="-1" role="dialog" id="addEnfermedad">
+
+	<!-- Modal L1-->
+	<div class="modal" tabindex="-1" role="dialog" id="viewList1">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Crear Enfermedad</h3>
+					<h3 class="modal-title">Stock Por Vacuna</h3>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true"> &times; </span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="addenfermedad-form">
+					<h:form class="addproveedor-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
+									Despliega el stock al d&iacute;a del dep&oacute;sito central. 
+							</div>
+							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="addName" value="Nombre" />
+									
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="addName"
-										required="true" name="addName"
-										value="#{EnfermedadBean.nombre}">
-									</h:inputText>
+									
 								</div>
 							</div>
 						</div>
+						
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<h:commandButton class="btn btn-primary"
-									action="#{EnfermedadBean.addEnfermedad()}" value="CREAR" />
+									action="#{StockBean.listarStockVacunasDisponiblesParaEnviar()}" value="VER" />
 							</div>
 						</div>
 					</h:form>
@@ -228,44 +208,51 @@
 		</div>
 	</div>
 
-	<!-- Modal DEL-->
-	<div class="modal" tabindex="-1" role="dialog" id="delEnfermedad">
+	<!-- Modal List2-->
+	<div class="modal" tabindex="-1" role="dialog" id="viewList2">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Borrar Enfermedad</h3>
+					<h3 class="modal-title">Stock por Vacunatorio por Vacuna</h3>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true"> &times; </span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="delEnfermedad-form">
+					<h:form class="addplan-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
-								<h:inputHidden value="#{EnfermedadBean.id}" id="delId"
-									name="delId" />
-								<div class="col-6  mb-3">
-									<p:outputLabel for="delIdView" value="Id" />
-								</div>
-								<div class="col-6  mb-3">
-									<h:inputText id="delIdView" name="delIdView" readonly="true" />
+								<div class="col-12 d-flex flex-row">
+									Despliega el stock por vacuna de todos los Vacunatorios.
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="delName" value="Nombre" />
+									
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText type="text" class="form-control" id="delName"
-										readonly="true" />
+									
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addVacuna" value="Vacuna" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="addVacuna"
+										value="#{StockBean.idVacuna}" class="form-control">
+										<f:selectItems value="#{StockBean.vacunas}"
+											var="vacuna" itemValue="#{vacuna.id}"
+											itemLabel="#{vacuna.nombre}" />
+									</h:selectOneMenu>
 								</div>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<h:commandButton class="btn btn-primary"
-									action="#{EnfermedadBean.delEnfermedad()}" value="BORRAR" />
+									action="#{StockBean.listarStockVacunaPorVacunatorios()}" value="CREAR" />
 							</div>
 						</div>
 					</h:form>
@@ -273,53 +260,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- Modal UPD-->
-	<div class="modal" tabindex="-1" role="dialog" id="updEnfermedad">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title">Actualizar Enfermedad</h3>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true"> &times; </span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<h:form class="updEnfermedad-form">
-						<div class="col-12">
-							<div class="col-12 d-flex flex-row">
-								<h:inputHidden value="#{EnfermedadBean.id}" id="updId"
-									name="updId" />
-								<div class="col-6  mb-3">
-									<p:outputLabel for="updIdView" value="Id" />
-								</div>
-								<div class="col-6  mb-3">
-									<h:inputText id="updIdView" name="updIdView" readonly="true" />
-								</div>
-							</div>
-							<div class="col-12 d-flex flex-row">
-								<div class="col-3  mb-3">
-									<p:outputLabel for="updName" value="Nombre" />
-								</div>
-								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:inputText value="#{EnfermedadBean.nombre}" type="text"
-										class="form-control" id="updName" />
-								</div>
-							</div>
-						</div>
-						<div class="col-12">
-							<div class="col-12 d-flex flex-row">
-								<h:commandButton class="btn btn-primary"
-									action="#{EnfermedadBean.updEnfermedad()}" value="ACTUALIZAR" />
-							</div>
-						</div>
-					</h:form>
-				</div>
-			</div>
-		</div>
-	</div>
-
 
 
 
@@ -335,61 +275,66 @@
 		var info2 = $ds('#general_error_msj_3 li'); 	
 
 		if(err.length>0 &amp;&amp; $ds(err).css("display")!= "none"){
-			$ds('#error_enfermedad').modal('show');
+			$ds('#error_proveedor').modal('show');
 		}
 
 		if(info.length>0 &amp;&amp; $ds(info).css("display")!= "none"){
-			$ds('#info_enfermedad').modal('show');
+			$ds('#info_proveedor').modal('show');
 		}	
 
 		if(info2.length>0 &amp;&amp; $ds(info2).css("display")!= "none"){
-			$ds('#info_enfermedad').modal('show');
+			$ds('#info_proveedor').modal('show');
 		}
 	});
 	
-	function addEnfermedad(){
-		$ds('#addEnfermedad').modal('show');
+	function viewListado1(){
+		$ds('#viewList1').modal('show');
 	}
 
-	function updEnfermedad(){
-		var id = $ds('#listaEnfermedad_data tr.selected').find("td").eq(0).html();
+	function viewListado2(){
+		$ds('#viewList2').modal('show');
+	}
+
+	function updProveedor(){
+		var id = $ds('#listaProveedor_data tr.selected').find("td").eq(0).html();
 
 		if(id==undefined){
 			$ds('#errorModalLabel').html('Error'),
 			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
-			$ds('#general_error_msj').html('Debe Seleccionar un Enfermedad');
-		    $ds('#error_enfermedad').modal('show');
+			$ds('#general_error_msj').html('Debe Seleccionar un Proveedor');
+		    $ds('#error_proveedor').modal('show');
 		}else{
 			$ds("input[id*='updId']").val(id);
 			$ds("input[id*='updIdView']").val(id);
-		    $ds("input[id*='updName']").val($ds('#listaEnfermedad_data tr.selected').find("td").eq(1).html());
-		    $ds('#updEnfermedad').modal('show');
+		    $ds("input[id*='updName']").val($ds('#listaProveedor_data tr.selected').find("td").eq(1).html());
+		    $ds("select[id*='updPais']").val($ds('#listaProveedor_data tr.selected').find("td").eq(3).html());
+		    $ds('#updProveedor').modal('show');
 		}
 		
 	}
 
-	function delEnfermedad(){
-		var id = $ds('#listaEnfermedad_data tr.selected').find("td").eq(0).html();
+	function delProveedor(){
+		var id = $ds('#listaProveedor_data tr.selected').find("td").eq(0).html();
 
 		if(id==undefined){
 			$ds('#errorModalLabel').html('Error'),
 			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
-			$ds('#general_error_msj').html('Debe Seleccionar un Enfermedad');
-		    $ds('#error_enfermedad').modal('show');
+			$ds('#general_error_msj').html('Debe Seleccionar un Proveedor');
+		    $ds('#error_proveedor').modal('show');
 		}else{
 			$ds("input[id*='delId']").val(id);
 			$ds("input[id*='delIdView']").val(id);
-		    $ds("input[id*='delName']").val($ds('#listaEnfermedad_data tr.selected').find("td").eq(1).html());
-		    $ds('#delEnfermedad').modal('show');
+		    $ds("input[id*='delName']").val($ds('#listaProveedor_data tr.selected').find("td").eq(1).html());
+		    $ds('#delProveedor').modal('show');
 		}
 	}
 
-	$ds('#listaEnfermedad_data').on( 'click', 'tr', function () {
+	$ds('#listaProveedor_data').on( 'click', 'tr', function () {
 		if ( $ds(this).hasClass('selected') ) {
 			$ds(this).removeClass('selected');
 		}
 		else {
-			$ds('#listaEnfermedad_data tr.selected').removeClass('selected');
+			$ds('#listaProveedor_data tr.selected').removeClass('selected');
 			$ds(this).addClass('selected');
 		}
 	});

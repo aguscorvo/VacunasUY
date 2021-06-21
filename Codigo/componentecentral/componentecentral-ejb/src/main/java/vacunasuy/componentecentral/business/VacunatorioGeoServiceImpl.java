@@ -11,7 +11,6 @@ import org.geolatte.geom.Point;
 import org.geolatte.geom.crs.CoordinateReferenceSystems;
 
 import vacunasuy.componentecentral.converter.UbicacionConverter;
-import vacunasuy.componentecentral.converter.VacunatorioConverter;
 import vacunasuy.componentecentral.converter.VacunatorioGeoConverter;
 import vacunasuy.componentecentral.dao.IVacunatorioDAO;
 import vacunasuy.componentecentral.dao.IVacunatorioGeoDAO;
@@ -26,19 +25,16 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class VacunatorioGeoServiceImpl implements IVacunatorioGeoService {
 
 	@EJB
-	private IVacunatorioGeoDAO vacunatorioGeoDAO;
+	public IVacunatorioGeoDAO vacunatorioGeoDAO;
 	
 	@EJB
-	private IVacunatorioDAO vacunatorioDAO;
+	public IVacunatorioDAO vacunatorioDAO;
 	
 	@EJB
-	private VacunatorioGeoConverter vacunatorioGeoConverter;
-	
+	public VacunatorioGeoConverter vacunatorioGeoConverter;
+		
 	@EJB
-	private VacunatorioConverter vacunatorioConverter;
-	
-	@EJB
-	private UbicacionConverter ubicacionConverter;
+	public UbicacionConverter ubicacionConverter;
 	
 	@Override
 	public List<VacunatorioGeoDTO> listar() throws VacunasUyException{

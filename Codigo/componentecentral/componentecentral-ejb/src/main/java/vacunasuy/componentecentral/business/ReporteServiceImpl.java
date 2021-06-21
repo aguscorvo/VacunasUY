@@ -21,16 +21,16 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class ReporteServiceImpl implements IReporteService {
 
 	@EJB
-	private IReporteDAO reporteDAO;
+	public IReporteDAO reporteDAO;
 	
 	@EJB
-	private IVacunaDAO vacunaDAO;
+	public IVacunaDAO vacunaDAO;
 	
 	@EJB
-	private ISectorLaboralDAO sectorLaboralDAO;
+	public ISectorLaboralDAO sectorLaboralDAO;
 	
 	@EJB
-	private IEnfermedadDAO enfermedadDAO;
+	public IEnfermedadDAO enfermedadDAO;
 	
 	@Override	
 	public List<ReporteEvolucionTiempoDTO> listarPorEvolucionEnTiempo(String fechaInicio, String fechaFin, 

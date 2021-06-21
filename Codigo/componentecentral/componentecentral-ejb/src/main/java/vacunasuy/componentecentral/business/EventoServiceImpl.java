@@ -1,7 +1,6 @@
 package vacunasuy.componentecentral.business;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,7 +14,6 @@ import vacunasuy.componentecentral.dto.EventoDTO;
 import vacunasuy.componentecentral.dto.EventoPerifericoDTO;
 import vacunasuy.componentecentral.entity.Evento;
 import vacunasuy.componentecentral.entity.Lote;
-import vacunasuy.componentecentral.entity.Stock;
 import vacunasuy.componentecentral.entity.Transportista;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -25,25 +23,22 @@ import vacunasuy.componentecentral.util.EstadoEvento;
 public class EventoServiceImpl implements IEventoService {
 
 	@EJB
-	private IEventoDAO eventoDAO;
+	public IEventoDAO eventoDAO;
 	
 	@EJB
-	private ILoteDAO loteDAO;
+	public ILoteDAO loteDAO;
 	
 	@EJB
-	private ITransportistaDAO transportistaDAO;
+	public ITransportistaDAO transportistaDAO;
 	
 	@EJB
-	private EventoConverter eventoConverter;
+	public EventoConverter eventoConverter;
+		
+	@EJB
+	public IVacunatorioDAO vacunatorioDAO;
 	
 	@EJB
-	private IVacunatorioService vacunatorioService;
-	
-	@EJB
-	private IVacunatorioDAO vacunatorioDAO;
-	
-	@EJB
-	private IStockService stockService;
+	public IStockService stockService;
 	
 
 	@Override

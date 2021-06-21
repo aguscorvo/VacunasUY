@@ -14,7 +14,6 @@ import org.geolatte.geom.Point;
 import org.geolatte.geom.crs.CoordinateReferenceSystems;
 
 import vacunasuy.componentecentral.entity.Ubicacion;
-import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.entity.VacunatorioGeo;
 
 @Singleton
@@ -24,6 +23,7 @@ public class VacunatorioGeoDAOImpl implements IVacunatorioGeoDAO {
 	@PersistenceContext(name = "LaboratorioTSE")
 	private EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	public List<VacunatorioGeo> listar(){
 		Query consulta = em.createQuery("SELECT v FROM VacunatorioGeo v");
     	return consulta.getResultList();
@@ -51,8 +51,10 @@ public class VacunatorioGeoDAOImpl implements IVacunatorioGeoDAO {
 		em.remove(vacunatorio);
 	}
   
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Long> listarCercanos(Ubicacion ubicacion){
+		@SuppressWarnings("rawtypes")
 		Point ubicacionAux = Geometries.mkPoint(new G2D(ubicacion.getLongitud(), ubicacion.getLatitud()), CoordinateReferenceSystems.WGS84);
 		Query consulta = em.createQuery("SELECT v.id "
 				+ "FROM VacunatorioGeo v "

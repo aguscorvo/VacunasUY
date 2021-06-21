@@ -6,6 +6,19 @@ import 'package:vacunas_uy/objects/PlanVacunacion.dart';
 import 'package:vacunas_uy/tools/BackendConnection.dart';
 import 'package:vacunas_uy/tools/UserCredentials.dart';
 
+final MaterialColor colorCustom = MaterialColor(0xFF174378, {
+  050: Color.fromRGBO(0, 0, 250, .1),
+  100: Color.fromRGBO(0, 0, 250, .2),
+  200: Color.fromRGBO(0, 0, 250, .3),
+  300: Color.fromRGBO(0, 0, 250, .4),
+  400: Color.fromRGBO(0, 0, 250, .5),
+  500: Color.fromRGBO(0, 0, 250, .6),
+  600: Color.fromRGBO(0, 0, 250, .7),
+  700: Color.fromRGBO(0, 0, 250, .8),
+  800: Color.fromRGBO(0, 0, 250, .9),
+  900: Color.fromRGBO(0, 0, 250, 1),
+});
+
 class AgendaCiudadano extends StatefulWidget {
   @override
   _AgendaCiudadanoState createState() => _AgendaCiudadanoState();
@@ -15,9 +28,44 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
   BackendConnection client = BackendConnection();
   late Widget agendaToLoad;
 
+  TabBar get _tabsVacunador => TabBar(
+        tabs: [
+          Tab(text: "Todas las Agendas"),
+          Tab(text: "Agendas Habilitadas para mi"),
+          Tab(text: "Mis Agendas"),
+        ],
+      );
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Material(
+      elevation: 10,
+      child: DefaultTabController(
+        length: 3,
+        initialIndex: 1,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: _tabsVacunador.preferredSize,
+            child: ColoredBox(
+              color: colorCustom,
+              child: _tabsVacunador,
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              Container(
+                child: todasLasAgendas(),
+              ),
+              Container(
+                child: agendasHabilitadasParaMi(),
+              ),
+              MisAgendasCiudadano(),
+            ],
+          ),
+        ),
+      ),
+    );
+    /*return Scaffold(
       body: Container(
         padding: const EdgeInsets.fromLTRB(25.0, 25, 25.0, 25.0),
         alignment: Alignment.center,
@@ -37,7 +85,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
                           Center(
                             child: Text(
                               "Agendas Habilitadas para mi",
-                              style: TextStyle(fontSize: 15),
+                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                           ),
                           Container(
@@ -62,7 +110,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
                           Center(
                             child: Text(
                               "Todas las Agendas",
-                              style: TextStyle(fontSize: 15),
+                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                           ),
                           Container(
@@ -86,7 +134,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
           ),
         ]),
       ),
-    );
+    );*/
   }
 
   FutureBuilder agendasHabilitadasParaMi() {
@@ -242,16 +290,19 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
       padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
       alignment: Alignment.center,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //Text("                                          "),
-              Text(
-                "Mis Agendas",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              /*Text("                                          "),
+              Center(
+                child: Text(
+                  "Mis Agendas",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
               ),
-              /*TextButton(
+              TextButton(
                 child: Text(listAll
                     ? "Listar Solo Nuevas Agendas"
                     : "Listar Todas Mis Agendas"),

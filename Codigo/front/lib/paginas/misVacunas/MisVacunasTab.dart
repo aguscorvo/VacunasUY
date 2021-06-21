@@ -184,7 +184,10 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                       shareTweeter(
                                           "El " + actosVacunales[index].fecha.toString() + " me vacune contra la enfermedad " + enf!.nombre + " con la vacuna " + actosVacunales[index].nombre + "!!!");
                                     },
-                                    child: Text("Compartir en Tweeter"),
+                                    child: Text(
+                                      "Compartir en Tweeter",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: 50),
@@ -196,7 +199,10 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                       shareFacebook(
                                           "El " + actosVacunales[index].fecha.toString() + " me vacune contra la enfermedad " + enf!.nombre + " con la vacuna " + actosVacunales[index].nombre + "!!!");
                                     },
-                                    child: Text("Compartir en Facebook"),
+                                    child: Text(
+                                      "Compartir en Facebook",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: 50),

@@ -1,13 +1,30 @@
-import 'dart:convert';
-
 class MonitorVacuna {
-  List<dynamic> agendas = [];
-  List<dynamic> vacunas = [];
+  Map<int, int> agendas = {};
+  Map<int, int> vacunas = {};
 
   MonitorVacuna();
 
   MonitorVacuna.fromJson(Map<String, dynamic> json) {
-    agendas = jsonDecode(json["agendas"]);
-    vacunas = jsonDecode(json["vacunas"]);
+    try {
+      List<dynamic> agendasTemp = json["agendas"].toString() == "[]" ? json["agendas"] : [];
+      List<dynamic> vacunasTemp = json["vacunas"].toString() == "[]" ? json["vacunas"] : [];
+
+      agendas = {};
+      vacunas = {};
+
+      agendasTemp.forEach((element) {
+        agendas.addAll({
+          element[0]: element[1],
+        });
+      });
+
+      vacunasTemp.forEach((element) {
+        vacunas.addAll({
+          element[0]: element[1],
+        });
+      });
+    } catch (err) {
+      print(err);
+    }
   }
 }

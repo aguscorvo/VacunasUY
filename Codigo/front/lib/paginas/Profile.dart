@@ -95,7 +95,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: <Widget>[
                                                   new Text(
-                                                    'Informacion Personal',
+                                                    'Información Personal',
                                                     style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                                                   ),
                                                 ],

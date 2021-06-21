@@ -19,7 +19,7 @@ class AgendaForm extends StatelessWidget {
   Widget build(BuildContext context) {
     if (tipoForm == "Eliminar") {
       return eliminar(context);
-    } else if (tipoForm == "Informacion") {
+    } else if (tipoForm == "Información") {
       return informacion(context);
     } else {
       return Container(
@@ -33,22 +33,56 @@ class AgendaForm extends StatelessWidget {
   AlertDialog eliminar(BuildContext context) {
     BackendConnection client = BackendConnection();
     return AlertDialog(
-      title: Text('Alerta!!!'),
+      title: Container(
+        color: Colors.blueAccent,
+        child: Center(
+          child: Text('Alerta!!!'),
+        ),
+      ),
       content: Text("Esta seguro que desea eleminar esta Agenda? (Irreversible)"),
       actions: <Widget>[
-        TextButton(
-          child: Text("Si, estoy seguro!"),
-          onPressed: () {
-            client.borrarAgenda(usuario!.id, agenda!.id);
-            Navigator.of(context).pop();
-          },
-        ),
-        TextButton(
-          child: Text("Cancelar"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12.0),
+                  topRight: Radius.circular(12.0),
+                  bottomLeft: Radius.circular(12.0),
+                  bottomRight: Radius.circular(12.0),
+                ),
+              ),
+              child: TextButton(
+                child: Text("Si, estoy seguro!"),
+                onPressed: () {
+                  client.borrarAgenda(usuario!.id, agenda!.id);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12.0),
+                  topRight: Radius.circular(12.0),
+                  bottomLeft: Radius.circular(12.0),
+                  bottomRight: Radius.circular(12.0),
+                ),
+              ),
+              child: TextButton(
+                child: Text("Cancelar"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          ],
+        )
       ],
     );
   }
@@ -73,13 +107,13 @@ class AgendaForm extends StatelessWidget {
     );
 
     return AlertDialog(
-      title: Center(child: Text("Informacion")),
+      title: Center(child: Text("Información")),
       content: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
           Positioned(
-            right: -15.0,
-            top: -60.0,
+            right: -60.0,
+            top: -100.0,
             child: InkResponse(
               onTap: () {
                 Navigator.of(context).pop();
@@ -93,7 +127,7 @@ class AgendaForm extends StatelessWidget {
           Positioned(
             right: 300.0,
             top: 10.0,
-            child: Center(child: Text("Informacion")),
+            child: Center(child: Text("Información")),
           ),
           Container(
             width: MediaQuery.of(context).size.width < 1900 ? MediaQuery.of(context).size.width * 0.7 : MediaQuery.of(context).size.width * 0.5,
@@ -136,7 +170,7 @@ class AgendaForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Edad Minima",
+                                              "Edad Mínima",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -164,7 +198,7 @@ class AgendaForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Edad Maxima",
+                                              "Edad Máxima",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -382,7 +416,7 @@ class AgendaForm extends StatelessWidget {
                                       color: Colors.blueAccent,
                                       child: Center(
                                         child: Text(
-                                          "Periodo",
+                                          "Período",
                                           style: TextStyle(fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -443,7 +477,7 @@ class AgendaForm extends StatelessWidget {
                                       color: Colors.blueAccent,
                                       child: Center(
                                           child: Text(
-                                        "Afeccion",
+                                        "Afección",
                                         style: TextStyle(fontWeight: FontWeight.bold),
                                       )),
                                     ),

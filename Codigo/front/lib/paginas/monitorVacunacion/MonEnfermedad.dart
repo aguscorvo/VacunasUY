@@ -150,7 +150,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.3,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
@@ -159,8 +159,15 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                       color: Colors.blueAccent,
                                       child: Center(child: Text("Cantidad Agendados Hoy")),
                                     ),
-                                    Center(
-                                      child: Text(monitorDeEnfermedad.cantidadAgendasHoy == -1 ? "0" : monitorDeEnfermedad.cantidadAgendasHoy.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: Text(
+                                            monitorDeEnfermedad.cantidadAgendasHoy == -1 ? "0" : monitorDeEnfermedad.cantidadAgendasHoy.toString(),
+                                            style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -171,17 +178,24 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.3,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width * 0.3,
                                       height: 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Cantidad Vacunados Hoy")),
+                                      child: Center(child: Text("Vacunados Hoy")),
                                     ),
-                                    Center(
-                                      child: Text(monitorDeEnfermedad.cantidadVacunadosHoy == -1 ? "0" : monitorDeEnfermedad.cantidadVacunadosHoy.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: Text(
+                                            monitorDeEnfermedad.cantidadVacunadosHoy == -1 ? "0" : monitorDeEnfermedad.cantidadVacunadosHoy.toString(),
+                                            style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -205,6 +219,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                     child: Material(
                                       elevation: 10,
                                       child: Container(
+                                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -224,6 +239,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                     child: Material(
                                       elevation: 20,
                                       child: Container(
+                                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -301,7 +317,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Nombre: " + element.nombre),
-                Text("Periodo: " + reformateDate(element.rangoFecha)),
+                Text("Período: " + reformateDate(element.rangoFecha)),
               ],
             ),
           ),

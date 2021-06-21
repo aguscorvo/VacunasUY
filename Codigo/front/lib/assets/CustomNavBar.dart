@@ -92,7 +92,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
     nabBarItems.add(BottomNavigationBarItem(
       icon: Icon(Icons.info),
-      label: 'Monitor Vacunacion',
+      label: 'Monitor Vacunación',
       backgroundColor: colorCustom,
     ));
 
@@ -145,7 +145,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     }
 
     if (_selectedIndex == -1) {
-      _selectedIndex = getLabelIndex("Monitor Vacunacion");
+      _selectedIndex = getLabelIndex("Monitor Vacunación");
     }
 
     return BottomNavigationBar(
@@ -175,7 +175,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
       _selectedIndex = index;
     });
 
-    if (label == 'Monitor Vacunacion') {
+    if (label == 'Monitor Vacunación') {
       return new MonitorVacunacionTab();
     } else if (label == 'Vacunatorios') {
       return new VacunatorioTab();

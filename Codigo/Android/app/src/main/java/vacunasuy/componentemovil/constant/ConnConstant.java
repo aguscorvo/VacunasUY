@@ -19,6 +19,7 @@ public class ConnConstant {
     final public static String API_GETENFERMEDADESVACUNAS_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/enfermedades/listarEnfermedadesPorUsuario/{id}";
     final public static String API_GETENFERMEDADVACUNAS_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/actosVacunales/listarActosVacunalesPorUsuarioEnfermedad/{idUsuario}/{idEnfermedad}";
     final public static String API_GETUSUARIOAGENDA_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/usuarios/listarAgendasCiudadano/{idUsuario}";
+    final public static String API_QR_URL = " https://vacunasuy.web.elasticloud.uy?idUsuario={idUsuaurio}&idEnfermedad={idEnfermedad}";
 
 
     //VACUNATORIO

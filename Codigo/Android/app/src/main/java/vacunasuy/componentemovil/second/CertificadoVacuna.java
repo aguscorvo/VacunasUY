@@ -61,6 +61,8 @@ import vacunasuy.componentemovil.obj.DtUsuario;
 import vacunasuy.componentemovil.obj.DtVacuna;
 import vacunasuy.componentemovil.obj.DtVacunatorio;
 
+import static vacunasuy.componentemovil.constant.ConnConstant.API_QR_URL;
+
 public class CertificadoVacuna extends AppCompatActivity {
     private static final String TAG = "CertificadoVacuna";
     public final static int WHITE = 0xFFFFFFFF;
@@ -105,7 +107,8 @@ public class CertificadoVacuna extends AppCompatActivity {
         cvacuna.setText(vacuna);
 
         try {
-            Bitmap bitmap = encodeAsBitmap(qrToJSON().trim());
+            //Bitmap bitmap = encodeAsBitmap(qrToJSON().trim());
+            Bitmap bitmap = encodeAsBitmap(qrToURL().trim());
             qrCodeIV.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
@@ -328,6 +331,13 @@ public class CertificadoVacuna extends AppCompatActivity {
             //e.printStackTrace();
             res = "";
         }
+
+        return res;
+    }
+
+    private String qrToURL(){
+        String res = ConnConstant.API_QR_URL;
+        res = res.replace("{idUsuario}", dtUsuario.getId().toString()).replace("{idEnfermedad}", idPlan.toString());
 
         return res;
     }

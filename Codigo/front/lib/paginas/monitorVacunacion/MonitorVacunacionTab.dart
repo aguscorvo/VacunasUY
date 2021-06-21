@@ -31,6 +31,7 @@ class MonitorVacunacionTab extends StatelessWidget {
 
     monitores = DefaultTabController(
         length: 3,
+        initialIndex: 1,
         child: Scaffold(
             appBar: PreferredSize(
               preferredSize: _tabsVacunador.preferredSize,

@@ -1,5 +1,6 @@
 import 'package:vacunas_uy/landing/DesktopLandingPage.dart';
 import 'package:vacunas_uy/landing/MobileLandingPage.dart';
+import 'package:vacunas_uy/tools/FirebaseApi.dart';
 import 'package:vacunas_uy/tools/PlatformSpecific.dart';
 import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,10 @@ class _BaseAppState extends State<BaseApp> {
         if (storedUserCredentials == null) {
           return Container(
             color: Colors.blueGrey,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: Center(child: CircularProgressIndicator()),
           );
         } else {
+          FirebaseApi().signIn();
           return LandingPageLayoutBuilder(
             title: widget.title!,
           );

@@ -52,7 +52,7 @@ class _MonPlanState extends State<MonPlan> {
                           itemBuilder: (context, index) {
                             return InkWell(
                               hoverColor: Colors.transparent,
-                              onTap: () => {MonPlanSelected.state.planSeleccionada(planVacunacion[index])},
+                              onTap: () => {MonPlanSelected.state.planSeleccionado(planVacunacion[index])},
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
@@ -117,7 +117,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
   late MonitorPlan monitorDePlan;
   PlanVacunacion? plan;
 
-  void planSeleccionada(PlanVacunacion? plan) {
+  void planSeleccionado(PlanVacunacion? plan) {
     setState(() {
       this.plan = plan;
     });
@@ -162,7 +162,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
@@ -171,8 +171,15 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                       color: Colors.blueAccent,
                                       child: Center(child: Text("Cantidad Agendados Hoy")),
                                     ),
-                                    Center(
-                                      child: Text(monitorDePlan.cantidadAgendasHoy == -1 ? "0" : monitorDePlan.cantidadAgendasHoy.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: Text(
+                                            monitorDePlan.cantidadAgendasHoy == -1 ? "0" : monitorDePlan.cantidadAgendasHoy.toString(),
+                                            style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -183,17 +190,24 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width * 0.2,
                                       height: 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Cantidad Vacunados Hoy")),
+                                      child: Center(child: Text("Vacunados Hoy")),
                                     ),
-                                    Center(
-                                      child: Text(monitorDePlan.cantidadVacunadosHoy == -1 ? "0" : monitorDePlan.cantidadVacunadosHoy.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: Text(
+                                            monitorDePlan.cantidadVacunadosHoy == -1 ? "0" : monitorDePlan.cantidadVacunadosHoy.toString(),
+                                            style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -204,17 +218,24 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width * 0.2,
                                       height: 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Cantidad Vacunados En Total")),
+                                      child: Center(child: Text("Vacunados en total")),
                                     ),
-                                    Center(
-                                      child: Text(monitorDePlan.cantidadTotalVacunados == -1 ? "0" : monitorDePlan.cantidadTotalVacunados.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 1),
+                                        child: Center(
+                                            child: Text(
+                                          monitorDePlan.cantidadTotalVacunados == -1 ? "0" : monitorDePlan.cantidadTotalVacunados.toString(),
+                                          style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
+                                        )),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -237,6 +258,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                   child: Material(
                                     elevation: 10,
                                     child: Container(
+                                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -313,7 +335,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Edad Minima",
+                                    "Edad Mínima",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -341,7 +363,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Edad Maxima",
+                                    "Edad Máxima",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -563,7 +585,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                             color: Colors.blueAccent,
                             child: Center(
                               child: Text(
-                                "Periodo",
+                                "Período",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -625,7 +647,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                             color: Colors.blueAccent,
                             child: Center(
                                 child: Text(
-                              "Afeccion",
+                              "Afección",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )),
                           ),

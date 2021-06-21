@@ -79,10 +79,10 @@ class _VacunatorioListingState extends State<VacunatorioListing> {
                 future: client.getVacunatorios(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   } else {
                     if (snapshot.data == null) {
-                      return CircularProgressIndicator();
+                      return Center(child: CircularProgressIndicator());
                     } else {
                       List<Vacunatorio> vacunatorios = [];
                       List<Vacunatorio> vacunatoriosTemp = snapshot.data as List<Vacunatorio>;
@@ -165,10 +165,10 @@ class _VacunatorioListingState extends State<VacunatorioListing> {
             future: client.getDepartamentos(),
             builder: (context, snapshot) {
               if (snapshot.connectionState != ConnectionState.done) {
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               } else {
                 if (snapshot.data == null) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 } else {
                   List<Departamento> departamentos = snapshot.data as List<Departamento>;
                   _depGuardados = snapshot.data as List<Departamento>;
@@ -217,10 +217,10 @@ class _VacunatorioListingState extends State<VacunatorioListing> {
             future: client.getLocalidades(),
             builder: (context, snapshot) {
               if (snapshot.connectionState != ConnectionState.done) {
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               } else {
                 if (snapshot.data == null) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 } else {
                   List<Localidad> localidades;
                   if (_selectedDepartamento == "Todos") {

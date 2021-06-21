@@ -79,7 +79,7 @@
 							<div class="card-body">
 								<h5 class="card-title mb-3">Vacunatorios</h5>
 								<div id="vacunatoriosGraficaA" class="graficas">
-									<div id="canvas-holder">
+									<div id="canvas-holderA">
 										<canvas id="chart_CardA" width="300" height="300" />
 									</div>
 
@@ -109,7 +109,7 @@
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title mb-3">Usuarios</h5>
-								<div id="canvas-holder">
+								<div id="canvas-holderB">
 									<canvas id="chart_CardB" width="300" height="300" />
 								</div>
 								<div class="col-12">
@@ -137,7 +137,7 @@
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title mb-3">Planes</h5>
-								<div id="canvas-holder">
+								<div id="canvas-holderC">
 									<canvas id="chart_CardC" width="300" height="300" />
 								</div>
 								<div class="col-12">
@@ -169,29 +169,28 @@
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title mb-3">Stock de Vacunas</h5>
-								<div id="stockVacunasA" class="">
-									<table class="table">
-										<thead class="thead-dark">
+								<table class="table">
+									<thead class="thead-dark">
+										<tr>
+											<th scope="col">Vacuna</th>
+											<th scope="col">Stock</th>
+										</tr>
+									</thead>
+									<tbody>
+										<ui:repeat var="vac" value="#{HomeBean.stockVacunas}">
 											<tr>
-												<th scope="col">Vacuna</th>
-												<th scope="col">Stock</th>
+												<td><h:outputText value="#{vac[0]}" /></td>
+												<td><h:outputText value="#{vac[1]}" /></td>
 											</tr>
-										</thead>
-										<tbody>
-											<ui:repeat var="vac" value="#{HomeBean.stockVacunas}">
-												<tr>
-													<td><h:outputText value="#{vac[0]}" /></td>
-													<td><h:outputText value="#{vac[1]}" /></td>
-												</tr>
 
-											</ui:repeat>
-										</tbody>
-									</table>
-								</div>
+										</ui:repeat>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
-					<!-- <div class="col-xl-6 col-sm-6 grid-margin stretch-card">
+				</div>
+				<!-- <div class="col-xl-6 col-sm-6 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title mb-3">Stock por Vacunatorio</h5>
@@ -217,6 +216,20 @@
 							</div>
 						</div>
 					</div> -->
+			</div>
+			<div class="row mb-3">
+
+				<div class="col-xl-12 col-sm-6 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title mb-3">Evoluci&oacute;n de
+								Vacunaci&oacute;n (&Uacute;ltimos 90 d&iacute;as)</h5>
+							<div id="canvas-holderD">
+								<canvas id="chart_CardD" width="1068" height="462" style="display: block; box-sizing: border-box; height: 462px !important; width: 1068px;"/>
+							</div>
+
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -306,8 +319,50 @@
 	            },
 	            options: op
 	        };
-	    
 
+
+	    const labels = [
+	    	<ui:repeat var="vac" value="#{HomeBean.fechas}">
+				'<h:outputText value="#{vac}" />'.replace('/-/g','/'),
+			</ui:repeat>
+
+		    ];
+	    const dataCardD = {
+	    		labels: labels,
+	    		datasets: [
+
+	    			<c:forEach items="#{HomeBean.evolucionVacunas}"
+						var="entry">
+						{
+						label: '<h:outputText value="#{entry.key}" />',
+						data: [	
+								<ui:repeat var="vac" value="#{entry.value}">
+										<h:outputText value="#{vac.cantidad}" />,
+								</ui:repeat>
+								],		
+						},
+					</c:forEach>
+		    		],
+	    	};	    
+	    
+	    const configCardD = {
+	    		  type: 'line',
+	    		  data: dataCardD,
+	    		  options: {
+	    		    responsive: true,
+	    		    plugins: {
+	    		      legend: {
+	    		        position: 'right',
+	    		      },
+	    		      title: {
+	    		        display: false,
+	    		        text: 'Chart.js Line Chart'
+	    		      }
+	    		    }
+	    		  },
+	    		};
+
+	    
 	    
     window.onload = function() {
         var ctxCardA = document.getElementById("chart_CardA").getContext("2d");
@@ -318,6 +373,9 @@
 
         var ctxCardC = document.getElementById("chart_CardC").getContext("2d");
         window.myDoughnut = new Chart(ctxCardC, configCardC);
+
+        var ctxCardD = document.getElementById("chart_CardD").getContext("2d");
+        window.myDoughnut = new Chart(ctxCardD, configCardD);
     };
 	
 

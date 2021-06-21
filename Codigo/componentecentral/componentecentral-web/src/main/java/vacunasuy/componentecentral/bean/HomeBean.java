@@ -1,8 +1,11 @@
 package vacunasuy.componentecentral.bean;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +34,7 @@ import vacunasuy.componentecentral.business.IVacunaService;
 import vacunasuy.componentecentral.business.IVacunatorioService;
 import vacunasuy.componentecentral.dto.EnfermedadDTO;
 import vacunasuy.componentecentral.dto.PlanVacunacionDTO;
+import vacunasuy.componentecentral.dto.ReporteEvolucionTiempoDTO;
 import vacunasuy.componentecentral.dto.ReporteVacunaDTO;
 import vacunasuy.componentecentral.dto.RolDTO;
 import vacunasuy.componentecentral.dto.UsuarioDTO;
@@ -53,10 +57,12 @@ public class HomeBean implements Serializable {
 
 	private List<ReporteVacunaDTO> stockVacunas;
 	private Map<String, List<ReporteVacunaDTO>> stockVacunasVacunatorios;
+	private Map<String, List<ReporteEvolucionTiempoDTO>> evolucionVacunas;
 	private List<VacunaDTO> vacunas;
 	private List<VacunatorioDTO> vacunatorios;
 	private List<EnfermedadDTO> enfermedades;
 	List<PlanVacunacionDTO> planes;
+	List<String> fechas;
 	Long vacunatoriosMVD;
 	Long vacunatoriosINT;
 	Long usuariosCIU;
@@ -94,14 +100,14 @@ public class HomeBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		try {
-			vacunas = vacunaService.listar();
+
 			vacunatorios = vacunatorioService.listar();
 			stockVacunas = listarStockVacunasDisponiblesParaEnviar();
 
 			VacunatoriosIntMvd();
 			PlanesVigPro();
 			UsuariosVacCiud();
-			
+			listarVacunasPorEvolucionEnTiempo();
 
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
@@ -147,8 +153,8 @@ public class HomeBean implements Serializable {
 			stockVacunasVacunatorios = new HashMap<String, List<ReporteVacunaDTO>>();
 
 			for (VacunatorioDTO vac : vacunatorios) {
-				stockVacunasVacunatorios.put(vac.getNombre(), listarStockVacunasPorVacunatorio(vac.getId()));  
-				
+				stockVacunasVacunatorios.put(vac.getNombre(), listarStockVacunasPorVacunatorio(vac.getId()));
+
 				if (vac.getDepartamento().getNombre().equalsIgnoreCase("Montevideo")) {
 					vacunatoriosMVD = vacunatoriosMVD + 1;
 				} else {
@@ -162,15 +168,17 @@ public class HomeBean implements Serializable {
 
 	private void UsuariosVacCiud() {
 		try {
-			usuariosVAC = (long) 0;
-			usuariosCIU = (long) 0;
-			
+		
 			List<UsuarioDTO> auxvac = usuarioService.listar();
 
+			usuariosVAC = (long) 0;
+			usuariosCIU = (long) 0;
+
+			
 			for (UsuarioDTO vdto : auxvac) {
-				
+				logger.info(vdto.getNombre());
 				for (RolDTO rdto : vdto.getRoles()) {
-					
+
 					if (rdto.getNombre().toUpperCase().contains("VACUNADOR")) {
 						usuariosVAC = usuariosVAC + 1;
 					} else if (rdto.getNombre().toUpperCase().contains("CIUDADANO")) {
@@ -189,21 +197,21 @@ public class HomeBean implements Serializable {
 		try {
 			planesVigentes = (long) 0;
 			planesProximos = (long) 0;
-			
-			List<PlanVacunacionDTO> auxvac =planVacunacionService.listar();
+
+			List<PlanVacunacionDTO> auxvac = planVacunacionService.listar();
 
 			for (PlanVacunacionDTO vdto : auxvac) {
-				
-				Date dFI = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(vdto.getFechaInicio());  
+
+				Date dFI = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(vdto.getFechaInicio());
 				Date dFF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(vdto.getFechaFin());
-				
+
 				Integer resFi = dFI.compareTo(new Date());
 				Integer resFF = dFF.compareTo(new Date());
-				
-				if(resFi <= 0 && resFF>= 0) {
+
+				if (resFi <= 0 && resFF >= 0) {
 					planesVigentes = planesVigentes + 1;
-					
-				} else if (resFi>0 && resFF>0) {
+
+				} else if (resFi > 0 && resFF > 0) {
 					planesProximos = planesProximos + 1;
 				}
 			}
@@ -211,6 +219,68 @@ public class HomeBean implements Serializable {
 		} catch (Exception e) {
 			logger.error(e.getLocalizedMessage());
 		}
+
+	}
+
+	private void listarVacunasPorEvolucionEnTiempo() {
+		try {
+			
+			fechas = new ArrayList<String>();
+			evolucionVacunas = new HashMap<String, List<ReporteEvolucionTiempoDTO>>();
+
+			Date fechaBase = new Date();
+			Calendar cfechaBase = Calendar.getInstance();
+			cfechaBase.setTime(fechaBase);
+
+			for (int d = 0; d < 90; d++) {
+
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				// Convert calendar back to Date
+				cfechaBase.add(Calendar.DAY_OF_YEAR, -1);
+				Date newDate = cfechaBase.getTime();
+				String strDate = dateFormat.format(newDate);
+				fechas.add(strDate);
+
+			}
+
+			String fechaInicio = fechas.get(fechas.size()-1);
+			String fechaFin =  fechas.get(0);
+
+			Collections.reverse(fechas);
+			
+			vacunas = vacunaService.listar();
+			for (VacunaDTO vac : vacunas) {
+				List<ReporteEvolucionTiempoDTO> vacf = new ArrayList<ReporteEvolucionTiempoDTO>();
+				
+				List<ReporteEvolucionTiempoDTO> aux = reporteService.listarPorEvolucionEnTiempo(fechaInicio, fechaFin, vac.getId());
+				
+				
+				for (String s: fechas) {
+					boolean encontre = false;
+					for(ReporteEvolucionTiempoDTO rdto: aux) {
+						if(rdto.getFecha().equalsIgnoreCase(s)) {
+							vacf.add(rdto);
+							encontre = true;
+							break;
+						}
+					}	
+					if(!encontre) {
+						ReporteEvolucionTiempoDTO recdto = ReporteEvolucionTiempoDTO.builder()
+								.cantidad(0)
+								.fecha(s)
+								.build();
+								vacf.add(recdto);
+					}
+				}
+				
+				evolucionVacunas.put(vac.getNombre(), vacf);
+			}
+			
+			
+		} catch (VacunasUyException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
 
 	}
 

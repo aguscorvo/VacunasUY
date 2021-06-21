@@ -126,7 +126,7 @@ class _AgendaVacunadorState extends State<AgendaVacunador> {
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 4),
                 maxCrossAxisExtent: 600,
-                mainAxisExtent: 130,
+                mainAxisExtent: 115,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
@@ -159,7 +159,7 @@ class AgendaSeleccionada extends StatefulWidget {
 
   const AgendaSeleccionada({this.agenda});
   @override
-  _AgendaSeleccionadaState createState() => state = _AgendaSeleccionadaState(agenda!);
+  _AgendaSeleccionadaState createState() => state = _AgendaSeleccionadaState(agenda);
 }
 
 class _AgendaSeleccionadaState extends State<AgendaSeleccionada> {

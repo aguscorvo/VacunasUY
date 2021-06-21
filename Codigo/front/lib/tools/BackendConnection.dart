@@ -467,7 +467,6 @@ class BackendConnection {
 
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
-      print(jsonResponse);
       return MonitorVacuna.fromJson(jsonResponse);
     } else {
       return MonitorVacuna();

@@ -51,7 +51,7 @@ class AgendaCard extends StatelessWidget {
       TextButton(
         child: Row(children: [
           Icon(Icons.info),
-          Text('Informacion Vacuna'),
+          Text('Información Vacuna'),
         ]),
         onPressed: () {
           showDialog(
@@ -60,7 +60,7 @@ class AgendaCard extends StatelessWidget {
               return AgendaForm(
                 agenda: agenda!,
                 color: color!,
-                tipoForm: "Informacion",
+                tipoForm: "Información",
               );
             },
           );
@@ -107,10 +107,15 @@ class AgendaCard extends StatelessWidget {
                 topRight: Radius.circular(8.0),
               ),
             ),
-            child: Center(child: Text("Vacuna: " + agenda!.planVacunacion.vacuna.nombre)),
+            child: Center(
+              child: Text(
+                "Vacuna: " + agenda!.planVacunacion.vacuna.nombre,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ListTile(
                 leading: Icon(Icons.list_alt),

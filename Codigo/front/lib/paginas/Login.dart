@@ -18,9 +18,9 @@ class _LoginState extends State<Login> {
         length: 2,
         child: Scaffold(
             appBar: AppBar(
-                title: Text("Iniciar Sesion"),
+                title: Text("Iniciar Sesión"),
                 bottom: TabBar(
-                  tabs: [Tab(text: "Iniciar Sesion con Gub.uy"), Tab(text: "Iniciar Sesion con Backoffice")],
+                  tabs: [Tab(text: "Iniciar Sesión con Gub.uy"), Tab(text: "Iniciar Sesión con Backoffice")],
                 )),
             body: TabBarView(
               children: [
@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
                               //openLogin(url);
                             },
                             child: Text(
-                              'Iniciar Sesion',
+                              'Iniciar Sesión',
                               style: TextStyle(color: Colors.white, fontSize: 25),
                             ),
                           ),
@@ -93,7 +93,7 @@ class _LoginState extends State<Login> {
                             //Codigo de Olbido Contraseña
                           },
                           child: Text(
-                            'Olbido su contraseña?',
+                            '¿Olvidó su contraseña?',
                             style: TextStyle(color: Colors.blue, fontSize: 15),
                           ),
                         ),
@@ -114,7 +114,7 @@ class _LoginState extends State<Login> {
                               }
                             },
                             child: Text(
-                              'Iniciar Sesion',
+                              'Iniciar Sesión',
                               style: TextStyle(color: Colors.white, fontSize: 25),
                             ),
                           ),

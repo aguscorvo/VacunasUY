@@ -29,7 +29,7 @@ class AtiendeCard extends StatelessWidget {
       TextButton(
         child: Row(children: [
           Icon(Icons.info),
-          Text('Informacion Vacuna'),
+          Text('Información Vacuna'),
         ]),
         onPressed: () {
           showDialog(
@@ -38,7 +38,7 @@ class AtiendeCard extends StatelessWidget {
               return AgendaForm(
                 agenda: atiende,
                 color: color,
-                tipoForm: "Informacion",
+                tipoForm: "Información",
               );
             },
           );

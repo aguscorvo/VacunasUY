@@ -25,7 +25,7 @@ class PlanVacCard extends StatelessWidget {
       TextButton(
         child: Row(children: [
           Icon(Icons.info),
-          Text('Informacion'),
+          Text('Información'),
         ]),
         onPressed: () {
           showDialog(
@@ -34,7 +34,7 @@ class PlanVacCard extends StatelessWidget {
               return PlanVacunacionForm(
                 planvacunacion: planvacun,
                 color: color,
-                tipoForm: "Informacion",
+                tipoForm: "Información",
               );
             },
           );
@@ -118,7 +118,11 @@ class PlanVacCard extends StatelessWidget {
                   topRight: Radius.circular(8.0),
                 ),
               ),
-              child: Center(child: Text("Nombre: " + planvacun!.vacuna.nombre)),
+              child: Center(
+                  child: Text(
+                "Nombre: " + planvacun!.vacuna.nombre,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
             ),
           ),
           Expanded(
@@ -129,7 +133,7 @@ class PlanVacCard extends StatelessWidget {
               children: [
                 ListTile(
                   leading: Icon(Icons.list_alt),
-                  title: Text("Período del: " + formatDate(planvacun!.fechaInicio) + " al " + formatDate(planvacun!.fechaFin)),
+                  title: Text("Desde " + formatDate(planvacun!.fechaInicio) + " hasta " + formatDate(planvacun!.fechaFin)),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[

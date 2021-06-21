@@ -79,7 +79,7 @@ class VacunaCard extends StatelessWidget {
                 Text("Enfermedad: " + vacuna!.enfermedad.nombre),
                 Text("Cantidad Dosis: " + vacuna!.cantDosis.toString()),
                 Text("Inmunidad: " + vacuna!.inmunidad.toString()),
-                Text("Periodo: " + vacuna!.periodo.toString()),
+                Text("período: " + vacuna!.periodo.toString()),
               ],
             ),
           ),

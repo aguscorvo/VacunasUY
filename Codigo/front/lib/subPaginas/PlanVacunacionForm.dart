@@ -24,7 +24,7 @@ class PlanVacunacionForm extends StatelessWidget {
       return editar(context);
     } else if (tipoForm == "Agendar") {
       return agendar(context);
-    } else if (tipoForm == "Informacion") {
+    } else if (tipoForm == "Información") {
       return informacion(context);
     } else {
       return Container(
@@ -102,13 +102,13 @@ class PlanVacunacionForm extends StatelessWidget {
     );
 
     return AlertDialog(
-      title: Center(child: Text("Informacion")),
+      title: Center(child: Text("Información")),
       content: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
           Positioned(
-            right: -15.0,
-            top: -60.0,
+            right: -60.0,
+            top: -100.0,
             child: InkResponse(
               onTap: () {
                 Navigator.of(context).pop();
@@ -122,7 +122,7 @@ class PlanVacunacionForm extends StatelessWidget {
           Positioned(
             right: 300.0,
             top: 10.0,
-            child: Center(child: Text("Informacion")),
+            child: Center(child: Text("Información")),
           ),
           Container(
             width: MediaQuery.of(context).size.width < 1900 ? MediaQuery.of(context).size.width * 0.7 : MediaQuery.of(context).size.width * 0.5,
@@ -165,7 +165,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Edad Minima",
+                                              "Edad Mínima",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -193,7 +193,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Edad Maxima",
+                                              "Edad Máxima",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -411,7 +411,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                       color: Colors.blueAccent,
                                       child: Center(
                                         child: Text(
-                                          "Periodo",
+                                          "período",
                                           style: TextStyle(fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -472,7 +472,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                       color: Colors.blueAccent,
                                       child: Center(
                                           child: Text(
-                                        "Afeccion",
+                                        "Afección",
                                         style: TextStyle(fontWeight: FontWeight.bold),
                                       )),
                                     ),

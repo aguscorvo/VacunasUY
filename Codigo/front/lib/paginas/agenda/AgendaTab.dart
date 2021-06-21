@@ -36,22 +36,27 @@ class _AgendaTabState extends State<AgendaTab> {
   Widget build(BuildContext context) {
     if (isUserLogedOn()) {
       if (isUserVacunador()) {
-        agendaToLoad = DefaultTabController(
+        agendaToLoad = Material(
+          elevation: 10,
+          child: DefaultTabController(
             length: 2,
             child: Scaffold(
-                appBar: PreferredSize(
-                  preferredSize: _tabsVacunador.preferredSize,
-                  child: ColoredBox(
-                    color: colorCustom,
-                    child: _tabsVacunador,
-                  ),
+              appBar: PreferredSize(
+                preferredSize: _tabsVacunador.preferredSize,
+                child: ColoredBox(
+                  color: colorCustom,
+                  child: _tabsVacunador,
                 ),
-                body: TabBarView(
-                  children: [
-                    AgendaCiudadano(),
-                    AgendaVacunador(),
-                  ],
-                )));
+              ),
+              body: TabBarView(
+                children: [
+                  AgendaCiudadano(),
+                  AgendaVacunador(),
+                ],
+              ),
+            ),
+          ),
+        );
       } else if (isUserCiudadano()) {
         agendaToLoad = AgendaCiudadano();
       }

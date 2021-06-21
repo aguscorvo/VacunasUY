@@ -416,7 +416,7 @@ class AgendaForm extends StatelessWidget {
                                       color: Colors.blueAccent,
                                       child: Center(
                                         child: Text(
-                                          "período",
+                                          "Período",
                                           style: TextStyle(fontWeight: FontWeight.bold),
                                         ),
                                       ),

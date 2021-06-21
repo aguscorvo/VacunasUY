@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class MonitorVacuna {
   Map<int, int> agendas = {};
   Map<int, int> vacunas = {};

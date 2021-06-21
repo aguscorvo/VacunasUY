@@ -171,12 +171,16 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                       color: Colors.blueAccent,
                                       child: Center(child: Text("Cantidad Agendados Hoy")),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 1),
-                                      child: Center(
-                                        child: Text(monitorDePlan.cantidadAgendasHoy == -1 ? "0" : monitorDePlan.cantidadAgendasHoy.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: Text(
+                                            monitorDePlan.cantidadAgendasHoy == -1 ? "0" : monitorDePlan.cantidadAgendasHoy.toString(),
+                                            style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
+                                          ),
+                                        ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -195,10 +199,14 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                       color: Colors.blueAccent,
                                       child: Center(child: Text("Vacunados Hoy")),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 1),
-                                      child: Center(
-                                        child: Text(monitorDePlan.cantidadVacunadosHoy == -1 ? "0" : monitorDePlan.cantidadVacunadosHoy.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: Text(
+                                            monitorDePlan.cantidadVacunadosHoy == -1 ? "0" : monitorDePlan.cantidadVacunadosHoy.toString(),
+                                            style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -219,12 +227,16 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                       color: Colors.blueAccent,
                                       child: Center(child: Text("Vacunados en total")),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 1),
-                                      child: Center(
-                                        child: Text(monitorDePlan.cantidadTotalVacunados == -1 ? "0" : monitorDePlan.cantidadTotalVacunados.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 1),
+                                        child: Center(
+                                            child: Text(
+                                          monitorDePlan.cantidadTotalVacunados == -1 ? "0" : monitorDePlan.cantidadTotalVacunados.toString(),
+                                          style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
+                                        )),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -573,7 +585,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                             color: Colors.blueAccent,
                             child: Center(
                               child: Text(
-                                "período",
+                                "Período",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),

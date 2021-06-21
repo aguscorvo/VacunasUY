@@ -159,18 +159,16 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                       color: Colors.blueAccent,
                                       child: Center(child: Text("Cantidad Agendados Hoy")),
                                     ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                          child: Center(
-                                            child: Text(monitorDeEnfermedad.cantidadAgendasHoy == -1 ? "0" : monitorDeEnfermedad.cantidadAgendasHoy.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: Text(
+                                            monitorDeEnfermedad.cantidadAgendasHoy == -1 ? "0" : monitorDeEnfermedad.cantidadAgendasHoy.toString(),
+                                            style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
                                           ),
-                                        )
-                                      ],
-                                    )
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -189,17 +187,15 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                       color: Colors.blueAccent,
                                       child: Center(child: Text("Vacunados Hoy")),
                                     ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                          child: Center(
-                                            child: Text(monitorDeEnfermedad.cantidadVacunadosHoy == -1 ? "0" : monitorDeEnfermedad.cantidadVacunadosHoy.toString()),
+                                    Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: Text(
+                                            monitorDeEnfermedad.cantidadVacunadosHoy == -1 ? "0" : monitorDeEnfermedad.cantidadVacunadosHoy.toString(),
+                                            style: TextStyle(fontSize: ((MediaQuery.of(context).size.height * 0.030 * 0.8)) + 0),
                                           ),
-                                        )
-                                      ],
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -321,7 +317,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Nombre: " + element.nombre),
-                Text("período: " + reformateDate(element.rangoFecha)),
+                Text("Período: " + reformateDate(element.rangoFecha)),
               ],
             ),
           ),

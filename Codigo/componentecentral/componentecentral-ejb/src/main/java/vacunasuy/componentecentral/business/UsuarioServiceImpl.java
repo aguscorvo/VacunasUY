@@ -53,31 +53,31 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	private IAgendaService agendaService;
 	
 	@EJB
-	private IUsuarioDAO usuarioDAO;
+	public IUsuarioDAO usuarioDAO;
 	
 	@EJB
-	private IRolDAO rolDAO;
+	public IRolDAO rolDAO;
 	
 	@EJB
-	private ISectorLaboralDAO sectorLaboralDAO;
+	public ISectorLaboralDAO sectorLaboralDAO;
 	
 	@EJB
-	private IPuestoDAO puestoDAO;
+	public IPuestoDAO puestoDAO;
 	
 	@EJB
-	private IActoVacunalDAO actoVacunalDAO;
+	public IActoVacunalDAO actoVacunalDAO;
 	
 	@EJB
-	private IAgendaDAO agendaDAO;
+	public IAgendaDAO agendaDAO;
 	
 	@EJB
-	private UsuarioConverter usuarioConverter;
+	public UsuarioConverter usuarioConverter;
 	
 	@EJB
-	private AtiendeConverter atiendeConverter;
+	public AtiendeConverter atiendeConverter;
 	
 	@EJB
-	private AgendaConverter agendaConverter;
+	public AgendaConverter agendaConverter;
 	
 	@EJB
 	private SectorLaboralConverter sectorLaboralConverter;
@@ -253,7 +253,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 	
 	/* Función auxiliar para generar un JWT */
-	private String crearJsonWebToken(Usuario usuario) {
+	public String crearJsonWebToken(Usuario usuario) {
 		Date ahora = new Date();
 		/* 1 horas de validez */
 		Date expiracion = new Date(ahora.getTime() + (1000*60*60));
@@ -276,11 +276,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			Atiende atiende = atiendeConverter.fromCrearDTO(atiendeDTO);
 			atiende.setUsuario(vacunadorAux);
 			atiende.setPuesto(puestoAux);
-			
 			vacunadorAux.getAtiende().add(atiende);
-//			puestoAux.getAtiende().add(atiende);
 			usuarioDAO.editar(vacunadorAux);
-//			puestoDAO.editar(puestoAux);
 		}catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
@@ -295,20 +292,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		usuarioAux.getActosVacunales().add(actoVacunalAux);
 		usuarioDAO.editar(usuarioAux);
 	}
-	
-//	//desde backend
-//	@Override
-//	public void agregarAgenda(Usuario ciudadano, List<Agenda> agendasNuevas) throws VacunasUyException{
-//		try {
-//			List<Agenda> agendasCiudadano = ciudadano.getAgendas();
-//			List<Agenda> agendas = new ArrayList<Agenda>(agendasCiudadano);
-//			agendasNuevas.stream().forEach(a -> agendas.add(a));			
-//			ciudadano.setAgendas(agendas);
-//			usuarioDAO.editar(ciudadano);
-//		}catch (Exception e) {
-//			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
-//		}
-//	}
 	
 	//desde backend
 	@Override
@@ -374,7 +357,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		}
 	}
 	
-	private UsuarioDNICDTO getDatosDNIC(String cedula) {
+	public UsuarioDNICDTO getDatosDNIC(String cedula) {
 		Client cliente = ClientBuilder.newClient();
 		WebTarget target = cliente.target(Constantes.NODOS_EXTERNOS_REST_URL+"/personas/"+cedula);
 		UsuarioDNICDTO response = target.request(MediaType.APPLICATION_JSON)
@@ -392,10 +375,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			List<Rol> roles = usuario.getRoles();
 			Rol rol = roles.stream().filter(r -> r.getNombre().equals("Ciudadano")).findFirst().orElse(null);
 			if(rol == null) throw new VacunasUyException("El usuario indicado no es un ciudadano.", VacunasUyException.DATOS_INCORRECTOS);
-			List<Agenda> agendas = usuario.getAgendas();
-//			agendas.clear();
-//			usuario.setAgendas(agendas);
-//			usuarioDAO.editar(usuario);
 			return agendaConverter.fromEntity(usuario.getAgendas());
 		}catch (Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);

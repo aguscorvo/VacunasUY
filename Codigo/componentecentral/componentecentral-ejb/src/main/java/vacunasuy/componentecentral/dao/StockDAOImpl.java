@@ -1,13 +1,11 @@
 package vacunasuy.componentecentral.dao;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.SqlResultSetMapping;
 import javax.persistence.TypedQuery;
 
 import vacunasuy.componentecentral.dto.ReporteVacunaDTO;
@@ -36,18 +34,22 @@ public class StockDAOImpl implements IStockDAO {
 		return stock;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReporteVacunaDTO> listarStockVacunasDisponiblesParaEnviar() {
-		TypedQuery<ReporteVacunaDTO> reporte = (TypedQuery<ReporteVacunaDTO>) 
+		  TypedQuery<ReporteVacunaDTO> reporte = (TypedQuery<ReporteVacunaDTO>) 
 				em.createNativeQuery("SELECT nombre, SUM(cantidadDisponible) as cantidad "
 						+ "FROM vacunas v INNER JOIN lotes l ON v.id = l.fk_vacuna "
 						+ "GROUP BY v.nombre");
+		
 		return reporte.getResultList();
+		
 	}
 
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReporteVacunaDTO> listarStockVacunaPorVacunatorios(Long idVacuna) {
 		TypedQuery<ReporteVacunaDTO> reporte = (TypedQuery<ReporteVacunaDTO>) 
@@ -58,6 +60,7 @@ public class StockDAOImpl implements IStockDAO {
 		return reporte.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReporteVacunaDTO> listarStockVacunasPorVacunatorio(Long idVacunatorio) {
 		TypedQuery<ReporteVacunaDTO> reporte = (TypedQuery<ReporteVacunaDTO>) 

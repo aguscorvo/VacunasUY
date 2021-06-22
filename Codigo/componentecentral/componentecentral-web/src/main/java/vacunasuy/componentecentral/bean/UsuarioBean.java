@@ -101,7 +101,7 @@ public class UsuarioBean implements Serializable {
 			strbuscar = strbuscar.toUpperCase();
 			
 			for (UsuarioDTO udto : usuarios) {
-				if (udto.getDocumento().contains(strbuscar) || udto.getCorreo().toUpperCase().contains(strbuscar))
+				if ((udto.getDocumento() != null && udto.getDocumento().contains(strbuscar)) || udto.getCorreo().toUpperCase().contains(strbuscar))
 					auxusr.add(udto);
 			}
 			usuarios = auxusr;

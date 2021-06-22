@@ -1,4 +1,4 @@
-﻿# VacunasUy
+﻿# VacunasUY
 
 Laboratorio para la asignatura Taller de Sistemas Empresariales de la Facultad de Ingeniería (FIng-UdelaR).
 
@@ -13,19 +13,18 @@ Laboratorio para la asignatura Taller de Sistemas Empresariales de la Facultad d
 
 ## Link Frontoffice web
 
-[VacunasUy - ElasticCloud](http://vacunasuy.web.elasticloud.uy)
+[VacunasUY - ElasticCloud](https://vacunasuy.web.elasticloud.uy)
 
 ## Datos de prueba
 
 Usuarios por defecto en backoffice:
-
-Perfil: Administrador / Correo:  admin@admin.com / Contraseña: 1234
-Perfil: Autoridad / Correo: msp@gub.uy / Contraseña:1234
+- Perfil: Administrador / Correo:  admin@admin.com / Contraseña: 1234
+- Perfil: Autoridad / Correo: msp@gub.uy / Contraseña:1234
 
 
 ## Descripción
 
-La plataforma VacunasUy surge en el contexto actual, a nivel mundial, que está atravesando la sociedad por la pandemia de Coronavirus (COVID-19). Si bien ya se cuenta con vacunas desarrolladas para combatir esta enfermedad, es necesario, a su vez, contar con un sistema informático que sea capaz de gestionar todo el ciclo de vacunación, desde la recepción de las unidades, envío a los centros de vacunación, asignación del personal de la salud para realizar las vacunaciones, así como también permitir a los ciudadanos inscribirse en las distintas agendas para recibir las vacunas, entre otras funcionalidades. Además, no solo se espera que esta plataforma pueda gestionar el contexto actual, sino que pueda utilizarse a futuro para gestionar cualquier plan de vacunación.
+La plataforma VacunasUY surge en el contexto actual, a nivel mundial, que está atravesando la sociedad por la pandemia de Coronavirus (COVID-19). Si bien ya se cuenta con vacunas desarrolladas para combatir esta enfermedad, es necesario, a su vez, contar con un sistema informático que sea capaz de gestionar todo el ciclo de vacunación, desde la recepción de las unidades, envío a los centros de vacunación, asignación del personal de la salud para realizar las vacunaciones, así como también permitir a los ciudadanos inscribirse en las distintas agendas para recibir las vacunas, entre otras funcionalidades. Además, no solo se espera que esta plataforma pueda gestionar el contexto actual, sino que pueda utilizarse a futuro para gestionar cualquier plan de vacunación.
 
 Más información en el documento de arquitectura. 
 `Documentacion/documento-de-arquitectura-de-software.pdf`
@@ -36,7 +35,7 @@ Frontoffice web
 ![frontoffice-web-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-web-03.png)
 
 Frontoffice mobile
-![frontoffice-mobile-screenshot](./)
+![frontoffice-mobile-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-mobile-01.png)
 
 Backoffice
 ![backoffice-web-screenshot](./)
@@ -58,4 +57,3 @@ Backoffice
 - [Mi Nube - Elastic Cloud](https://minubeantel.uy/)
 - Firebase
 - Heroku
-

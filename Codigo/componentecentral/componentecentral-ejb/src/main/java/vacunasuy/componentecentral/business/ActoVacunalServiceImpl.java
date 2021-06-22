@@ -26,28 +26,28 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class ActoVacunalServiceImpl implements IActoVacunalService {
 
 	@EJB
-	private IUsuarioService usuarioService;
+	public IUsuarioService usuarioService;
 	
     @EJB
-    private IActoVacunalDAO actoVacunalDAO;
+	public IActoVacunalDAO actoVacunalDAO;
     
     @EJB
-    private IPlanVacunacionDAO planVacunacionDAO;
+	public IPlanVacunacionDAO planVacunacionDAO;
     
     @EJB
-    private IUsuarioDAO usuarioDAO;
+	public IUsuarioDAO usuarioDAO;
     
     @EJB
-    private IEnfermedadDAO enfermedadDAO;
+	public IEnfermedadDAO enfermedadDAO;
     
     @EJB
-    private IVacunatorioDAO vacunatorioDAO;
+	public IVacunatorioDAO vacunatorioDAO;
     
     @EJB
-    private IStockService stockService;
+	public IStockService stockService;
     
     @EJB
-    private ActoVacunalConverter actoVacunalConverter;
+	public ActoVacunalConverter actoVacunalConverter;
     
     @Override
     public List<ActoVacunalDTO> listar() throws VacunasUyException{

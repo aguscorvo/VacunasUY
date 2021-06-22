@@ -119,7 +119,7 @@ public class VacunatorioGeoServiceTest {
 	}
 	
 	@Test
-	public void listarCercanos() {
+	public void listarCercanos() throws VacunasUyException {
 		UbicacionDTO ubicacion = new UbicacionDTO(-34.869996, -56.10902, 10.0);
 
 		Point point = Geometries.mkPoint(new G2D(-56.15348, -34.86297), CoordinateReferenceSystems.WGS84); 
@@ -128,11 +128,6 @@ public class VacunatorioGeoServiceTest {
 		vacunatorioGeo.setGeom(point);
 		List<VacunatorioGeoDTO> vacunatoriosGeoDTO = new ArrayList<VacunatorioGeoDTO>();
 		vacunatoriosGeoDTO.add(vacunatorioGeoDTO);
-		try {
-			
-		}catch (VacunasUyException e) {
-			e.printStackTrace();
-		}
 	}
 	
 

@@ -60,4 +60,5 @@ Backoffice web
 - [Mi Nube - Elastic Cloud](https://minubeantel.uy/)
 - Firebase
 - Heroku
+- MongoDB Atlas
 

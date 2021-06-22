@@ -1,5 +1,7 @@
 package vacunasuy.componentecentral.dao;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Singleton;
@@ -37,18 +39,23 @@ public class StockDAOImpl implements IStockDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReporteVacunaDTO> listarStockVacunasDisponiblesParaEnviar() {
-		  TypedQuery<ReporteVacunaDTO> reporte = (TypedQuery<ReporteVacunaDTO>) 
+		  Query reporte = 
 				em.createNativeQuery("SELECT nombre, SUM(cantidadDisponible) as cantidad "
 						+ "FROM vacunas v INNER JOIN lotes l ON v.id = l.fk_vacuna "
 						+ "GROUP BY v.nombre");
-		
-		return reporte.getResultList();
-		
+		List<Object[]> datos =  reporte.getResultList();
+		List<ReporteVacunaDTO> reportefinal = new ArrayList<ReporteVacunaDTO>();
+		Iterator<Object[]> it = datos.iterator();
+		while(it.hasNext()){
+		     Object[] line = it.next();
+		     ReporteVacunaDTO eq = new ReporteVacunaDTO();
+		     eq.setNombre(line[0].toString());
+		     eq.setCantidad(Long.valueOf(line[1].toString()));
+		     reportefinal.add(eq);
+		}
+		return reportefinal;
 	}
 
-	
-	
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReporteVacunaDTO> listarStockVacunaPorVacunatorios(Long idVacuna) {

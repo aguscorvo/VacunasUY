@@ -114,8 +114,8 @@ public class UsuarioBean implements Serializable {
 		rolesID = new ArrayList<Long>();
 		rolesID.add(this.rolID);
 
-		fechaNacimiento = "0001-01-01";
-		sectorLaboral = (long) -1;
+		fechaNacimiento = null;
+		sectorLaboral = null; //No tiene
 
 		UsuarioCrearDTO usuarioCrearDTO = new UsuarioCrearDTO(documento, nombre, apellido, correo, fechaNacimiento,
 				password, rolesID, sectorLaboral);
@@ -151,7 +151,7 @@ public class UsuarioBean implements Serializable {
 
 		try {
 			UsuarioDTO aux = usuarioService.listarPorId(id);
-			sectorLaboral = aux.getSectorLaboral().getId()==null?(-1):aux.getSectorLaboral().getId();
+			sectorLaboral = null;
 
 			UsuarioCrearDTO usuarioCrearDTO = new UsuarioCrearDTO(aux.getDocumento(), aux.getNombre(),
 					aux.getApellido(), aux.getCorreo(), aux.getFechaNacimiento(), password, rolesID,
@@ -163,7 +163,7 @@ public class UsuarioBean implements Serializable {
 				UsuarioDTO usuario = usuarioService.editar(id, usuarioCrearDTO);
 
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Usuario " + usuario.getDocumento() + " modificado con éxito.", null));
+						"Usuario " + usuario.getCorreo() + " modificado con éxito.", null));
 
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());

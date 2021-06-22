@@ -13,7 +13,7 @@ Laboratorio para la asignatura Taller de Sistemas Empresariales de la Facultad d
 
 ## Link Frontoffice web
 
-[VacunasUy - ElasticCloud](http://vacunasuy.web.elasticloud.uy)
+[VacunasUy - ElasticCloud](https://vacunasuy.web.elasticloud.uy)
 
 ## Datos de prueba
 

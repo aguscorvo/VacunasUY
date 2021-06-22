@@ -260,6 +260,58 @@
 			</div>
 		</div>
 	</div>
+<!-- Modal List3-->
+	<div class="modal" tabindex="-1" role="dialog" id="viewList3">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Stock por Vacunas por Vacunatorio</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h:form class="addplan-form">
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<div class="col-12 d-flex flex-row">
+									Despliega el stock por Vacunatorio de todas las Vacunas.
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="addVacunatorio" value="Vacunatorio" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="addVacunatorio"
+										value="#{StockBean.idVacunatorio}" class="form-control">
+										<f:selectItems value="#{StockBean.vacunatorios}"
+											var="vacuna" itemValue="#{vacuna.id}"
+											itemLabel="#{vacuna.departamento.nombre} - #{vacuna.nombre}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:commandButton class="btn btn-primary"
+									action="#{StockBean.listarStockVacunasPorVacunatorio()}" value="VER" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 
@@ -295,50 +347,11 @@
 		$ds('#viewList2').modal('show');
 	}
 
-	function updProveedor(){
-		var id = $ds('#listaProveedor_data tr.selected').find("td").eq(0).html();
-
-		if(id==undefined){
-			$ds('#errorModalLabel').html('Error'),
-			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
-			$ds('#general_error_msj').html('Debe Seleccionar un Proveedor');
-		    $ds('#error_proveedor').modal('show');
-		}else{
-			$ds("input[id*='updId']").val(id);
-			$ds("input[id*='updIdView']").val(id);
-		    $ds("input[id*='updName']").val($ds('#listaProveedor_data tr.selected').find("td").eq(1).html());
-		    $ds("select[id*='updPais']").val($ds('#listaProveedor_data tr.selected').find("td").eq(3).html());
-		    $ds('#updProveedor').modal('show');
-		}
-		
+	function viewListado3(){
+		$ds('#viewList3').modal('show');
 	}
 
-	function delProveedor(){
-		var id = $ds('#listaProveedor_data tr.selected').find("td").eq(0).html();
-
-		if(id==undefined){
-			$ds('#errorModalLabel').html('Error'),
-			$ds('#general_error_icon').html('<h1 ><i class="fas fa-exclamation-triangle display-3" style="color: #cc0000" ></i></h1>');
-			$ds('#general_error_msj').html('Debe Seleccionar un Proveedor');
-		    $ds('#error_proveedor').modal('show');
-		}else{
-			$ds("input[id*='delId']").val(id);
-			$ds("input[id*='delIdView']").val(id);
-		    $ds("input[id*='delName']").val($ds('#listaProveedor_data tr.selected').find("td").eq(1).html());
-		    $ds('#delProveedor').modal('show');
-		}
-	}
-
-	$ds('#listaProveedor_data').on( 'click', 'tr', function () {
-		if ( $ds(this).hasClass('selected') ) {
-			$ds(this).removeClass('selected');
-		}
-		else {
-			$ds('#listaProveedor_data tr.selected').removeClass('selected');
-			$ds(this).addClass('selected');
-		}
-	});
-
+	
 </script>
 
 </h:body>

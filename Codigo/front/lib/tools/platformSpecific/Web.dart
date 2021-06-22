@@ -18,30 +18,33 @@ Future<bool> autoLogIn() async {
 Future<bool> cookiesLoad() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.getString("vacunasUY") != null) {
-    final String savedPreferencesString = prefs.getString("vacunasUY")!;
-    if (savedPreferencesString.toString() == "null" || savedPreferencesString == '') {
-      storedUserCredentials = emptyUser;
-    } else {
-      Map savedPreferences = jsonDecode(savedPreferencesString);
-      storedUserCredentials = UserCredentials.fromJson(savedPreferences as Map<String, dynamic>);
-      if (storedUserCredentials!.userData == null) {
+    try {
+      final String savedPreferencesString = prefs.getString("vacunasUY")!;
+      if (savedPreferencesString.toString() == "null" || savedPreferencesString == '') {
         storedUserCredentials = emptyUser;
-      } else if (storedUserCredentials!.userData!.correo == '') {
-        storedUserCredentials = emptyUser;
-      } else if (isSesionExpired()) {
-        storedUserCredentials = emptyUser;
+      } else {
+        Map savedPreferences = jsonDecode(savedPreferencesString);
+        storedUserCredentials = UserCredentials.fromJson(savedPreferences as Map<String, dynamic>);
+        if (storedUserCredentials!.userData == null) {
+          storedUserCredentials = emptyUser;
+        } else if (storedUserCredentials!.userData!.correo == '') {
+          storedUserCredentials = emptyUser;
+        } else if (isSesionExpired()) {
+          storedUserCredentials = emptyUser;
+        }
+      }
+    } catch (err) {}
+    if (!AppConfig.flutterBackOffice) {
+      if (isUserAdmin()) {
+        urlReplace(AppConfig.adminBackOfficeURL);
+      } else if (isUserAutoridad()) {
+        urlReplace(AppConfig.autoridadBackOfficeURL);
       }
     }
   } else {
     storedUserCredentials = emptyUser;
   }
-  if (!AppConfig.flutterBackOffice) {
-    if (isUserAdmin()) {
-      urlReplace(AppConfig.adminBackOfficeURL);
-    } else if (isUserAutoridad()) {
-      urlReplace(AppConfig.autoridadBackOfficeURL);
-    }
-  }
+
   return Future<bool>.sync(() => true);
 }
 

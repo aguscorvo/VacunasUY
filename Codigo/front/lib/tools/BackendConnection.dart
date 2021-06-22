@@ -77,24 +77,31 @@ class BackendConnection {
           return false;
         }
       } catch (err) {
-        Map<String, dynamic> json = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+        String withoutNulls = utf8.decode(response.body.codeUnits);
+        Map<dynamic, dynamic> json = jsonDecode(withoutNulls)["cuerpo"];
 
         storedUserCredentials = emptyUser;
-        storedUserCredentials!.token = json["token"];
+        storedUserCredentials!.token = json["token"] == null ? "" : json["token"];
         storedUserCredentials!.persistirLogin = false;
         storedUserCredentials!.loginDateTime = DateTime.now();
         storedUserCredentials!.userData!.apellido = json["apellido"] != null ? json["apellido"] : "";
-        storedUserCredentials!.userData!.nombre = json["nombre"];
-        storedUserCredentials!.userData!.correo = json["correo"];
+        storedUserCredentials!.userData!.nombre = json["nombre"] != null ? json["nombre"] : "";
+        storedUserCredentials!.userData!.correo = json["correo"] != null ? json["correo"] : "";
         storedUserCredentials!.userData!.documento = json["documento"] != null ? json["documento"] : "";
-        storedUserCredentials!.userData!.fechaNacimiento = json["fechaNacimiento"] == "" ? DateTime.now() : DateTime.tryParse(json["fechaNacimiento"].toString())!;
-        storedUserCredentials!.userData!.id = json["id"];
+        storedUserCredentials!.userData!.fechaNacimiento = json["fechaNacimiento"] != null
+            ? json["fechaNacimiento"] == ""
+                ? DateTime.now()
+                : DateTime.tryParse(json["fechaNacimiento"].toString())!
+            : DateTime.now();
+        storedUserCredentials!.userData!.id = json["id"] != null ? json["id"] : -1;
         List<Rol> roles = [];
         if (json['roles'] != null) {
           json['roles'].forEach((rol) => {roles.add(Rol.fromJson(rol))});
         }
         storedUserCredentials!.userData!.roles = roles;
         storedUserCredentials!.userData!.sectorLaboral = json["sectorLaboral"] != null ? json["sectorLaboral"] : Sector();
+        saveUserCredentials();
+        setAuthHeader();
 
         return true;
       }

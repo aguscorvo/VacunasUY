@@ -1,4 +1,4 @@
-# VacunasUy
+# VacunasUY
 
 Laboratorio para la asignatura Taller de Sistemas Empresariales de la Facultad de Ingeniería (FIng-UdelaR).
 

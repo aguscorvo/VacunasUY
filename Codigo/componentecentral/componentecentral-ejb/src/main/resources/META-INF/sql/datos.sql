@@ -590,4 +590,3 @@ INSERT INTO usuarios_roles VALUES (2,2);
 /* Vacunador */
 INSERT INTO usuarios (nombre, apellido, correo, documento, fechanacimiento, fk_sector_laboral) VALUES ('Juan', 'Pérez', 'jp@medicina.uy', '12345671', '1980-01-01', 3);
 INSERT INTO usuarios_roles VALUES (3, 3);
-

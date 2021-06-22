@@ -1,5 +1,6 @@
 package vacunasuy.componentecentral.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,9 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.Cookie;
 
 import org.jboss.logging.Logger;
 
@@ -55,6 +58,8 @@ public class HomeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private String usernameCookie;
+	
 	private List<ReporteVacunaDTO> stockVacunas;
 	private Map<String, List<ReporteVacunaDTO>> stockVacunasVacunatorios;
 	private Map<String, List<ReporteEvolucionTiempoDTO>> evolucionVacunas;
@@ -99,6 +104,21 @@ public class HomeBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap().get("USERLOGIN");
+
+        if (cookie != null) {
+        	usernameCookie = cookie.getValue();
+        }else {
+        	String url = "https://vacunasuy.web.elasticloud.uy/"; // Your URL here
+
+        	try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
 		try {
 
 			vacunatorios = vacunatorioService.listar();

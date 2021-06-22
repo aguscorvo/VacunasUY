@@ -35,10 +35,10 @@ Más información en el documento de arquitectura.
 Frontoffice web
 ![frontoffice-web-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-web-03.png)
 
-Frontoffice mobile\
+Frontoffice mobile
 ![frontoffice-mobile-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-mobile-01.png)
 
-Backoffice web
+Backoffice
 ![backoffice-web-screenshot](./Documentacion/screenshots-del-sistema/backoffice-admin-04.png)
 
 ## Tecnologías

@@ -87,7 +87,6 @@ public class StockBean implements Serializable {
 		try {
 			vacunas = vacunaService.listar();
 			vacunatorios = vacunatorioService.listar();
-
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 		}
@@ -97,7 +96,7 @@ public class StockBean implements Serializable {
 
 		try {
 			reporte = stockService.listarStockVacunasDisponiblesParaEnviar();
-
+			
 			List<ReporteVacunaPDF> datos = new ArrayList<ReporteVacunaPDF>();
 
 			for (ReporteVacunaDTO d : reporte) {
@@ -106,10 +105,12 @@ public class StockBean implements Serializable {
 
 				datos.add(rpdf);
 			}
+			
 			titulo = "StockVacunas_";
 			SubTitulo = "Stock de Vacunas";
 			imprimir(datos);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
 	}

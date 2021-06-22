@@ -182,8 +182,8 @@
 									<tbody>
 										<ui:repeat var="vac" value="#{HomeBean.stockVacunas}">
 											<tr>
-												<td><h:outputText value="#{vac[0]}" /></td>
-												<td><h:outputText value="#{vac[1]}" /></td>
+												<td><h:outputText value="#{vac.getNombre()}" /></td>
+												<td><h:outputText value="#{vac.getCantidad()}" /></td>
 											</tr>
 
 										</ui:repeat>

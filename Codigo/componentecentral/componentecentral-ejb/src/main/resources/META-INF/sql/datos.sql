@@ -4,17 +4,6 @@ INSERT INTO roles (nombre) VALUES ('Autoridad');
 INSERT INTO roles (nombre) VALUES ('Vacunador');
 INSERT INTO roles (nombre) VALUES ('Ciudadano');
 
-/* Usuarios */
-/* Administrador */
-INSERT INTO usuarios (nombre, correo, password) VALUES ('Administrador', 'admin@admin.com', '$2a$12$z4dj/MDu1T.tiJSJT.11te3iz9VVHawqjxvDIiGShnIg/E8WIcgUO');
-INSERT INTO usuarios_roles VALUES (1, 1);
-/* Autoridad */
-INSERT INTO usuarios (nombre, correo, password) VALUES ('M.S.P.', 'msp@gub.uy', '$2a$12$z4dj/MDu1T.tiJSJT.11te3iz9VVHawqjxvDIiGShnIg/E8WIcgUO');
-INSERT INTO usuarios_roles VALUES (2,2);
-/* Vacunador */
-INSERT INTO usuarios (nombre, apellido, correo, documento, fechanacimiento, fk_sector_laboral) VALUES ('Juan', 'Pérez', 'jp@medicina.uy', '12345671', '1980-01-01', 3);
-INSERT INTO usuarios_roles VALUES (3, 3);
-
 /* Sectores */
 INSERT INTO sectores_laborales (nombre) VALUES ('Bombero');
 INSERT INTO sectores_laborales (nombre) VALUES ('Militar');
@@ -589,4 +578,16 @@ INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vac
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento5', '2021-06-02', 4, 1, 2);
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento5', '2021-06-02', 4, 1, 3);
 INSERT INTO eventos (cantidad, detalle, fecha, fk_lote, fk_transportista, fk_vacunatorio) VALUES (1000, 'Evento6', '2021-06-02', 1, 1, 4);
+
+
+/* Usuarios */
+/* Administrador */
+INSERT INTO usuarios (nombre, correo, password) VALUES ('Administrador', 'admin@admin.com', '$2a$12$z4dj/MDu1T.tiJSJT.11te3iz9VVHawqjxvDIiGShnIg/E8WIcgUO');
+INSERT INTO usuarios_roles VALUES (1, 1);
+/* Autoridad */
+INSERT INTO usuarios (nombre, correo, password) VALUES ('M.S.P.', 'msp@gub.uy', '$2a$12$z4dj/MDu1T.tiJSJT.11te3iz9VVHawqjxvDIiGShnIg/E8WIcgUO');
+INSERT INTO usuarios_roles VALUES (2,2);
+/* Vacunador */
+INSERT INTO usuarios (nombre, apellido, correo, documento, fechanacimiento, fk_sector_laboral) VALUES ('Juan', 'Pérez', 'jp@medicina.uy', '12345671', '1980-01-01', 3);
+INSERT INTO usuarios_roles VALUES (3, 3);
 

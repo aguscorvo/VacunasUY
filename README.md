@@ -18,10 +18,10 @@ Laboratorio para la asignatura Taller de Sistemas Empresariales de la Facultad d
 ## Datos de prueba
 
 Usuarios por defecto en backoffice:
-| Perfil        | Correo          | Contraseña |
-|---------------|-----------------|------------|
-| Administrador | admin@admin.com | 1234       |
-| Autoridad     | msp@gub.uy      | 1234       |
+
+Perfil: Administrador / Correo:  admin@admin.com / Contraseña: 1234
+Perfil: Autoridad / Correo: msp@gub.uy / Contraseña:1234
+
 
 ## Descripción
 
@@ -33,7 +33,7 @@ Más información en el documento de arquitectura.
 ### Screenshots
 
 Frontoffice web
-![frontoffice-web-screenshot](./)
+![frontoffice-web-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-web-03.png)
 
 Frontoffice mobile
 ![frontoffice-mobile-screenshot](./)
@@ -58,3 +58,4 @@ Backoffice
 - [Mi Nube - Elastic Cloud](https://minubeantel.uy/)
 - Firebase
 - Heroku
+

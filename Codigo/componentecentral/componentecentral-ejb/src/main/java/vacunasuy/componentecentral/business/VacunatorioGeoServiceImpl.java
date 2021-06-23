@@ -65,6 +65,7 @@ public class VacunatorioGeoServiceImpl implements IVacunatorioGeoService {
 		try {
 			//GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326); // locationtech
 			//Point point = factory.createPoint(new Coordinate(v.getLatitud(), v.getLongitud())); // locationtech
+			@SuppressWarnings("rawtypes")
 			Point point = Geometries.mkPoint(new G2D(vacunatorioDTO.getLongitud(), vacunatorioDTO.getLatitud()), CoordinateReferenceSystems.WGS84); // geolatte
 			VacunatorioGeoDTO vacunatorioGeoDTO = new VacunatorioGeoDTO ();
 			VacunatorioGeo vacunatorioGeoNuevo = vacunatorioGeoConverter.fromDTO(vacunatorioGeoDTO);
@@ -79,16 +80,6 @@ public class VacunatorioGeoServiceImpl implements IVacunatorioGeoService {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}
 	}
-	
-//	@Override
-//	public VacunatorioGeoDTO editar(Long id) throws VacunasUyException{
-//		
-//	}
-	
-//	@Override
-//	public void eliminar(Long id) throws VacunasUyException{
-//		
-//	}
 	
 	@Override
 	public List<Long> listarCercanos(UbicacionDTO ubicacionDTO) throws VacunasUyException{

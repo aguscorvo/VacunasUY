@@ -24,6 +24,7 @@ import vacunasuy.componentecentral.dao.VacunatorioGeoDAOImpl;
 import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.dto.VacunatorioGeoDTO;
+import vacunasuy.componentecentral.entity.Ubicacion;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.entity.VacunatorioGeo;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -89,7 +90,7 @@ public class VacunatorioGeoServiceTest {
 	}
 	
 	@Test (expected = VacunasUyException.class)
-	public void listarPorIdLoteNull() throws VacunasUyException {
+	public void listarPorIdVacunatorioNull() throws VacunasUyException {
 		Mockito.when(vacunatorioGeoService.vacunatorioGeoDAO.listarPorId(1L)).thenReturn(null);
 		VacunatorioGeoDTO vacunatorioDTO = vacunatorioGeoService.listarPorId(1L);
 		assertNull(vacunatorioDTO);		
@@ -99,16 +100,17 @@ public class VacunatorioGeoServiceTest {
 	public void crear() {	
 		VacunatorioDTO vacunatorioDTO = new VacunatorioDTO(1L, "Antel Arena", -34.86297, -56.15348, null, null, null, null, null);
 		Vacunatorio vacunatorio = new Vacunatorio(1L, "Antel Arena", -34.86297, -56.15348, null, null, null, null, null, null, null);
-		Mockito.when(vacunatorioGeoService.vacunatorioDAO.listarPorId(vacunatorioDTO.getId())).thenReturn(vacunatorio);
+		@SuppressWarnings("rawtypes")
 		Point point = Geometries.mkPoint(new G2D(vacunatorioDTO.getLongitud(), vacunatorioDTO.getLatitud()), CoordinateReferenceSystems.WGS84); 
 		VacunatorioGeoDTO vacunatorioGeoDTO = new VacunatorioGeoDTO ();
 		VacunatorioGeo vacunatorioGeoNuevo = new VacunatorioGeo();
-		Mockito.when(vacunatorioGeoService.vacunatorioGeoConverter.fromDTO(vacunatorioGeoDTO)).thenReturn(vacunatorioGeoNuevo);
 		vacunatorioGeoNuevo.setGeom(point);
-		Mockito.when(vacunatorioGeoService.vacunatorioDAO.listarPorId(vacunatorioDTO.getId())).thenReturn(vacunatorio);
 		vacunatorioGeoNuevo.setVacunatorio(vacunatorio);
-		Mockito.when(vacunatorioGeoService.vacunatorioGeoDAO.crear(vacunatorioGeoNuevo)).thenReturn(vacunatorioGeoNuevo);
 		VacunatorioGeoDTO vacunatorioGeoDTONuevo = new VacunatorioGeoDTO (1L, vacunatorioDTO);
+		Mockito.when(vacunatorioGeoService.vacunatorioDAO.listarPorId(vacunatorioDTO.getId())).thenReturn(vacunatorio);
+		Mockito.when(vacunatorioGeoService.vacunatorioGeoConverter.fromDTO(vacunatorioGeoDTO)).thenReturn(vacunatorioGeoNuevo);
+		Mockito.when(vacunatorioGeoService.vacunatorioDAO.listarPorId(vacunatorioDTO.getId())).thenReturn(vacunatorio);
+		Mockito.when(vacunatorioGeoService.vacunatorioGeoDAO.crear(vacunatorioGeoNuevo)).thenReturn(vacunatorioGeoNuevo);
 		Mockito.when(vacunatorioGeoService.vacunatorioGeoConverter.fromEntity(vacunatorioGeoNuevo)).thenReturn(vacunatorioGeoDTONuevo);
 		try {
 			VacunatorioGeoDTO vacunatorioGeoDTOResultado = vacunatorioGeoService.crear(vacunatorioDTO);
@@ -118,16 +120,38 @@ public class VacunatorioGeoServiceTest {
 		}
 	}
 	
+	@Test (expected = VacunasUyException.class)
+	public void crearVacunatorioNull() throws VacunasUyException {
+		Mockito.when(vacunatorioGeoService.vacunatorioDAO.listarPorId(1L)).thenReturn(null);
+		VacunatorioDTO vacunatorioDTO = new VacunatorioDTO(1L, "Antel Arena", -34.86297, -56.15348, null, null, null, null, null);
+		@SuppressWarnings("unused")
+		VacunatorioGeoDTO vacunatorioGeoDTO = vacunatorioGeoService.crear(vacunatorioDTO);
+	}
+		
 	@Test
 	public void listarCercanos() throws VacunasUyException {
-		UbicacionDTO ubicacion = new UbicacionDTO(-34.869996, -56.10902, 10.0);
-
+		UbicacionDTO ubicacionDTO = new UbicacionDTO(-34.869996, -56.10902, 10.0);
+		Ubicacion ubicacion = new Ubicacion(-34.869996, -56.10902, 10.0);
+		ubicacionDTO.setDistancia(ubicacionDTO.getDistancia()/111);
+		@SuppressWarnings("rawtypes")
 		Point point = Geometries.mkPoint(new G2D(-56.15348, -34.86297), CoordinateReferenceSystems.WGS84); 
-		VacunatorioGeoDTO vacunatorioGeoDTO = new VacunatorioGeoDTO ();
 		VacunatorioGeo vacunatorioGeo = new VacunatorioGeo();
 		vacunatorioGeo.setGeom(point);
-		List<VacunatorioGeoDTO> vacunatoriosGeoDTO = new ArrayList<VacunatorioGeoDTO>();
-		vacunatoriosGeoDTO.add(vacunatorioGeoDTO);
+		vacunatorioGeo.setId(1L);
+		List<VacunatorioGeo> vacunatoriosGeo = new ArrayList<VacunatorioGeo>();
+		vacunatoriosGeo.add(vacunatorioGeo);
+		List<Long> vacunatoriosGeoId = new ArrayList<Long>();
+		for(VacunatorioGeo v: vacunatoriosGeo) {
+			vacunatoriosGeoId.add(v.getId());
+		}
+		Mockito.when(vacunatorioGeoService.ubicacionConverter.fromDTO(ubicacionDTO)).thenReturn(ubicacion);
+		Mockito.when(vacunatorioGeoService.vacunatorioGeoDAO.listarCercanos(ubicacion)).thenReturn(vacunatoriosGeoId);
+		try {
+			List<Long> vacunatoriosGeoIdResultado = vacunatorioGeoService.listarCercanos(ubicacionDTO);
+			assertEquals(vacunatoriosGeoId, vacunatoriosGeoIdResultado);
+		}catch (VacunasUyException e) {
+			e.printStackTrace();
+		}
 	}
 	
 

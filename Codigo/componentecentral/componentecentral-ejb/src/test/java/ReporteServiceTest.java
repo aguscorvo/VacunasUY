@@ -74,11 +74,12 @@ public class ReporteServiceTest {
 		}
 	}
 	
-//	@Test(expected = VacunasUyException.class)
-//	public void listarPorEvolucionEnTiempoVacunaNull() throws VacunasUyException {
-//		Mockito.when(reporteService.vacunaDAO.listarPorId(1L)).thenReturn(null);
-//		List<ReporteEvolucionTiempoDTO> reportesDTOResultado = reporteService.listarPorEvolucionEnTiempo("2021-10-01", "2021-10-31", 1L);
-//	}
+	@Test(expected = VacunasUyException.class)
+	public void listarPorEvolucionEnTiempoVacunaNull() throws VacunasUyException {
+		Mockito.when(reporteService.vacunaDAO.listarPorId(1L)).thenReturn(null);
+		@SuppressWarnings("unused")
+		List<ReporteEvolucionTiempoDTO> reportesDTOResultado = reporteService.listarPorEvolucionEnTiempo("2021-10-01", "2021-10-31", 1L);
+	}
 	
 	@Test
 	public void listarPorEdad() {
@@ -110,11 +111,12 @@ public class ReporteServiceTest {
 		}
 	}
 
-//	@Test(expected = VacunasUyException.class)
-//	public void listarPorEdadEnfermedadNull() throws VacunasUyException {
-//		Mockito.when(reporteService.enfermedadDAO.listarPorId(1L)).thenReturn(null);
-//		reporteService.listarPorEdad("2021-10-01", "2021-10-31", 20, 70, 1L);
-//	}
+	@Test(expected = VacunasUyException.class)
+	public void listarPorEdadEnfermedadNull() throws VacunasUyException {
+		Mockito.when(reporteService.enfermedadDAO.listarPorId(1L)).thenReturn(null);
+		@SuppressWarnings("unused")
+		List<ReporteActoVacunalDTO> reportesDTOResultado = reporteService.listarPorEdad("2021-10-01", "2021-10-31", 20, 70, 1L);
+	}
 	
 	@Test
 	public void listarPorSectorLaboral() {
@@ -145,18 +147,20 @@ public class ReporteServiceTest {
 		}
 	}
 	
-//	@Test (expected = VacunasUyException.class)
-//	public void listarPorSectorLaboralSectorNull() throws VacunasUyException {
-//		Mockito.when(reporteService.sectorLaboralDAO.listarPorId(1L)).thenReturn(null);
-//		reporteService.listarPorSectorLaboral("2021-10-01", "2021-10-31", 1L, 1L);
-//	}
+	@Test (expected = VacunasUyException.class)
+	public void listarPorSectorLaboralSectorNull() throws VacunasUyException {
+		Mockito.when(reporteService.sectorLaboralDAO.listarPorId(1L)).thenReturn(null);
+		@SuppressWarnings("unused")
+		List<ReporteActoVacunalDTO> reportesDTOResultado = reporteService.listarPorSectorLaboral("2021-10-01", "2021-10-31", 1L, 1L);
+	}
 	
-//	@Test (expected = VacunasUyException.class)
-//	public void listarPorSectorLaboralEnfermedadNull() throws VacunasUyException {
-//		SectorLaboral sector = new SectorLaboral(1L, null);
-//		Mockito.when(reporteService.sectorLaboralDAO.listarPorId(1L)).thenReturn(sector);
-//		Mockito.when(reporteService.enfermedadDAO.listarPorId(1L)).thenReturn(null);
-//		reporteService.listarPorSectorLaboral("2021-10-01", "2021-10-31", sector.getId(), 1L);
-//	}
+	@Test (expected = VacunasUyException.class)
+	public void listarPorSectorLaboralEnfermedadNull() throws VacunasUyException {
+		SectorLaboral sector = new SectorLaboral(1L, null);
+		Mockito.when(reporteService.sectorLaboralDAO.listarPorId(1L)).thenReturn(sector);
+		Mockito.when(reporteService.enfermedadDAO.listarPorId(1L)).thenReturn(null);
+		@SuppressWarnings("unused")
+		List<ReporteActoVacunalDTO> reportesDTOResultado =reporteService.listarPorSectorLaboral("2021-10-01", "2021-10-31", sector.getId(), 1L);
+	}
 
 }

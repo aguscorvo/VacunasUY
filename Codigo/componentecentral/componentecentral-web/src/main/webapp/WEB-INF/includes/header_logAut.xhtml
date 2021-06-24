@@ -14,7 +14,7 @@
 							<div class="navbar-profile">
 								<p class="mb-0 d-sm-block navbar-profile-name">
 									<i class="fas fa-user-circle h3"></i>
-									<h:outputText value="#{HomeBean.usernameCookie}"/>
+									<h:outputText value="#{LoginBeanAut.usernameCookie}" />
 								</p>
 							</div>
 						</a>
@@ -24,14 +24,12 @@
 							aria-labelledby="profileDropdown">
 							<h6 class="p-3 mb-0">Perfil</h6>
 							<div class="dropdown-divider"></div>
-
-							<a class="dropdown-item preview-item" href="#">
-								<div class="preview-item-content">
-									<p class="preview-subject mb-1">
-										<i class="fas fa-sign-out-alt"></i> Salir
-									</p>
-								</div>
-							</a>
+							<h:form >
+							<h:commandButton class="btn btn-secondary btn-lg btn-block btn-sm"
+									action="#{LoginBeanAut.logout()}"
+									value="Salir" />
+							</h:form>
+														
 						</div>
 					</div>
 				</div>

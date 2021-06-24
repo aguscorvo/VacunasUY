@@ -15,9 +15,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.servlet.http.Cookie;
 
 import org.jboss.logging.Logger;
 
@@ -58,8 +56,6 @@ public class HomeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String usernameCookie;
-	
 	private List<ReporteVacunaDTO> stockVacunas;
 	private Map<String, List<ReporteVacunaDTO>> stockVacunasVacunatorios;
 	private Map<String, List<ReporteEvolucionTiempoDTO>> evolucionVacunas;
@@ -104,23 +100,8 @@ public class HomeBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap().get("USERLOGIN");
 
-        if (cookie != null) {
-        	usernameCookie = cookie.getValue();
-        }else {
-        	String url = "https://vacunasuy.web.elasticloud.uy/"; // Your URL here
-
-        	try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect(url);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }
-        
 		try {
-
 			vacunatorios = vacunatorioService.listar();
 			stockVacunas = listarStockVacunasDisponiblesParaEnviar();
 
@@ -132,6 +113,7 @@ public class HomeBean implements Serializable {
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 		}
+
 	}
 
 	private List<ReporteVacunaDTO> listarStockVacunasDisponiblesParaEnviar() {
@@ -188,13 +170,12 @@ public class HomeBean implements Serializable {
 
 	private void UsuariosVacCiud() {
 		try {
-		
+
 			List<UsuarioDTO> auxvac = usuarioService.listar();
 
 			usuariosVAC = (long) 0;
 			usuariosCIU = (long) 0;
 
-			
 			for (UsuarioDTO vdto : auxvac) {
 				logger.info(vdto.getNombre());
 				for (RolDTO rdto : vdto.getRoles()) {
@@ -244,7 +225,7 @@ public class HomeBean implements Serializable {
 
 	private void listarVacunasPorEvolucionEnTiempo() {
 		try {
-			
+
 			fechas = new ArrayList<String>();
 			evolucionVacunas = new HashMap<String, List<ReporteEvolucionTiempoDTO>>();
 
@@ -263,44 +244,40 @@ public class HomeBean implements Serializable {
 
 			}
 
-			String fechaInicio = fechas.get(fechas.size()-1);
-			String fechaFin =  fechas.get(0);
+			String fechaInicio = fechas.get(fechas.size() - 1);
+			String fechaFin = fechas.get(0);
 
 			Collections.reverse(fechas);
-			
+
 			vacunas = vacunaService.listar();
 			for (VacunaDTO vac : vacunas) {
 				List<ReporteEvolucionTiempoDTO> vacf = new ArrayList<ReporteEvolucionTiempoDTO>();
-				
-				List<ReporteEvolucionTiempoDTO> aux = reporteService.listarPorEvolucionEnTiempo(fechaInicio, fechaFin, vac.getId());
-				
-				
-				for (String s: fechas) {
+
+				List<ReporteEvolucionTiempoDTO> aux = reporteService.listarPorEvolucionEnTiempo(fechaInicio, fechaFin,
+						vac.getId());
+
+				for (String s : fechas) {
 					boolean encontre = false;
-					for(ReporteEvolucionTiempoDTO rdto: aux) {
-						if(rdto.getFecha().equalsIgnoreCase(s)) {
+					for (ReporteEvolucionTiempoDTO rdto : aux) {
+						if (rdto.getFecha().equalsIgnoreCase(s)) {
 							vacf.add(rdto);
 							encontre = true;
 							break;
 						}
-					}	
-					if(!encontre) {
-						ReporteEvolucionTiempoDTO recdto = ReporteEvolucionTiempoDTO.builder()
-								.cantidad(0)
-								.fecha(s)
+					}
+					if (!encontre) {
+						ReporteEvolucionTiempoDTO recdto = ReporteEvolucionTiempoDTO.builder().cantidad(0).fecha(s)
 								.build();
-								vacf.add(recdto);
+						vacf.add(recdto);
 					}
 				}
-				
+
 				evolucionVacunas.put(vac.getNombre(), vacf);
 			}
-			
-			
+
 		} catch (VacunasUyException e) {
 			logger.error(e.getLocalizedMessage());
 		}
-
 
 	}
 

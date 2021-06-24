@@ -50,7 +50,7 @@ public class AsignarVacunatorioBean implements Serializable {
 	List<UsuarioDTO> usuarios;
 	String jsonVac;
 	String strbuscar;
-
+	
 	@EJB
 	IUsuarioService usuarioService;
 

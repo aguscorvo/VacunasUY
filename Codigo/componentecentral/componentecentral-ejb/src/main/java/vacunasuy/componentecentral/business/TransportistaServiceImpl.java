@@ -14,8 +14,6 @@ import vacunasuy.componentecentral.converter.TransportistaConverter;
 import vacunasuy.componentecentral.dao.ITransportistaDAO;
 import vacunasuy.componentecentral.dto.TransportistaCrearDTO;
 import vacunasuy.componentecentral.dto.TransportistaDTO;
-import vacunasuy.componentecentral.dto.VacunatorioDTO;
-import vacunasuy.componentecentral.dto.VacunatorioPerifericoDTO;
 import vacunasuy.componentecentral.entity.Transportista;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.util.Constantes;
@@ -24,10 +22,10 @@ import vacunasuy.componentecentral.util.Constantes;
 public class TransportistaServiceImpl implements ITransportistaService {
 
     @EJB
-    private ITransportistaDAO transportistaDAO;
+	public ITransportistaDAO transportistaDAO;
     
     @EJB
-    private TransportistaConverter transportistaConverter;
+	public TransportistaConverter transportistaConverter;
     
     @Override
     public List<TransportistaDTO> listar( ) throws VacunasUyException{

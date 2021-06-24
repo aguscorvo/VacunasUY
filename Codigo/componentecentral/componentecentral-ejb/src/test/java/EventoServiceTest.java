@@ -130,20 +130,21 @@ public class EventoServiceTest {
 		Lote lote = new Lote(1L, 500L, 51L, null, null);
 		Vacunatorio vacunatorio = new Vacunatorio(1L, null, null, null, null, null, null, null, null, null, null);
 		Evento evento = new Evento(1L, null, null, 50L, null, lote, null, vacunatorio);
-		Mockito.when(eventoService.eventoConverter.fromCrearDTO(eventoCrearDTO)).thenReturn(evento);
-		Mockito.when(eventoService.loteDAO.listarPorId(eventoCrearDTO.getIdLote())).thenReturn(lote);
-		Mockito.when(eventoService.vacunatorioDAO.listarPorId(eventoCrearDTO.getIdVacunatorio())).thenReturn(vacunatorio);
+		
 		Long diferencia = lote.getCantidadDisponible()-evento.getCantidad();
 		evento.setLote(lote);
 		evento.setEstado(EstadoEvento.INICIADO);
 		evento.setVacunatorio(vacunatorio);
-		Mockito.when(eventoService.eventoDAO.crear(evento)).thenReturn(evento);
 		lote.setCantidadDisponible(diferencia);
 		Lote loteEditado = new Lote(1L, 500L, 1L, null, null);
-		Mockito.when(eventoService.loteDAO.editar(lote)).thenReturn(loteEditado);
 		LoteDTO loteEditadoDTO = new LoteDTO (1L, 500L, 1L, null, null);
 		VacunatorioDTO vacunatorioDTO = new VacunatorioDTO(1L, null, null, null, null, null, null, null, null);
 		EventoDTO eventoDTO = new EventoDTO(1L, null, null, 1L, null, loteEditadoDTO, null, vacunatorioDTO);
+		Mockito.when(eventoService.eventoConverter.fromCrearDTO(eventoCrearDTO)).thenReturn(evento);
+		Mockito.when(eventoService.loteDAO.listarPorId(eventoCrearDTO.getIdLote())).thenReturn(lote);
+		Mockito.when(eventoService.vacunatorioDAO.listarPorId(eventoCrearDTO.getIdVacunatorio())).thenReturn(vacunatorio);
+		Mockito.when(eventoService.eventoDAO.crear(evento)).thenReturn(evento);		
+		Mockito.when(eventoService.loteDAO.editar(lote)).thenReturn(loteEditado);		
 		Mockito.when(eventoService.eventoConverter.fromEntity(evento)).thenReturn(eventoDTO);
 		try {
 			Evento evento2 = new Evento(1L, null, null, 50L, null, lote, null, vacunatorio);
@@ -153,6 +154,15 @@ public class EventoServiceTest {
 			e.printStackTrace();
 		}
 	}
-
+	
+	//crearLoteNull
+	//crearVacunatorioNull
+	//editar
+	//editarEventoNull
+	//editarLoteNull
+	//editarTransportistaNull
+	//editarVacunatorioNull
+	//eliminar
+	//eliminar eventoNull
 	
 }

@@ -1,5 +1,4 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +24,8 @@ import vacunasuy.componentecentral.dto.LoteDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.entity.Evento;
 import vacunasuy.componentecentral.entity.Lote;
+import vacunasuy.componentecentral.entity.Transportista;
+import vacunasuy.componentecentral.entity.Vacuna;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 import vacunasuy.componentecentral.util.EstadoEvento;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -97,11 +98,11 @@ public class EventoServiceTest {
 		}
 	}
 	
-	@Test (expected = VacunasUyException.class)
+	@Test(expected = VacunasUyException.class)
 	public void listarPorIdEventoNull() throws VacunasUyException {
 		Mockito.when(eventoService.eventoDAO.listarPorId(1L)).thenReturn(null);
-		EventoDTO eventoResultado = eventoService.listarPorId(1L);
-		assertNull(eventoResultado);		
+		@SuppressWarnings("unused")
+		EventoDTO eventoResultado = eventoService.listarPorId(1L);		
 	}
 	
 	@Test
@@ -127,42 +128,186 @@ public class EventoServiceTest {
 	@Test
 	public void crear() {
 		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, null, 50L, null, 1L, null, 1L);
-		Lote lote = new Lote(1L, 500L, 51L, null, null);
+		Lote lote = new Lote(1L, 500L, 500L, null, null);
 		Vacunatorio vacunatorio = new Vacunatorio(1L, null, null, null, null, null, null, null, null, null, null);
-		Evento evento = new Evento(1L, null, null, 50L, null, lote, null, vacunatorio);
-		
-		Long diferencia = lote.getCantidadDisponible()-evento.getCantidad();
-		evento.setLote(lote);
-		evento.setEstado(EstadoEvento.INICIADO);
-		evento.setVacunatorio(vacunatorio);
-		lote.setCantidadDisponible(diferencia);
-		Lote loteEditado = new Lote(1L, 500L, 1L, null, null);
-		LoteDTO loteEditadoDTO = new LoteDTO (1L, 500L, 1L, null, null);
-		VacunatorioDTO vacunatorioDTO = new VacunatorioDTO(1L, null, null, null, null, null, null, null, null);
-		EventoDTO eventoDTO = new EventoDTO(1L, null, null, 1L, null, loteEditadoDTO, null, vacunatorioDTO);
+		Evento evento = new Evento(1L, null, null, 50L, null, null, null, null);
 		Mockito.when(eventoService.eventoConverter.fromCrearDTO(eventoCrearDTO)).thenReturn(evento);
-		Mockito.when(eventoService.loteDAO.listarPorId(eventoCrearDTO.getIdLote())).thenReturn(lote);
-		Mockito.when(eventoService.vacunatorioDAO.listarPorId(eventoCrearDTO.getIdVacunatorio())).thenReturn(vacunatorio);
-		Mockito.when(eventoService.eventoDAO.crear(evento)).thenReturn(evento);		
-		Mockito.when(eventoService.loteDAO.editar(lote)).thenReturn(loteEditado);		
+		Mockito.when(eventoService.loteDAO.listarPorId(1L)).thenReturn(lote);
+		Mockito.when(eventoService.vacunatorioDAO.listarPorId(1L)).thenReturn(vacunatorio);
+		Mockito.when(eventoService.eventoDAO.crear(evento)).thenReturn(evento);	
+		Long diferencia = lote.getCantidadDisponible()-evento.getCantidad();
+		lote.setCantidadDisponible(diferencia);
+		Mockito.when(eventoService.loteDAO.editar(lote)).thenReturn(lote);
+		VacunatorioDTO vacunatorioDTO = new VacunatorioDTO(1L, null, null, null, null, null, null, null, null);
+		LoteDTO loteDTO = new LoteDTO (1L, 500L, diferencia, null, null);
+		EventoDTO eventoDTO = new EventoDTO(1L, null, null, 50L, null, loteDTO, null, vacunatorioDTO);
 		Mockito.when(eventoService.eventoConverter.fromEntity(evento)).thenReturn(eventoDTO);
 		try {
-			Evento evento2 = new Evento(1L, null, null, 50L, null, lote, null, vacunatorio);
 			EventoDTO eventoResultadoDTO = eventoService.crear(eventoCrearDTO);
-			assertEquals(eventoResultadoDTO.getId(), evento2);
+			assertEquals(eventoResultadoDTO.getCantidad(), eventoDTO.getCantidad());
 		}catch (VacunasUyException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	//crearLoteNull
-	//crearVacunatorioNull
-	//editar
-	//editarEventoNull
-	//editarLoteNull
-	//editarTransportistaNull
-	//editarVacunatorioNull
-	//eliminar
-	//eliminar eventoNull
+	@Test(expected = VacunasUyException.class)
+	public void crear_loteNull() throws VacunasUyException {
+		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, null, 50L, null, 1L, null, 1L);
+		Lote lote = null;
+		Evento evento = new Evento(1L, null, null, 50L, null, null, null, null);
+		Mockito.when(eventoService.eventoConverter.fromCrearDTO(eventoCrearDTO)).thenReturn(evento);
+		Mockito.when(eventoService.loteDAO.listarPorId(1L)).thenReturn(lote);
+		@SuppressWarnings("unused")
+		EventoDTO eventoResultadoDTO = eventoService.crear(eventoCrearDTO);
+	}
+	
+	@Test(expected = VacunasUyException.class)
+	public void crear_vacunatorioNull() throws VacunasUyException {
+		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, null, 50L, null, 1L, null, 1L);
+		Lote lote = new Lote(1L, 500L, 500L, null, null);
+		Vacunatorio vacunatorio = null;
+		Evento evento = new Evento(1L, null, null, 50L, null, null, null, null);
+		Mockito.when(eventoService.eventoConverter.fromCrearDTO(eventoCrearDTO)).thenReturn(evento);
+		Mockito.when(eventoService.loteDAO.listarPorId(1L)).thenReturn(lote);
+		Mockito.when(eventoService.vacunatorioDAO.listarPorId(1L)).thenReturn(vacunatorio);
+		@SuppressWarnings("unused")
+		EventoDTO eventoResultadoDTO = eventoService.crear(eventoCrearDTO);
+	}
+	
+	@Test(expected = VacunasUyException.class)
+	public void crear_cantInvalida() throws VacunasUyException {
+		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, null, 50L, null, 1L, null, 1L);
+		Lote lote = new Lote(1L, 500L, 500L, null, null);
+		Vacunatorio vacunatorio = new Vacunatorio(1L, null, null, null, null, null, null, null, null, null, null);
+		Evento evento = new Evento(1L, null, null, 501L, null, null, null, null);
+		Mockito.when(eventoService.eventoConverter.fromCrearDTO(eventoCrearDTO)).thenReturn(evento);
+		Mockito.when(eventoService.loteDAO.listarPorId(1L)).thenReturn(lote);
+		Mockito.when(eventoService.vacunatorioDAO.listarPorId(1L)).thenReturn(vacunatorio);
+		@SuppressWarnings("unused")
+		EventoDTO eventoResultadoDTO = eventoService.crear(eventoCrearDTO);
+	}
+	
+	@Test
+	public void editar_recibido() {
+		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, "detalleNuevo", 50L, "recibido", 1L, 1L, 1L);
+		Vacuna vacuna = new Vacuna (1L, null, 0, 0, 0, null);
+		Evento evento = new Evento(1L, null, "detalle", 50L, null, null, null, null);
+		Enum<EstadoEvento> estado = EstadoEvento.RECIBIDO;
+		Mockito.when(eventoService.eventoDAO.listarPorId(1L)).thenReturn(evento);
+		Lote lote = new Lote(1L, 500L, 500L, null, vacuna);
+		Mockito.when(eventoService.loteDAO.listarPorId(1L)).thenReturn(lote);
+		Transportista t = new Transportista(1L, "nombre");
+		Mockito.when(eventoService.transportistaDAO.listarPorId(1L)).thenReturn(t);
+		Vacunatorio vacunatorio = new Vacunatorio(1L, null, null, null, null, null, null, null, null, null, null);
+		Mockito.when(eventoService.vacunatorioDAO.listarPorId(1L)).thenReturn(vacunatorio);
+		Evento evento_editado = new Evento(1L,null, "detalleNuevo", 50L, estado, lote, t, vacunatorio);
+		Mockito.when(eventoService.eventoDAO.editar(evento)).thenReturn(evento_editado);
+		try {
+			Mockito.doNothing().when(eventoService.stockService).sumarStock(vacunatorio, vacuna, 50L);
+		} catch (VacunasUyException e) {
+			e.printStackTrace();
+		}
+		EventoDTO eventoDTO = new EventoDTO(1L, null, "detalleNuevo", 50L, "recibido", null, null, null);
+		Mockito.when(eventoService.eventoConverter.fromEntity(evento)).thenReturn(eventoDTO);
+		try {
+			EventoDTO eventoResultadoDTO = eventoService.editar(1L, eventoCrearDTO);
+			assertEquals(eventoResultadoDTO.getCantidad(), eventoDTO.getCantidad());
+		}catch (VacunasUyException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void editar_transito() {
+		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, "detalleNuevo", 50L, "transito", 1L, 1L, 1L);
+		Vacuna vacuna = new Vacuna (1L, null, 0, 0, 0, null);
+		Evento evento = new Evento(1L, null, "detalle", 50L, null, null, null, null);
+		Enum<EstadoEvento> estado = EstadoEvento.TRANSITO;
+		Mockito.when(eventoService.eventoDAO.listarPorId(1L)).thenReturn(evento);
+		Lote lote = new Lote(1L, 500L, 500L, null, vacuna);
+		Mockito.when(eventoService.loteDAO.listarPorId(1L)).thenReturn(lote);
+		Transportista t = new Transportista(1L, "nombre");
+		Mockito.when(eventoService.transportistaDAO.listarPorId(1L)).thenReturn(t);
+		Vacunatorio vacunatorio = new Vacunatorio(1L, null, null, null, null, null, null, null, null, null, null);
+		Mockito.when(eventoService.vacunatorioDAO.listarPorId(1L)).thenReturn(vacunatorio);
+		Evento evento_editado = new Evento(1L,null, "detalleNuevo", 50L, estado, lote, t, vacunatorio);
+		Mockito.when(eventoService.eventoDAO.editar(evento)).thenReturn(evento_editado);
+		EventoDTO eventoDTO = new EventoDTO(1L, null, "detalleNuevo", 50L, "transito", null, null, null);
+		Mockito.when(eventoService.eventoConverter.fromEntity(evento)).thenReturn(eventoDTO);
+		try {
+			EventoDTO eventoResultadoDTO = eventoService.editar(1L, eventoCrearDTO);
+			assertEquals(eventoResultadoDTO.getCantidad(), eventoDTO.getCantidad());
+		}catch (VacunasUyException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test(expected = VacunasUyException.class)
+	public void editar_eventoNull () throws VacunasUyException {
+		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, "detalleNuevo", 50L, "recibido", 1L, 1L, 1L);
+		Evento evento = null;
+		Mockito.when(eventoService.eventoDAO.listarPorId(1L)).thenReturn(evento);
+		@SuppressWarnings("unused")
+		EventoDTO eventoResultadoDTO = eventoService.editar(1L, eventoCrearDTO);
+	}
+	
+	
+	@Test(expected = VacunasUyException.class)
+	public void editar_loteNull() throws VacunasUyException {
+		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, "detalleNuevo", 50L, "recibido", 1L, 1L, 1L);
+		Evento evento = new Evento(1L, null, "detalle", 50L, null, null, null, null);
+		Mockito.when(eventoService.eventoDAO.listarPorId(1L)).thenReturn(evento);
+		Lote lote = null;
+		Mockito.when(eventoService.loteDAO.listarPorId(1L)).thenReturn(lote);
+		@SuppressWarnings("unused")
+		EventoDTO eventoResultadoDTO = eventoService.editar(1L, eventoCrearDTO);
+	}
+	
+	@Test(expected = VacunasUyException.class)
+	public void editar_transportistaNull() throws VacunasUyException {
+		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, "detalleNuevo", 50L, "recibido", 1L, 1L, 1L);
+		Vacuna vacuna = new Vacuna (1L, null, 0, 0, 0, null);
+		Evento evento = new Evento(1L, null, "detalle", 50L, null, null, null, null);
+		Mockito.when(eventoService.eventoDAO.listarPorId(1L)).thenReturn(evento);
+		Lote lote = new Lote(1L, 500L, 500L, null, vacuna);
+		Mockito.when(eventoService.loteDAO.listarPorId(1L)).thenReturn(lote);
+		Transportista t = null;
+		Mockito.when(eventoService.transportistaDAO.listarPorId(1L)).thenReturn(t);
+		@SuppressWarnings("unused")
+		EventoDTO eventoResultadoDTO = eventoService.editar(1L, eventoCrearDTO);
+	}
+	
+	@Test(expected = VacunasUyException.class)
+	public void editar_VacunatorioNull() throws VacunasUyException {
+		EventoCrearDTO eventoCrearDTO = new EventoCrearDTO(null, "detalleNuevo", 50L, "recibido", 1L, 1L, 1L);
+		Vacuna vacuna = new Vacuna (1L, null, 0, 0, 0, null);
+		Evento evento = new Evento(1L, null, "detalle", 50L, null, null, null, null);
+		Mockito.when(eventoService.eventoDAO.listarPorId(1L)).thenReturn(evento);
+		Lote lote = new Lote(1L, 500L, 500L, null, vacuna);
+		Mockito.when(eventoService.loteDAO.listarPorId(1L)).thenReturn(lote);
+		Transportista t = new Transportista(1L, "nombre");
+		Mockito.when(eventoService.transportistaDAO.listarPorId(1L)).thenReturn(t);
+		Vacunatorio vacunatorio = null;
+		Mockito.when(eventoService.vacunatorioDAO.listarPorId(1L)).thenReturn(vacunatorio);
+		@SuppressWarnings("unused")
+		EventoDTO eventoResultadoDTO = eventoService.editar(1L, eventoCrearDTO);
+	}
+	
+	@Test
+	public void eliminar() {
+		Evento evento = new Evento(1L, null, "detalle", 50L, null, null, null, null);
+		Mockito.when(eventoService.eventoDAO.listarPorId(1L)).thenReturn(evento);
+		try {
+			eventoService.eliminar(1L);
+		} catch (VacunasUyException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test(expected = VacunasUyException.class)
+	public void eliminar_null() throws VacunasUyException {
+		Mockito.when(eventoService.eventoDAO.listarPorId(1L)).thenReturn(null);
+		eventoService.eliminar(1L);
+	}
 	
 }

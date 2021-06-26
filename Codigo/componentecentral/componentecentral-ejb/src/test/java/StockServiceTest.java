@@ -1,9 +1,6 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import vacunasuy.componentecentral.business.StockServiceImpl;
 import vacunasuy.componentecentral.dao.StockDAOImpl;
 import vacunasuy.componentecentral.dto.ReporteVacunaDTO;
@@ -48,7 +44,7 @@ public class StockServiceTest {
 		Mockito.when(stockService.stockDAO.listarStockPorVacuna(1L, 1L)).thenReturn(stock);
 		try {
 			Stock stockEsperado = stockService.listarStockPorVacuna(1L, 1L);
-			assertEquals(stockEsperado.getCantidad(), 10L);
+			assertEquals(stock.getCantidad(), stockEsperado.getCantidad());
 		}catch (VacunasUyException e) {
 			e.printStackTrace();
 		}
@@ -65,7 +61,7 @@ public class StockServiceTest {
 		Mockito.when(stockService.stockDAO.actualizar(stock)).thenReturn(stock_actualizado);
 		try {
 			stockService.sumarStock(vacunatorio, vacuna, 10L);
-			assertEquals(stock.getCantidad(), 20L);
+			assertEquals(stock.getCantidad(), stock_actualizado.getCantidad());
 		}catch (VacunasUyException e) {
 			e.printStackTrace();
 		}
@@ -95,7 +91,7 @@ public class StockServiceTest {
 		Mockito.when(stockService.stockDAO.actualizar(stock)).thenReturn(stock_actualizado);
 		try {
 			stockService.restarStock(vacunatorio, vacuna, 5L);
-			assertEquals(stock.getCantidad(), 5L);
+			assertEquals(stock.getCantidad(), stock_actualizado.getCantidad());
 		}catch (VacunasUyException e) {
 			e.printStackTrace();
 		}

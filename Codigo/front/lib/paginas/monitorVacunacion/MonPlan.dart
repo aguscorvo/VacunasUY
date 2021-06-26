@@ -35,7 +35,7 @@ class _MonPlanState extends State<MonPlan> {
                       });
 
                       if (planVacunacion.length == 0) {
-                        return Text("No se encuentran enfermedades, reintente!");
+                        return Text("No se encuentran enfermedades. Vuelva a intentarlo.");
                       }
 
                       return Container(
@@ -66,14 +66,14 @@ class _MonPlanState extends State<MonPlan> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Nombre Enfermedad: ", style: TextStyle(fontSize: 15)),
+                                            Text("Nombre enfermedad: ", style: TextStyle(fontSize: 15)),
                                             Text(planVacunacion[index].vacuna.enfermedad.nombre, style: TextStyle(fontSize: 15)),
                                           ],
                                         ),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Nombre Vacuna: ", style: TextStyle(fontSize: 15)),
+                                            Text("Nombre vacuna: ", style: TextStyle(fontSize: 15)),
                                             Text(planVacunacion[index].vacuna.nombre, style: TextStyle(fontSize: 15)),
                                           ],
                                         ),
@@ -169,7 +169,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                       width: MediaQuery.of(context).size.width * 0.2,
                                       height: 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Cantidad Agendados Hoy")),
+                                      child: Center(child: Text("Agendados hoy")),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -197,7 +197,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                       width: MediaQuery.of(context).size.width * 0.2,
                                       height: 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Vacunados Hoy")),
+                                      child: Center(child: Text("Vacunados hoy")),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -264,7 +264,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Datos del Plan",
+                                            "Datos del plan",
                                             style: TextStyle(fontSize: 20),
                                           ),
                                           datosPlan(),
@@ -335,7 +335,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Edad Mínima",
+                                    "Edad mínima",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -363,7 +363,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Edad Máxima",
+                                    "Edad máxima",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -397,7 +397,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Fecha Inicio",
+                                    "Fecha inicio",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -425,7 +425,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Fecha Fin",
+                                    "Fecha fin",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -461,7 +461,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                             color: Colors.blueAccent,
                             child: Center(
                               child: Text(
-                                "Sectores Cubiertos",
+                                "Sectores cubiertos",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -551,7 +551,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                             color: Colors.blueAccent,
                             child: Center(
                               child: Text(
-                                "Cantidad de Dosis",
+                                "Cantidad de dosis",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),

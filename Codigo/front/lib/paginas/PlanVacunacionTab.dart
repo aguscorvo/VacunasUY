@@ -67,7 +67,7 @@ class _PlanVacunacionTabState extends State<PlanVacunacionTab> {
                       });
 
                       if (planvacunas.length == 0) {
-                        return Text("No se encuentran planes de vacunacion, reintente!");
+                        return Text("No se encuentran planes de vacunación. Vuelva a intentarlo.");
                       }
 
                       return GridView.builder(

@@ -67,7 +67,7 @@ class _EnfermedadesTabState extends State<EnfermedadesTab> {
                       });
 
                       if (enfermedades.length == 0) {
-                        return Text("No se encuentran Enfermedades, reintente!");
+                        return Text("No se encuentran enfermedades. Vuelva a intentarlo.");
                       }
 
                       return GridView.builder(

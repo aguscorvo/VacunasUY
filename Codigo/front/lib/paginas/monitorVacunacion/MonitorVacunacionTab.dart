@@ -19,9 +19,9 @@ final MaterialColor colorCustom = MaterialColor(0xFF174378, {
 class MonitorVacunacionTab extends StatelessWidget {
   TabBar get _tabsVacunador => TabBar(
         tabs: [
-          Tab(text: "Monitor Enfermedades"),
-          Tab(text: "Monitor Vacunas"),
-          Tab(text: "Monitor Planes"),
+          Tab(text: "Monitor de enfermedades"),
+          Tab(text: "Monitor de vacunas"),
+          Tab(text: "Monitor de planes"),
         ],
       );
 

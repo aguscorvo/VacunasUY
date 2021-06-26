@@ -39,7 +39,7 @@ class AgendaForm extends StatelessWidget {
           child: Text('¡Alerta!'),
         ),
       ),
-      content: Text("¿Desea cancelar esta agenda? Esta acción es irreversible."),
+      content: Text("¿Desea cancelar esta agenda? La acción será irreversible."),
       actions: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -58,7 +58,7 @@ class AgendaForm extends StatelessWidget {
               ),
               child: TextButton(
                 child: Text(
-                  "Si, cancelar",
+                  "Sí, cancelar",
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
@@ -81,7 +81,7 @@ class AgendaForm extends StatelessWidget {
               ),
               child: TextButton(
                 child: Text(
-                  "Cancelar",
+                  "Salir",
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
@@ -178,7 +178,7 @@ class AgendaForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Edad Mínima",
+                                              "Edad mínima",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -206,7 +206,7 @@ class AgendaForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Edad Máxima",
+                                              "Edad máxima",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -240,7 +240,7 @@ class AgendaForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Fecha Inicio",
+                                              "Fecha inicio",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -268,7 +268,7 @@ class AgendaForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Fecha Fin",
+                                              "Fecha fin",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -303,7 +303,7 @@ class AgendaForm extends StatelessWidget {
                                       color: Colors.blueAccent,
                                       child: Center(
                                         child: Text(
-                                          "Sectores Cubiertos",
+                                          "Sectores cubiertos",
                                           style: TextStyle(fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -391,7 +391,7 @@ class AgendaForm extends StatelessWidget {
                                       color: Colors.blueAccent,
                                       child: Center(
                                         child: Text(
-                                          "Cantidad de Dosis",
+                                          "Cantidad de dosis",
                                           style: TextStyle(fontWeight: FontWeight.bold),
                                         ),
                                       ),

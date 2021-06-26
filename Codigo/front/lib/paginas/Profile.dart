@@ -95,7 +95,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: <Widget>[
                                                   new Text(
-                                                    'Información Personal',
+                                                    'Información personal',
                                                     style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                                                   ),
                                                 ],
@@ -118,7 +118,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                               Expanded(
                                                 child: Container(
                                                   child: new Text(
-                                                    'Nombre/s',
+                                                    'Nombres',
                                                     style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                                                   ),
                                                 ),
@@ -234,7 +234,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: <Widget>[
                                                   new Text(
-                                                    'Fecha de Nacimiento',
+                                                    'Fecha de nacimiento',
                                                     style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                                                   ),
                                                 ],
@@ -250,7 +250,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                 child: datetimeform = DateTimeFormField(
                                                   mode: DateTimeFieldPickerMode.date,
                                                   autovalidateMode: AutovalidateMode.always,
-                                                  decoration: const InputDecoration(hintText: "Fecha de Nacimiento"),
+                                                  decoration: const InputDecoration(hintText: "Fecha de nacimiento"),
                                                   enabled: !_status,
                                                   initialValue: fechaNacimiento,
                                                   onDateSelected: (value) => {fechaNacimiento = value},
@@ -277,7 +277,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                         await appReload();
                                       },
                                       child: Text(
-                                        'Cerrar Sesión',
+                                        'Cerrar sesión',
                                         style: TextStyle(color: Colors.white, fontSize: 25),
                                       ),
                                     ),
@@ -360,7 +360,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   datetimeform = DateTimeFormField(
                     mode: DateTimeFieldPickerMode.date,
                     autovalidateMode: AutovalidateMode.always,
-                    decoration: const InputDecoration(hintText: "Fecha de Nacimiento"),
+                    decoration: const InputDecoration(hintText: "Fecha de nacimiento"),
                     enabled: !_status,
                     initialValue: fechaNacimientoOld,
                     onDateSelected: (value) => {fechaNacimiento = value},

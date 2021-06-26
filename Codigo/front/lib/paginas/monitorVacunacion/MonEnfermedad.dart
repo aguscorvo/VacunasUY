@@ -35,7 +35,7 @@ class _MonEnfermedadState extends State<MonEnfermedad> {
                       });
 
                       if (enfermedades.length == 0) {
-                        return Text("No se encuentran enfermedades, reintente!");
+                        return Text("No se encuentran enfermedades. Vuelva a intentarlo.");
                       }
 
                       return Container(
@@ -157,7 +157,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                       width: MediaQuery.of(context).size.width * 0.3,
                                       height: 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Cantidad Agendados Hoy")),
+                                      child: Center(child: Text("Agendados hoy")),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -185,7 +185,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                       width: MediaQuery.of(context).size.width * 0.3,
                                       height: 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Vacunados Hoy")),
+                                      child: Center(child: Text("Vacunados hoy")),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -225,7 +225,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "Por Tipo de Vacuna",
+                                              "Por tipo de vacuna",
                                               style: TextStyle(fontSize: 20),
                                             ),
                                             porTipoVacuna(),
@@ -245,7 +245,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "Planes para la Enfermedad",
+                                              "Planes para la enfermedad",
                                               style: TextStyle(fontSize: 20),
                                             ),
                                             porPlanVacunacion(),

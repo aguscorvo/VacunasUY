@@ -28,7 +28,7 @@ class _MonVacunaState extends State<MonVacuna> {
             });
 
             if (vacunas.length == 0) {
-              return Text("No se encuentran enfermedades, reintente!");
+              return Text("No se encuentran enfermedades. Vuelva a intentarlo.");
             }
 
             return Container(
@@ -108,7 +108,7 @@ class _MonVacunaState extends State<MonVacuna> {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            Text("Agendas para Hoy"),
+                                            Text("Agendas para hoy"),
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -130,7 +130,7 @@ class _MonVacunaState extends State<MonVacuna> {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            Text("Vacunados Hoy"),
+                                            Text("Vacunados hoy"),
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -174,7 +174,7 @@ class _MonVacunaState extends State<MonVacuna> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Nombre Vacuna: ", style: TextStyle(fontSize: 15)),
+                                  Text("Nombre vacuna: ", style: TextStyle(fontSize: 15)),
                                   Text(vacunas[index].nombre, style: TextStyle(fontSize: 15)),
                                 ],
                               ),
@@ -189,14 +189,14 @@ class _MonVacunaState extends State<MonVacuna> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Nombre Enfermedad: ", style: TextStyle(fontSize: 15)),
+                                      Text("Nombre enfermedad: ", style: TextStyle(fontSize: 15)),
                                       Text(vacunas[index].enfermedad.nombre, style: TextStyle(fontSize: 15)),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Cantidad de Dosis: ", style: TextStyle(fontSize: 15)),
+                                      Text("Cantidad de dosis: ", style: TextStyle(fontSize: 15)),
                                       Text(vacunas[index].cantDosis.toString(), style: TextStyle(fontSize: 15)),
                                     ],
                                   ),

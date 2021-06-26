@@ -34,7 +34,7 @@ class _AgendaVacunadorState extends State<AgendaVacunador> {
                         children: [
                           Center(
                             child: Text(
-                              "Mis Agendas Como Vacunador",
+                              "Mis agendas como Vacunador",
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
@@ -60,7 +60,7 @@ class _AgendaVacunadorState extends State<AgendaVacunador> {
                         children: [
                           Center(
                             child: Text(
-                              "Datos de Agenda Seleccionada",
+                              "Datos de agenda seleccionada",
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
@@ -306,7 +306,7 @@ class _AgendaSeleccionadaState extends State<AgendaSeleccionada> {
                                         color: Colors.blueAccent,
                                         child: Center(
                                           child: Text(
-                                            "Direccion",
+                                            "Dirección",
                                             style: TextStyle(fontWeight: FontWeight.bold),
                                           ),
                                         ),
@@ -330,7 +330,7 @@ class _AgendaSeleccionadaState extends State<AgendaSeleccionada> {
                     ],
                   ),
                   SizedBox(height: 15),
-                  Text("Proccimos a Vacunar", style: TextStyle(fontSize: 20)),
+                  Text("Proximos a vacunar", style: TextStyle(fontSize: 20)),
                   cargarCiudadanosDelDia(),
                 ],
               ),
@@ -421,7 +421,7 @@ class _AgendaSeleccionadaState extends State<AgendaSeleccionada> {
       alignment: Alignment.center,
       child: Center(
         child: Text(
-          "Seleccione una Agenda",
+          "Seleccione una agenda",
           style: TextStyle(fontSize: 15),
         ),
       ),

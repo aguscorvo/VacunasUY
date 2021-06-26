@@ -38,7 +38,7 @@ class PlanVacunacionForm extends StatelessWidget {
   AlertDialog editar(BuildContext context) {
     var nombreController = new TextEditingController();
     return AlertDialog(
-      title: Text("Editar Vacunatorio"),
+      title: Text("Editar vacunatorio"),
       content: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
@@ -58,7 +58,7 @@ class PlanVacunacionForm extends StatelessWidget {
           Positioned(
             right: 300.0,
             top: 10.0,
-            child: Text("Editar Vacunatorio"),
+            child: Text("Editar vacunatorio"),
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
@@ -73,7 +73,7 @@ class PlanVacunacionForm extends StatelessWidget {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Nombre',
-                hintText: 'Ingresar nombre del Vacunatorio',
+                hintText: 'Ingresar nombre del vacunatorio',
               ),
             ),
           ),
@@ -165,7 +165,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Edad Mínima",
+                                              "Edad mínima",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -193,7 +193,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Edad Máxima",
+                                              "Edad máxima",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -227,7 +227,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Fecha Inicio",
+                                              "Fecha inicio",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -255,7 +255,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                           color: Colors.blueAccent,
                                           child: Center(
                                             child: Text(
-                                              "Fecha Fin",
+                                              "Fecha fin",
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -290,7 +290,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                       color: Colors.blueAccent,
                                       child: Center(
                                         child: Text(
-                                          "Sectores Cubiertos",
+                                          "Sectores cubiertos",
                                           style: TextStyle(fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -378,7 +378,7 @@ class PlanVacunacionForm extends StatelessWidget {
                                       color: Colors.blueAccent,
                                       child: Center(
                                         child: Text(
-                                          "Cantidad de Dosis",
+                                          "Cantidad de dosis",
                                           style: TextStyle(fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -765,15 +765,15 @@ class _PuestosListState extends State<PuestosList> {
                           autovalidateMode: AutovalidateMode.always,
                           validator: (DateTime? dateTime) {
                             if (dateTime == null) {
-                              return "Fecha Requerida";
+                              return "Fecha requerida";
                             } else if (dateTime.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 1))) {
-                              return "No puede agendarse para antes del dia de mañana";
+                              return "No puede agendarse para el día de hoy.";
                             } else if (dateTime.isAfter(planvacunacion!.fechaFin)) {
-                              return "No puede agendarse para despues del cierre del plan";
+                              return "No puede agendarse para después del cierre del plan.";
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(hintText: "Fecha Preferencial"),
+                          decoration: const InputDecoration(hintText: "Fecha preferencial"),
                           onDateSelected: (value) => {
                             fechaPreferencial = value,
                             selectedDate = true,

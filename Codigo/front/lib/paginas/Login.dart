@@ -18,9 +18,9 @@ class _LoginState extends State<Login> {
         length: 2,
         child: Scaffold(
             appBar: AppBar(
-                title: Text("Iniciar Sesión"),
+                title: Text("Iniciar sesión"),
                 bottom: TabBar(
-                  tabs: [Tab(text: "Iniciar Sesión con Gub.uy"), Tab(text: "Iniciar Sesión con Backoffice")],
+                  tabs: [Tab(text: "Iniciar sesión con Gub.uy"), Tab(text: "Iniciar sesión con Backoffice")],
                 )),
             body: TabBarView(
               children: [
@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
                               //openLogin(url);
                             },
                             child: Text(
-                              'Iniciar Sesión',
+                              'Iniciar sesión',
                               style: TextStyle(color: Colors.white, fontSize: 25),
                             ),
                           ),
@@ -76,7 +76,7 @@ class _LoginState extends State<Login> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'E-Mail',
-                              hintText: 'Ingresar un correo valido como abc@gmail.com',
+                              hintText: 'Ingresar un correo válido como abc@gmail.com',
                             ),
                           ),
                         ),
@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
                           child: TextFormField(
                             controller: passwordContrller..text = "", //to set text
                             obscureText: true,
-                            decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Contraseña', hintText: 'Ingresar Contraseña'),
+                            decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Contraseña', hintText: 'Ingresar contraseña'),
                           ),
                         ),
                         TextButton(
@@ -115,7 +115,7 @@ class _LoginState extends State<Login> {
                               }
                             },
                             child: Text(
-                              'Iniciar Sesión',
+                              'Iniciar sesión',
                               style: TextStyle(color: Colors.white, fontSize: 25),
                             ),
                           ),
@@ -123,7 +123,7 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           height: 130,
                         ),
-                        Text('Usuario Nuevo? Crear Cuenta')
+                        Text('¿Usuario nuevo? Crear cuenta')
                       ],
                     ),
                   ),

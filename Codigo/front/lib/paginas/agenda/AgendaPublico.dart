@@ -30,7 +30,7 @@ class _AgendaPublicoState extends State<AgendaPublico> {
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                       child: Center(
                         child: Text(
-                          "Agendas Abiertas",
+                          "Agendas abiertas",
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -54,7 +54,7 @@ class _AgendaPublicoState extends State<AgendaPublico> {
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                       child: Center(
                         child: Text(
-                          "Agendas a Abrir",
+                          "Agendas próximas a abrir",
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -98,7 +98,7 @@ class _AgendaPublicoState extends State<AgendaPublico> {
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se encuentran agendas abiertas!",
+                  "No se encuentran agendas abiertas.",
                   style: TextStyle(fontSize: 25),
                 ),
               );
@@ -153,7 +153,7 @@ class _AgendaPublicoState extends State<AgendaPublico> {
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se encuentran agendas a abrir!",
+                  "No se encuentran agendas próximas a abrir.",
                   style: TextStyle(fontSize: 25),
                 ),
               );

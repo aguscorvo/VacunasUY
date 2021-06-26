@@ -30,9 +30,9 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
 
   TabBar get _tabsVacunador => TabBar(
         tabs: [
-          Tab(text: "Todas las Agendas"),
-          Tab(text: "Agendas Habilitadas para mi"),
-          Tab(text: "Mis Agendas"),
+          Tab(text: "Todas las agendas"),
+          Tab(text: "Agendas habilitadas para mí"),
+          Tab(text: "Mis agendas"),
         ],
       );
 
@@ -164,7 +164,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se han encontrado agendas para las cuales este habilitado.",
+                  "No se encuentra habilitado a ninguna agenda.",
                   style: TextStyle(fontSize: 18),
                 ),
               );
@@ -220,7 +220,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se han encontrado agendas, intente nuevamente mas tarde.",
+                  "No se han encontrado agendas. Vuelva a intentarlo más tarde.",
                   style: TextStyle(fontSize: 18),
                 ),
               );
@@ -341,7 +341,7 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se encuentra agendado en ningun plan!",
+                  "No se encuentra agendado en ningún plan.",
                   style: TextStyle(fontSize: 18),
                 ),
               );

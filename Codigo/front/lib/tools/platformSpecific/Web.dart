@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:html';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vacunas_uy/AppConfig.dart';
+import 'package:vacunas_uy/objects/BackOfficeUser.dart';
 import 'package:vacunas_uy/tools/BackendConnection.dart';
 import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:vacunas_uy/objects/GubUY.dart';
@@ -20,11 +21,13 @@ Future<bool> cookiesLoad() async {
   if (prefs.getString("vacunasUY") != null) {
     try {
       final String savedPreferencesString = prefs.getString("vacunasUY")!;
-      if (savedPreferencesString.toString() == "null" || savedPreferencesString == '') {
+      if (savedPreferencesString.toString() == "null" ||
+          savedPreferencesString == '') {
         storedUserCredentials = emptyUser;
       } else {
         Map savedPreferences = jsonDecode(savedPreferencesString);
-        storedUserCredentials = UserCredentials.fromJson(savedPreferences as Map<String, dynamic>);
+        storedUserCredentials =
+            UserCredentials.fromJson(savedPreferences as Map<String, dynamic>);
         if (storedUserCredentials!.userData == null) {
           storedUserCredentials = emptyUser;
         } else if (storedUserCredentials!.userData!.correo == '') {
@@ -77,7 +80,8 @@ Future<bool> checkToken() async {
   var valid;
 
   if (storedUserCredentials != null) {
-    if (storedUserCredentials!.token != null && storedUserCredentials!.token != "") {
+    if (storedUserCredentials!.token != null &&
+        storedUserCredentials!.token != "") {
       valid = await client.getUsuarios();
       if (valid.length == 0) {
         valid = false;
@@ -105,11 +109,20 @@ Future<bool> saveUserCredentials() async {
     prefs.setString("vacunasUY", usercredentials);
 
     if (!AppConfig.flutterBackOffice) {
+      BackOfficeUser user = BackOfficeUser();
+      user.nombre = storedUserCredentials!.userData!.nombre +
+          " " +
+          storedUserCredentials!.userData!.apellido;
+      user.token = storedUserCredentials!.token;
       final Storage sesionStorage = window.localStorage;
       sesionStorage['USERLOGIN'] = usercredentials;
       if (isUserAdmin()) {
+        user.rol = 1;
+        prefs.setString("vacunasUYUser", jsonEncode(user));
         urlReplace(AppConfig.adminBackOfficeURL);
       } else if (isUserAutoridad()) {
+        user.rol = 2;
+        prefs.setString("vacunasUYUser", jsonEncode(user));
         urlReplace(AppConfig.autoridadBackOfficeURL);
       }
     }
@@ -141,11 +154,14 @@ void urlReplace(String url) {
 }
 
 void shareTwitter(String text) {
-  String url = "https://twitter.com/intent/tweet?text=" + text.replaceAll(" ", "+");
+  String url =
+      "https://twitter.com/intent/tweet?text=" + text.replaceAll(" ", "+");
   launch(url);
 }
 
 void shareFacebook(String text) {
-  String url = "http://www.facebook.com/sharer.php?s=100&p[title]=Me+Vacune&p[url]=https://vacunasuy.web.elasticloud.uy&p[summary]=" + text.replaceAll(" ", "+");
+  String url =
+      "http://www.facebook.com/sharer.php?s=100&p[title]=Me+Vacune&p[url]=https://vacunasuy.web.elasticloud.uy&p[summary]=" +
+          text.replaceAll(" ", "+");
   launch(url);
 }

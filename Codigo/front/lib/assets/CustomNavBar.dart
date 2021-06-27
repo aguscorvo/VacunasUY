@@ -9,6 +9,7 @@ import 'package:vacunas_uy/paginas/misVacunas/MisVacunasTab.dart';
 import 'package:vacunas_uy/paginas/monitorVacunacion/MonitorVacunacionTab.dart';
 import 'package:vacunas_uy/paginas/vacunatorio/VacunatorioTab.dart';
 import 'package:flutter/material.dart';
+import 'package:vacunas_uy/tools/StaticTabs.dart';
 
 import 'package:vacunas_uy/tools/UserCredentials.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
@@ -34,7 +35,7 @@ class CustomNavBar extends StatefulWidget implements PreferredSizeWidget {
     required Key key,
     required this.title,
     required this.onElementSelected,
-  })   : preferredSize = Size.fromHeight(kToolbarHeight),
+  })  : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
   @override
@@ -162,13 +163,14 @@ class _CustomNavBarState extends State<CustomNavBar> {
   }
 
   void _onItemTapped(int index) {
+    int lastIndex = _selectedIndex;
     setState(() {
       _selectedIndex = index;
     });
-    onElementSelected(getTab(index));
+    onElementSelected(getTab(index, lastIndex));
   }
 
-  Widget getTab(int index) {
+  Widget getTab(int index, int lastIndex) {
     String label = getIndexLabel(index);
 
     setState(() {
@@ -176,25 +178,65 @@ class _CustomNavBarState extends State<CustomNavBar> {
     });
 
     if (label == 'Monitor Vacunación') {
-      return new MonitorVacunacionTab();
+      if (index == lastIndex) {
+        return StaticTabs.monitor = new MonitorVacunacionTab();
+      } else {
+        return StaticTabs.monitor;
+      }
     } else if (label == 'Vacunatorios') {
-      return new VacunatorioTab();
+      if (index == lastIndex) {
+        return StaticTabs.vacunatorios = new VacunatorioTab();
+      } else {
+        return StaticTabs.vacunatorios;
+      }
     } else if (label == 'Vacunas') {
-      return new VacunasTab();
+      if (index == lastIndex) {
+        return StaticTabs.vacunas = new VacunasTab();
+      } else {
+        return StaticTabs.vacunas;
+      }
     } else if (label == 'Planes de Vacunacion') {
-      return new PlanVacunacionTab();
+      if (index == lastIndex) {
+        return StaticTabs.planVacunacion = new PlanVacunacionTab();
+      } else {
+        return StaticTabs.planVacunacion;
+      }
     } else if (label == 'Proveedores') {
-      return new ProveedoresTab();
+      if (index == lastIndex) {
+        return StaticTabs.proveedores = new ProveedoresTab();
+      } else {
+        return StaticTabs.proveedores;
+      }
     } else if (label == 'Agendas') {
-      return new AgendaTab();
+      if (index == lastIndex) {
+        return StaticTabs.agenda = new AgendaTab();
+      } else {
+        return StaticTabs.agenda;
+      }
     } else if (label == 'Enfermedades') {
-      return new EnfermedadesTab();
+      if (index == lastIndex) {
+        return StaticTabs.enfermedades = new EnfermedadesTab();
+      } else {
+        return StaticTabs.enfermedades;
+      }
     } else if (label == 'Mis Vacunas') {
-      return new MisVacunasTab();
+      if (index == lastIndex) {
+        return StaticTabs.misVacunas = new MisVacunasTab();
+      } else {
+        return StaticTabs.misVacunas;
+      }
     } else if (label == 'Chat') {
-      return new ChatTab();
+      if (index == lastIndex) {
+        return StaticTabs.chat = new ChatTab();
+      } else {
+        return StaticTabs.chat;
+      }
     } else {
-      return new ErrorTab();
+      if (index == lastIndex) {
+        return StaticTabs.error = new ErrorTab();
+      } else {
+        return StaticTabs.error;
+      }
     }
   }
 }

@@ -31,7 +31,7 @@ class Usuario {
     this.correo = correo;
     this.fechaNacimiento = fechaNacimiento;
     this.roles = roles;
-    this.sectorLaboral = Sector();
+    this.sectorLaboral = Sector.all(7, "No tiene");
   }
 
   Usuario.fromJson(Map<String, dynamic> json) {

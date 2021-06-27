@@ -21,8 +21,8 @@ import 'package:vacunas_uy/objects/Vacunatorio.dart';
 import 'package:vacunas_uy/objects/Departamento.dart';
 import 'package:vacunas_uy/objects/ActoVacunal.dart';
 import 'package:vacunas_uy/tools/PlatformSpecific.dart';
-import 'package:http/http.dart' as http;
 import 'package:vacunas_uy/tools/UserCredentials.dart';
+import 'package:http/http.dart' as http;
 
 const String baseUrl = AppConfig.componenteCentalURL;
 
@@ -167,7 +167,7 @@ class BackendConnection {
         "fechaNacimiento": u.fechaNacimiento.toString().split(" ")[0],
         "password": "",
         "roles": u.rolesLongArray(),
-        "sectorLaboral": u.sectorLaboral.id,
+        "sectorLaboral": u.sectorLaboral.id == -1 ? 7 : u.sectorLaboral.id,
       });
 
       var response = await http.put(

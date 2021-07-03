@@ -155,6 +155,21 @@ class BackendConnection {
     return Usuario();
   }
 
+  Future<Usuario> getUsuarioPorId(int id) async {
+    var response = await http.get(Uri.parse('$baseUrl/usuarios/listar/$id'));
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
+      if (jsonResponse.length > 0) {
+        Usuario usuario;
+        usuario = Usuario.fromJson(jsonResponse);
+        return usuario;
+      }
+    }
+
+    return Usuario();
+  }
+
   Future<bool> actualizarDatosUsuario(Usuario u) async {
     if (u.id == -1) {
       return false;

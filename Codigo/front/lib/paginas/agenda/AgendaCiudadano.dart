@@ -350,7 +350,7 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 4),
                 maxCrossAxisExtent: 600,
-                mainAxisExtent: 180,
+                mainAxisExtent: 190,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),

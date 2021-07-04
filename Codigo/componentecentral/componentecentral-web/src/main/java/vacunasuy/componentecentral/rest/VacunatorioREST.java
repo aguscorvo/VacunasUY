@@ -43,7 +43,7 @@ public class VacunatorioREST {
 	IVacunatorioService vacunatorioService;
 	
 	@GET
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
 		try {
@@ -58,7 +58,7 @@ public class VacunatorioREST {
 	
 	@GET
 	@Path("/listar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -76,6 +76,7 @@ public class VacunatorioREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(VacunatorioCrearDTO request) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -94,7 +95,7 @@ public class VacunatorioREST {
 	
 	@PUT
 	@Path("/editar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response editar (@PathParam("id") Long id, VacunatorioCrearDTO request) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -113,7 +114,7 @@ public class VacunatorioREST {
 	
 	@DELETE
 	@Path("/eliminar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response eliminar(@PathParam("id") Long id) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -131,7 +132,6 @@ public class VacunatorioREST {
 	}
 	
 	@GET
-//	@RecursoProtegidoJWT
 	@Path("/listar/cercanos/{latitud}/{longitud}/{distancia}")
 	public Response listarCercanos(
 			@PathParam("latitud") Double latitud, 
@@ -151,7 +151,7 @@ public class VacunatorioREST {
 	
 	@PUT
 	@Path("/agregarEvento/{vacunatorio}/{evento}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response agregarEvento (@PathParam("vacunatorio") Long vacunatorio, @PathParam("evento") Long evento) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -170,7 +170,6 @@ public class VacunatorioREST {
 	
 	@PUT
 	@Path("/agregarActoVacunal/{vacunatorio}/{actoVacunal}/")
-//	@RecursoProtegidoJWT
 	public Response agregarActoVacunal (@PathParam("vacunatorio") Long vacunatorio, @PathParam("actoVacunal") Long actoVacunal) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -225,6 +224,7 @@ public class VacunatorioREST {
 	
 	@GET
 	@Path("/listarPorDepartamento/{departamento}")
+	@RecursoProtegidoJWT
 	public Response listarPorDepartamento(@PathParam("departamento") Long departamento) {
 		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
 		try {
@@ -243,7 +243,7 @@ public class VacunatorioREST {
 	
 	@GET
 	@Path("/listarVacunatoriosDadoPlan/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarVacunatoriosDadoPlan(@PathParam("id") Long id) {
 		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
 		try {
@@ -262,7 +262,6 @@ public class VacunatorioREST {
 	
 	@PUT
 	@Path("/crearGeometrias")
-//	@RecursoProtegidoJWT
 	public Response crearGeometrias() {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -277,6 +276,7 @@ public class VacunatorioREST {
 		
 	@GET
 	@Path("/listarAgendasPorVacunatorio/{id}/{fecha}")
+	@RecursoProtegidoJWT
 	public Response listarAgendasPorVacunatorio(@PathParam("id") Long id, @PathParam("fecha") String fecha) {
 		RespuestaREST<List<AgendaVacunatorioDTO>> respuesta = null;
 		try {

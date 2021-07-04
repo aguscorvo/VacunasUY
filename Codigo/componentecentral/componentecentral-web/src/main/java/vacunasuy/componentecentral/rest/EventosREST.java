@@ -17,6 +17,7 @@ import vacunasuy.componentecentral.dto.EventoDTO;
 import vacunasuy.componentecentral.dto.EventoPerifericoDTO;
 import vacunasuy.componentecentral.dto.EventoCrearDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 import vacunasuy.componentecentral.util.EstadoEvento;
 
 @RequestScoped
@@ -29,6 +30,7 @@ public class EventosREST {
 	private IEventoService eventoService;
 	
 	@GET
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<EventoDTO>> respuesta = null;
 		try {
@@ -67,6 +69,7 @@ public class EventosREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(EventoCrearDTO request) {
 		RespuestaREST<EventoDTO> respuesta = null;
 		try {
@@ -83,11 +86,8 @@ public class EventosREST {
 	@Path("/editar/{id}")
 	public Response editar(@PathParam("id") Long id, EventoCrearDTO request) {
 		RespuestaREST<EventoDTO> respuesta = null;
-		System.out.println("Llegue al REST");
 		try {
-			System.out.println("Voy a editar");
 			EventoDTO evento = eventoService.editar(id, request);
-			System.out.println("Pase editar");
 			respuesta = new RespuestaREST<EventoDTO>(true, "Evento editado con éxito.", evento);
 			return Response.ok(respuesta).build();
 		} catch (VacunasUyException e) {
@@ -102,6 +102,7 @@ public class EventosREST {
 	
 	@DELETE
 	@Path("/eliminar/{id}")
+	@RecursoProtegidoJWT
 	public Response eliminar(@PathParam("id") Long id) {
 		RespuestaREST<EventoDTO> respuesta = null;
 		try {

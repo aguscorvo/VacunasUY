@@ -28,6 +28,7 @@ public class PlanesVacunacionREST {
 	private IPlanVacunacionService planVacunacionService;
 	
 	@GET
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<PlanVacunacionDTO>> respuesta = null;
 		try {
@@ -42,6 +43,7 @@ public class PlanesVacunacionREST {
 	
 	@GET
 	@Path("/listarVigentes")
+	@RecursoProtegidoJWT
 	public Response listarPlanesVigentes() {
 		RespuestaREST<List<PlanVacunacionDTO>> respuesta = null;
 		try {
@@ -55,6 +57,7 @@ public class PlanesVacunacionREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(PlanVacunacionCrearDTO request) {
 		RespuestaREST<PlanVacunacionDTO> respuesta = null;
 		try {

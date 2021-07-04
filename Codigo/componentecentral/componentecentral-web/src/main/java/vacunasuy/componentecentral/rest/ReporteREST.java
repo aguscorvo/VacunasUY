@@ -15,6 +15,7 @@ import vacunasuy.componentecentral.business.IReporteService;
 import vacunasuy.componentecentral.dto.ReporteActoVacunalDTO;
 import vacunasuy.componentecentral.dto.ReporteEvolucionTiempoDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @RequestScoped
 @Path("/reportes")
@@ -27,6 +28,7 @@ public class ReporteREST {
 	
 	@GET
 	@Path("/listarEvolucion/{fechaInicio}/{fechaFin}/{vacuna}")
+	@RecursoProtegidoJWT
 	public Response listarPorEvolucionEnTiempo(@PathParam("fechaInicio")String fechaInicio, @PathParam("fechaFin") String fechaFin, 
 			@PathParam("vacuna") Long vacuna) {
 		RespuestaREST<List<ReporteEvolucionTiempoDTO>> respuesta = null;
@@ -46,6 +48,7 @@ public class ReporteREST {
 	
 	@GET
 	@Path("/listarPorEdad/{fechaInicio}/{fechaFin}/{edadInicio}/{edadFin}/{enfermedad}")
+	@RecursoProtegidoJWT
 	public Response listarPorEdad(@PathParam("fechaInicio")String fechaInicio, @PathParam("fechaFin") String fechaFin, 
 			@PathParam("edadInicio") int edadInicio, @PathParam("edadFin") int edadFin, @PathParam("enfermedad") Long enfermedad) {
 		RespuestaREST<List<ReporteActoVacunalDTO>> respuesta = null;
@@ -65,6 +68,7 @@ public class ReporteREST {
 	
 	@GET
 	@Path("/listarPorSector/{fechaInicio}/{fechaFin}/{sectorLaboral}/{enfermedad}")
+	@RecursoProtegidoJWT
 	public Response listarPorSectorLaboral(@PathParam("fechaInicio")String fechaInicio, @PathParam("fechaFin") String fechaFin, 
 			@PathParam("sectorLaboral") Long sectorLaboral, @PathParam("enfermedad") Long enfermedad) {
 		RespuestaREST<List<ReporteActoVacunalDTO>> respuesta = null;

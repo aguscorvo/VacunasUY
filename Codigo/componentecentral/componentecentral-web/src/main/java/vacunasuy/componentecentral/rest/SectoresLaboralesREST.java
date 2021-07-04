@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import vacunasuy.componentecentral.business.ISectorLaboralService;
 import vacunasuy.componentecentral.dto.SectorLaboralDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @RequestScoped
 @Path("/sectoreslaborales")
@@ -22,6 +23,7 @@ public class SectoresLaboralesREST {
 	private ISectorLaboralService sectorLaboralService;
 	
 	@GET
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<SectorLaboralDTO>> respuesta = null;
 		try {

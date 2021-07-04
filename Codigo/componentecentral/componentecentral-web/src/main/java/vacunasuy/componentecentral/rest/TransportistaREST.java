@@ -28,7 +28,7 @@ public class TransportistaREST {
 	ITransportistaService transportistaService;
 	
 	@GET
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<TransportistaDTO>> respuesta = null;
 		try {
@@ -43,7 +43,7 @@ public class TransportistaREST {
 	
 	@GET
 	@Path("/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<TransportistaDTO> respuesta = null;
 		try {
@@ -61,6 +61,7 @@ public class TransportistaREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(TransportistaCrearDTO request) {
 		RespuestaREST<TransportistaDTO> respuesta = null;
 		try {
@@ -79,7 +80,7 @@ public class TransportistaREST {
 	
 	@PUT
 	@Path("/editar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response editar(@PathParam("id") Long id, TransportistaCrearDTO request) {
 		RespuestaREST<TransportistaDTO> respuesta = null;
 		try{

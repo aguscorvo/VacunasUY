@@ -31,7 +31,7 @@ public class PuestoREST {
 	IPuestoService puestoService;
 	
 	@GET
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<PuestoDTO>> respuesta = null;
 		try {
@@ -46,7 +46,7 @@ public class PuestoREST {
 	
 	@GET
 	@Path("/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<PuestoDTO> respuesta = null;
 		try {
@@ -65,7 +65,7 @@ public class PuestoREST {
 	
 	@GET
 	@Path("/{numero}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorNumero(@PathParam("numero") Long numero) {
 		RespuestaREST<PuestoDTO> respuesta = null;
 		try {
@@ -83,6 +83,7 @@ public class PuestoREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(PuestoCrearDTO request) {
 		RespuestaREST<PuestoMinDTO> respuesta = null;
 		try {

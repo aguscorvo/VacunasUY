@@ -428,6 +428,7 @@ INSERT INTO enfermedades (nombre) VALUES ('TÉTANOS');
 /* Vacunas - Total: 6 */
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'CoronaVac', 28, 1);
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'Pfizer-BioNTech', 28, 1);
+INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (2, 1, 'Vaxzevria', 90, 1);
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (3, 1, 'Antigripal', 20, 2);
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (1, 10, 'BCG', 0, 3);
 INSERT INTO vacunas (cant_dosis, inmunidad, nombre, periodo, fk_enfermedad) VALUES (1, 10, 'Triple bacteriana (DPT)', 0, 4);

@@ -30,7 +30,6 @@ public class EnfermedadesREST {
 	IEnfermedadService eService;
 	
 	@GET
-	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<EnfermedadDTO>> respuesta = null;
 		try {

@@ -49,7 +49,6 @@ public class UsuariosREST {
 	
 	@GET
 	@Path("/listar/{id}")
-	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<UsuarioDTO> respuesta = null;
 		try {

@@ -29,7 +29,6 @@ public class VacunasREST {
 	IVacunaService vacunaService;
 	
 	@GET
-	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<VacunaDTO>> respuesta = null;
 		try {

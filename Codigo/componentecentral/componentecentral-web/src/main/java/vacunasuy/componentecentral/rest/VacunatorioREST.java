@@ -12,25 +12,16 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import vacunasuy.componentecentral.business.IVacunatorioService;
-import vacunasuy.componentecentral.dto.AgendaDTO;
-import vacunasuy.componentecentral.dto.AgendaMinDTO;
 import vacunasuy.componentecentral.dto.AgendaVacunatorioDTO;
 import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
-import vacunasuy.componentecentral.dto.VacunatorioPerifericoDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
-import vacunasuy.componentecentral.util.Constantes;
 
 
 @RequestScoped
@@ -43,7 +34,6 @@ public class VacunatorioREST {
 	IVacunatorioService vacunatorioService;
 	
 	@GET
-	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
 		try {
@@ -224,7 +214,6 @@ public class VacunatorioREST {
 	
 	@GET
 	@Path("/listarPorDepartamento/{departamento}")
-	@RecursoProtegidoJWT
 	public Response listarPorDepartamento(@PathParam("departamento") Long departamento) {
 		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
 		try {

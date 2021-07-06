@@ -25,7 +25,6 @@ public class DepartamentoREST {
 	IDepartamentoService departamentoService;
 	
 	@GET
-	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<DepartamentoDTO>> respuesta =null;
 		try {

@@ -50,7 +50,7 @@ public class LoginBeanAut implements Serializable {
 			
 			boolean esAutoridad = false;
 			
-			//logger.info("ROL:" + loginJSON.getLong("rol"));
+			
 			
 			if (loginJSON.getLong("rol") == 2)
 				esAutoridad = true;
@@ -59,21 +59,28 @@ public class LoginBeanAut implements Serializable {
 				usernameCookie = loginJSON.getString("nombre");
 
 			} else {
+				logger.info("ERROR Autoridad loginJSON: " + loginJSON.toString());
+				/*
 				try {
 					//FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath());
 					FacesContext.getCurrentInstance().getExternalContext().redirect("https://vacunasuy.web.elasticloud.uy/");
+					
 				} catch (IOException e) {
 					logger.info(e.getMessage().trim());
 				}
+				*/
 			}
 
 		} else {
+			logger.info("ERROR Autoridad Cookie null");
+			/*
 
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("https://vacunasuy.web.elasticloud.uy/");
 			} catch (IOException e) {
 				logger.info(e.getMessage().trim());
 			}
+			*/
 		}
 	}
 	

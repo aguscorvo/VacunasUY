@@ -63,20 +63,26 @@ public class LoginBeanAdmin implements Serializable {
 			if (esAutoridad) {
 				usernameCookie = loginJSON.getString("nombre");
 			} else {
+				logger.info("ERROR Administrador loginJSON: " + loginJSON.toString());
+				/*
 				try {
 					FacesContext.getCurrentInstance().getExternalContext().redirect("https://vacunasuy.web.elasticloud.uy/");
 				} catch (IOException e) {
 					logger.info(e.getMessage().trim());
 				}
+				*/
 			}
 
 		} else {
-
+				
+			logger.info("ERROR Administrador Cookie null");
+			/*
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("https://vacunasuy.web.elasticloud.uy/");
 			} catch (IOException e) {
 				logger.info(e.getMessage().trim());
 			}
+			*/
 		}
 	}
 

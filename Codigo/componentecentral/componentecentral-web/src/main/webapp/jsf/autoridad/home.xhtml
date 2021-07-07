@@ -62,9 +62,9 @@
 								href="/backoffice/jsf/autoridad/asignacion.xhtml">Asignar
 								Vacunadores</a>
 						</div></li>
-						<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link"
 						href="/backoffice/jsf/autoridad/informes.xhtml">Informes</a></li>
-						
+
 				</ul>
 
 			</div>
@@ -228,7 +228,8 @@
 							<h5 class="card-title mb-3">Evoluci&oacute;n de
 								Vacunaci&oacute;n (&Uacute;ltimos 90 d&iacute;as)</h5>
 							<div id="canvas-holderD">
-								<canvas id="chart_CardD" width="1068" height="462" style="display: block; box-sizing: border-box; height: 462px !important; width: 1068px;"/>
+								<canvas id="chart_CardD" width="1068" height="462"
+									style="display: block; box-sizing: border-box; height: 462px !important; width: 1068px;" />
 							</div>
 
 						</div>
@@ -330,14 +331,32 @@
 			</ui:repeat>
 
 		    ];
+
+
+	    var coloR;
+	    var dynamicColors = function() {
+	        var r = Math.floor(Math.random() * 255);
+	        var g = Math.floor(Math.random() * 255);
+	        var b = Math.floor(Math.random() * 255);
+	        
+	        colorR = "rgba(" + r + "," + g + "," + b + ", 0.5)";
+
+	        return "rgb(" + r + "," + g + "," + b + ")";
+	    };
+
+
+	    
 	    const dataCardD = {
 	    		labels: labels,
 	    		datasets: [
 
 	    			<c:forEach items="#{HomeBean.evolucionVacunas}"
 						var="entry">
+	    			
 						{
 						label: '<h:outputText value="#{entry.key}" />',
+						borderColor: dynamicColors(),
+					    backgroundColor: colorR,
 						data: [	
 								<ui:repeat var="vac" value="#{entry.value}">
 										<h:outputText value="#{vac.cantidad}" />,

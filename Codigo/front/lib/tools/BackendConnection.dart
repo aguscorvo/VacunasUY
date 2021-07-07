@@ -113,7 +113,7 @@ class BackendConnection {
   Future<bool> recoverPassword({required String email}) async {
     var response = await http.post(
       Uri.parse('$baseUrl/usuarios/recuperarContra/$email'),
-      headers: {"Content-Type": "application/json"},
+      headers: authHeader,
     );
     return response.statusCode == 200;
   }
@@ -141,7 +141,10 @@ class BackendConnection {
   }
 
   Future<Usuario> getUsuarioToken(String token) async {
-    var response = await http.get(Uri.parse('$baseUrl/usuarios/token/$token'));
+    var response = await http.get(
+      Uri.parse('$baseUrl/usuarios/token/$token'),
+      headers: authHeader,
+    );
 
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -208,6 +211,7 @@ class BackendConnection {
   Future<List<Vacunatorio>> getVacunatorios() async {
     var response = await http.get(
       Uri.parse('$baseUrl/vacunatorios'),
+      headers: authHeader,
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -225,6 +229,7 @@ class BackendConnection {
   Future<List<Vacunatorio>> getVacunatoriosDadoPlan(int id) async {
     var response = await http.get(
       Uri.parse('$baseUrl/vacunatorios/listarVacunatoriosDadoPlan/$id'),
+      headers: authHeader,
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -258,7 +263,10 @@ class BackendConnection {
 
   //DEPARTAMENTOS
   Future<List<Departamento>> getDepartamentos() async {
-    var response = await http.get(Uri.parse('$baseUrl/departamentos'));
+    var response = await http.get(
+      Uri.parse('$baseUrl/departamentos'),
+      headers: authHeader,
+    );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
 
@@ -275,6 +283,7 @@ class BackendConnection {
   Future<List<Localidad>> getLocalidades() async {
     var response = await http.get(
       Uri.parse('$baseUrl/localidades'),
+      headers: authHeader,
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -378,7 +387,9 @@ class BackendConnection {
   }
 
   Future<List<PlanVacunacion>> getPlanesVacunacionVigentes() async {
-    var response = await http.get(Uri.parse('$baseUrl/planesVacunacion/listarVigentes'));
+    var response = await http.get(
+      Uri.parse('$baseUrl/planesVacunacion/listarVigentes'),
+    );
 
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -396,6 +407,7 @@ class BackendConnection {
   Future<List<Agenda>> getAgendas() async {
     var response = await http.get(
       Uri.parse('$baseUrl/agendas'),
+      headers: authHeader,
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -420,6 +432,7 @@ class BackendConnection {
   Future<List<Agenda>> getAgendasCiudadano(int id, bool todas) async {
     var response = await http.get(
       Uri.parse('$baseUrl/usuarios/listarAgendasCiudadano/$id'),
+      headers: authHeader,
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
@@ -447,6 +460,7 @@ class BackendConnection {
   Future<List<Atiende>> getAgendasVacunador(int id) async {
     var response = await http.get(
       Uri.parse('$baseUrl/usuarios/listarAtiendeVacunador/$id'),
+      headers: authHeader,
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];

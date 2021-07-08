@@ -7,7 +7,7 @@ public class ConnConstant {
     final public static Integer REST_USR_LOGIN = 2;
     final public static Integer REST_VACUNATORIOS = 3;
 
-    final public static String API_INFOGRAL_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/";
+    final public static String API_INFOGRAL_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/planesVacunacion/listarVigentes";
     final public static String API_DEPARTAMENTOS_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/departamentos";
     final public static String API_SECTORLABORAL_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/sectoreslaborales";
 

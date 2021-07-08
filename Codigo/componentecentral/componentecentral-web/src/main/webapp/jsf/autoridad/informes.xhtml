@@ -189,7 +189,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="addproveedor-form">
+					<h:form class="viewList1-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">Despliega el stock al
 								d&iacute;a del dep&oacute;sito central.</div>
@@ -224,7 +224,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="addplan-form">
+					<h:form class="viewList2-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<div class="col-12 d-flex flex-row">Despliega el stock por
@@ -236,10 +236,10 @@
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="addVacuna" value="Vacuna" />
+									<p:outputLabel for="Vacuna2" value="Vacuna" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectOneMenu id="addVacuna" value="#{StockBean.idVacuna}"
+									<h:selectOneMenu id="Vacuna2" value="#{StockBean.idVacuna}"
 										class="form-control">
 										<f:selectItems value="#{StockBean.vacunas}" var="vacuna"
 											itemValue="#{vacuna.id}" itemLabel="#{vacuna.nombre}" />
@@ -271,7 +271,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="addplan-form">
+					<h:form class="viewList3-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<div class="col-12 d-flex flex-row">Despliega el stock por
@@ -283,10 +283,10 @@
 							</div>
 							<div class="col-12 d-flex flex-row">
 								<div class="col-3  mb-3">
-									<p:outputLabel for="addVacunatorio" value="Vacunatorio" />
+									<p:outputLabel for="Vacunatorio3" value="Vacunatorio" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<h:selectOneMenu id="addVacunatorio"
+									<h:selectOneMenu id="Vacunatorio3"
 										value="#{StockBean.idVacunatorio}" class="form-control">
 										<f:selectItems value="#{StockBean.vacunatorios}" var="vacuna"
 											itemValue="#{vacuna.id}"
@@ -321,7 +321,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="addplan-form">
+					<h:form class="viewList4-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<div class="col-12 d-flex flex-row">Evoluci&oacute;n en el
@@ -394,7 +394,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<h:form class="addplan-form">
+					<h:form class="viewList5-form">
 						<div class="col-12">
 							<div class="col-12 d-flex flex-row">
 								<div class="col-12 d-flex flex-row">Evoluci&oacute;n en el
@@ -464,6 +464,90 @@
 							<div class="col-12 d-flex flex-row">
 								<h:commandButton class="btn btn-primary"
 									action="#{StockBean.evolucionEnfermedadEdad()}" value="VER" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal List6-->
+	<div class="modal" tabindex="-1" role="dialog" id="viewList6">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Evoluci&oacute;n en el tiempo por
+						sector laboral vacuna</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"> &times; </span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h:form class="viewList6-form">
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<div class="col-12 d-flex flex-row">Evoluci&oacute;n en el
+									tiempo por sector laboral vacuna.</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3"></div>
+								<div class="col-9  mb-3 mr-0 pr-0"></div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="FechaInicio6" value="Fecha Inicio" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" value="#{StockBean.fechaInicio}"
+										id="FechaInicio6" name="FechaInicio6"
+										styleClass="form-control datepicker">
+										<f:passThroughAttribute name="type" value="date" />
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="FechaFin6" value="Fecha Fin" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:inputText type="text" value="#{StockBean.fechaFin}"
+										id="FechaFin6" name="FechaFin6"
+										styleClass="form-control datepicker">
+										<f:passThroughAttribute name="type" value="date" />
+									</h:inputText>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="Sector6" value="Sector Laboral" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="Sector6"
+										value="#{StockBean.idSectorLaboral}" class="form-control">
+										<f:selectItems value="#{StockBean.sectores}" var="sector"
+											itemValue="#{sector.id}" itemLabel="#{sector.nombre}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-12 d-flex flex-row">
+								<div class="col-3  mb-3">
+									<p:outputLabel for="Enfermedad6" value="Enfermedad" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<h:selectOneMenu id="Enfermedad6"
+										value="#{StockBean.idEnfermedad}" class="form-control">
+										<f:selectItems value="#{StockBean.enfermedades}" var="vacuna"
+											itemValue="#{vacuna.id}" itemLabel="#{vacuna.nombre}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="col-12 d-flex flex-row">
+								<h:commandButton class="btn btn-primary"
+									action="#{StockBean.listarPorSectorLaboral()}" value="VER" />
 							</div>
 						</div>
 					</h:form>

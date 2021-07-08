@@ -59,23 +59,59 @@ public class StockDAOImpl implements IStockDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReporteVacunaDTO> listarStockVacunaPorVacunatorios(Long idVacuna) {
-		TypedQuery<ReporteVacunaDTO> reporte = (TypedQuery<ReporteVacunaDTO>) 
+	/*	TypedQuery<ReporteVacunaDTO> reporte = (TypedQuery<ReporteVacunaDTO>) 
 				em.createNativeQuery("SELECT va.nombre, cantidad "
 						+ "FROM vacunas v INNER JOIN stock s ON v.id = s.idvacuna INNER JOIN vacunatorios va ON s.idvacunatorio = va.id "
 						+ "WHERE v.id = :idVacuna");
 		reporte.setParameter("idVacuna", idVacuna);
 		return reporte.getResultList();
+	*/
+		Query reporte = 
+				em.createNativeQuery("SELECT va.nombre, cantidad "
+						+ "FROM vacunas v INNER JOIN stock s ON v.id = s.idvacuna INNER JOIN vacunatorios va ON s.idvacunatorio = va.id "
+						+ "WHERE v.id = :idVacuna");		
+		reporte.setParameter("idVacuna", idVacuna);
+		List<Object[]> datos =  reporte.getResultList();
+		List<ReporteVacunaDTO> reportefinal = new ArrayList<ReporteVacunaDTO>();
+		Iterator<Object[]> it = datos.iterator();
+		while(it.hasNext()){
+		     Object[] line = it.next();
+		     ReporteVacunaDTO eq = new ReporteVacunaDTO();
+		     eq.setNombre(line[0].toString());
+		     eq.setCantidad(Long.valueOf(line[1].toString()));
+		     reportefinal.add(eq);
+		}
+		return reportefinal;
+		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReporteVacunaDTO> listarStockVacunasPorVacunatorio(Long idVacunatorio) {
-		TypedQuery<ReporteVacunaDTO> reporte = (TypedQuery<ReporteVacunaDTO>) 
+		/*TypedQuery<ReporteVacunaDTO> reporte = (TypedQuery<ReporteVacunaDTO>) 
 				em.createNativeQuery("SELECT v.nombre, cantidad "
 						+ "FROM vacunas v INNER JOIN stock s ON v.id = s.idvacuna INNER JOIN vacunatorios va ON s.idvacunatorio = va.id "
 						+ "WHERE va.id = :idVacunatorio");
 		reporte.setParameter("idVacunatorio", idVacunatorio);
 		return reporte.getResultList();
+		*/
+		Query reporte = 
+				em.createNativeQuery("SELECT v.nombre, cantidad "
+						+ "FROM vacunas v INNER JOIN stock s ON v.id = s.idvacuna INNER JOIN vacunatorios va ON s.idvacunatorio = va.id "
+						+ "WHERE va.id = :idVacunatorio");
+		reporte.setParameter("idVacunatorio", idVacunatorio);
+		List<Object[]> datos =  reporte.getResultList();
+		List<ReporteVacunaDTO> reportefinal = new ArrayList<ReporteVacunaDTO>();
+		Iterator<Object[]> it = datos.iterator();
+		while(it.hasNext()){
+		     Object[] line = it.next();
+		     ReporteVacunaDTO eq = new ReporteVacunaDTO();
+		     eq.setNombre(line[0].toString());
+		     eq.setCantidad(Long.valueOf(line[1].toString()));
+		     reportefinal.add(eq);
+		}
+		return reportefinal;
+		
 	}
 	
 	

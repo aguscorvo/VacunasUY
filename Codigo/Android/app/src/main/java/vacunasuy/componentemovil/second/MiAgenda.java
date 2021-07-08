@@ -205,9 +205,12 @@ public class MiAgenda extends AppCompatActivity {
         InputStream is = null;
         HttpURLConnection conn = null;
         try {
+            String authorization ="Bearer  " + dtUsuario.getToken();
+
             URL url = new URL(myurl);
             conn = (HttpURLConnection) url.openConnection();
-            //conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn.setRequestProperty("Authorization", authorization);
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
             conn.setRequestMethod("GET");

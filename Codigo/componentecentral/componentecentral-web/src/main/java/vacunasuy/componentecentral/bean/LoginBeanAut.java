@@ -40,6 +40,22 @@ public class LoginBeanAut implements Serializable {
 	@PostConstruct
 	public void init() {
 
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+		Cookie cookieAux = null;
+
+		Cookie[] userCookies = request.getCookies();
+		if (userCookies != null && userCookies.length > 0) {
+			for (int i = 0; i < userCookies.length; i++) {
+				logger.info("Autoridad Cookies registradas: " + userCookies[i].getName());
+				if (userCookies[i].getName().equals("flutter.vacunasUYUser")) {
+					cookieAux = userCookies[i];
+					logger.info("Autoridad Cookie encontrada: " + userCookies[i].getName());
+					//break;
+				}
+			}
+		}
+
 		Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap()
 				.get("flutter.vacunasUYUser");
 
@@ -47,11 +63,9 @@ public class LoginBeanAut implements Serializable {
 
 			JSONObject loginJSON = new JSONObject(cookie.getValue());
 			userToken = loginJSON.getString("token");
-			
+
 			boolean esAutoridad = false;
-			
-			
-			
+
 			if (loginJSON.getLong("rol") == 2)
 				esAutoridad = true;
 
@@ -61,29 +75,26 @@ public class LoginBeanAut implements Serializable {
 			} else {
 				logger.info("ERROR Autoridad loginJSON: " + loginJSON.toString());
 				/*
-				try {
-					//FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath());
-					FacesContext.getCurrentInstance().getExternalContext().redirect("https://vacunasuy.web.elasticloud.uy/");
-					
-				} catch (IOException e) {
-					logger.info(e.getMessage().trim());
-				}
-				*/
+				 * try {
+				 * //FacesContext.getCurrentInstance().getExternalContext().redirect(request.
+				 * getContextPath());
+				 * FacesContext.getCurrentInstance().getExternalContext().redirect(
+				 * "https://vacunasuy.web.elasticloud.uy/");
+				 * 
+				 * } catch (IOException e) { logger.info(e.getMessage().trim()); }
+				 */
 			}
 
 		} else {
 			logger.info("ERROR Autoridad Cookie null");
 			/*
-
-			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("https://vacunasuy.web.elasticloud.uy/");
-			} catch (IOException e) {
-				logger.info(e.getMessage().trim());
-			}
-			*/
+			 * 
+			 * try { FacesContext.getCurrentInstance().getExternalContext().redirect(
+			 * "https://vacunasuy.web.elasticloud.uy/"); } catch (IOException e) {
+			 * logger.info(e.getMessage().trim()); }
+			 */
 		}
 	}
-	
 
 	public void logout() {
 		try {
@@ -97,15 +108,14 @@ public class LoginBeanAut implements Serializable {
 				cookie.setMaxAge(0);
 				cookie.setValue("");
 				response.addCookie(cookie);
-			
-		}		
+
+			}
 			logger.info("logout");
 			FacesContext.getCurrentInstance().getExternalContext().redirect("https://vacunasuy.web.elasticloud.uy/");
 		} catch (IOException e) {
 			logger.info(e.getMessage().trim());
 		}
-		
-		
+
 	}
 
 }

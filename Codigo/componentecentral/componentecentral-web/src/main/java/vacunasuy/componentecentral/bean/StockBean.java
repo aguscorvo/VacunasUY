@@ -53,6 +53,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vacunasuy.componentecentral.business.IEnfermedadService;
 import vacunasuy.componentecentral.business.IReporteService;
+import vacunasuy.componentecentral.business.ISectorLaboralService;
 import vacunasuy.componentecentral.business.IStockService;
 import vacunasuy.componentecentral.business.IVacunaService;
 import vacunasuy.componentecentral.business.IVacunatorioService;
@@ -60,6 +61,7 @@ import vacunasuy.componentecentral.dto.EnfermedadDTO;
 import vacunasuy.componentecentral.dto.ReporteActoVacunalDTO;
 import vacunasuy.componentecentral.dto.ReporteEvolucionTiempoDTO;
 import vacunasuy.componentecentral.dto.ReporteVacunaDTO;
+import vacunasuy.componentecentral.dto.SectorLaboralDTO;
 import vacunasuy.componentecentral.dto.VacunaDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
 import vacunasuy.componentecentral.entity.Enfermedad;
@@ -82,6 +84,7 @@ public class StockBean implements Serializable {
 	private Long idVacuna;
 	private Long idVacunatorio;
 	private Long idEnfermedad;
+	private Long idSectorLaboral;
 	private String nombre;
 	private Long cantidad;
 	private String FechaInicio;
@@ -94,6 +97,7 @@ public class StockBean implements Serializable {
 	List<VacunaDTO> vacunas;
 	List<VacunatorioDTO> vacunatorios;
 	List<EnfermedadDTO> enfermedades;
+	List<SectorLaboralDTO> sectores;
 	String titulo;
 	String SubTitulo;
 
@@ -112,15 +116,20 @@ public class StockBean implements Serializable {
 	@EJB
 	IEnfermedadService enfermedadService;
 
+	@EJB
+	ISectorLaboralService sectorService;
+	
 	@PostConstruct
 	public void init() {
 		try {
 			vacunas = vacunaService.listar();
 			vacunatorios = vacunatorioService.listar();
 			enfermedades = enfermedadService.listar();
+			sectores = sectorService.listar();
+			
 			
 		} catch (VacunasUyException e) {
-			logger.info(e.getMessage().trim());
+			logger.error("init: " + e.getMessage());
 		}
 	}
 
@@ -143,7 +152,7 @@ public class StockBean implements Serializable {
 			imprimir(datos);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
+			logger.error("listarStockVacunasDisponiblesParaEnviar: " + e.getMessage());
 		}
 	}
 
@@ -164,7 +173,7 @@ public class StockBean implements Serializable {
 			SubTitulo = "Stock de Vacuna: " + vac.getNombre();
 			imprimir(datos);
 		} catch (Exception e) {
-			logger.error("listarStockVacunasDisponiblesParaEnviar: " + e.getMessage());
+			logger.error("listarStockVacunaPorVacunatorios: " + e.getMessage());
 		}
 	}
 
@@ -186,7 +195,7 @@ public class StockBean implements Serializable {
 					+ vac.getDepartamento().getNombre() + " - " + vac.getLocalidad().getNombre();
 			imprimir(datos);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error("listarStockVacunasPorVacunatorio: "+ e.getMessage());
 		}
 	}
 
@@ -245,7 +254,7 @@ public class StockBean implements Serializable {
 			imprimirListado(vacf, vac.getNombre());
 
 		} catch (VacunasUyException | ParseException e) {
-			logger.error(e.getMessage());
+			logger.error("evolucionVacuna: " + e.getMessage());
 		}
 
 	}
@@ -287,7 +296,50 @@ public class StockBean implements Serializable {
 			imprimirListadoBar(aux);
 
 		} catch (VacunasUyException | ParseException e) {
-			logger.error(e.getMessage());
+			logger.error("evolucionEnfermedadEdad: " + e.getMessage());
+		}
+
+	}
+
+	public void listarPorSectorLaboral() {
+		try {
+
+			fechas = new ArrayList<String>();
+			Date fechaI = new SimpleDateFormat("yyyy-MM-dd").parse(FechaInicio);
+			Date fechaF = new SimpleDateFormat("yyyy-MM-dd").parse(FechaFin);
+
+			if (fechaI.compareTo(fechaF) > 0) {
+				System.out.println("Date1 is after Date2");
+				fechaI = new SimpleDateFormat("yyyy-MM-dd").parse(FechaFin);
+				fechaF = new SimpleDateFormat("yyyy-MM-dd").parse(FechaInicio);
+
+			}
+
+			Enfermedad vac = enfermedadService.listarPorId(idEnfermedad);
+			
+
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+			titulo = "ListarPorSectorLaboral_";
+			SubTitulo = "Evolución en el tiempo por sector laboral vacuna: " + vac.getNombre() + " - " + dateFormat.format(fechaI)
+					+ " - " + dateFormat.format(fechaF) + " -\r\t Sector Laboral: " + idSectorLaboral;
+
+			while (fechaI.compareTo(fechaF) <= 0) {
+				String strDate = dateFormat.format(fechaI);
+				fechas.add(strDate);
+
+				Calendar c = Calendar.getInstance();
+				c.setTime(fechaI);
+				c.add(Calendar.DATE, 1);
+				fechaI = c.getTime();
+			}
+
+			List<ReporteActoVacunalDTO> aux = reporteService.listarPorSectorLaboral(dateFormat.format(fechaI), dateFormat.format(fechaF), idSectorLaboral, idEnfermedad);
+			
+			imprimirListadoBar(aux);
+
+		} catch (VacunasUyException | ParseException e) {
+			logger.error("listarPorSectorLaboral: " + e.getMessage());
 		}
 
 	}
@@ -505,7 +557,7 @@ public class StockBean implements Serializable {
 			document.add(linea3);
 
 		} catch (Exception e) {
-			logger.error("Error Imprimir: " + e.getMessage());
+			logger.error("Error imprimirListado: " + e.getMessage());
 		}
 
 		document.close();
@@ -636,7 +688,7 @@ public class StockBean implements Serializable {
 			document.add(linea3);
 
 		} catch (Exception e) {
-			logger.error("Error Imprimir: " + e.getMessage());
+			logger.error("Error imprimirListadoBar: " + e.getMessage());
 		}
 
 		document.close();

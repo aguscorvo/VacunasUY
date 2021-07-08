@@ -88,16 +88,11 @@ public class AccessActivity extends AppCompatActivity {
                 realizarConexion();
             }
         }
-
-
-
     }
 
     private void realizarConexion() {
         connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connMgr.getActiveNetworkInfo();
-
-
 
         String stringUrl = ConnConstant.API_INFOGRAL_URL;
 
@@ -115,38 +110,73 @@ public class AccessActivity extends AppCompatActivity {
         }
     }
 
-    private class DownloadInfoGralTask extends AsyncTask<String, Void, Object> {
+    private class DownloadInfoGralTask extends AsyncTask<String, Void, Boolean> {
         @Override
-        protected Object doInBackground(String... urls) {
+        protected Boolean doInBackground(String... urls) {
             // params comes from the execute() call: params[0] is the url.
             try {
-                return downloadInfoGralUrl(urls[0]);
+                //return downloadInfoGralUrl(urls[0]);
+                return downloadInfoGralUrlTest(urls[0]);
             } catch (IOException e) {
-                return getString(R.string.err_recuperarpag);
+                return false;
 
             }
         }
 
-        // onPostExecute displays the results of the AsyncTask.
         @Override
-        protected void onPostExecute(Object result) {
+        protected void onPostExecute(Boolean result) {
             String texto = "";
-            if (result instanceof ArrayList) {
-                infoGral = (List<DtMessage>) result;
-
-            } else if (result instanceof String) {
-                texto = (String) result; //getString(R.string.registros_err);
+            if (result) {
+                Intent intent = new Intent(AccessActivity.this, MainActivity.class);
+                intent.putExtra("gralInfo", (Parcelable) infoGral);
+                startActivity(intent);
+            } else {
+                texto = getString(R.string.err_conectividad);
             }
             pb1.setVisibility(View.INVISIBLE);
             //msgprogress.setVisibility(View.INVISIBLE);
             msgprogress.setText(texto);
             breload.setVisibility(View.VISIBLE);
-            bgotomain.setVisibility((View.VISIBLE));
-
-
+            //bgotomain.setVisibility((View.VISIBLE));
         }
-
     }
+
+    private boolean downloadInfoGralUrlTest(String myurl) throws IOException {
+        InputStream is = null;
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(myurl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+
+            // Starts the query
+            conn.connect();
+            int response = conn.getResponseCode();
+            is = conn.getInputStream();
+
+            //return readInfoGralJsonStream(is);
+            if(response == 200){
+                return true;
+            } else{
+                return false;
+            }
+
+
+
+            // Makes sure that the InputStream is closed after the app is
+            // finished using it.
+        } finally {
+            if (is != null) {
+                is.close();
+                conn.disconnect();
+            }
+        }
+    }
+
 
     private List<DtMessage> downloadInfoGralUrl(String myurl) throws IOException {
         InputStream is = null;
@@ -218,16 +248,16 @@ public class AccessActivity extends AppCompatActivity {
         }
         reader.endObject();
         return res;
+
     }
 
     public DtMessage readDtMessage(JsonReader reader) throws IOException {
-        Double enfermedad = -1.0;
-        Double vacuna = -1.0;
-        Double plan = -1.0;
-        Double agenda = -1.0;
-        Double proximas = -1.0;
-        Double vacunatorio = -1.0;
-
+        Double enfermedad = null;
+        Double vacuna = null;
+        Double plan = null;
+        Double agenda = null;
+        Double proximas = null;
+        Double vacunatorio = null;
 
         reader.beginObject();
         while (reader.hasNext()) {

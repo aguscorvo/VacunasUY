@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.shaded.json.JSONObject;
 
 import lombok.AllArgsConstructor;
@@ -18,6 +19,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+
 
 @Named("LoginBeanAdmin")
 @RequestScoped
@@ -38,11 +41,6 @@ public class LoginBeanAdmin implements Serializable {
 	@PostConstruct
 	public void init() {
 
-		//String cookieValue = "{\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwicm9sZXMiOlt7ImlkIjoxLCJub21icmUiOiJBZG1pbmlzdHJhZG9yIn1dLCJpYXQiOjE2MjQ1NTQ2MjMsImV4cCI6MTYyNDU1ODIyM30.e5-4eu_JK7s3pN6Pxp2HjJIYsEOgQ2U4OuLYToJ3XGggLTAPlocbo-sYslaSKjiwJtMLVaIfoQ914dFB3E8VXg\",\"nombre\":\"Administrador \",\"rol\":1}";
-		//Cookie prueba = new Cookie("flutter.vacunasUYUser", cookieValue);
-		//response.addCookie(prueba);
-
-		
 		Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap()
 				.get("flutter.vacunasUYUser");
 
@@ -51,15 +49,11 @@ public class LoginBeanAdmin implements Serializable {
 			JSONObject loginJSON = new JSONObject(cookie.getValue());
 			userToken = loginJSON.getString("token");
 			
-			//logger.info("JSON:" + cookie.getValue());
-			
 			boolean esAutoridad = false;
 			
 			if (loginJSON.getLong("rol") == 1)
 				esAutoridad = true;
 
-			//logger.info("ROL:" + loginJSON.getLong("rol"));
-			
 			if (esAutoridad) {
 				usernameCookie = loginJSON.getString("nombre");
 			} else {

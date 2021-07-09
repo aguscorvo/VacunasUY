@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
 
@@ -39,22 +40,6 @@ public class LoginBeanAut implements Serializable {
 
 	@PostConstruct
 	public void init() {
-
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-		Cookie cookieAux = null;
-
-		Cookie[] userCookies = request.getCookies();
-		if (userCookies != null && userCookies.length > 0) {
-			for (int i = 0; i < userCookies.length; i++) {
-				logger.info("Autoridad Cookies registradas: " + userCookies[i].getName());
-				if (userCookies[i].getName().equals("flutter.vacunasUYUser")) {
-					cookieAux = userCookies[i];
-					logger.info("Autoridad Cookie encontrada: " + userCookies[i].getName());
-					//break;
-				}
-			}
-		}
 
 		Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap()
 				.get("flutter.vacunasUYUser");

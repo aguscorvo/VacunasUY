@@ -12,9 +12,10 @@
 						<a class="nav-link text-secondary" id="userDropdown" href="#"
 							data-toggle="dropdown">
 							<div class="navbar-profile">
-								<p class="mb-0 d-sm-block navbar-profile-name">
+								<p class="mb-0 d-sm-block navbar-profile-name"
+									id="userProfileName">
 									<i class="fas fa-user-circle h3"></i>
-									<h:outputText value="#{LoginBeanAut.usernameCookie}" />
+
 								</p>
 							</div>
 						</a>
@@ -24,12 +25,9 @@
 							aria-labelledby="profileDropdown">
 							<h6 class="p-3 mb-0">Perfil</h6>
 							<div class="dropdown-divider"></div>
-							<h:form >
-							<h:commandButton class="btn btn-secondary btn-lg btn-block btn-sm"
-									action="#{LoginBeanAut.logout()}"
-									value="Salir" />
-							</h:form>
-														
+							<a href="javascript:clearLocalStorage();"
+								class="list-group-item list-group-item-action">Salir</a>
+
 						</div>
 					</div>
 				</div>
@@ -37,5 +35,43 @@
 		</div>
 	</div>
 
+	<script>
+			
+			var userTOKEN;
+			loadLocalStorage();
+			
+            function loadLocalStorage() {
+                var prefix = 'flutter.vacunasUYUser';
+                console.log(prefix);
+                getLocalStorageValue(prefix);
+				
+            }
+
+            function clearLocalStorage(prefix) {
+            	localStorage.clear();
+            	window.location.href = 'https://vacunasuy.web.elasticloud.uy/';
+            }
+
+            function getLocalStorageValue(prefix) {
+            	if (localStorage.getItem(prefix)) {
+                	var prefixValue = JSON.parse(localStorage.getItem(prefix));
+                 
+                 	userTOKEN =  prefixValue["token"];
+
+                    var n = document.getElementById("userProfileName"); 
+                    n.append(prefixValue["nombre"]);
+
+                 
+					if(prefixValue["rol"] != 2){
+						console.log("ERROR ROL 2");
+						window.location.href = 'https://vacunasuy.web.elasticloud.uy/';
+	                }
+                        
+                }else{
+                	console.log("ERROR NO COOKIE");
+                	window.location.href = 'https://vacunasuy.web.elasticloud.uy/';
+				}
+            }
+        </script>
 
 </ui:composition>

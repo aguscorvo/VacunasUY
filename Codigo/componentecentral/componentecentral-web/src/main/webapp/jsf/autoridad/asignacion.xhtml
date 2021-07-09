@@ -462,7 +462,7 @@
 			contentType: "application/json; charset=utf-8",
 			mimeType: "text/plain",
 			headers: { 'Access-Control-Allow-Origin': '*',
-				"Authorization": '<h:outputText value="#{LoginBeanAut.userToken}" />' }
+				"Authorization": 'bearer ' + userTOKEN }
 		});
 
 		$ds.getJSON(url)

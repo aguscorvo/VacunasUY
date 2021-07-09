@@ -177,7 +177,7 @@ public class HomeBean implements Serializable {
 			usuariosCIU = (long) 0;
 
 			for (UsuarioDTO vdto : auxvac) {
-				logger.info(vdto.getNombre());
+				//logger.info(vdto.getNombre());
 				for (RolDTO rdto : vdto.getRoles()) {
 
 					if (rdto.getNombre().toUpperCase().contains("VACUNADOR")) {

@@ -55,6 +55,8 @@
             function getLocalStorageValue(prefix) {
             	if (localStorage.getItem(prefix)) {
                 	var prefixValue = JSON.parse(localStorage.getItem(prefix));
+
+                	prefixValue = JSON.parse(prefixValue);
                  
                  	userTOKEN =  prefixValue["token"];
 
@@ -64,6 +66,7 @@
                  
 					if(prefixValue["rol"] != 2){
 						console.log("ERROR ROL 2");
+						localStorage.clear();
 						window.location.href = 'https://vacunasuy.web.elasticloud.uy/';
 	                }
                         

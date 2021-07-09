@@ -455,14 +455,14 @@
 		var vacunatorios = [];
 
 
-	    
+	    var authorization = 'Bearer ' + userTOKEN;
 	    
 		$ds.ajaxSetup({
 			scriptCharset: "utf-8",
 			contentType: "application/json; charset=utf-8",
 			mimeType: "text/plain",
 			headers: { 'Access-Control-Allow-Origin': '*',
-				"Authorization": 'bearer ' + userTOKEN }
+				"Authorization": authorization }
 		});
 
 		$ds.getJSON(url)

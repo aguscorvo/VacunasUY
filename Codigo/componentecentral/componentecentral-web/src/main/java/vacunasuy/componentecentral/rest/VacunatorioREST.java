@@ -265,7 +265,6 @@ public class VacunatorioREST {
 		
 	@GET
 	@Path("/listarAgendasPorVacunatorio/{id}/{fecha}")
-	@RecursoProtegidoJWT
 	public Response listarAgendasPorVacunatorio(@PathParam("id") Long id, @PathParam("fecha") String fecha) {
 		RespuestaREST<List<AgendaVacunatorioDTO>> respuesta = null;
 		try {

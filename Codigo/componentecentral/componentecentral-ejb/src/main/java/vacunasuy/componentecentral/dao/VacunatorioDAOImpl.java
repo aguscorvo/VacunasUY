@@ -6,6 +6,7 @@ import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Geometries;
@@ -63,6 +64,17 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
     public List<Vacunatorio> listarPorDepartamento(Long departamento){
     	Query consulta = em.createQuery("SELECT v FROM Vacunatorio v WHERE v.departamento.id = :departamento");
 		consulta.setParameter("departamento", departamento);
+    	return consulta.getResultList();
+    }
+    
+    public List<Vacunatorio> listarVacunatoriosDadoVacuna(Long idVacuna) {
+    	@SuppressWarnings("unchecked")
+		TypedQuery<Vacunatorio> consulta = (TypedQuery<Vacunatorio>) 
+    			em.createNativeQuery("SELECT v.* "
+    			+ "    	FROM vacunatorios v "
+    			+ "    	INNER JOIN stock s ON s.idvacunatorio = v.id "
+    			+ "    	WHERE s.idvacuna = :idVacuna AND s.cantidad > 0");
+    	consulta.setParameter("idVacuna", idVacuna);
     	return consulta.getResultList();
     }
     

@@ -269,31 +269,10 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 
 	@Override
 	public List<VacunatorioDTO> listarVacunatoriosDadoPlan(Long id_plan) throws VacunasUyException {
-		
 		try {
-			List<VacunatorioDTO> vacunatoriosReturn = new ArrayList<VacunatorioDTO>();
 			PlanVacunacion plan = planDAO.listarPorId(id_plan);
-			if(plan==null) throw new VacunasUyException("El plan de vacunación indicado no existe.", 
-					VacunasUyException.NO_EXISTE_REGISTRO);
-			else {
-				Long id_vacuna = planDAO.listarPorId(id_plan).getVacuna().getId();
-				List<Vacunatorio> vacunatorios = vacunatorioDAO.listar();
-				for (Vacunatorio v: vacunatorios) {
-					boolean hay_vacuna = false;
-					List<Evento> eventos = v.getEventos();
-					for (Evento e: eventos) {
-						if (e.getLote().getVacuna().getId().equals(id_vacuna)) {
-							hay_vacuna = true;
-							break;
-						}
-					}
-					if (hay_vacuna) {
-						vacunatoriosReturn.add(vacunatorioConverter.fromEntity(v));
-					}
-							
-				}
-				return vacunatoriosReturn;
-			}
+			if(plan==null) throw new VacunasUyException("El plan de vacunación indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
+			return vacunatorioConverter.fromEntity(vacunatorioDAO.listarVacunatoriosDadoVacuna(plan.getVacuna().getId()));
 		}catch(Exception e) {
 			throw new VacunasUyException(e.getLocalizedMessage(), VacunasUyException.ERROR_GENERAL);
 		}		

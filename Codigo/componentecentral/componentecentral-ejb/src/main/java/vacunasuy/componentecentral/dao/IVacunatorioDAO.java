@@ -20,5 +20,6 @@ public interface IVacunatorioDAO {
 	public void eliminar(Vacunatorio vacunatorio);
 	public List<Vacunatorio> listarPorUbicacion(Long localidad, Long departamento);
 	public List<Vacunatorio> listarPorDepartamento(Long departamento);
+	public List<Vacunatorio> listarVacunatoriosDadoVacuna(Long idVacuna);
 	
 }

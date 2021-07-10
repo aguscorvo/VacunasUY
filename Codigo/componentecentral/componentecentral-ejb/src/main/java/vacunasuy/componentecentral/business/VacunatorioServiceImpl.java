@@ -333,19 +333,14 @@ public class VacunatorioServiceImpl implements IVacunatorioService {
 
 	@Override
 	public boolean vacunatorioTienePlan(Long idVacunatorio, Long idPlan) throws VacunasUyException {
-		
 		Vacunatorio vacunatorio = vacunatorioDAO.listarPorId(idVacunatorio);
-		
 		PlanVacunacion plan = planDAO.listarPorId(idPlan);
-		
 		List<Evento> eventos = vacunatorio.getEventos();
-		
 		for (Evento e: eventos) {
 			if(e.getLote().getVacuna().getId().equals(plan.getVacuna().getId())) {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	

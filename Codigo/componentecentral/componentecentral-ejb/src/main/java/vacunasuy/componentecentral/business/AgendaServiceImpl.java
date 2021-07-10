@@ -87,8 +87,8 @@ public class AgendaServiceImpl implements IAgendaService {
 		if(puesto==null)throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		
 		//se valida que el puesto esté en un vacunatorio apropiado
-		boolean puesto_valido = vacunatorioService.vacunatorioTienePlan(puesto.getVacunatorio().getId(), agendaDTO.getPlanVacunacion());
-		if (!puesto_valido)throw new VacunasUyException("El vacunatorio asociado al puesto ingresado no tiene vacunas para el plan ingresado.", VacunasUyException.NO_EXISTE_REGISTRO);
+		//boolean puesto_valido = vacunatorioService.vacunatorioTienePlan(puesto.getVacunatorio().getId(), agendaDTO.getPlanVacunacion());
+		//if (!puesto_valido)throw new VacunasUyException("El vacunatorio asociado al puesto ingresado no tiene vacunas para el plan ingresado.", VacunasUyException.NO_EXISTE_REGISTRO);
 		
 		//se valida que el plan de vacunacion exista
 		PlanVacunacion planVacunacion = planVacunacionDAO.listarPorId(agendaDTO.getPlanVacunacion());

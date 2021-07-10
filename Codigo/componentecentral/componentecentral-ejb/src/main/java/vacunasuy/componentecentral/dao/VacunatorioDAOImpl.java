@@ -1,20 +1,11 @@
 package vacunasuy.componentecentral.dao;
 
 import java.util.List;
-
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
-import org.geolatte.geom.G2D;
-import org.geolatte.geom.Geometries;
-import org.geolatte.geom.Point;
-import org.geolatte.geom.crs.CoordinateReferenceSystems;
-
-import vacunasuy.componentecentral.entity.Stock;
-import vacunasuy.componentecentral.entity.Ubicacion;
 import vacunasuy.componentecentral.entity.Vacunatorio;
 
 @Singleton
@@ -68,14 +59,9 @@ public class VacunatorioDAOImpl implements IVacunatorioDAO {
     }
     
     public List<Vacunatorio> listarVacunatoriosDadoVacuna(Long idVacuna) {
-    	@SuppressWarnings("unchecked")
-		TypedQuery<Vacunatorio> consulta = (TypedQuery<Vacunatorio>) 
-    			em.createNativeQuery("SELECT v.* "
-    			+ "    	FROM vacunatorios v "
-    			+ "    	INNER JOIN stock s ON s.idvacunatorio = v.id "
-    			+ "    	WHERE s.idvacuna = :idVacuna AND s.cantidad > 0");
-    	consulta.setParameter("idVacuna", idVacuna);
-    	return consulta.getResultList();
+    	TypedQuery<Vacunatorio> vacunatorios = em.createNamedQuery("listarVacunatoriosDadoVacuna", Vacunatorio.class);
+    	vacunatorios.setParameter("idVacuna", idVacuna);
+		return vacunatorios.getResultList();
     }
     
 }

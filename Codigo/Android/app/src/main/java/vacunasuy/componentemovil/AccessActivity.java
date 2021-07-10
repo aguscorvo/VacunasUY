@@ -73,6 +73,7 @@ public class AccessActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AccessActivity.this, MainActivity.class);
+                //Intent intent = new Intent(AccessActivity.this, AgendarActivity.class);
                 intent.putExtra("gralInfo", (Parcelable) infoGral);
                 startActivity(intent);
             }
@@ -127,8 +128,9 @@ public class AccessActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean result) {
             String texto = "";
             if (result) {
-                Intent intent = new Intent(AccessActivity.this, MainActivity.class);
-                intent.putExtra("gralInfo", (Parcelable) infoGral);
+                //Intent intent = new Intent(AccessActivity.this, MainActivity.class);
+                Intent intent = new Intent(AccessActivity.this, PlanVacunacion.class);
+                //intent.putExtra("gralInfo", (Parcelable) infoGral);
                 startActivity(intent);
             } else {
                 texto = getString(R.string.err_conectividad);

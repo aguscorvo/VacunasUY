@@ -188,10 +188,13 @@ public class AgendarActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    /*
                     case R.id.menu_home:
                         Intent ihome = new Intent(AgendarActivity.this, MainActivity.class);
                         startActivity(ihome);
                         return true;
+
+                     */
                     case R.id.menu_agenda:
                         Intent iagenda = new Intent(AgendarActivity.this, PlanVacunacion.class);
                         startActivity(iagenda);

@@ -57,10 +57,13 @@ public class NotificacionActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             DtUsuario usuario = DtUsuario.getInstance();
             switch (item.getItemId()){
+                /*
                 case R.id.menu_home:
                     Intent ihome = new Intent(NotificacionActivity.this, MainActivity.class);
                     startActivity(ihome);
                     return true;
+
+                 */
                 case R.id.menu_agenda:
                     Intent iagenda = new Intent(NotificacionActivity.this, PlanVacunacion.class);
                     startActivity(iagenda);

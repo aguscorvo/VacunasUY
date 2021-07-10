@@ -72,10 +72,13 @@ public class MapEnfermedadesVaccunas extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    /*
                     case R.id.menu_home:
                         Intent ihome = new Intent(MapEnfermedadesVaccunas.this, MainActivity.class);
                         startActivity(ihome);
                         return true;
+
+                     */
                     case R.id.menu_agenda:
                         Intent iagenda = new Intent(MapEnfermedadesVaccunas.this, PlanVacunacion.class);
                         startActivity(iagenda);

@@ -96,10 +96,13 @@ public class GubUyActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
+                /*
                 case R.id.menu_home:
                     Intent intent2 = new Intent(GubUyActivity.this, MainActivity.class);
                     startActivity(intent2);
                     return true;
+
+                 */
                 case R.id.menu_agenda:
                     Intent iagenda = new Intent(GubUyActivity.this, PlanVacunacion.class);
                     startActivity(iagenda);

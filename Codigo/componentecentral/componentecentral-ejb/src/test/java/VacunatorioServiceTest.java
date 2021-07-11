@@ -594,9 +594,11 @@ public class VacunatorioServiceTest {
 		Vacunatorio vacunatorio = new Vacunatorio(1L, null, null, null, null, "clave", null, null, null, eventos, null);
 		List<Vacunatorio> vacs = new ArrayList<Vacunatorio>();
 		vacs.add(vacunatorio);
-		Mockito.when(vacunatorioService.vacunatorioDAO.listar()).thenReturn(vacs);
+		Mockito.when(vacunatorioService.vacunatorioDAO.listarVacunatoriosDadoVacuna(1L)).thenReturn(vacs);
 		VacunatorioDTO vDTO = new VacunatorioDTO(1L, null, null, null, null, null, null, null, null);
-		Mockito.when(vacunatorioService.vacunatorioConverter.fromEntity(vacunatorio)).thenReturn(vDTO);
+		List<VacunatorioDTO> vacsDTO = new ArrayList<VacunatorioDTO>();
+		vacsDTO.add(vDTO);
+		Mockito.when(vacunatorioService.vacunatorioConverter.fromEntity(vacs)).thenReturn(vacsDTO);
 		try {
 			List<VacunatorioDTO> devueltos = vacunatorioService.listarVacunatoriosDadoPlan(1L);
 			assertEquals(1, devueltos.size());
@@ -613,31 +615,6 @@ public class VacunatorioServiceTest {
 		List<VacunatorioDTO> devueltos = vacunatorioService.listarVacunatoriosDadoPlan(1L);
 	}
 	
-	@Test
-	public void listarVacunatoriosDadoPlan_sinVacuna () {
-		Vacuna v = new Vacuna (1L, null, 1, 1, 1, null);
-		Vacuna v2 = new Vacuna (2L, null, 1, 1, 1, null);
-		Vacuna v3 = new Vacuna (3L, null, 1, 1, 1, null);
-		Lote l = new Lote (1L, 1L, 1L, null, v);
-		Lote l2 = new Lote (2L, 1L, 1L, null, v2);
-		Evento e1 = new Evento(1L, null, null, 1L, null, l, null, null);
-		Evento e2 = new Evento(2L, null, null, 1L, null, l2, null, null);
-		List<Evento> eventos = new ArrayList<Evento>();
-		eventos.add(e1);
-		eventos.add(e2);
-		PlanVacunacion plan = new PlanVacunacion(1L, 1, 1, null, null, null, v3);
-		Mockito.when(vacunatorioService.planDAO.listarPorId(1L)).thenReturn(plan);
-		Vacunatorio vacunatorio = new Vacunatorio(1L, null, null, null, null, "clave", null, null, null, eventos, null);
-		List<Vacunatorio> vacs = new ArrayList<Vacunatorio>();
-		vacs.add(vacunatorio);
-		Mockito.when(vacunatorioService.vacunatorioDAO.listar()).thenReturn(vacs);
-		try {
-			List<VacunatorioDTO> devueltos = vacunatorioService.listarVacunatoriosDadoPlan(1L);
-			assertEquals(0, devueltos.size());
-		} catch (VacunasUyException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	@Test
 	public void crearGeometrias() {

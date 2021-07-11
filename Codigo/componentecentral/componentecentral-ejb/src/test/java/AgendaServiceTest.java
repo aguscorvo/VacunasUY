@@ -138,11 +138,6 @@ public class AgendaServiceTest {
 		List<Agenda> agendasPuesto = new ArrayList<Agenda>();
 		Puesto p = new Puesto(1L, 1, v, agendasPuesto, null);
 		Mockito.when(agendaService.puestoDAO.listarPorId(1L)).thenReturn(p);
-		try {
-			Mockito.when(agendaService.vacunatorioService.vacunatorioTienePlan(1L,1L)).thenReturn(true);
-		} catch (VacunasUyException e) {
-			e.printStackTrace();
-		}
 		PlanVacunacion pv = new PlanVacunacion(1L, 1, 99, null, null, sectores, vacuna);
 		Mockito.when(agendaService.planVacunacionDAO.listarPorId(1L)).thenReturn(pv);
 		try {
@@ -196,29 +191,6 @@ public class AgendaServiceTest {
 	}
 	
 	@Test(expected = VacunasUyException.class)
-	public void crear_puestoInvalido() throws VacunasUyException {
-		AgendaCrearDTO aCDTO = new AgendaCrearDTO("2021-07-23", 1L, 1L, 1L);
-		SectorLaboral sector = new SectorLaboral(1L, "Sector1");
-		List<SectorLaboral> sectores = new ArrayList<SectorLaboral>();
-		sectores.add(sector);
-		Vacunatorio v = new Vacunatorio(1L, "nombre", null, null, "direccion", null, null, null, null, null, null);
-		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate fecha = LocalDate.parse("2000-06-01", formato);
-		Usuario u = new Usuario(1L, "123456", null, null, null, fecha, null, "tokenFireBase", null, sector, null, null, null);
-		Mockito.when(agendaService.usuarioDAO.listarPorId(1L)).thenReturn(u);
-		List<Agenda> agendasPuesto = new ArrayList<Agenda>();
-		Puesto p = new Puesto(1L, 1, v, agendasPuesto, null);
-		Mockito.when(agendaService.puestoDAO.listarPorId(1L)).thenReturn(p);
-		try {
-			Mockito.when(agendaService.vacunatorioService.vacunatorioTienePlan(1L,1L)).thenReturn(false);
-		} catch (VacunasUyException e) {
-			e.printStackTrace();
-		}
-		@SuppressWarnings("unused")
-		List<AgendaMinDTO> agendasEsperadas = agendaService.crear(aCDTO);
-	}
-	
-	@Test(expected = VacunasUyException.class)
 	public void crear_PlanVacunacionNull() throws VacunasUyException {
 		AgendaCrearDTO aCDTO = new AgendaCrearDTO("2021-07-23", 1L, 1L, 1L);
 		SectorLaboral sector = new SectorLaboral(1L, "Sector1");
@@ -232,11 +204,6 @@ public class AgendaServiceTest {
 		List<Agenda> agendasPuesto = new ArrayList<Agenda>();
 		Puesto p = new Puesto(1L, 1, v, agendasPuesto, null);
 		Mockito.when(agendaService.puestoDAO.listarPorId(1L)).thenReturn(p);
-		try {
-			Mockito.when(agendaService.vacunatorioService.vacunatorioTienePlan(1L,1L)).thenReturn(true);
-		} catch (VacunasUyException e) {
-			e.printStackTrace();
-		}
 		PlanVacunacion pv = null;
 		Mockito.when(agendaService.planVacunacionDAO.listarPorId(1L)).thenReturn(pv);
 		@SuppressWarnings("unused")
@@ -258,11 +225,6 @@ public class AgendaServiceTest {
 		List<Agenda> agendasPuesto = new ArrayList<Agenda>();
 		Puesto p = new Puesto(1L, 1, v, agendasPuesto, null);
 		Mockito.when(agendaService.puestoDAO.listarPorId(1L)).thenReturn(p);
-		try {
-			Mockito.when(agendaService.vacunatorioService.vacunatorioTienePlan(1L,1L)).thenReturn(true);
-		} catch (VacunasUyException e) {
-			e.printStackTrace();
-		}
 		PlanVacunacion pv = new PlanVacunacion(1L, 1, 99, null, null, sectores, vacuna);
 		Mockito.when(agendaService.planVacunacionDAO.listarPorId(1L)).thenReturn(pv);
 		try {
@@ -289,11 +251,6 @@ public class AgendaServiceTest {
 		List<Agenda> agendasPuesto = new ArrayList<Agenda>();
 		Puesto p = new Puesto(1L, 1, v, agendasPuesto, null);
 		Mockito.when(agendaService.puestoDAO.listarPorId(1L)).thenReturn(p);
-		try {
-			Mockito.when(agendaService.vacunatorioService.vacunatorioTienePlan(1L,1L)).thenReturn(true);
-		} catch (VacunasUyException e) {
-			e.printStackTrace();
-		}
 		PlanVacunacion pv = new PlanVacunacion(1L, 18, 99, null, null, sectores, vacuna);
 		Mockito.when(agendaService.planVacunacionDAO.listarPorId(1L)).thenReturn(pv);
 		try {
@@ -321,11 +278,6 @@ public class AgendaServiceTest {
 		List<Agenda> agendasPuesto = new ArrayList<Agenda>();
 		Puesto p = new Puesto(1L, 1, v, agendasPuesto, null);
 		Mockito.when(agendaService.puestoDAO.listarPorId(1L)).thenReturn(p);
-		try {
-			Mockito.when(agendaService.vacunatorioService.vacunatorioTienePlan(1L,1L)).thenReturn(true);
-		} catch (VacunasUyException e) {
-			e.printStackTrace();
-		}
 		PlanVacunacion pv = new PlanVacunacion(1L, 18, 99, null, null, sectores, vacuna);
 		Mockito.when(agendaService.planVacunacionDAO.listarPorId(1L)).thenReturn(pv);
 		try {

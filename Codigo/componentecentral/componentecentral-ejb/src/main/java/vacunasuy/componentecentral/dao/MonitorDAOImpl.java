@@ -120,7 +120,7 @@ public class MonitorDAOImpl implements IMonitorDAO {
 		Query consulta = em.createNativeQuery("SELECT COUNT(*) "
 				+ "FROM planes_vacunacion p "
 				+ "INNER JOIN agendas a ON a.fk_plan_vacunacion = p.id "
-				+ "WHERE p.id = :idPlan AND a.fecha = now()\\:\\:date;");
+				+ "WHERE p.id = :idPlan AND a.fecha\\:\\:date = now()\\:\\:date;");
 		consulta.setParameter("idPlan", idPlan);
 		BigInteger res = (BigInteger) consulta.getSingleResult();
 		return res.longValue();
@@ -132,7 +132,7 @@ public class MonitorDAOImpl implements IMonitorDAO {
 		Query consulta = em.createNativeQuery("SELECT COUNT(*) "
 				+ "FROM planes_vacunacion p "
 				+ "INNER JOIN actos_vacunales a ON a.fk_plan_vacunacion = p.id "
-				+ "WHERE p.id = :idPlan AND a.fecha = now()\\:\\:date;");
+				+ "WHERE p.id = :idPlan AND a.fecha\\:\\:date = now()\\:\\:date;");
 		consulta.setParameter("idPlan", idPlan);
 		BigInteger res = (BigInteger) consulta.getSingleResult();
 		return res.longValue();

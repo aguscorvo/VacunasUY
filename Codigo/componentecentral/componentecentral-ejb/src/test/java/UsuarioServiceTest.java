@@ -175,6 +175,31 @@ public class UsuarioServiceTest {
 		}
 	}
 	
+	@Test (expected = VacunasUyException.class)
+	public void crear_usuarioNull() throws VacunasUyException{
+		List<Long> roles = new ArrayList<Long>();
+		roles.add(1L);
+		UsuarioCrearDTO usuarioCrearDTO = new UsuarioCrearDTO();
+		usuarioCrearDTO.setCorreo("prueba@gmail.com");
+		usuarioCrearDTO.setRoles(roles);
+		Usuario usuario = new Usuario();
+		usuario.setId(1L);
+		usuario.setCorreo("prueba@gmail.com");
+		usuario.setPassword("1234");
+		Usuario usuario_creado = new Usuario();
+		usuario.setId(1L);
+		usuario.setCorreo("prueba@gmail.com");
+		usuario.setPassword("1234");
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(1L);
+		Rol rol = new Rol();
+		rol.setId(1L);
+		Mockito.when(usuarioService.usuarioConverter.fromCrearDTO(Mockito.any(UsuarioCrearDTO.class))).thenReturn(usuario);
+		Mockito.when(usuarioService.usuarioDAO.listarPorCorreo("prueba@gmail.com")).thenReturn(usuario_creado);
+		@SuppressWarnings("unused")
+		UsuarioDTO usuarioEsperado = usuarioService.crear(usuarioCrearDTO);
+	}
+	
 	@Test
 	/* El usuario no existe */
 	public void editar1() {

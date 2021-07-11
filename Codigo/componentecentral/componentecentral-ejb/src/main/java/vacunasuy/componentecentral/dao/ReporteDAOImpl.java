@@ -38,7 +38,7 @@ public class ReporteDAOImpl implements IReporteDAO {
 		return reporte.getResultList();
 		*/
 		Query reporte = em
-				.createNativeQuery("SELECT to_char(av.fecha, 'YY-mm-dd') as fecha, COUNT(av) as cantidad "
+				.createNativeQuery("SELECT to_char(av.fecha, 'YYYY-mm-dd') as fecha, COUNT(av) as cantidad "
 						+ "FROM actos_vacunales av " + "INNER JOIN planes_vacunacion pv ON av.fk_plan_vacunacion=pv.id "
 						+ "INNER JOIN 	vacunas v ON pv.fk_vacuna= v.id "
 						+ "WHERE fecha< :fechaFin AND fecha> :fechaInicio AND v.id= :vacuna " + "GROUP BY fecha "
@@ -58,8 +58,6 @@ public class ReporteDAOImpl implements IReporteDAO {
 			reportefinal.add(eq);
 		}
 		return reportefinal;
-		
-		
 	}
 
 	@SuppressWarnings("unchecked")

@@ -82,6 +82,15 @@ class Certificado extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool portrait = false;
+    if (MediaQuery.of(context).size.width < MediaQuery.of(context).size.height) {
+      portrait = true;
+    }
+    EdgeInsets edgesA = portrait ? EdgeInsets.symmetric(horizontal: 5, vertical: 5) : EdgeInsets.symmetric(horizontal: 50, vertical: 5);
+    EdgeInsets edgesB = portrait ? EdgeInsets.all(2) : EdgeInsets.all(5);
+    EdgeInsets edgesC = portrait ? EdgeInsets.all(5) : EdgeInsets.all(10);
+    TextStyle styleA = portrait ? TextStyle(fontSize: 14) : TextStyle(fontSize: 25);
+    TextStyle styleB = portrait ? TextStyle(fontSize: 18) : TextStyle(fontSize: 25);
     actosVacunales.sort((a, b) {
       var adate = a.fecha;
       var bdate = b.fecha;
@@ -102,8 +111,8 @@ class Certificado extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.only(
             top: 25,
-            left: MediaQuery.of(context).size.width * 0.2,
-            right: MediaQuery.of(context).size.width * 0.2,
+            left: portrait ? MediaQuery.of(context).size.width * 0.02 : MediaQuery.of(context).size.width * 0.2,
+            right: portrait ? MediaQuery.of(context).size.width * 0.02 : MediaQuery.of(context).size.width * 0.2,
           ),
           child: Screenshot(
             controller: screenshotController,
@@ -115,43 +124,43 @@ class Certificado extends StatelessWidget {
                     Material(
                       elevation: 10,
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: edgesC,
                         width: MediaQuery.of(context).size.width - 60,
-                        margin: EdgeInsets.all(10),
+                        margin: edgesC,
                         child: Column(
                           children: [
                             Text(
                               "Certificado de Vacunación",
-                              style: TextStyle(fontSize: 25),
+                              style: styleB,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    portrait ? SizedBox(height: 10) : SizedBox(height: 20),
                     Material(
                       elevation: 10,
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: edgesC,
                         width: MediaQuery.of(context).size.width - 60,
-                        margin: EdgeInsets.all(10),
+                        margin: edgesC,
                         child: Column(
                           children: [
                             Text(
                               enf.nombre,
-                              style: TextStyle(fontSize: 25),
+                              style: styleA,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    portrait ? SizedBox(height: 10) : SizedBox(height: 20),
                     Material(
                       elevation: 10,
                       child: Container(
                         height: (MediaQuery.of(context).size.height * 0.2) > 175 ? 175 : MediaQuery.of(context).size.height * 0.2,
                         width: MediaQuery.of(context).size.width - 60,
-                        margin: EdgeInsets.all(10),
+                        margin: edgesC,
                         child: Container(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -162,8 +171,8 @@ class Certificado extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      padding: EdgeInsets.all(5),
-                                      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                                      padding: edgesB,
+                                      margin: edgesA,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(16.0)),
                                       ),
@@ -174,11 +183,11 @@ class Certificado extends StatelessWidget {
                                           children: [
                                             Text(
                                               "Nombres: ",
-                                              style: TextStyle(fontSize: 25),
+                                              style: styleA,
                                             ),
                                             Text(
                                               usu.nombre,
-                                              style: TextStyle(fontSize: 25),
+                                              style: styleA,
                                             ),
                                           ],
                                         ),
@@ -187,8 +196,8 @@ class Certificado extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      padding: EdgeInsets.all(5),
-                                      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                                      padding: edgesB,
+                                      margin: edgesA,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(16.0)),
                                       ),
@@ -199,11 +208,11 @@ class Certificado extends StatelessWidget {
                                           children: [
                                             Text(
                                               "Apellidos: ",
-                                              style: TextStyle(fontSize: 25),
+                                              style: styleA,
                                             ),
                                             Text(
                                               usu.apellido,
-                                              style: TextStyle(fontSize: 25),
+                                              style: styleA,
                                             ),
                                           ],
                                         ),
@@ -217,8 +226,8 @@ class Certificado extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      padding: EdgeInsets.all(5),
-                                      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                                      padding: edgesB,
+                                      margin: edgesA,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(16.0)),
                                       ),
@@ -229,11 +238,11 @@ class Certificado extends StatelessWidget {
                                           children: [
                                             Text(
                                               "Documento: ",
-                                              style: TextStyle(fontSize: 25),
+                                              style: styleA,
                                             ),
                                             Text(
                                               usu.documento,
-                                              style: TextStyle(fontSize: 25),
+                                              style: styleA,
                                             ),
                                           ],
                                         ),
@@ -242,8 +251,8 @@ class Certificado extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      padding: EdgeInsets.all(5),
-                                      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                                      padding: edgesB,
+                                      margin: edgesA,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(16.0)),
                                       ),
@@ -254,11 +263,11 @@ class Certificado extends StatelessWidget {
                                           children: [
                                             Text(
                                               "Sector Laboral: ",
-                                              style: TextStyle(fontSize: 25),
+                                              style: styleA,
                                             ),
                                             Text(
                                               usu.sectorLaboral.nombre,
-                                              style: TextStyle(fontSize: 25),
+                                              style: styleA,
                                             ),
                                           ],
                                         ),
@@ -272,20 +281,20 @@ class Certificado extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    portrait ? SizedBox(height: 10) : SizedBox(height: 20),
                     Material(
                       elevation: 10,
                       child: Container(
                         width: MediaQuery.of(context).size.width - 60,
-                        height: 500,
-                        margin: EdgeInsets.all(10),
+                        height: portrait ? 200 : 500,
+                        margin: edgesC,
                         child: actosVacunales.length == 0
                             ? Center(child: Text("No tiene actos vacunales para la enfermedad"))
                             : ListView.builder(
                                 itemCount: actosVacunales.length,
                                 reverse: false,
-                                padding: EdgeInsets.all(5),
-                                itemExtent: 163,
+                                padding: edgesB,
+                                itemExtent: portrait ? 60 : 163,
                                 itemBuilder: (context, index) {
                                   ActoVacunal ac = actosVacunales[index];
                                   return Card(
@@ -296,15 +305,15 @@ class Certificado extends StatelessWidget {
                                       children: [
                                         Text(
                                           "Vacuna: " + ac.nombre,
-                                          style: TextStyle(fontSize: 25),
+                                          style: styleA,
                                         ),
                                         Text(
                                           "Dosis: " + (index + 1).toString() + "/" + actosVacunales.length.toString(),
-                                          style: TextStyle(fontSize: 25),
+                                          style: styleA,
                                         ),
                                         Text(
                                           "Fecha: " + ac.fecha,
-                                          style: TextStyle(fontSize: 25),
+                                          style: styleA,
                                         ),
                                       ],
                                     ),

@@ -6,8 +6,8 @@ class MonitorVacuna {
 
   MonitorVacuna.fromJson(Map<String, dynamic> json) {
     try {
-      List<dynamic> agendasTemp = json["agendas"].toString() == "[]" ? json["agendas"] : [];
-      List<dynamic> vacunasTemp = json["vacunas"].toString() == "[]" ? json["vacunas"] : [];
+      List<dynamic> agendasTemp = json["agendas"];
+      List<dynamic> vacunasTemp = json["vacunados"];
 
       agendas = {};
       vacunas = {};

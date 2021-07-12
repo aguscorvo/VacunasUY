@@ -11,7 +11,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<bool> autoLogIn() async {
+Future<bool> autoLogIn(context) async {
   await cookiesLoad();
   await checkToken();
   return Future<bool>.sync(() => true);

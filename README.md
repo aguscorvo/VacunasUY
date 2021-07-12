@@ -1,26 +1,28 @@
-﻿# VacunasUy
+# VacunasUy
 
 Laboratorio para la asignatura Taller de Sistemas Empresariales de la Facultad de Ingeniería (FIng-UdelaR).
 
 ## Contenido
 
-- [Link Frontoffice web](#link-frontoffice-web)
-- [Datos de prueba](#datos-de-prueba)
-- [Descripción](#descripción)
-- [Screenshots](#screenshots)
-- [Tecnologías](#tecnologías)
-- [Despliegue](#despliegue)
+1. [Links](#links)
+2. [Datos de prueba](#datos-de-prueba)
+3. [Descripción](#descripción)
+4. [Screenshots](#screenshots)
+5. [Tecnologías](#tecnologías)
+6. [Despliegue](#despliegue)
 
-## Link Frontoffice web
+## Links
 
-[VacunasUy - ElasticCloud](http://vacunasuy.web.elasticloud.uy)
+- [VacunasUy - Frontoffice web](http://vacunasuy.web.elasticloud.uy)
+- [Nodos periféricos](https://nodos-perifericos.herokuapp.com/)
+- [Nodos externos](https://nodos-externos.herokuapp.com)
 
 ## Datos de prueba
 
 Usuarios por defecto en backoffice:
 
-Perfil: Administrador / Correo:  admin@admin.com / Contraseña: 1234
-Perfil: Autoridad / Correo: msp@gub.uy / Contraseña:1234
+- Perfil: Administrador / Correo:  admin@admin.com / Contraseña: 1234
+- Perfil: Autoridad / Correo: msp@gub.uy / Contraseña: 1234
 
 
 ## Descripción
@@ -38,7 +40,7 @@ Frontoffice web
 
 Frontoffice mobile
 
-![frontoffice-mobile-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-mobile-00.png)
+<img src="./Documentacion/screenshots-del-sistema/frontoffice-mobile-00.png" width="375" >
 
 Backoffice web
 

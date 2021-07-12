@@ -7,10 +7,12 @@ class AgendaForm extends StatelessWidget {
   final Agenda? agenda;
   final Usuario? usuario;
   final Color? color;
+  final Function? refresh;
   final String tipoForm; //Si es Editar o si es Alta
   const AgendaForm({
     this.agenda,
     this.usuario,
+    this.refresh,
     this.color = Colors.blue,
     this.tipoForm = "",
   });
@@ -61,9 +63,10 @@ class AgendaForm extends StatelessWidget {
                   "Sí, cancelar",
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {
-                  client.borrarAgenda(usuario!.id, agenda!.id);
+                onPressed: () async {
+                  await client.borrarAgenda(usuario!.id, agenda!.id);
                   Navigator.of(context).pop();
+                  refresh!();
                 },
               ),
             ),

@@ -466,8 +466,10 @@ class BackendConnection {
       var jsonResponse = jsonDecode(utf8.decode(response.body.codeUnits))["cuerpo"];
       List<Atiende> contentList = [];
       for (var i = 0; i < jsonResponse.length; i++) {
-        contentList.add(Atiende.fromJson(jsonResponse[i]));
+        Atiende a = Atiende.fromJson(jsonResponse[i]);
+        contentList.add(a);
       }
+
       return contentList;
     }
     return [];

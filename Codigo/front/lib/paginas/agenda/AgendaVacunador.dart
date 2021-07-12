@@ -94,6 +94,19 @@ class _AgendaVacunadorState extends State<AgendaVacunador> {
     return toReturn;
   }
 
+  bool isTodayOrLater(DateTime date1, DateTime date2) {
+    bool toReturn = false;
+
+    date1 = DateTime.parse(date1.toString().split(" ")[0]);
+    date2 = DateTime.parse(date2.toString().split(" ")[0]);
+
+    if (date1.isAfter(date2) || date1.isAtSameMomentAs(date2)) {
+      toReturn = true;
+    }
+
+    return toReturn;
+  }
+
   FutureBuilder misAgendas() {
     return FutureBuilder(
       future: client.getAgendasVacunadorLogged(),
@@ -107,7 +120,7 @@ class _AgendaVacunadorState extends State<AgendaVacunador> {
             List<Atiende> atiende = [];
             List<Atiende> atiendeTemp = snapshot.data;
             atiendeTemp.forEach((Atiende plan) {
-              if (plan.fecha.isAfter(DateTime.now()) || plan.fecha.isAtSameMomentAs(DateTime.now())) {
+              if (isTodayOrLater(plan.fecha, DateTime.now())) {
                 atiende.add(plan);
               }
             });
@@ -354,7 +367,7 @@ class _AgendaSeleccionadaState extends State<AgendaSeleccionada> {
   }
 
   Container cargarCiudadanosDelDia() {
-    List<Material> agendados = [];
+    List<Container> agendados = [];
 
     List<Agenda> agendas = agenda!.puesto.agendas;
 
@@ -367,38 +380,31 @@ class _AgendaSeleccionadaState extends State<AgendaSeleccionada> {
     agendas.forEach((element) {
       if (theSameDay(agenda!.fecha, element.fecha)) {
         agendados.add(
-          Material(
-            elevation: 10,
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(8.0),
-                  bottomLeft: Radius.circular(8.0),
-                  bottomRight: Radius.circular(8.0),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            child: Material(
+              elevation: 10,
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(25, 5, 5, 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8.0),
+                    topRight: Radius.circular(8.0),
+                    bottomLeft: Radius.circular(8.0),
+                    bottomRight: Radius.circular(8.0),
+                  ),
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text("Hora: " + element.fecha.toString().split(" ")[1].split(".")[0]),
-                  Text("Vacuna: " + element.planVacunacion.vacuna.nombre),
-                  Text("Dosis: ?"),
-                  /*theSameDay(element.fecha, DateTime.now() /*.add(const Duration(days: 1))*/)
-                      ? Container(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                          decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-                          child: TextButton(
-                            onPressed: () async {},
-                            child: Text(
-                              'Vacunar',
-                              style: TextStyle(color: Colors.white, fontSize: 15),
-                            ),
-                          ),
-                        )
-                      : Text(""),*/
-                ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text("Hora: " + element.fecha.toString().split(" ")[1].split(".")[0]),
+                    ),
+                    Expanded(
+                      child: Text("Vacuna: " + element.planVacunacion.vacuna.nombre),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

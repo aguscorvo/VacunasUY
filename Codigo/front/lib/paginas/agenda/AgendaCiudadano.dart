@@ -284,6 +284,10 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
     });
   }
 
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -294,23 +298,7 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              /*Text("                                          "),
-              Center(
-                child: Text(
-                  "Mis Agendas",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-              ),
-              TextButton(
-                child: Text(listAll
-                    ? "Listar Solo Nuevas Agendas"
-                    : "Listar Todas Mis Agendas"),
-                onPressed: () {
-                  cambiarListarTodo();
-                },
-              ),*/
-            ],
+            children: [],
           ),
           Container(
             child: Expanded(
@@ -324,7 +312,7 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
 
   FutureBuilder misAgendas() {
     return FutureBuilder(
-      future: /*listAll ? client.getAgendasCiudadanoTodas(storedUserCredentials.userData.id) : */ client.getAgendasCiudadanoNuevas(storedUserCredentials!.userData!.id),
+      future: client.getAgendasCiudadanoNuevas(storedUserCredentials!.userData!.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return Center(child: CircularProgressIndicator());
@@ -336,6 +324,12 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
             List<Agenda> agendasTemp = snapshot.data;
             agendasTemp.forEach((Agenda element) {
               agenda.add(element);
+            });
+
+            agenda.sort((a, b) {
+              var adate = a.fecha;
+              var bdate = b.fecha;
+              return adate.compareTo(bdate);
             });
 
             if (agenda.length == 0) {
@@ -358,11 +352,11 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
               itemBuilder: (context, index) {
                 return new InkWell(
                   hoverColor: Colors.transparent,
-                  //onTap: () => Navigator.of(context).pushNamed('', arguments: ''),
                   child: new Container(
                     child: new AgendaCard(
                       agenda: agenda[index],
                       usuario: storedUserCredentials!.userData,
+                      refresh: () => refresh(),
                     ),
                   ),
                 );

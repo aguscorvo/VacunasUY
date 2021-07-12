@@ -1,4 +1,4 @@
-# VacunasUy
+﻿# VacunasUy
 
 Laboratorio para la asignatura Taller de Sistemas Empresariales de la Facultad de Ingeniería (FIng-UdelaR).
 
@@ -34,15 +34,15 @@ Más información en el documento de arquitectura.
 
 Frontoffice web
 
-![frontoffice-web-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-web-03.png)
+![frontoffice-web-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-web-02.png)
 
 Frontoffice mobile
 
-![frontoffice-mobile-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-mobile-01.png)
+![frontoffice-mobile-screenshot](./Documentacion/screenshots-del-sistema/frontoffice-mobile-00.png)
 
 Backoffice web
 
-![backoffice-web-screenshot](./Documentacion/screenshots-del-sistema/backoffice-admin-04.png)
+![backoffice-web-screenshot](./Documentacion/screenshots-del-sistema/backoffice-autoridad-01.png)
 
 ## Tecnologías
 

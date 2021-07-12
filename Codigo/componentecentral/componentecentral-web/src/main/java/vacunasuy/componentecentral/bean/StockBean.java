@@ -112,13 +112,13 @@ public class StockBean implements Serializable {
 
 	@EJB
 	IReporteService reporteService;
-	
+
 	@EJB
 	IEnfermedadService enfermedadService;
 
 	@EJB
 	ISectorLaboralService sectorService;
-	
+
 	@PostConstruct
 	public void init() {
 		try {
@@ -126,8 +126,7 @@ public class StockBean implements Serializable {
 			vacunatorios = vacunatorioService.listar();
 			enfermedades = enfermedadService.listar();
 			sectores = sectorService.listar();
-			
-			
+
 		} catch (VacunasUyException e) {
 			logger.error("init: " + e.getMessage());
 		}
@@ -195,7 +194,7 @@ public class StockBean implements Serializable {
 					+ vac.getDepartamento().getNombre() + " - " + vac.getLocalidad().getNombre();
 			imprimir(datos);
 		} catch (Exception e) {
-			logger.error("listarStockVacunasPorVacunatorio: "+ e.getMessage());
+			logger.error("listarStockVacunasPorVacunatorio: " + e.getMessage());
 		}
 	}
 
@@ -207,11 +206,9 @@ public class StockBean implements Serializable {
 			Date fechaF = new SimpleDateFormat("yyyy-MM-dd").parse(FechaFin);
 
 			if (fechaI.compareTo(fechaF) > 0) {
-				System.out.println("Date1 is after Date2");
 				fechaI = new SimpleDateFormat("yyyy-MM-dd").parse(FechaFin);
 				fechaF = new SimpleDateFormat("yyyy-MM-dd").parse(FechaInicio);
-				
-				
+
 			}
 
 			Vacuna vac = vacunaService.listarPorId(idVacuna);
@@ -221,6 +218,11 @@ public class StockBean implements Serializable {
 			titulo = "EvolucionVacuna_";
 			SubTitulo = "Evolución en el tiempo por vacuna: " + vac.getNombre() + " - " + dateFormat.format(fechaI)
 					+ " - " + dateFormat.format(fechaF);
+
+			List<ReporteEvolucionTiempoDTO> vacf = new ArrayList<ReporteEvolucionTiempoDTO>();
+
+			List<ReporteEvolucionTiempoDTO> aux = reporteService.listarPorEvolucionEnTiempo(dateFormat.format(fechaI),
+					dateFormat.format(fechaF), idVacuna);
 
 			while (fechaI.compareTo(fechaF) <= 0) {
 				String strDate = dateFormat.format(fechaI);
@@ -232,10 +234,7 @@ public class StockBean implements Serializable {
 				fechaI = c.getTime();
 			}
 
-			List<ReporteEvolucionTiempoDTO> vacf = new ArrayList<ReporteEvolucionTiempoDTO>();
-			List<ReporteEvolucionTiempoDTO> aux = reporteService.listarPorEvolucionEnTiempo(dateFormat.format(fechaI), dateFormat.format(fechaF),
-					idVacuna);
-
+	
 			for (String s : fechas) {
 				boolean encontre = false;
 				for (ReporteEvolucionTiempoDTO rdto : aux) {
@@ -278,21 +277,13 @@ public class StockBean implements Serializable {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 			titulo = "EvolucionEnfermedadEdad_";
-			SubTitulo = "Evolución en el tiempo por rango de edad enfermedad: " + vac.getNombre() + " - " + dateFormat.format(fechaI)
-					+ " - " + dateFormat.format(fechaF) + " - Rango Edad: " + edadMinima.toString() + " - " + edadMaxima.toString();
+			SubTitulo = "Evolución en el tiempo por rango de edad enfermedad: " + vac.getNombre() + " - "
+					+ dateFormat.format(fechaI) + " - " + dateFormat.format(fechaF) + " - Rango Edad: "
+					+ edadMinima.toString() + " - " + edadMaxima.toString();
 
-			while (fechaI.compareTo(fechaF) <= 0) {
-				String strDate = dateFormat.format(fechaI);
-				fechas.add(strDate);
-
-				Calendar c = Calendar.getInstance();
-				c.setTime(fechaI);
-				c.add(Calendar.DATE, 1);
-				fechaI = c.getTime();
-			}
-
-			List<ReporteActoVacunalDTO> aux = reporteService.listarPorEdad(dateFormat.format(fechaI), dateFormat.format(fechaF), edadMinima, edadMaxima, idEnfermedad);
-
+			List<ReporteActoVacunalDTO> aux = reporteService.listarPorEdad(dateFormat.format(fechaI),
+					dateFormat.format(fechaF), edadMinima, edadMaxima, idEnfermedad);
+			
 			imprimirListadoBar(aux);
 
 		} catch (VacunasUyException | ParseException e) {
@@ -316,26 +307,17 @@ public class StockBean implements Serializable {
 			}
 
 			Enfermedad vac = enfermedadService.listarPorId(idEnfermedad);
-			
 
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 			titulo = "ListarPorSectorLaboral_";
-			SubTitulo = "Evolución en el tiempo por sector laboral vacuna: " + vac.getNombre() + " - " + dateFormat.format(fechaI)
-					+ " - " + dateFormat.format(fechaF) + " -\r\t Sector Laboral: " + idSectorLaboral;
+			SubTitulo = "Evolución en el tiempo por sector laboral vacuna: " + vac.getNombre() + " - "
+					+ dateFormat.format(fechaI) + " - " + dateFormat.format(fechaF) + " -\r\t Sector Laboral: "
+					+ idSectorLaboral;
 
-			while (fechaI.compareTo(fechaF) <= 0) {
-				String strDate = dateFormat.format(fechaI);
-				fechas.add(strDate);
+			List<ReporteActoVacunalDTO> aux = reporteService.listarPorSectorLaboral(dateFormat.format(fechaI),
+					dateFormat.format(fechaF), idSectorLaboral, idEnfermedad);
 
-				Calendar c = Calendar.getInstance();
-				c.setTime(fechaI);
-				c.add(Calendar.DATE, 1);
-				fechaI = c.getTime();
-			}
-
-			List<ReporteActoVacunalDTO> aux = reporteService.listarPorSectorLaboral(dateFormat.format(fechaI), dateFormat.format(fechaF), idSectorLaboral, idEnfermedad);
-			
 			imprimirListadoBar(aux);
 
 		} catch (VacunasUyException | ParseException e) {
@@ -472,8 +454,7 @@ public class StockBean implements Serializable {
 			document.add(new Paragraph("Fecha: " + strDate + "\n", fuente2));
 			document.add(new Paragraph("\n", fuente2));
 			document.add(new Paragraph(SubTitulo + "\n", fuente2));
-			
-			
+
 			LineSeparator linea = new LineSeparator();
 			linea.setOffset(-8.0f);
 			linea.setAlignment(Element.ALIGN_LEFT);
@@ -502,7 +483,6 @@ public class StockBean implements Serializable {
 			cell.setPhrase(new Phrase("Cantidad", font));
 			table2.addCell(cell);
 
-			
 			TimeSeriesCollection timeSeriesCollection = new TimeSeriesCollection();
 			TimeSeries series = new TimeSeries(serieName);
 
@@ -519,9 +499,9 @@ public class StockBean implements Serializable {
 			}
 
 			timeSeriesCollection.addSeries(series);
-			
+
 			XYDataset dataset = timeSeriesCollection;
-			
+
 			// Create chart
 			JFreeChart chart = ChartFactory.createTimeSeriesChart("", // Chart
 					"Fecha", // X-Axis Label
@@ -537,10 +517,9 @@ public class StockBean implements Serializable {
 			linea1.setOffset(-8.0f);
 			linea1.setPercentage(100.0f);
 
-			
-			Paragraph p = new Paragraph();  
+			Paragraph p = new Paragraph();
 			p.add(linea1);
-			document.add(p);  
+			document.add(p);
 
 			document.add(iTextImage);
 
@@ -606,8 +585,7 @@ public class StockBean implements Serializable {
 			document.add(new Paragraph("Fecha: " + strDate + "\n", fuente2));
 			document.add(new Paragraph("\n", fuente2));
 			document.add(new Paragraph(SubTitulo + "\n", fuente2));
-			
-			
+
 			LineSeparator linea = new LineSeparator();
 			linea.setOffset(-8.0f);
 			linea.setAlignment(Element.ALIGN_LEFT);
@@ -636,11 +614,11 @@ public class StockBean implements Serializable {
 			cell.setPhrase(new Phrase("Cantidad", font));
 			table2.addCell(cell);
 
-			DefaultCategoryDataset dataset = new DefaultCategoryDataset( );  
-			
+			DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
 			for (ReporteActoVacunalDTO f : datos) {
-				dataset.addValue( Double.valueOf(f.getCantidad()) , f.getVacuna() , "Cantidad" );   
-				
+				dataset.addValue(Double.valueOf(f.getCantidad()), f.getVacuna(), "Cantidad");
+
 				cell2.setPhrase(new Phrase(f.getVacuna(), font));
 				table2.addCell(cell2);
 
@@ -649,15 +627,9 @@ public class StockBean implements Serializable {
 
 			}
 
-			
 			// Create chart
-			JFreeChart barChart = ChartFactory.createBarChart(
-			         "",           
-			         "Vacuna",            
-			         "Cantidad",            
-			         dataset,          
-			         PlotOrientation.VERTICAL,           
-			         true, true, false);
+			JFreeChart barChart = ChartFactory.createBarChart("", "Vacuna", "Cantidad", dataset,
+					PlotOrientation.VERTICAL, true, true, false);
 
 			BufferedImage bufferedImage = barChart.createBufferedImage(500, 300);
 			ByteArrayOutputStream baosi = new ByteArrayOutputStream();
@@ -668,10 +640,9 @@ public class StockBean implements Serializable {
 			linea1.setOffset(-8.0f);
 			linea1.setPercentage(100.0f);
 
-			
-			Paragraph p = new Paragraph();  
+			Paragraph p = new Paragraph();
 			p.add(linea1);
-			document.add(p);  
+			document.add(p);
 
 			document.add(iTextImage);
 

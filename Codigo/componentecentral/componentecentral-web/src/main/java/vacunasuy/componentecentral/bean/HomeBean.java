@@ -237,11 +237,10 @@ public class HomeBean implements Serializable {
 
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				// Convert calendar back to Date
-				cfechaBase.add(Calendar.DAY_OF_YEAR, -1);
 				Date newDate = cfechaBase.getTime();
 				String strDate = dateFormat.format(newDate);
 				fechas.add(strDate);
-
+				cfechaBase.add(Calendar.DAY_OF_YEAR, -1);
 			}
 
 			String fechaInicio = fechas.get(fechas.size() - 1);

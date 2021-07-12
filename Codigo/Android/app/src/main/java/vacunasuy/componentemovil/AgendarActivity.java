@@ -637,6 +637,8 @@ public class AgendarActivity extends AppCompatActivity {
 
         String stringUrl = ConnConstant.API_ADDAGENDA_URL;
 
+        Log.i(TAG, "cargarAgenda: " + stringUrl);
+
         if (networkInfo != null && networkInfo.isConnected()) {
             new AgendarActivity.PutAgendaTask().execute(stringUrl);
         }
@@ -701,7 +703,7 @@ public class AgendarActivity extends AppCompatActivity {
         BufferedReader breader = new BufferedReader(isReader);
         StringBuffer sb = new StringBuffer();
         String str;
-        Log.i(TAG, "readInfoGralJsonStream: ACA ESTOY");
+        //Log.i(TAG, "readInfoGralJsonStream: ACA ESTOY");
 
         while((str = breader.readLine())!= null){
             sb.append(str);
@@ -736,6 +738,7 @@ public class AgendarActivity extends AppCompatActivity {
         }
         reader.endObject();
 
+        Log.i(TAG, "readDtResponseMessage: " + mensaje);
         //if(ok)
         //    mensaje = mensaje + getString(R.string.notificacion_tFecha) + ": " + fecha;
 

@@ -3,15 +3,43 @@ import 'package:vacunas_uy/objects/Enfermedad.dart';
 import 'package:vacunas_uy/objects/Monitor/MonitorEnfermedad.dart';
 import 'package:vacunas_uy/tools/BackendConnection.dart';
 
+late bool enfermedadSelected = false;
+Enfermedad? portraitEnfermedadSelected;
+
 class MonEnfermedad extends StatefulWidget {
+  static _MonEnfermedadState? state;
   @override
-  _MonEnfermedadState createState() => _MonEnfermedadState();
+  _MonEnfermedadState createState() => state = _MonEnfermedadState();
 }
 
 class _MonEnfermedadState extends State<MonEnfermedad> {
   BackendConnection client = BackendConnection();
+
+  void landscapeEnfermedadSelected(Enfermedad? enfermedad) {
+    setState(() {
+      enfermedadSelected = true;
+      portraitEnfermedadSelected = enfermedad;
+    });
+  }
+
+  void reload() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.of(context).size.width >= MediaQuery.of(context).size.height) {
+      return landscape();
+    } else {
+      if (enfermedadSelected) {
+        return MonEnfermedadSelected(enf: portraitEnfermedadSelected);
+      } else {
+        return portrait();
+      }
+    }
+  }
+
+  Widget landscape() {
     return Container(
       child: Row(
         children: [
@@ -63,7 +91,7 @@ class _MonEnfermedadState extends State<MonEnfermedad> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "Nombre: " + enfermedades[index].nombre,
+                                        enfermedades[index].nombre,
                                         style: TextStyle(fontSize: 15),
                                       ),
                                     ],
@@ -83,6 +111,80 @@ class _MonEnfermedadState extends State<MonEnfermedad> {
           Expanded(
             flex: 75,
             child: MonEnfermedadSelected(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget portrait() {
+    return Container(
+      child: Row(
+        children: [
+          Expanded(
+            flex: 25,
+            child: Material(
+              elevation: 10,
+              child: FutureBuilder(
+                future: client.getEnfermedades(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    if (snapshot.data == null) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      List<Enfermedad> enfermedades = [];
+                      List<Enfermedad> enfermedadesTemp = snapshot.data as List<Enfermedad>;
+                      enfermedadesTemp.forEach((Enfermedad element) {
+                        enfermedades.add(element);
+                      });
+
+                      if (enfermedades.length == 0) {
+                        return Text("No se encuentran enfermedades. Vuelva a intentarlo.");
+                      }
+
+                      return Container(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                        child: GridView.builder(
+                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height,
+                            maxCrossAxisExtent: 700,
+                            mainAxisExtent: 40,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ),
+                          itemCount: enfermedades.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              hoverColor: Colors.transparent,
+                              onTap: () => {landscapeEnfermedadSelected(enfermedades[index])},
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                elevation: 10,
+                                child: Container(
+                                  padding: const EdgeInsets.fromLTRB(15, 0, 5, 0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        enfermedades[index].nombre,
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  }
+                },
+              ),
+            ),
           ),
         ],
       ),
@@ -113,6 +215,10 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
 
   @override
   Widget build(BuildContext context) {
+    bool portrait = false;
+    if (MediaQuery.of(context).size.width < MediaQuery.of(context).size.height) {
+      portrait = true;
+    }
     if (enf == null) {
       return Container(
         child: Center(
@@ -134,9 +240,84 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
             } else {
               monitorDeEnfermedad = snapshot.data as MonitorEnfermedad;
 
+              List<Widget> bottomPart = [
+                Expanded(
+                  flex: 5,
+                  child: Material(
+                    elevation: 10,
+                    child: Container(
+                      width: portrait ? MediaQuery.of(context).size.width * 0.9 : null,
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Por tipo de vacuna",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          porTipoVacuna(portrait),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 5,
+                  child: Material(
+                    elevation: 20,
+                    child: Container(
+                      width: portrait ? MediaQuery.of(context).size.width * 0.9 : null,
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Planes para la enfermedad",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          porPlanVacunacion(portrait),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ];
+
               return Container(
                 child: Column(
                   children: [
+                    portrait
+                        ? Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: 10, top: 10),
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blueAccent,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      portraitEnfermedadSelected = null;
+                                      enfermedadSelected = false;
+                                      MonEnfermedad.state!.reload();
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Icon(Icons.arrow_back),
+                                        Text("Atras"),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        : Container(),
                     Expanded(
                       flex: 13,
                       child: Container(
@@ -206,59 +387,23 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                       ),
                     ),
                     Expanded(
-                        flex: 87,
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                          child: Material(
-                            elevation: 10,
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 5,
-                                    child: Material(
-                                      elevation: 10,
-                                      child: Container(
-                                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Por tipo de vacuna",
-                                              style: TextStyle(fontSize: 20),
-                                            ),
-                                            porTipoVacuna(),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                      flex: 87,
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: Material(
+                          elevation: 10,
+                          child: Container(
+                            child: portrait
+                                ? Column(
+                                    children: bottomPart,
+                                  )
+                                : Row(
+                                    children: bottomPart,
                                   ),
-                                  Expanded(
-                                    flex: 5,
-                                    child: Material(
-                                      elevation: 20,
-                                      child: Container(
-                                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Planes para la enfermedad",
-                                              style: TextStyle(fontSize: 20),
-                                            ),
-                                            porPlanVacunacion(),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -269,68 +414,82 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
     }
   }
 
-  Container porTipoVacuna() {
-    List<Card> porVacunas = [];
-    monitorDeEnfermedad.vacunas.forEach((element) {
-      porVacunas.add(
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          elevation: 10,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Nombre: " + element.nombre),
-                Text("Cantidad: " + element.cantidad.toString()),
-              ],
-            ),
-          ),
-        ),
-      );
-    });
-
+  Container porTipoVacuna(bool portrait) {
     return Container(
+      height: portrait ? MediaQuery.of(context).size.height * 0.25 : MediaQuery.of(context).size.height * 0.6,
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-      child: SingleChildScrollView(
-        child: Column(
-          children: porVacunas,
-        ),
+      child: ListView.builder(
+        itemCount: monitorDeEnfermedad.vacunas.length,
+        reverse: false,
+        itemBuilder: (context, index) {
+          VacunaSimp element = monitorDeEnfermedad.vacunas[index];
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            elevation: 10,
+            child: Container(
+              //width: portrait ? MediaQuery.of(context).size.width * 0.35 : MediaQuery.of(context).size.width * 0.3,
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: portrait
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Nombre: " + element.nombre),
+                        Text("Cantidad: " + element.cantidad.toString()),
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Nombre: " + element.nombre),
+                        Text("Cantidad: " + element.cantidad.toString()),
+                      ],
+                    ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Container porPlanVacunacion() {
-    List<Card> porPlanes = [];
-    monitorDeEnfermedad.planes.forEach((element) {
-      porPlanes.add(
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          elevation: 10,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Nombre: " + element.nombre),
-                Text("Período: " + reformateDate(element.rangoFecha)),
-              ],
-            ),
-          ),
-        ),
-      );
-    });
-
+  Container porPlanVacunacion(bool portrait) {
     return Container(
+      height: portrait ? MediaQuery.of(context).size.height * 0.25 : MediaQuery.of(context).size.height * 0.6,
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-      child: SingleChildScrollView(
-        child: Column(
-          children: porPlanes,
-        ),
+      child: ListView.builder(
+        itemCount: monitorDeEnfermedad.planes.length,
+        reverse: false,
+        itemBuilder: (context, index) {
+          PlanSimp element = monitorDeEnfermedad.planes[index];
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            elevation: 10,
+            child: Container(
+              width: portrait ? MediaQuery.of(context).size.width * 0.8 : MediaQuery.of(context).size.width * 0.4,
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: portrait
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Nombre: " + element.nombre),
+                        Text("Período: " + reformateDate(element.rangoFecha)),
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Nombre: " + element.nombre),
+                        Text("Período: " + reformateDate(element.rangoFecha)),
+                      ],
+                    ),
+            ),
+          );
+        },
       ),
     );
   }

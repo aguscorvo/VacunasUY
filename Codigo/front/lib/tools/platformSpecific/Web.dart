@@ -18,9 +18,9 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<bool> autoLogIn() async {
+Future<bool> autoLogIn(context) async {
   await cookiesLoad();
-  await specialURL();
+  await specialURL(context);
   await checkToken();
   return Future<bool>.sync(() => true);
 }
@@ -58,7 +58,7 @@ Future<bool> cookiesLoad() async {
   return Future<bool>.sync(() => true);
 }
 
-Future<bool> specialURL() async {
+Future<bool> specialURL(context) async {
   String url = html.window.location.href.toString();
   if (url.contains("code=") && url.contains("state=")) {
     String tokens = "";

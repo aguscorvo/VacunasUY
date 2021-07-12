@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "883475429669",
+    "project_id": "vacunasuy-tse",
+    "storage_bucket": "vacunasuy-tse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883475429669:android:f0049c98f27892a6ab82cc",
+        "android_client_info": {
+          "package_name": "com.example.front"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "883475429669-kbmkandud637m4pesfb2a9rmqp0v9ud1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.front",
+            "certificate_hash": "553300c8630c7f6c0f4f15257ca36e323c48b218"
+          }
+        },
+        {
+          "client_id": "883475429669-eg1ldgaqhmp2iea2jr0akushmt1dnbe2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQPBNL5PAEuNsQlSzxXkRH8vKPM53O6no"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "883475429669-eg1ldgaqhmp2iea2jr0akushmt1dnbe2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

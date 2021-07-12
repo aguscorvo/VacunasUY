@@ -36,7 +36,7 @@ class _MonVacunaState extends State<MonVacuna> {
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height,
-                  maxCrossAxisExtent: 400,
+                  maxCrossAxisExtent: 600,
                   mainAxisExtent: 180,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
@@ -174,7 +174,7 @@ class _MonVacunaState extends State<MonVacuna> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Nombre vacuna: ", style: TextStyle(fontSize: 15)),
+                                  Text("Vacuna: ", style: TextStyle(fontSize: 15)),
                                   Text(vacunas[index].nombre, style: TextStyle(fontSize: 15)),
                                 ],
                               ),
@@ -189,7 +189,7 @@ class _MonVacunaState extends State<MonVacuna> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Nombre enfermedad: ", style: TextStyle(fontSize: 15)),
+                                      Text("Enfermedad: ", style: TextStyle(fontSize: 15)),
                                       Text(vacunas[index].enfermedad.nombre, style: TextStyle(fontSize: 15)),
                                     ],
                                   ),

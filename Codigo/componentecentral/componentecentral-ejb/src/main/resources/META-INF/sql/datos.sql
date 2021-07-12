@@ -1718,115 +1718,112 @@ INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id)
 INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-11 10:00:00', 1, 1, 59, 232);
 INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-11 10:00:00', 2, 1, 60, 233);
 
--- PFIZER-BIONTECH - Total: 99
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-01 10:00:00', 1, 2, 10, 234);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-01 10:00:00', 1, 2, 10, 235);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-01 10:00:00', 1, 2, 10, 236);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-01 10:00:00', 1, 2, 10, 237);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-02 10:00:00', 1, 2, 10, 238);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-02 10:00:00', 1, 2, 10, 239);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-02 10:00:00', 1, 2, 10, 240);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-02 10:00:00', 1, 2, 10, 241);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-02 10:00:00', 1, 2, 10, 242);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-02 10:00:00', 1, 2, 10, 243);
---
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 10:00:00', 1, 2, 10, 244);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 10:00:00', 1, 2, 10, 245);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 10:00:00', 1, 2, 10, 246);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 10:00:00', 1, 2, 10, 247);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 10:00:00', 1, 2, 10, 248);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 10:00:00', 1, 2, 10, 249);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 10:00:00', 1, 2, 10, 250);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 10:00:00', 1, 2, 10, 251);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 10:00:00', 1, 2, 10, 252);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-05 10:00:00', 1, 2, 10, 253);
---
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-05 10:00:00', 1, 2, 10, 254);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-05 10:00:00', 1, 2, 10, 255);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-06 10:00:00', 1, 2, 10, 256);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-06 10:00:00', 1, 2, 10, 257);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-06 10:00:00', 1, 2, 10, 254);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-07 10:00:00', 1, 2, 10, 255);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-07 10:00:00', 1, 2, 10, 256);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-07 10:00:00', 1, 2, 10, 257);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-07 10:00:00', 1, 2, 10, 258);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-08 10:00:00', 1, 2, 10, 259);
---
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-08 10:00:00', 1, 2, 10, 260);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-08 10:00:00', 1, 2, 10, 261);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-08 10:00:00', 1, 2, 10, 262);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-09 10:00:00', 1, 2, 10, 263);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-09 10:00:00', 1, 2, 10, 264);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-09 10:00:00', 1, 2, 10, 265);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-09 10:00:00', 1, 2, 10, 266);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-09 10:00:00', 1, 2, 10, 267);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-10 10:00:00', 1, 2, 10, 268);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-10 10:00:00', 1, 2, 10, 269);
---
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 10:00:00', 1, 2, 10, 270);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 10:00:00', 1, 2, 10, 271);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 10:00:00', 1, 2, 10, 272);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 10:00:00', 1, 2, 10, 273);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 274);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 275);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 276);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 277);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 278);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 279);
---
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 280);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 281);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 282);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 283);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 284);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 285);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:10:00', 1, 2, 10, 286);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:11:00', 1, 2, 10, 287);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:11:00', 1, 2, 10, 288);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:11:00', 1, 2, 10, 289);
---
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:11:00', 1, 2, 10, 290);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:11:00', 1, 2, 10, 291);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:12:00', 1, 2, 10, 292);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:12:00', 1, 2, 10, 293);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:12:00', 1, 2, 10, 294);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:12:00', 1, 2, 10, 295);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:12:00', 1, 2, 10, 296);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:12:00', 1, 2, 10, 297);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:13:00', 1, 2, 10, 298);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:13:00', 1, 2, 10, 299);
---
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:13:00', 1, 2, 10, 300);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:14:00', 1, 2, 10, 301);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:14:00', 1, 2, 10, 302);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:14:00', 1, 2, 10, 303);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:14:00', 1, 2, 10, 75);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:14:00', 1, 2, 10, 76);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:14:00', 1, 2, 10, 89);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:14:00', 1, 2, 10, 90);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:14:00', 1, 2, 10, 103);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:14:00', 1, 2, 10, 108);
---
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:15:00', 1, 2, 10, 121);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:15:00', 1, 2, 10, 131);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:15:00', 1, 2, 10, 137);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:16:00', 1, 2, 10, 143);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:16:00', 1, 2, 10, 161);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:16:00', 1, 2, 10, 172);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:16:00', 1, 2, 10, 185);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:16:00', 2, 2, 10, 75);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:17:00', 2, 2, 10, 76);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:17:00', 2, 2, 10, 89);
---
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:18:00', 2, 2, 10, 90);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:18:00', 2, 2, 10, 103);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:18:00', 2, 2, 10, 108);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:18:00', 2, 2, 10, 121);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:18:00', 2, 2, 10, 131);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:18:00', 2, 2, 10, 143);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:18:00', 2, 2, 10, 161);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:19:00', 2, 2, 10, 172);
---INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 17:19:00', 2, 2, 10, 185);
+-- PFIZER-BIONTECH - Total: 96
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-01 11:00:00', 1, 2, 1, 234);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-01 11:10:00', 1, 2, 1, 235);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-01 11:15:00', 1, 2, 1, 236);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-02 11:20:00', 1, 2, 1, 237);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-02 11:25:00', 1, 2, 1, 238);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-02 11:30:00', 1, 2, 1, 239);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-03 11:00:00', 2, 2, 2, 240);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-03 11:05:00', 1, 2, 2, 241);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-03 11:10:00', 1, 2, 2, 242);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-03 11:15:00', 1, 2, 2, 243);
+
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-04 11:00:00', 2, 2, 3, 244);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-05 11:05:00', 2, 2, 3, 245);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-05 11:10:00', 2, 2, 3, 246);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-05 11:15:00', 2, 2, 3, 247);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-05 11:00:00', 1, 2, 4, 248);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-05 11:00:00', 1, 2, 5, 249);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-07 11:00:00', 1, 2, 6, 250);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-07 11:00:00', 1, 2, 7, 251);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-07 11:00:00', 1, 2, 8, 252);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-07 11:00:00', 1, 2, 9, 253);
+
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-08 11:00:00', 1, 2, 11, 254);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-09 11:00:00', 1, 2, 12, 255);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-10 11:00:00', 1, 2, 13, 256);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-10 11:00:00', 1, 2, 14, 257);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-12 11:00:00', 1, 2, 19, 258);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-12 11:00:00', 1, 2, 20, 259);
+
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 11:00:00', 1, 2, 21, 260);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 11:00:00', 1, 2, 22, 261);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-15 11:00:00', 1, 2, 23, 262);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-16 11:00:00', 1, 2, 24, 263);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-17 11:00:00', 1, 2, 25, 264);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-17 11:00:00', 1, 2, 1, 265);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-17 11:00:00', 1, 2, 2, 266);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-19 11:00:00', 1, 2, 3, 267);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-20 11:00:00', 1, 2, 4, 268);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-26 11:00:00', 1, 2, 5, 269);
+
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-01 11:00:00', 2, 2, 6, 270);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-02 11:00:00', 2, 2, 7, 271);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-02 11:00:00', 1, 2, 8, 272);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-03 11:00:00', 1, 2, 9, 273);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-05 11:10:00', 1, 2, 11, 274);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-05 17:10:00', 1, 2, 12, 275);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-05 17:10:00', 2, 2, 13, 276);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-07 17:10:00', 1, 2, 14, 277);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-07 17:10:00', 2, 2, 15, 278);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-09 17:10:00', 2, 2, 16, 279);
+
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 10:30:00', 1, 2, 17, 280);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 10:30:00', 1, 2, 18, 281);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 10:30:00', 2, 2, 19, 282);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:12:00', 1, 2, 20, 283);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:12:00', 1, 2, 21, 284);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:12:00', 2, 2, 22, 285);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:13:00', 1, 2, 23, 286);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:13:00', 2, 2, 24, 287);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:14:00', 2, 2, 25, 288);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:14:00', 2, 2, 1, 289);
+
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:11:00', 1, 2, 2, 290);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:11:00', 1, 2, 3, 291);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:12:00', 1, 2, 4, 292);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:12:00', 1, 2, 5, 293);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:12:00', 1, 2, 6, 294);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:12:00', 1, 2, 7, 295);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:12:00', 1, 2, 8, 296);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:12:00', 1, 2, 9, 297);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:13:00', 1, 2, 11, 298);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:13:00', 1, 2, 12, 299);
+
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:18:00', 1, 2, 13, 300);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:19:00', 1, 2, 14, 301);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:19:00', 1, 2, 15, 302);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:20:00', 1, 2, 11, 303);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:25:00', 1, 2, 1, 75);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:27:00', 1, 2, 2, 76);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:28:00', 1, 2, 3, 89);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:28:00', 1, 2, 4, 90);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:28:00', 1, 2, 5, 103);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:29:00', 1, 2, 6, 108);
+
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:29:00', 1, 2, 7, 121);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:29:00', 1, 2, 8, 131);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:30:00', 1, 2, 9, 137);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:32:00', 1, 2, 11, 143);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:33:00', 1, 2, 12, 161);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:33:00', 1, 2, 13, 172);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-14 18:36:00', 1, 2, 14, 185);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:25:00', 2, 2, 1, 75);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:27:00', 2, 2, 2, 76);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:28:00', 2, 2, 3, 89);
+
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:28:00', 2, 2, 4, 90);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:28:00', 2, 2, 5, 103);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:29:00', 2, 2, 6, 108);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:29:00', 2, 2, 7, 121);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:29:00', 2, 2, 8, 131);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:30:00', 2, 2, 9, 137);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:32:00', 2, 2, 11, 143);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:33:00', 2, 2, 12, 161);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:33:00', 2, 2, 13, 172);
+INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-07-12 18:36:00', 2, 2, 14, 185);
 
 -- VAXZEVRIA - Total: 57
 INSERT INTO agendas(fecha, nro_dosis, fk_plan_vacunacion, fk_puesto, usuario_id) VALUES ('2021-06-01 17:20:00', 1, 4, 61, 34);
@@ -2071,6 +2068,72 @@ INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021
 INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-09', 1 , 4);
 INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-09', 1 , 4);
 
+-- PFIZER-BIONTECH
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-01', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-01', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-01', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-02', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-02', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-02', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-03', 2 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-03', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-03', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-03', 1 , 2);
+
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-04', 2 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-05', 2 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-05', 2 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-05', 2 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-05', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-05', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-07', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-07', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-07', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-07', 1 , 2);
+
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-08', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-09', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-10', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-10', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-12', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-12', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-15', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-16', 1 , 2);
+
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-17', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-17', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-17', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-19', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-20', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-26', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-01', 2 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-02', 2 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-02', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-03', 1 , 2);
+
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-05', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-05', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-05', 2 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-07', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-07', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-07-09', 2 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+INSERT INTO actos_vacunales (fecha, nro_dosis, fk_plan_vacunacion) VALUES ('2021-06-14', 1 , 2);
+
 /* Usuarios - Actos vacunales */
 --TRIPLE BACTERIANA
 INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (13, 1);
@@ -2250,6 +2313,72 @@ INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (61,
 INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (62, 157);
 INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (63, 158);
 
+-- PFIZER-BIONTECH
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (234, 159);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (235, 160);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (236, 161);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (237, 162);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (238, 163);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (239, 164);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (240, 165);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (241, 166);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (242, 167);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (243, 168);
+
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (244, 169);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (245, 170);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (246, 171);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (247, 172);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (248, 173);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (249, 174);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (250, 175);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (251, 176);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (252, 177);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (253, 178);
+
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (254, 179);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (255, 180);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (256, 181);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (257, 182);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (258, 183);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (259, 184);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (260, 185);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (261, 186);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (262, 187);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (263, 188);
+
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (264, 189);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (265, 190);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (266, 191);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (267, 192);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (268, 193);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (269, 194);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (270, 195);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (271, 196);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (272, 197);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (273, 198);
+
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (274, 199);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (275, 200);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (276, 201);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (277, 202);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (278, 203);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (279, 204);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (75, 205);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (76, 206);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (89, 207);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (90, 208);
+
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (103, 209);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (108, 210);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (121, 211);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (131, 212);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (137, 213);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (143, 214);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (161, 215);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (172, 216);
+INSERT INTO usuarios_actos_vacunales (usuario_id, actosvacunales_id) VALUES (185, 217);
+
 /* Vacunatorios - Actos vacunales */
 --TRIPLE BACTERIANA
 INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (2, 1);
@@ -2428,3 +2557,70 @@ INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VAL
 INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (15, 156);
 INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (15, 157);
 INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (15, 158);
+
+-- PFIZER-BIONTECH 
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 159);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 160);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 161);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 162);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 163);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 164);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 165);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 166);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 167);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 168);
+
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 169);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 170);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 171);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 172);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 173);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 174);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 175);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 176);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 177);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 178);
+
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 179);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 180);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 181);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 182);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (2, 183);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (2, 184);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (3, 185);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (3, 186);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (3, 187);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (3, 188);
+
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (3, 189);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 190);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 191);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 192);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 193);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 194);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 195);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 196);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 197);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 198);
+
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 199);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 200);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 201);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 202);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 203);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (2, 204);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 205);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 206);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 207);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 208);
+
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 209);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 210);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 211);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 212);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 213);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 214);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 215);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 216);
+INSERT INTO vacunatorios_actos_vacunales (vacunatorio_id, actosvacunales_id) VALUES (1, 217);
+

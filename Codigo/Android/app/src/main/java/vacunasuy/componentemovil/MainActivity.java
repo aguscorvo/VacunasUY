@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TableLayout;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +24,7 @@ import vacunasuy.componentemovil.second.AddFechaNacimiento;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+    TableLayout tableLayout;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -28,14 +32,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        tableLayout = findViewById(R.id.tableInfo);
+        tableLayout.setVisibility(View.INVISIBLE);
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.menu_home);
+        //bottomNavigationView.setSelectedItemId(R.id.menu_home);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             DtUsuario usuario = DtUsuario.getInstance();
             switch (item.getItemId()){
+                /*
                 case R.id.menu_home:
                     return true;
+
+                 */
                 case R.id.menu_agenda:
                     Intent iagenda = new Intent(MainActivity.this, PlanVacunacion.class);
                     startActivity(iagenda);

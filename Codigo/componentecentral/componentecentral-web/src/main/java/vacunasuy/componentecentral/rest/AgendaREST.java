@@ -5,7 +5,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -31,7 +30,6 @@ public class AgendaREST {
 	IAgendaService agendaService;
 	
 	@GET
-//	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<AgendaDTO>> respuesta = null;
 		try {
@@ -46,7 +44,7 @@ public class AgendaREST {
 	
 	@GET
 	@Path("/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<AgendaDTO> respuesta = null;
 		try {
@@ -64,6 +62,7 @@ public class AgendaREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(AgendaCrearDTO request) {
 		RespuestaREST <List<AgendaMinDTO>> respuesta = null;
 		try {
@@ -83,7 +82,7 @@ public class AgendaREST {
 	
 	@PUT
 	@Path("/editar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response editar(@PathParam("id") Long id, AgendaCrearDTO request) {
 		RespuestaREST<AgendaDTO> respuesta = null;
 		try{
@@ -100,27 +99,9 @@ public class AgendaREST {
 		}
 	}
 	
-//	@DELETE
-//	@Path("/eliminar/{id}")
-//	@RecursoProtegidoJWT
-//	public Response eliminar(@PathParam("id") Long id) {
-//		RespuestaREST<AgendaDTO> respuesta = null;
-//		try {
-//			agendaService.eliminar(id);
-//			respuesta = new RespuestaREST<AgendaDTO>(true, "Agenda eliminada con éxito.");
-//			return Response.ok(respuesta).build();
-//		}catch (VacunasUyException e) {
-//			respuesta = new RespuestaREST<AgendaDTO>(false, e.getLocalizedMessage());
-//			if(e.getCodigo() == VacunasUyException.NO_EXISTE_REGISTRO) {
-//				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
-//			} else {
-//				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-//			}
-//		}
-//	}
-	
 	@PUT
 	@Path("/cancelarAgenda/{usuario}/{agenda}")
+	@RecursoProtegidoJWT
 	public Response cancelarAgenda(@PathParam("usuario") Long usuario, @PathParam("agenda")Long agenda) {
 		RespuestaREST<AgendaDTO> respuesta = null;
 		try {
@@ -136,6 +117,5 @@ public class AgendaREST {
 			}
 		}
 	}	
-	
 	
 }

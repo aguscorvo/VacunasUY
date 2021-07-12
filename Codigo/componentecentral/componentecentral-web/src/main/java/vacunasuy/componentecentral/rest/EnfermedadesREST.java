@@ -18,6 +18,7 @@ import vacunasuy.componentecentral.business.IEnfermedadService;
 import vacunasuy.componentecentral.dto.EnfermedadCrearDTO;
 import vacunasuy.componentecentral.dto.EnfermedadDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @RequestScoped
 @Path("/enfermedades")
@@ -29,7 +30,6 @@ public class EnfermedadesREST {
 	IEnfermedadService eService;
 	
 	@GET
-	//@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<EnfermedadDTO>> respuesta = null;
 		try {
@@ -44,7 +44,7 @@ public class EnfermedadesREST {
 	
 	@GET
 	@Path("/listarEnfermedadesPorUsuario/{id}")
-	//@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listar(@PathParam("id") Long id) {
 		RespuestaREST<List<EnfermedadDTO>> respuesta = null;
 		try {
@@ -58,6 +58,7 @@ public class EnfermedadesREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(EnfermedadCrearDTO request) {
 		RespuestaREST<EnfermedadDTO> respuesta = null;
 		try {
@@ -76,7 +77,7 @@ public class EnfermedadesREST {
 
 	@PUT
 	@Path("/editar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response editar(@PathParam("id") Long id, EnfermedadCrearDTO request) {
 		RespuestaREST<EnfermedadDTO> respuesta = null;
 		try{
@@ -95,7 +96,7 @@ public class EnfermedadesREST {
 	
 	@DELETE
 	@Path("/eliminar/{id}")
-	//@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response eliminar(@PathParam("id") Long id) {
 		RespuestaREST<EnfermedadDTO> respuesta = null;
 		try {
@@ -113,5 +114,3 @@ public class EnfermedadesREST {
 	}
 
 }
-
-

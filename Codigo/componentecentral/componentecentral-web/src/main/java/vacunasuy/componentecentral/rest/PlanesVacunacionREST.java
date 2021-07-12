@@ -55,6 +55,7 @@ public class PlanesVacunacionREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(PlanVacunacionCrearDTO request) {
 		RespuestaREST<PlanVacunacionDTO> respuesta = null;
 		try {

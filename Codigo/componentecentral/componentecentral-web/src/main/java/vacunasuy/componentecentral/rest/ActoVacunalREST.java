@@ -31,7 +31,7 @@ public class ActoVacunalREST {
 	IActoVacunalService actoVacunalService;
 	
 	@GET
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<ActoVacunalDTO>> respuesta =null;
 		try {
@@ -46,7 +46,7 @@ public class ActoVacunalREST {
 	
 	@GET
 	@Path("/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<ActoVacunalDTO> respuesta = null;
 		try {
@@ -65,7 +65,6 @@ public class ActoVacunalREST {
 	
 	@GET
 	@Path("/listarActosVacunalesPorUsuarioEnfermedad/{idUsuario}/{idEnfermedad}")
-//	@RecursoProtegidoJWT
 	public Response listarActosVacunalesPorUsuarioEnfermedad(@PathParam("idUsuario") Long idUsuario, @PathParam("idEnfermedad") Long idEnfermedad) {
 		RespuestaREST<List<ActoVacunalCertificadoDTO>> respuesta =null;
 		try {

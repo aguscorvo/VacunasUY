@@ -84,7 +84,7 @@ class _UserListState extends State<UserList> {
     } catch (err) {
       print(err);
       return Center(
-        child: Text("Hubo un error al carchar los usuarios"),
+        child: Text("Hubo un error al cargar los usuarios"),
       );
     }
   }

@@ -188,10 +188,13 @@ public class AgendarActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    /*
                     case R.id.menu_home:
                         Intent ihome = new Intent(AgendarActivity.this, MainActivity.class);
                         startActivity(ihome);
                         return true;
+
+                     */
                     case R.id.menu_agenda:
                         Intent iagenda = new Intent(AgendarActivity.this, PlanVacunacion.class);
                         startActivity(iagenda);
@@ -365,9 +368,13 @@ public class AgendarActivity extends AppCompatActivity {
         HttpURLConnection conn = null;
 
         try {
+
+            String authorization ="Bearer  " + usuario.getToken();
+
             URL url = new URL(myurl);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn.setRequestProperty("Authorization", authorization);
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
             conn.setRequestMethod("GET");
@@ -630,6 +637,8 @@ public class AgendarActivity extends AppCompatActivity {
 
         String stringUrl = ConnConstant.API_ADDAGENDA_URL;
 
+        Log.i(TAG, "cargarAgenda: " + stringUrl);
+
         if (networkInfo != null && networkInfo.isConnected()) {
             new AgendarActivity.PutAgendaTask().execute(stringUrl);
         }
@@ -694,7 +703,7 @@ public class AgendarActivity extends AppCompatActivity {
         BufferedReader breader = new BufferedReader(isReader);
         StringBuffer sb = new StringBuffer();
         String str;
-        Log.i(TAG, "readInfoGralJsonStream: ACA ESTOY");
+        //Log.i(TAG, "readInfoGralJsonStream: ACA ESTOY");
 
         while((str = breader.readLine())!= null){
             sb.append(str);
@@ -729,6 +738,7 @@ public class AgendarActivity extends AppCompatActivity {
         }
         reader.endObject();
 
+        Log.i(TAG, "readDtResponseMessage: " + mensaje);
         //if(ok)
         //    mensaje = mensaje + getString(R.string.notificacion_tFecha) + ": " + fecha;
 

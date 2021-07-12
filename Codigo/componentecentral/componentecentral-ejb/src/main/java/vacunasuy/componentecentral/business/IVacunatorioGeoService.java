@@ -17,8 +17,6 @@ public interface IVacunatorioGeoService {
 	public List<VacunatorioGeoDTO> listar() throws VacunasUyException;
 	public VacunatorioGeoDTO listarPorId(Long id) throws VacunasUyException;
 	public VacunatorioGeoDTO crear(VacunatorioDTO vacunatorioDTO) throws VacunasUyException;
-//	public VacunatorioGeoDTO editar(Long id) throws VacunasUyException;
-//	public void eliminar(Long id) throws VacunasUyException;
 	
 //  desde backend
 	public List<Long> listarCercanos(UbicacionDTO ubicacionDTO) throws VacunasUyException;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:vacunas_uy/objects/Atiende.dart';
 import 'package:vacunas_uy/objects/Usuario.dart';
 
@@ -25,48 +26,6 @@ class AtiendeCard extends StatelessWidget {
       mac = Colors.greenAccent;
     }
 
-    /*buttons.add(
-      TextButton(
-        child: Row(children: [
-          Icon(Icons.info),
-          Text('Información Vacuna'),
-        ]),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AgendaForm(
-                agenda: atiende,
-                color: color,
-                tipoForm: "Información",
-              );
-            },
-          );
-        },
-      ),
-    );
-    buttons.add(
-      TextButton(
-        child: Row(children: [
-          Icon(Icons.delete),
-          Text('Eliminar'),
-        ]),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AgendaForm(
-                agenda: agenda,
-                usuario: usuario,
-                color: color,
-                tipoForm: "Eliminar",
-              );
-            },
-          );
-        },
-      ),
-    );*/
-
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -90,34 +49,30 @@ class AtiendeCard extends StatelessWidget {
             child: Icon(Icons.list_alt),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(10.0, 5, 5.0, 5.0),
-            height: 130,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Fecha y Hora: " + formatDate(atiende!.fecha)),
-                Text("Vacunatorio: " + atiende!.puesto.vacunatorio.nombre),
-                Text("   Departamento: " + atiende!.puesto.vacunatorio.departamento.nombre),
-                Text("   Direccion: " + atiende!.puesto.vacunatorio.direccion),
-                Text("Puesto: " + atiende!.puesto.numero.toString()),
-              ],
-            ),
-          ),
-          /*ListTile(
-              leading: Icon(Icons.list_alt),
-              title: Center(child: Text("Fecha y Hora: " + formatDate(atiende.fecha))),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Vacunatorio: " + atiende.puesto.vacunatorio.nombre),
-                  Text("   Departamento: " + atiende.puesto.vacunatorio.departamento.nombre),
-                  Text("   Direccion: " + atiende.puesto.vacunatorio.direccion),
-                  Text("Puesto: " + atiende.puesto.numero.toString()),
+            width: 300,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10.0, 5, 5.0, 5.0),
+                    height: 130,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Fecha y Hora: " + formatDate(atiende!.fecha)),
+                        Text("Vacunatorio: " + atiende!.puesto.vacunatorio.nombre),
+                        Text("   Departamento: " + atiende!.puesto.vacunatorio.departamento.nombre),
+                        Text("   Direccion: " + atiende!.puesto.vacunatorio.direccion),
+                        Text("Puesto: " + atiende!.puesto.numero.toString()),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),*/
+          ),
         ],
       ),
     );

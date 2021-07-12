@@ -96,10 +96,13 @@ public class GubUyActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
+                /*
                 case R.id.menu_home:
                     Intent intent2 = new Intent(GubUyActivity.this, MainActivity.class);
                     startActivity(intent2);
                     return true;
+
+                 */
                 case R.id.menu_agenda:
                     Intent iagenda = new Intent(GubUyActivity.this, PlanVacunacion.class);
                     startActivity(iagenda);
@@ -200,8 +203,11 @@ public class GubUyActivity extends AppCompatActivity {
             dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.alert_btn_neutral), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent iplan = new Intent(GubUyActivity.this, MainActivity.class);
-                    startActivity(iplan);
+                    //Intent iplan = new Intent(GubUyActivity.this, MainActivity.class);
+                    //startActivity(iplan);
+                    Intent iagenda = new Intent(GubUyActivity.this, PlanVacunacion.class);
+                    startActivity(iagenda);
+
                 }
             });
             dialog.setCanceledOnTouchOutside(false);

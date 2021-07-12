@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.sound.midi.Soundbank;
 
 import vacunasuy.componentecentral.converter.AgendaConverter;
 import vacunasuy.componentecentral.dao.IAgendaDAO;
@@ -23,7 +22,6 @@ import vacunasuy.componentecentral.dto.AgendaMinDTO;
 import vacunasuy.componentecentral.entity.Agenda;
 import vacunasuy.componentecentral.entity.PlanVacunacion;
 import vacunasuy.componentecentral.entity.Puesto;
-import vacunasuy.componentecentral.entity.Rol;
 import vacunasuy.componentecentral.entity.SectorLaboral;
 import vacunasuy.componentecentral.entity.Usuario;
 import vacunasuy.componentecentral.exception.VacunasUyException;
@@ -33,28 +31,28 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class AgendaServiceImpl implements IAgendaService {
 
 	@EJB
-	private IAgendaDAO agendaDAO;
+	public IAgendaDAO agendaDAO;
 	
 	@EJB
-	private IPuestoDAO puestoDAO;
+	public IPuestoDAO puestoDAO;
 	
 	@EJB
-	private IUsuarioDAO usuarioDAO;
+	public IUsuarioDAO usuarioDAO;
 	
 	@EJB
-	private IPlanVacunacionDAO planVacunacionDAO;
+	public IPlanVacunacionDAO planVacunacionDAO;
 	
 	@EJB
-	private IUsuarioService usuarioService;
+	public IUsuarioService usuarioService;
 
 	@EJB
-	private IVacunatorioService vacunatorioService;
+	public IVacunatorioService vacunatorioService;
 
 	@EJB
-	private INotificacionService notificacionService;
+	public INotificacionService notificacionService;
 	
 	@EJB
-	private AgendaConverter agendaConverter;
+	public AgendaConverter agendaConverter;
 	
 	
 	@Override
@@ -89,8 +87,8 @@ public class AgendaServiceImpl implements IAgendaService {
 		if(puesto==null)throw new VacunasUyException("El puesto indicado no existe.", VacunasUyException.NO_EXISTE_REGISTRO);
 		
 		//se valida que el puesto esté en un vacunatorio apropiado
-		boolean puesto_valido = vacunatorioService.vacunatorioTienePlan(puesto.getVacunatorio().getId(), agendaDTO.getPlanVacunacion());
-		if (!puesto_valido)throw new VacunasUyException("El vacunatorio asociado al puesto ingresado no tiene vacunas para el plan ingresado.", VacunasUyException.NO_EXISTE_REGISTRO);
+		//boolean puesto_valido = vacunatorioService.vacunatorioTienePlan(puesto.getVacunatorio().getId(), agendaDTO.getPlanVacunacion());
+		//if (!puesto_valido)throw new VacunasUyException("El vacunatorio asociado al puesto ingresado no tiene vacunas para el plan ingresado.", VacunasUyException.NO_EXISTE_REGISTRO);
 		
 		//se valida que el plan de vacunacion exista
 		PlanVacunacion planVacunacion = planVacunacionDAO.listarPorId(agendaDTO.getPlanVacunacion());
@@ -117,9 +115,7 @@ public class AgendaServiceImpl implements IAgendaService {
 				
 		int cantidad_de_agendas = planVacunacion.getVacuna().getCant_dosis();
 		int periodo = planVacunacion.getVacuna().getPeriodo();
-		
-		int horaTemp = LocalDateTime.now().getHour();
-		
+				
 		String hora = "";
 	
 		SecureRandom random = new SecureRandom();

@@ -37,7 +37,7 @@ class _MisVacunasTabState extends State<MisVacunasTab> {
                       });
 
                       if (enfermedades.length == 0) {
-                        return Text("No se encuentran enfermedades, reintente!");
+                        return Text("No se encuentran enfermedades. Vuelva a intentarlo.");
                       }
 
                       return Container(
@@ -142,7 +142,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "No se encontraron vacunas para la enfermedad ",
+                        "No se encontraron vacunas para la enfermedad",
                         style: TextStyle(fontSize: 25),
                       ),
                       Text(
@@ -204,7 +204,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                           onPressed: () {
                                             shareTwitter("%23YoMeVacuno ¡El " +
                                                 actosVacunales[index].fecha.toString() +
-                                                " me vacune contra la enfermedad " +
+                                                " me vacuné contra la enfermedad " +
                                                 enf!.nombre +
                                                 " con la vacuna " +
                                                 actosVacunales[index].nombre +
@@ -225,7 +225,7 @@ class _MonEnfermedadSelectedState extends State<MonEnfermedadSelected> {
                                           onPressed: () {
                                             shareFacebook("%23YoMeVacuno ¡El " +
                                                 actosVacunales[index].fecha.toString() +
-                                                " me vacune contra la enfermedad " +
+                                                " me vacuné contra la enfermedad " +
                                                 enf!.nombre +
                                                 " con la vacuna " +
                                                 actosVacunales[index].nombre +

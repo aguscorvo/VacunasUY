@@ -27,8 +27,8 @@ class _AgendaTabState extends State<AgendaTab> {
 
   TabBar get _tabsVacunador => TabBar(
         tabs: [
-          Tab(text: "Mi Agenda Como Ciudadano"),
-          Tab(text: "Mi Agenda Como Vacunador"),
+          Tab(text: "Mi agenda como Ciudadano"),
+          Tab(text: "Mi agenda como Vacunador"),
         ],
       );
 

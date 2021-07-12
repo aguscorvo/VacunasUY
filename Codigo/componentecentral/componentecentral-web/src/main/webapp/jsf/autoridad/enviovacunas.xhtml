@@ -23,7 +23,7 @@
 <h:body>
 
 	<header class="fixed-top header"> <ui:include
-		src="/WEB-INF/includes/header_log.xhtml" /> <!-- top header -->
+		src="/WEB-INF/includes/header_logAut.xhtml" /> <!-- top header -->
 	<div class="navigation w-100">
 		<div class="container">
 
@@ -61,7 +61,7 @@
 								href="/backoffice/jsf/autoridad/asignacion.xhtml">Asignar
 								Vacunadores</a>
 						</div></li>
-						<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link"
 						href="/backoffice/jsf/autoridad/informes.xhtml">Informes</a></li>
 				</ul>
 				<h:form class="form-inline">
@@ -405,14 +405,12 @@
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
-								<div class="col-12 d-flex flex-row">
-									<div class="col-3  mb-3">
-										<p:outputLabel for="updCantidad" value="Cantidad" />
-									</div>
-									<div class="col-9  mb-3 mr-0 pr-0">
-										<p:inputText id="updCantidad" value="#{EventoBean.cantidad}"
-											required="true" p:type="number" p:min="0" />
-									</div>
+								<div class="col-3  mb-3">
+									<p:outputLabel for="updCantidad" value="Cantidad" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<p:inputText id="updCantidad" value="#{EventoBean.cantidad}"
+										required="true" p:type="number" p:min="0" />
 								</div>
 							</div>
 							<!-- <div class="col-12 d-flex flex-row">
@@ -496,13 +494,12 @@
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
-								<div class="col-12 d-flex flex-row">
-									<div class="col-3  mb-3">
-										<p:outputLabel for="viewVacuna" value="Vacuna" />
-									</div>
-									<div class="col-9  mb-3 mr-0 pr-0">
-										<p:inputText id="viewVacuna" styleClass="form-control" readonly="true" />
-									</div>
+								<div class="col-3  mb-3">
+									<p:outputLabel for="viewVacuna" value="Vacuna" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<p:inputText id="viewVacuna" styleClass="form-control"
+										readonly="true" />
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
@@ -510,48 +507,45 @@
 									<p:outputLabel for="viewLote" value="Lote" />
 								</div>
 								<div class="col-9  mb-3 mr-0 pr-0">
-									<p:inputText id="viewLote" styleClass="form-control" readonly="true" />
+									<p:inputText id="viewLote" styleClass="form-control"
+										readonly="true" />
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
-								<div class="col-12 d-flex flex-row">
-									<div class="col-3  mb-3">
-										<p:outputLabel for="viewCantidadLote" value="Cantidad Lote" />
-									</div>
-									<div class="col-9  mb-3 mr-0 pr-0">
-										<p:inputText id="viewCantidadLote" styleClass="form-control" readonly="true" />
-									</div>
+								<div class="col-3  mb-3">
+									<p:outputLabel for="viewCantidadLote" value="Cantidad Lote" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<p:inputText id="viewCantidadLote" styleClass="form-control"
+										readonly="true" />
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
-								<div class="col-12 d-flex flex-row">
-									<div class="col-3  mb-3">
-										<p:outputLabel for="viewCantidadEnviada"
-											value="Cantidad Enviada" />
-									</div>
-									<div class="col-9  mb-3 mr-0 pr-0">
-										<p:inputText id="viewCantidadEnviada" styleClass="form-control" readonly="true" />
-									</div>
+								<div class="col-3  mb-3">
+									<p:outputLabel for="viewCantidadEnviada"
+										value="Cantidad Enviada" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<p:inputText id="viewCantidadEnviada" styleClass="form-control"
+										readonly="true" />
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
-								<div class="col-12 d-flex flex-row">
-									<div class="col-3  mb-3">
-										<p:outputLabel for="viewVacunatorio" value="Vacunatorio" />
-									</div>
-									<div class="col-9  mb-3 mr-0 pr-0">
-										<p:inputText id="viewVacunatorio" styleClass="form-control" readonly="true" />
-									</div>
+								<div class="col-3  mb-3">
+									<p:outputLabel for="viewVacunatorio" value="Vacunatorio" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<p:inputText id="viewVacunatorio" styleClass="form-control"
+										readonly="true" />
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">
-								<div class="col-12 d-flex flex-row">
-									<div class="col-3  mb-3">
-										<p:outputLabel for="viewTransportista" value="Transportista" />
-									</div>
-									<div class="col-9  mb-3 mr-0 pr-0">
-										<p:inputText id="viewTransportista" styleClass="form-control" readonly="true" />
-									</div>
+								<div class="col-3  mb-3">
+									<p:outputLabel for="viewTransportista" value="Transportista" />
+								</div>
+								<div class="col-9  mb-3 mr-0 pr-0">
+									<p:inputText id="viewTransportista" styleClass="form-control"
+										readonly="true" />
 								</div>
 							</div>
 							<div class="col-12 d-flex flex-row">

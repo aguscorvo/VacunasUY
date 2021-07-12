@@ -30,9 +30,9 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
 
   TabBar get _tabsVacunador => TabBar(
         tabs: [
-          Tab(text: "Todas las Agendas"),
-          Tab(text: "Agendas Habilitadas para mi"),
-          Tab(text: "Mis Agendas"),
+          Tab(text: "Todas las agendas"),
+          Tab(text: "Agendas habilitadas para mí"),
+          Tab(text: "Mis agendas"),
         ],
       );
 
@@ -164,7 +164,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se han encontrado agendas para las cuales este habilitado.",
+                  "No se encuentra habilitado a ninguna agenda.",
                   style: TextStyle(fontSize: 18),
                 ),
               );
@@ -220,7 +220,7 @@ class _AgendaCiudadanoState extends State<AgendaCiudadano> {
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se han encontrado agendas, intente nuevamente mas tarde.",
+                  "No se han encontrado agendas. Vuelva a intentarlo más tarde.",
                   style: TextStyle(fontSize: 18),
                 ),
               );
@@ -284,6 +284,10 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
     });
   }
 
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -294,23 +298,7 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              /*Text("                                          "),
-              Center(
-                child: Text(
-                  "Mis Agendas",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-              ),
-              TextButton(
-                child: Text(listAll
-                    ? "Listar Solo Nuevas Agendas"
-                    : "Listar Todas Mis Agendas"),
-                onPressed: () {
-                  cambiarListarTodo();
-                },
-              ),*/
-            ],
+            children: [],
           ),
           Container(
             child: Expanded(
@@ -324,7 +312,7 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
 
   FutureBuilder misAgendas() {
     return FutureBuilder(
-      future: /*listAll ? client.getAgendasCiudadanoTodas(storedUserCredentials.userData.id) : */ client.getAgendasCiudadanoNuevas(storedUserCredentials!.userData!.id),
+      future: client.getAgendasCiudadanoNuevas(storedUserCredentials!.userData!.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return Center(child: CircularProgressIndicator());
@@ -338,10 +326,16 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
               agenda.add(element);
             });
 
+            agenda.sort((a, b) {
+              var adate = a.fecha;
+              var bdate = b.fecha;
+              return adate.compareTo(bdate);
+            });
+
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se encuentra agendado en ningun plan!",
+                  "No se encuentra agendado en ningún plan.",
                   style: TextStyle(fontSize: 18),
                 ),
               );
@@ -350,7 +344,7 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 4),
                 maxCrossAxisExtent: 600,
-                mainAxisExtent: 180,
+                mainAxisExtent: 190,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
@@ -358,11 +352,11 @@ class _MisAgendasCiudadanoState extends State<MisAgendasCiudadano> {
               itemBuilder: (context, index) {
                 return new InkWell(
                   hoverColor: Colors.transparent,
-                  //onTap: () => Navigator.of(context).pushNamed('', arguments: ''),
                   child: new Container(
                     child: new AgendaCard(
                       agenda: agenda[index],
                       usuario: storedUserCredentials!.userData,
+                      refresh: () => refresh(),
                     ),
                   ),
                 );

@@ -3,20 +3,48 @@ import 'package:vacunas_uy/objects/Monitor/MonitorPlan.dart';
 import 'package:vacunas_uy/objects/PlanVacunacion.dart';
 import 'package:vacunas_uy/tools/BackendConnection.dart';
 
+late bool planSelected = false;
+PlanVacunacion? portraitPlanSelected;
+
 class MonPlan extends StatefulWidget {
+  static _MonPlanState? state;
   @override
-  _MonPlanState createState() => _MonPlanState();
+  _MonPlanState createState() => state = _MonPlanState();
 }
 
 class _MonPlanState extends State<MonPlan> {
   BackendConnection client = BackendConnection();
+
+  void landscapePlanSelected(PlanVacunacion? plan) {
+    setState(() {
+      planSelected = true;
+      portraitPlanSelected = plan;
+    });
+  }
+
+  void reload() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.of(context).size.width >= MediaQuery.of(context).size.height) {
+      return landscape();
+    } else {
+      if (planSelected) {
+        return MonPlanSelected(plan: portraitPlanSelected);
+      } else {
+        return portrait();
+      }
+    }
+  }
+
+  Widget landscape() {
     return Container(
       child: Row(
         children: [
           Expanded(
-            flex: 25,
+            flex: 30,
             child: Material(
               elevation: 10,
               child: FutureBuilder(
@@ -35,7 +63,7 @@ class _MonPlanState extends State<MonPlan> {
                       });
 
                       if (planVacunacion.length == 0) {
-                        return Text("No se encuentran enfermedades, reintente!");
+                        return Text("No se encuentran enfermedades. Vuelva a intentarlo.");
                       }
 
                       return Container(
@@ -43,7 +71,7 @@ class _MonPlanState extends State<MonPlan> {
                         child: GridView.builder(
                           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                             childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height,
-                            maxCrossAxisExtent: 600,
+                            maxCrossAxisExtent: 700,
                             mainAxisExtent: 60,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
@@ -66,14 +94,14 @@ class _MonPlanState extends State<MonPlan> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Nombre Enfermedad: ", style: TextStyle(fontSize: 15)),
+                                            Text("Enfermedad: ", style: TextStyle(fontSize: 15)),
                                             Text(planVacunacion[index].vacuna.enfermedad.nombre, style: TextStyle(fontSize: 15)),
                                           ],
                                         ),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Nombre Vacuna: ", style: TextStyle(fontSize: 15)),
+                                            Text("Vacuna: ", style: TextStyle(fontSize: 15)),
                                             Text(planVacunacion[index].vacuna.nombre, style: TextStyle(fontSize: 15)),
                                           ],
                                         ),
@@ -93,11 +121,96 @@ class _MonPlanState extends State<MonPlan> {
             ),
           ),
           Expanded(
-            flex: 75,
+            flex: 70,
             child: MonPlanSelected(),
           ),
         ],
       ),
+    );
+  }
+
+  Widget portrait() {
+    new MonPlanSelected();
+    return FutureBuilder(
+      future: client.getPlanesVacunacions(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          if (snapshot.data == null) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            List<PlanVacunacion> planVacunacion = [];
+            List<PlanVacunacion> planVacunacionTemp = snapshot.data as List<PlanVacunacion>;
+            planVacunacionTemp.forEach((PlanVacunacion element) {
+              planVacunacion.add(element);
+            });
+
+            if (planVacunacion.length == 0) {
+              return Text("No se encuentran enfermedades. Vuelva a intentarlo.");
+            }
+
+            return Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height,
+                  maxCrossAxisExtent: 700,
+                  mainAxisExtent: 70,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+                itemCount: planVacunacion.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    hoverColor: Colors.transparent,
+                    onTap: () => {
+                      landscapePlanSelected(planVacunacion[index]),
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      elevation: 10,
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(25, 5, 25, 5),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 50,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text("Enfermedad: ", style: TextStyle(fontSize: 15)),
+                                    Text(planVacunacion[index].vacuna.enfermedad.nombre, style: TextStyle(fontSize: 15)),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 50,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text("Vacuna: ", style: TextStyle(fontSize: 15)),
+                                    Text(planVacunacion[index].vacuna.nombre, style: TextStyle(fontSize: 15)),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+        }
+      },
     );
   }
 }
@@ -125,6 +238,10 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
 
   @override
   Widget build(BuildContext context) {
+    bool portrait = false;
+    if (MediaQuery.of(context).size.width < MediaQuery.of(context).size.height) {
+      portrait = true;
+    }
     if (plan == null) {
       return Container(
         child: Center(
@@ -149,8 +266,38 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
               return Container(
                 child: Column(
                   children: [
+                    portrait
+                        ? Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: 10, top: 10),
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blueAccent,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      portraitPlanSelected = null;
+                                      planSelected = false;
+                                      MonPlan.state!.reload();
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Icon(Icons.arrow_back),
+                                        Text("Atras"),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        : Container(),
                     Expanded(
-                      flex: 120,
+                      flex: portrait ? 180 : 120,
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: Row(
@@ -167,9 +314,19 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width * 0.2,
-                                      height: 25,
+                                      height: portrait ? 50 : 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Cantidad Agendados Hoy")),
+                                      child: portrait
+                                          ? Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text("Agendados"),
+                                                Text("hoy"),
+                                              ],
+                                            )
+                                          : Center(
+                                              child: Text("Agendados hoy"),
+                                            ),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -195,9 +352,19 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width * 0.2,
-                                      height: 25,
+                                      height: portrait ? 50 : 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Vacunados Hoy")),
+                                      child: portrait
+                                          ? Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text("Vacunados"),
+                                                Text("hoy"),
+                                              ],
+                                            )
+                                          : Center(
+                                              child: Text("Vacunados hoy"),
+                                            ),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -223,9 +390,19 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width * 0.2,
-                                      height: 25,
+                                      height: portrait ? 50 : 25,
                                       color: Colors.blueAccent,
-                                      child: Center(child: Text("Vacunados en total")),
+                                      child: portrait
+                                          ? Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text("Vacunados"),
+                                                Text("en total"),
+                                              ],
+                                            )
+                                          : Center(
+                                              child: Text("Vacunados en total"),
+                                            ),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -264,10 +441,10 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Datos del Plan",
+                                            "Datos del plan",
                                             style: TextStyle(fontSize: 20),
                                           ),
-                                          datosPlan(),
+                                          datosPlan(portrait),
                                         ],
                                       ),
                                     ),
@@ -289,7 +466,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
     }
   }
 
-  Container datosPlan() {
+  Container datosPlan(bool portrait) {
     List<Widget> sectores = [];
     List<Widget> enfermedades = [];
 
@@ -313,7 +490,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       child: SingleChildScrollView(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.45,
+          width: portrait ? MediaQuery.of(context).size.width * 0.70 : MediaQuery.of(context).size.width * 0.45,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -326,22 +503,22 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                       Material(
                         elevation: 10,
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
+                          width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                           child: Column(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
+                                width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Edad Mínima",
+                                    "Edad mínima",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
+                                width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 child: Center(
                                   child: Text(plan!.edadMinima.toString()),
@@ -354,22 +531,22 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                       Material(
                         elevation: 10,
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
+                          width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                           child: Column(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
+                                width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Edad Máxima",
+                                    "Edad máxima",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
+                                width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 child: Center(
                                   child: Text(plan!.edadMaxima.toString()),
@@ -388,22 +565,22 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                       Material(
                         elevation: 10,
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
+                          width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                           child: Column(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
+                                width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Fecha Inicio",
+                                    "Fecha inicio",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
+                                width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 child: Center(
                                   child: Text(formatDate(plan!.fechaInicio)),
@@ -416,22 +593,22 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                       Material(
                         elevation: 10,
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
+                          width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                           child: Column(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
+                                width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 color: Colors.blueAccent,
                                 child: Center(
                                   child: Text(
-                                    "Fecha Fin",
+                                    "Fecha fin",
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
+                                width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 child: Center(
                                   child: Text(formatDate(plan!.fechaFin)),
@@ -452,16 +629,16 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                   Material(
                     elevation: 10,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.45,
+                      width: portrait ? MediaQuery.of(context).size.width * 0.7 : MediaQuery.of(context).size.width * 0.45,
                       child: Column(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.45,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.7 : MediaQuery.of(context).size.width * 0.45,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             color: Colors.blueAccent,
                             child: Center(
                               child: Text(
-                                "Sectores Cubiertos",
+                                "Sectores cubiertos",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -490,7 +667,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                   Material(
                     elevation: 10,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.45,
+                      width: portrait ? MediaQuery.of(context).size.width * 0.7 : MediaQuery.of(context).size.width * 0.45,
                       padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                       color: Colors.blueAccent,
                       child: Column(
@@ -514,11 +691,11 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                   Material(
                     elevation: 10,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
+                      width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                       child: Column(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             color: Colors.blueAccent,
                             child: Center(
@@ -529,7 +706,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                             ),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             child: Center(
                               child: Text(plan!.vacuna.nombre),
@@ -542,22 +719,22 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                   Material(
                     elevation: 10,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
+                      width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                       child: Column(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             color: Colors.blueAccent,
                             child: Center(
                               child: Text(
-                                "Cantidad de Dosis",
+                                "Cantidad de dosis",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             child: Center(
                               child: Text(plan!.vacuna.cantDosis.toString()),
@@ -576,11 +753,11 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                   Material(
                     elevation: 10,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
+                      width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                       child: Column(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             color: Colors.blueAccent,
                             child: Center(
@@ -591,7 +768,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                             ),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             child: Center(
                               child: Text(plan!.vacuna.periodo.toString()),
@@ -604,11 +781,11 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                   Material(
                     elevation: 10,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
+                      width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                       child: Column(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             color: Colors.blueAccent,
                             child: Center(
@@ -619,7 +796,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                             ),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             child: Center(
                               child: Text(plan!.vacuna.inmunidad.toString()),
@@ -638,12 +815,12 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                   Material(
                     elevation: 10,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.45,
+                      width: portrait ? MediaQuery.of(context).size.width * 0.7 : MediaQuery.of(context).size.width * 0.45,
                       child: Column(
                         children: [
                           Container(
                             padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                            width: MediaQuery.of(context).size.width * 0.45,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.7 : MediaQuery.of(context).size.width * 0.45,
                             color: Colors.blueAccent,
                             child: Center(
                                 child: Text(
@@ -652,7 +829,7 @@ class _MonPlanSelectedState extends State<MonPlanSelected> {
                             )),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            width: portrait ? MediaQuery.of(context).size.width * 0.32 : MediaQuery.of(context).size.width * 0.2,
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                             child: Center(
                               child: Row(

@@ -1,5 +1,6 @@
 package vacunasuy.componentecentral.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -99,8 +100,8 @@ public class HomeBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		try {
 
+		try {
 			vacunatorios = vacunatorioService.listar();
 			stockVacunas = listarStockVacunasDisponiblesParaEnviar();
 
@@ -112,6 +113,7 @@ public class HomeBean implements Serializable {
 		} catch (VacunasUyException e) {
 			logger.info(e.getMessage().trim());
 		}
+
 	}
 
 	private List<ReporteVacunaDTO> listarStockVacunasDisponiblesParaEnviar() {
@@ -168,15 +170,14 @@ public class HomeBean implements Serializable {
 
 	private void UsuariosVacCiud() {
 		try {
-		
+
 			List<UsuarioDTO> auxvac = usuarioService.listar();
 
 			usuariosVAC = (long) 0;
 			usuariosCIU = (long) 0;
 
-			
 			for (UsuarioDTO vdto : auxvac) {
-				logger.info(vdto.getNombre());
+				logger.info(vdto.getNombre().length());
 				for (RolDTO rdto : vdto.getRoles()) {
 
 					if (rdto.getNombre().toUpperCase().contains("VACUNADOR")) {
@@ -224,7 +225,7 @@ public class HomeBean implements Serializable {
 
 	private void listarVacunasPorEvolucionEnTiempo() {
 		try {
-			
+
 			fechas = new ArrayList<String>();
 			evolucionVacunas = new HashMap<String, List<ReporteEvolucionTiempoDTO>>();
 
@@ -236,51 +237,46 @@ public class HomeBean implements Serializable {
 
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				// Convert calendar back to Date
-				cfechaBase.add(Calendar.DAY_OF_YEAR, -1);
 				Date newDate = cfechaBase.getTime();
 				String strDate = dateFormat.format(newDate);
 				fechas.add(strDate);
-
+				cfechaBase.add(Calendar.DAY_OF_YEAR, -1);
 			}
 
-			String fechaInicio = fechas.get(fechas.size()-1);
-			String fechaFin =  fechas.get(0);
+			String fechaInicio = fechas.get(fechas.size() - 1);
+			String fechaFin = fechas.get(0);
 
 			Collections.reverse(fechas);
-			
+
 			vacunas = vacunaService.listar();
 			for (VacunaDTO vac : vacunas) {
 				List<ReporteEvolucionTiempoDTO> vacf = new ArrayList<ReporteEvolucionTiempoDTO>();
-				
-				List<ReporteEvolucionTiempoDTO> aux = reporteService.listarPorEvolucionEnTiempo(fechaInicio, fechaFin, vac.getId());
-				
-				
-				for (String s: fechas) {
+
+				List<ReporteEvolucionTiempoDTO> aux = reporteService.listarPorEvolucionEnTiempo(fechaInicio, fechaFin,
+						vac.getId());
+
+				for (String s : fechas) {
 					boolean encontre = false;
-					for(ReporteEvolucionTiempoDTO rdto: aux) {
-						if(rdto.getFecha().equalsIgnoreCase(s)) {
+					for (ReporteEvolucionTiempoDTO rdto : aux) {
+						if (rdto.getFecha().equalsIgnoreCase(s)) {
 							vacf.add(rdto);
 							encontre = true;
 							break;
 						}
-					}	
-					if(!encontre) {
-						ReporteEvolucionTiempoDTO recdto = ReporteEvolucionTiempoDTO.builder()
-								.cantidad(0)
-								.fecha(s)
+					}
+					if (!encontre) {
+						ReporteEvolucionTiempoDTO recdto = ReporteEvolucionTiempoDTO.builder().cantidad(0).fecha(s)
 								.build();
-								vacf.add(recdto);
+						vacf.add(recdto);
 					}
 				}
-				
+
 				evolucionVacunas.put(vac.getNombre(), vacf);
 			}
-			
-			
+
 		} catch (VacunasUyException e) {
 			logger.error(e.getLocalizedMessage());
 		}
-
 
 	}
 

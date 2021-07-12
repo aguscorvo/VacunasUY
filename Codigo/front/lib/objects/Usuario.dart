@@ -31,16 +31,20 @@ class Usuario {
     this.correo = correo;
     this.fechaNacimiento = fechaNacimiento;
     this.roles = roles;
-    this.sectorLaboral = Sector();
+    this.sectorLaboral = Sector.all(7, "No tiene");
   }
 
   Usuario.fromJson(Map<String, dynamic> json) {
     id = json['id'] != null ? json['id'] : "";
     documento = json['documento'] != null ? json['documento'] : "";
-    nombre = json['nombre'];
-    apellido = json['apellido'];
-    correo = json['correo'];
-    fechaNacimiento = DateTime.parse(json['fechaNacimiento']);
+    nombre = json['nombre'] != null ? json['nombre'] : "";
+    apellido = json['apellido'] != null ? json['apellido'] : "";
+    correo = json['correo'] != null ? json['correo'] : "";
+    fechaNacimiento = json['fechaNacimiento'] != null
+        ? json['fechaNacimiento'] != ""
+            ? DateTime.parse(json['fechaNacimiento'])
+            : DateTime.now()
+        : DateTime.now();
     roles = [];
     if (json['roles'] != null) {
       json['roles'].forEach((rol) => {roles.add(Rol.fromJson(rol))});

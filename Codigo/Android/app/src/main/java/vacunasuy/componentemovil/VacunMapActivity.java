@@ -240,10 +240,13 @@ public class VacunMapActivity extends AppCompatActivity implements  LocationList
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 DtUsuario usuario = DtUsuario.getInstance();
                 switch (item.getItemId()) {
+                    /*
                     case R.id.menu_home:
                         Intent ihome = new Intent(VacunMapActivity.this, MainActivity.class);
                         startActivity(ihome);
                         return true;
+
+                     */
                     case R.id.menu_agenda:
                         Intent iagenda = new Intent(VacunMapActivity.this, PlanVacunacion.class);
                         startActivity(iagenda);

@@ -12,7 +12,8 @@ public final class Constantes {
 	public static final String ACCESSTOKEN_URL = "https://auth-testing.iduruguay.gub.uy/oidc/v1/token";
 	public static final String USERINFO_URL = "https://auth-testing.iduruguay.gub.uy/oidc/v1/userinfo";
 	//public static final String REDIRECT_URI = "https://vacunasuy.web.elasticloud.uy/rest/autenticaciongubuy/procesarTokens";
-	public static final String REDIRECT_URI = "http://localhost:8080";
+	//public static final String REDIRECT_URI = "http://localhost:8080";
+	public static final String REDIRECT_URI = "https://vacunasuy.web.elasticloud.uy";
 	
 	/* Nodos periféricos */
 //	public static final String NODOS_PERIFERICOS_REST_URL = "http://localhost:8081";

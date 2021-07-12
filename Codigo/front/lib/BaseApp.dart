@@ -17,7 +17,7 @@ class _BaseAppState extends State<BaseApp> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: autoLogIn(),
+      future: autoLogIn(context),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (storedUserCredentials == null) {
           return Container(

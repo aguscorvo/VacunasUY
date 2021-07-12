@@ -15,7 +15,7 @@ import vacunasuy.componentecentral.exception.VacunasUyException;
 public class StockServiceImpl implements IStockService {
 
 	@EJB
-	private IStockDAO stockDAO;
+	public IStockDAO stockDAO;
 	
 	@Override
 	public Stock listarStockPorVacuna(Long idVacunatorio, Long idVacuna) throws VacunasUyException {

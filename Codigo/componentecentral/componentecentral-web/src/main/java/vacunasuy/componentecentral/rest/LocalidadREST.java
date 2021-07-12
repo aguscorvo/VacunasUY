@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import vacunasuy.componentecentral.business.ILocalidadService;
 import vacunasuy.componentecentral.dto.LocalidadDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @RequestScoped
 @Path("/localidades")
@@ -25,7 +26,7 @@ public class LocalidadREST {
 	ILocalidadService localidadService;
 
 	@GET
-//	@RecursoProtegidoJWTfc
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<LocalidadDTO>> respuesta =null;
 		try {
@@ -40,7 +41,7 @@ public class LocalidadREST {
 
 	@GET
 	@Path("/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<LocalidadDTO> respuesta = null;
 		try {

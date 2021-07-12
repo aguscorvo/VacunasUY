@@ -8,10 +8,12 @@ class AgendaCard extends StatelessWidget {
   final Usuario? usuario;
   final Row? body;
   final Color? color;
+  final Function? refresh;
   const AgendaCard({
     this.agenda,
     this.usuario,
     this.body,
+    this.refresh,
     this.color = Colors.blue,
   });
 
@@ -24,27 +26,6 @@ class AgendaCard extends StatelessWidget {
       mac = Colors.blueAccent;
     } else {
       mac = Colors.greenAccent;
-      /*buttons.add(
-        TextButton(
-          child: Row(children: [
-            Icon(Icons.list),
-            Text('Certificado'),
-          ]),
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AgendaForm(
-                  agenda: agenda!,
-                  usuario: usuario!,
-                  color: color!,
-                  tipoForm: "Certificado",
-                );
-              },
-            );
-          },
-        ),
-      );*/
     }
 
     buttons.add(
@@ -81,6 +62,7 @@ class AgendaCard extends StatelessWidget {
                 agenda: agenda!,
                 usuario: usuario!,
                 color: color!,
+                refresh: () => refresh!(),
                 tipoForm: "Cancelar",
               );
             },
@@ -95,8 +77,8 @@ class AgendaCard extends StatelessWidget {
       ),
       elevation: 5,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             height: 30,
@@ -114,33 +96,36 @@ class AgendaCard extends StatelessWidget {
               ),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ListTile(
-                leading: Icon(Icons.list_alt),
-                title: Text("Fecha y Hora: " + formatDate(agenda!.fecha) + " - " + formatTime(agenda!.fecha)),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("Vacunatorio: " + agenda!.puesto.vacunatorio.nombre),
-                    Text("   Departamento: " + agenda!.puesto.vacunatorio.departamento.nombre),
-                    Text("   Direccion: " + agenda!.puesto.vacunatorio.direccion),
-                    Text("Puesto: " + agenda!.puesto.numero.toString()),
-                  ],
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.list_alt),
+                  title: Text("Fecha y Hora: " + formatDate(agenda!.fecha) + " - " + formatTime(agenda!.fecha)),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Vacunatorio: " + agenda!.puesto.vacunatorio.nombre),
+                      Text("   Departamento: " + agenda!.puesto.vacunatorio.departamento.nombre),
+                      Text("   Direccion: " + agenda!.puesto.vacunatorio.direccion),
+                      Text("Puesto: " + agenda!.puesto.numero.toString()),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: Row(
-                  mainAxisAlignment: buttons.length > 1 ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: buttons,
-                ),
-              )
-            ],
-          )
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: buttons.length > 1 ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: buttons,
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

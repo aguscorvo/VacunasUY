@@ -76,10 +76,13 @@ public class PlanVacunacion extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
             switch (item.getItemId()){
+                /*
                 case R.id.menu_home:
                     Intent intent2 = new Intent(PlanVacunacion.this, MainActivity.class);
                     startActivity(intent2);
                     return true;
+
+                 */
                 case R.id.menu_agenda:
 
                     return true;

@@ -7,7 +7,7 @@ public class ConnConstant {
     final public static Integer REST_USR_LOGIN = 2;
     final public static Integer REST_VACUNATORIOS = 3;
 
-    final public static String API_INFOGRAL_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/";
+    final public static String API_INFOGRAL_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/planesVacunacion/listarVigentes";
     final public static String API_DEPARTAMENTOS_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/departamentos";
     final public static String API_SECTORLABORAL_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/sectoreslaborales";
 
@@ -19,7 +19,7 @@ public class ConnConstant {
     final public static String API_GETENFERMEDADESVACUNAS_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/enfermedades/listarEnfermedadesPorUsuario/{id}";
     final public static String API_GETENFERMEDADVACUNAS_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/actosVacunales/listarActosVacunalesPorUsuarioEnfermedad/{idUsuario}/{idEnfermedad}";
     final public static String API_GETUSUARIOAGENDA_URL = "https://vacunasuy.web.elasticloud.uy/backoffice/rest/usuarios/listarAgendasCiudadano/{idUsuario}";
-    final public static String API_QR_URL = " https://vacunasuy.web.elasticloud.uy?idUsuario={idUsuaurio}&idEnfermedad={idEnfermedad}";
+    final public static String API_QR_URL = "https://vacunasuy.web.elasticloud.uy?idUsuario={idUsuario}&idEnfermedad={idEnfermedad}";
 
 
     //VACUNATORIO

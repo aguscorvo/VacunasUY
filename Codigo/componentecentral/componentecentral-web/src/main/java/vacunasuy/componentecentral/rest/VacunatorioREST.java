@@ -12,25 +12,16 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import vacunasuy.componentecentral.business.IVacunatorioService;
-import vacunasuy.componentecentral.dto.AgendaDTO;
-import vacunasuy.componentecentral.dto.AgendaMinDTO;
 import vacunasuy.componentecentral.dto.AgendaVacunatorioDTO;
 import vacunasuy.componentecentral.dto.UbicacionDTO;
 import vacunasuy.componentecentral.dto.UsuarioMinDTO;
 import vacunasuy.componentecentral.dto.VacunatorioCrearDTO;
 import vacunasuy.componentecentral.dto.VacunatorioDTO;
-import vacunasuy.componentecentral.dto.VacunatorioPerifericoDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
 import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
-import vacunasuy.componentecentral.util.Constantes;
 
 
 @RequestScoped
@@ -43,7 +34,6 @@ public class VacunatorioREST {
 	IVacunatorioService vacunatorioService;
 	
 	@GET
-//	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
 		try {
@@ -58,7 +48,7 @@ public class VacunatorioREST {
 	
 	@GET
 	@Path("/listar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -76,6 +66,7 @@ public class VacunatorioREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(VacunatorioCrearDTO request) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -94,7 +85,7 @@ public class VacunatorioREST {
 	
 	@PUT
 	@Path("/editar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response editar (@PathParam("id") Long id, VacunatorioCrearDTO request) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -113,7 +104,7 @@ public class VacunatorioREST {
 	
 	@DELETE
 	@Path("/eliminar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response eliminar(@PathParam("id") Long id) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -131,7 +122,6 @@ public class VacunatorioREST {
 	}
 	
 	@GET
-//	@RecursoProtegidoJWT
 	@Path("/listar/cercanos/{latitud}/{longitud}/{distancia}")
 	public Response listarCercanos(
 			@PathParam("latitud") Double latitud, 
@@ -151,7 +141,7 @@ public class VacunatorioREST {
 	
 	@PUT
 	@Path("/agregarEvento/{vacunatorio}/{evento}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response agregarEvento (@PathParam("vacunatorio") Long vacunatorio, @PathParam("evento") Long evento) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -170,7 +160,6 @@ public class VacunatorioREST {
 	
 	@PUT
 	@Path("/agregarActoVacunal/{vacunatorio}/{actoVacunal}/")
-//	@RecursoProtegidoJWT
 	public Response agregarActoVacunal (@PathParam("vacunatorio") Long vacunatorio, @PathParam("actoVacunal") Long actoVacunal) {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {
@@ -243,7 +232,7 @@ public class VacunatorioREST {
 	
 	@GET
 	@Path("/listarVacunatoriosDadoPlan/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarVacunatoriosDadoPlan(@PathParam("id") Long id) {
 		RespuestaREST<List<VacunatorioDTO>> respuesta = null;
 		try {
@@ -262,7 +251,6 @@ public class VacunatorioREST {
 	
 	@PUT
 	@Path("/crearGeometrias")
-//	@RecursoProtegidoJWT
 	public Response crearGeometrias() {
 		RespuestaREST<VacunatorioDTO> respuesta = null;
 		try {

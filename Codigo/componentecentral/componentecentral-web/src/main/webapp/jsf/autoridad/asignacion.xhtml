@@ -25,7 +25,7 @@
 <h:body>
 
 	<header class="fixed-top header"> <ui:include
-		src="/WEB-INF/includes/header_log.xhtml" /> <!-- top header -->
+		src="/WEB-INF/includes/header_logAut.xhtml" /> <!-- top header -->
 	<div class="navigation w-100">
 		<div class="container">
 
@@ -454,14 +454,14 @@
 		var url = "/backoffice/rest/usuarios/listarAtiendeVacunador/" +  idusuario;
 		var vacunatorios = [];
 
-
-	    
+	    var authorization = 'Bearer ' + userTOKEN;
 	    
 		$ds.ajaxSetup({
 			scriptCharset: "utf-8",
 			contentType: "application/json; charset=utf-8",
 			mimeType: "text/plain",
-			headers: { 'Access-Control-Allow-Origin': '*' }
+			headers: { 'Access-Control-Allow-Origin': '*',
+				"Authorization": authorization }
 		});
 
 		$ds.getJSON(url)
@@ -485,7 +485,6 @@
 					}
 
 					vacunatorio['puestos'].push(horario);
-					//vacunatorio['puestos'] = vacunatorio['puestos'].sort();
 
 					vacunatorios[puesto['vacunatorio']['id']] = vacunatorio;
 				}

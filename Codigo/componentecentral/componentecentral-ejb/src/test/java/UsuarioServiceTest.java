@@ -175,6 +175,31 @@ public class UsuarioServiceTest {
 		}
 	}
 	
+	@Test (expected = VacunasUyException.class)
+	public void crear_usuarioNull() throws VacunasUyException{
+		List<Long> roles = new ArrayList<Long>();
+		roles.add(1L);
+		UsuarioCrearDTO usuarioCrearDTO = new UsuarioCrearDTO();
+		usuarioCrearDTO.setCorreo("prueba@gmail.com");
+		usuarioCrearDTO.setRoles(roles);
+		Usuario usuario = new Usuario();
+		usuario.setId(1L);
+		usuario.setCorreo("prueba@gmail.com");
+		usuario.setPassword("1234");
+		Usuario usuario_creado = new Usuario();
+		usuario.setId(1L);
+		usuario.setCorreo("prueba@gmail.com");
+		usuario.setPassword("1234");
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(1L);
+		Rol rol = new Rol();
+		rol.setId(1L);
+		Mockito.when(usuarioService.usuarioConverter.fromCrearDTO(Mockito.any(UsuarioCrearDTO.class))).thenReturn(usuario);
+		Mockito.when(usuarioService.usuarioDAO.listarPorCorreo("prueba@gmail.com")).thenReturn(usuario_creado);
+		@SuppressWarnings("unused")
+		UsuarioDTO usuarioEsperado = usuarioService.crear(usuarioCrearDTO);
+	}
+	
 	@Test
 	/* El usuario no existe */
 	public void editar1() {
@@ -349,10 +374,10 @@ public class UsuarioServiceTest {
 		UsuarioLoginExitosoDTO usuarioLogin = new UsuarioLoginExitosoDTO();
 		usuarioLogin.setId(1L);
 		Mockito.when(usuarioService.usuarioDAO.listarPorDocumento(Mockito.anyString())).thenReturn(usuario);
-		Mockito.when(usuarioService.rolDAO.listarPorId(Mockito.anyLong())).thenReturn(rol);
-		Mockito.doReturn(datosDNIC).when(usuarioService).getDatosDNIC(Mockito.anyString());
-		Mockito.when(usuarioService.sectorLaboralDAO.listar()).thenReturn(sectores);
-		Mockito.when(usuarioService.usuarioDAO.crear(Mockito.any(Usuario.class))).thenReturn(usuario);
+		//Mockito.when(usuarioService.rolDAO.listarPorId(Mockito.anyLong())).thenReturn(rol);
+		//Mockito.doReturn(datosDNIC).when(usuarioService).getDatosDNIC(Mockito.anyString());
+		//Mockito.when(usuarioService.sectorLaboralDAO.listar()).thenReturn(sectores);
+		//Mockito.when(usuarioService.usuarioDAO.crear(Mockito.any(Usuario.class))).thenReturn(usuario);
 		Mockito.when(usuarioService.usuarioConverter.fromLogin(Mockito.any(Usuario.class), Mockito.anyString())).thenReturn(usuarioLogin);
 		try {
 			UsuarioLoginExitosoDTO usuarioEsperado = usuarioService.loginGubUy(usuarioDTO);
@@ -380,10 +405,10 @@ public class UsuarioServiceTest {
 		usuarioLogin.setId(1L);
 		Mockito.when(usuarioService.usuarioDAO.listarPorDocumento(Mockito.anyString())).thenReturn(usuario);
 		Mockito.when(usuarioService.rolDAO.listarPorId(Mockito.anyLong())).thenReturn(rol);
-		Mockito.doReturn(datosDNIC).when(usuarioService).getDatosDNIC(Mockito.anyString());
+		//Mockito.doReturn(datosDNIC).when(usuarioService).getDatosDNIC(Mockito.anyString());
 		Mockito.doReturn("1234").when(usuarioService).crearJsonWebToken(Mockito.any(Usuario.class));
-		Mockito.when(usuarioService.sectorLaboralDAO.listar()).thenReturn(sectores);
-		Mockito.when(usuarioService.usuarioDAO.crear(Mockito.any(Usuario.class))).thenReturn(usuario);
+		//Mockito.when(usuarioService.sectorLaboralDAO.listar()).thenReturn(sectores);
+		//Mockito.when(usuarioService.usuarioDAO.crear(Mockito.any(Usuario.class))).thenReturn(usuario);
 		Mockito.when(usuarioService.usuarioDAO.editar(Mockito.any(Usuario.class))).thenReturn(usuario);
 		Mockito.when(usuarioService.usuarioConverter.fromLogin(Mockito.any(Usuario.class), Mockito.anyString())).thenReturn(usuarioLogin);
 		try {
@@ -438,7 +463,7 @@ public class UsuarioServiceTest {
 		Agenda agenda = new Agenda();
 		Mockito.when(usuarioService.usuarioDAO.listarPorId(Mockito.anyLong())).thenReturn(usuario);
 		Mockito.when(usuarioService.agendaDAO.listarPorId(Mockito.anyLong())).thenReturn(agenda);
-		Mockito.when(usuarioService.usuarioDAO.editar(Mockito.any())).thenReturn(usuario);
+		//Mockito.when(usuarioService.usuarioDAO.editar(Mockito.any())).thenReturn(usuario);
 		try {
 			usuarioService.cancelarAgenda(1L, 1L);
 		} catch (VacunasUyException e) {
@@ -545,8 +570,8 @@ public class UsuarioServiceTest {
 		roles.add(new Rol(4L, "Ciudadano"));
 		Usuario usuario = new Usuario();
 		usuario.setRoles(roles);
-		Mockito.when(usuarioService.usuarioDAO.listarPorId(Mockito.anyLong())).thenReturn(usuario);
-		Mockito.when(usuarioService.agendaConverter.fromEntity(Mockito.anyList())).thenReturn(agendas);
+		//Mockito.when(usuarioService.usuarioDAO.listarPorId(Mockito.anyLong())).thenReturn(usuario);
+		//Mockito.when(usuarioService.agendaConverter.fromEntity(Mockito.anyList())).thenReturn(agendas);
 		try {
 			List<AgendaDTO> agendasEsperadas= usuarioService.listarAgendasCiudadano(null);
 			assertEquals(1, agendasEsperadas.size());
@@ -582,8 +607,8 @@ public class UsuarioServiceTest {
 		roles.add(new Rol(3L, "Vacunador"));
 		Usuario usuario = new Usuario();
 		usuario.setRoles(roles);
-		Mockito.when(usuarioService.usuarioDAO.listarPorId(Mockito.anyLong())).thenReturn(usuario);
-		Mockito.when(usuarioService.atiendeConverter.fromEntity(Mockito.anyList())).thenReturn(atiendes);
+		//Mockito.when(usuarioService.usuarioDAO.listarPorId(Mockito.anyLong())).thenReturn(usuario);
+		//Mockito.when(usuarioService.atiendeConverter.fromEntity(Mockito.anyList())).thenReturn(atiendes);
 		try {
 			List<AtiendeDTO> atiendesEsperadas= usuarioService.listarAtiendeVacunador(null);
 			assertEquals(1, atiendesEsperadas.size());

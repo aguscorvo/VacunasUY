@@ -16,6 +16,7 @@ import vacunasuy.componentecentral.business.ILoteService;
 import vacunasuy.componentecentral.dto.LoteCrearDTO;
 import vacunasuy.componentecentral.dto.LoteDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @RequestScoped
 @Path("/lotes")
@@ -27,6 +28,7 @@ public class LotesREST {
 	private ILoteService loteService;
 	
 	@GET
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<LoteDTO>> respuesta = null;
 		try {
@@ -40,6 +42,7 @@ public class LotesREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(LoteCrearDTO request) {
 		RespuestaREST<LoteDTO> respuesta = null;
 		try {
@@ -58,6 +61,7 @@ public class LotesREST {
 	
 	@PUT
 	@Path("/editar/{id}")
+	@RecursoProtegidoJWT
 	public Response editar(@PathParam("id") Long id, LoteCrearDTO request) {
 		RespuestaREST<LoteDTO> respuesta = null;
 		try {
@@ -76,6 +80,7 @@ public class LotesREST {
 	
 	@DELETE
 	@Path("/eliminar/{id}")
+	@RecursoProtegidoJWT
 	public Response eliminar(@PathParam("id") Long id) {
 		RespuestaREST<LoteDTO> respuesta = null;
 		try {

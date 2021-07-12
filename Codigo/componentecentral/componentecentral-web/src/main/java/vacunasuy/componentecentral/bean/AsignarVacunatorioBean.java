@@ -50,7 +50,7 @@ public class AsignarVacunatorioBean implements Serializable {
 	List<UsuarioDTO> usuarios;
 	String jsonVac;
 	String strbuscar;
-
+	
 	@EJB
 	IUsuarioService usuarioService;
 
@@ -126,7 +126,10 @@ public class AsignarVacunatorioBean implements Serializable {
 		} finally {
 			clearParam();
 			try {
-				usuarios = usuarioService.listar();
+				//usuarios = usuarioService.listar();
+				usuarios = allVacunadores();
+				vacunatorios = vacunatorioService.listar();
+				
 			} catch (VacunasUyException e) {
 				logger.info(e.getMessage().trim());
 				FacesContext.getCurrentInstance().addMessage(null,

@@ -25,7 +25,6 @@ public class DepartamentoREST {
 	IDepartamentoService departamentoService;
 	
 	@GET
-//	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<DepartamentoDTO>> respuesta =null;
 		try {
@@ -40,7 +39,7 @@ public class DepartamentoREST {
 
 	@GET
 	@Path("/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<DepartamentoDTO> respuesta = null;
 		try {
@@ -56,7 +55,5 @@ public class DepartamentoREST {
 			}
 		}
 	}
-	
-	
 
 }

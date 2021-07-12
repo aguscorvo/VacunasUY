@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -26,6 +28,13 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "vacunatorios")
+@NamedNativeQueries({
+	/* Vacunatorios que tienen stock de una vacuna  */
+	@NamedNativeQuery(name="listarVacunatoriosDadoVacuna", query="SELECT v.* "
+			+ "FROM vacunatorios v "
+			+ "INNER JOIN stock s ON s.idvacunatorio = v.id "
+			+ "WHERE s.idvacuna = :idVacuna AND s.cantidad > 0", resultClass = Vacunatorio.class)
+})
 public class Vacunatorio implements Serializable{
 	
 

@@ -72,10 +72,13 @@ public class MapEnfermedadesVaccunas extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    /*
                     case R.id.menu_home:
                         Intent ihome = new Intent(MapEnfermedadesVaccunas.this, MainActivity.class);
                         startActivity(ihome);
                         return true;
+
+                     */
                     case R.id.menu_agenda:
                         Intent iagenda = new Intent(MapEnfermedadesVaccunas.this, PlanVacunacion.class);
                         startActivity(iagenda);
@@ -188,9 +191,12 @@ public class MapEnfermedadesVaccunas extends AppCompatActivity {
         InputStream is = null;
         HttpURLConnection conn = null;
         try {
+            String authorization ="Bearer  " + usuario.getToken();
+
             URL url = new URL(myurl);
             conn = (HttpURLConnection) url.openConnection();
-            //conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn.setRequestProperty("User-Agent", ConnConstant.USER_AGENT);
+            conn.setRequestProperty("Authorization", authorization);
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
             conn.setRequestMethod("GET");

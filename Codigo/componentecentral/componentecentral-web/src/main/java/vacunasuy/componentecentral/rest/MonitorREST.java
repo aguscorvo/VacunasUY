@@ -13,7 +13,6 @@ import vacunasuy.componentecentral.dto.MonitorEnfermedadDTO;
 import vacunasuy.componentecentral.dto.MonitorPlanDTO;
 import vacunasuy.componentecentral.dto.MonitorVacunaDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
-import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @RequestScoped
 @Path("/monitor")
@@ -25,7 +24,6 @@ public class MonitorREST {
 	private IMonitorService monitorService;
 	
 	@GET
-	//@RecursoProtegidoJWT
 	@Path("/enfermedad/{id}")
 	public Response listarPorEnfermedad(@PathParam("id") Long id) {
 		RespuestaREST<MonitorEnfermedadDTO> respuesta = null;
@@ -40,7 +38,6 @@ public class MonitorREST {
 	}
 	
 	@GET
-	//@RecursoProtegidoJWT
 	@Path("/vacuna/{id}")
 	public Response listarPorVacuna(@PathParam("id") Long id) {
 		RespuestaREST<MonitorVacunaDTO> respuesta = null;
@@ -55,7 +52,6 @@ public class MonitorREST {
 	}
 	
 	@GET
-	//@RecursoProtegidoJWT
 	@Path("/plan/{id}")
 	public Response listarPorPlan(@PathParam("id") Long id) {
 		RespuestaREST<MonitorPlanDTO> respuesta = null;

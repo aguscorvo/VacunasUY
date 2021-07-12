@@ -23,7 +23,9 @@ class Puesto {
 
     agendas = [];
     if (json['agendas'] != null) {
-      json['agendas'].forEach((localidad) => {agendas.add(Agenda.fromJson(localidad))});
+      json['agendas'].forEach((localidad) {
+        agendas.add(Agenda.fromJson(localidad));
+      });
     }
   }
 

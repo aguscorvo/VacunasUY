@@ -16,7 +16,7 @@ class VacunatorioForm extends StatelessWidget {
     var nombreController = new TextEditingController();
 
     return AlertDialog(
-      title: Text("Editar Vacunatorio"),
+      title: Text("Editar vacunatorio"),
       content: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
@@ -36,7 +36,7 @@ class VacunatorioForm extends StatelessWidget {
           Positioned(
             right: 300.0,
             top: 10.0,
-            child: Text("Editar Vacunatorio"),
+            child: Text("Editar vacunatorio"),
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
@@ -51,7 +51,7 @@ class VacunatorioForm extends StatelessWidget {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Nombre',
-                hintText: 'Ingresar nombre del Vacunatorio',
+                hintText: 'Ingresar nombre del vacunatorio',
               ),
             ),
           ),

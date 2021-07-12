@@ -84,6 +84,7 @@ public class UsuariosREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(UsuarioCrearDTO request) {
 		RespuestaREST<UsuarioDTO> respuesta = null;
 		try {
@@ -158,6 +159,7 @@ public class UsuariosREST {
 	
 	@POST
 	@Path("/asignarVacunador")
+	@RecursoProtegidoJWT
 	public Response asignarVacunadorAPuesto(AtiendeCrearDTO atiendeDTO) {
 		RespuestaREST<AtiendeCrearDTO> respuesta = null;
 		try {
@@ -194,6 +196,7 @@ public class UsuariosREST {
 	
 	@GET
 	@Path("/listarAgendasCiudadano/{id}")
+	@RecursoProtegidoJWT
 	public Response listarAgendasCiudadano(@PathParam("id") Long id) {
 		RespuestaREST<List<AgendaDTO>> respuesta = null;
 		try {
@@ -212,6 +215,7 @@ public class UsuariosREST {
 	
 	@GET
 	@Path("/listarAtiendeVacunador/{id}")
+	@RecursoProtegidoJWT
 	public Response listarAtiendeVacunador(@PathParam("id") Long id) {
 		RespuestaREST<List<AtiendeDTO>> respuesta = null;
 		try {

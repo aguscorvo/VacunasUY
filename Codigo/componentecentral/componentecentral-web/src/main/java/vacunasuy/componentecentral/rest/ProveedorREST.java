@@ -18,6 +18,7 @@ import vacunasuy.componentecentral.business.IProveedorService;
 import vacunasuy.componentecentral.dto.ProveedorCrearDTO;
 import vacunasuy.componentecentral.dto.ProveedorDTO;
 import vacunasuy.componentecentral.exception.VacunasUyException;
+import vacunasuy.componentecentral.security.RecursoProtegidoJWT;
 
 @RequestScoped
 @Path("/proveedores")
@@ -29,7 +30,7 @@ public class ProveedorREST {
 	IProveedorService proveedorService;
 	
 	@GET
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listar() {
 		RespuestaREST<List<ProveedorDTO>> respuesta = null;
 		try {
@@ -44,7 +45,7 @@ public class ProveedorREST {
 	
 	@GET
 	@Path("/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response listarPorId(@PathParam("id") Long id) {
 		RespuestaREST<ProveedorDTO> respuesta = null;
 		try {
@@ -62,6 +63,7 @@ public class ProveedorREST {
 	}
 	
 	@POST
+	@RecursoProtegidoJWT
 	public Response crear(ProveedorCrearDTO request) {
 		RespuestaREST<ProveedorDTO> respuesta = null;
 		try {
@@ -81,7 +83,7 @@ public class ProveedorREST {
 	
 	@PUT
 	@Path("/editar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response editar (@PathParam("id") Long id, ProveedorCrearDTO request) {
 		RespuestaREST<ProveedorDTO> respuesta = null;
 		try {
@@ -100,7 +102,7 @@ public class ProveedorREST {
 	
 	@DELETE
 	@Path("/eliminar/{id}")
-//	@RecursoProtegidoJWT
+	@RecursoProtegidoJWT
 	public Response eliminar(@PathParam("id") Long id) {
 		RespuestaREST<ProveedorDTO> respuesta = null;
 		try {

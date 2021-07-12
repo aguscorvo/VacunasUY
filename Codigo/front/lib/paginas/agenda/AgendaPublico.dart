@@ -14,62 +14,72 @@ class _AgendaPublicoState extends State<AgendaPublico> {
 
   @override
   Widget build(BuildContext context) {
+    bool portrait = false;
+    if (MediaQuery.of(context).size.width < MediaQuery.of(context).size.height) {
+      portrait = true;
+    }
+    List<Widget> table = [
+      Expanded(
+        child: Container(
+          padding: portrait ? EdgeInsets.all(0) : EdgeInsets.fromLTRB(0, 0, 25, 0),
+          alignment: Alignment.topCenter,
+          child: Column(
+            children: [
+              Container(
+                padding: portrait ? EdgeInsets.all(0) : EdgeInsets.fromLTRB(0, 0, 0, 15),
+                child: Center(
+                  child: Text(
+                    "Agendas abiertas",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Container(
+                child: Expanded(
+                  child: agendasAbiertas(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      Expanded(
+        child: Container(
+          padding: portrait ? EdgeInsets.all(0) : EdgeInsets.fromLTRB(25, 0, 0, 0),
+          alignment: Alignment.topCenter,
+          child: Column(
+            children: [
+              Container(
+                padding: portrait ? EdgeInsets.all(0) : EdgeInsets.fromLTRB(0, 0, 0, 15),
+                child: Center(
+                  child: Text(
+                    "Agendas próximas a abrir",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Container(
+                child: Expanded(
+                  child: agendasAAbrir(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.fromLTRB(50.0, 15, 50.0, 50.0),
         alignment: Alignment.center,
-        child: Row(
-          children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-                      child: Center(
-                        child: Text(
-                          "Agendas Abiertas",
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: Expanded(
-                        child: agendasAbiertas(),
-                      ),
-                    ),
-                  ],
-                ),
+        child: portrait
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: table,
+              )
+            : Row(
+                children: table,
               ),
-            ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-                      child: Center(
-                        child: Text(
-                          "Agendas a Abrir",
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: Expanded(
-                        child: agendasAAbrir(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -98,7 +108,7 @@ class _AgendaPublicoState extends State<AgendaPublico> {
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se encuentran agendas abiertas!",
+                  "No se encuentran agendas abiertas.",
                   style: TextStyle(fontSize: 25),
                 ),
               );
@@ -153,7 +163,7 @@ class _AgendaPublicoState extends State<AgendaPublico> {
             if (agenda.length == 0) {
               return Center(
                 child: Text(
-                  "No se encuentran agendas a abrir!",
+                  "No se encuentran agendas próximas a abrir.",
                   style: TextStyle(fontSize: 25),
                 ),
               );

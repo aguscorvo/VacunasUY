@@ -31,7 +31,7 @@ class _ChatBoxState extends State<ChatBox> {
       return Container(
         child: Center(
           child: Text(
-            "Seleccione un chat.",
+            "Seleccione un chat",
             style: TextStyle(fontSize: 25),
           ),
         ),
@@ -91,7 +91,7 @@ class _ChatBoxState extends State<ChatBox> {
                                 },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: "Escribe un Mensaje",
+                                  hintText: "Escribe un mensaje",
                                   hintStyle: TextStyle(
                                     color: Colors.white.withOpacity(0.6),
                                   ),
